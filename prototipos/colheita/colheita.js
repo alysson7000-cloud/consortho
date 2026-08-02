@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { readJSONSafe, writeJSONAtomic } = require('../../utils/atomic-write');
 
 // Caminhos
 const JARDIM_PATH = path.join(__dirname, '../../memoria/jardim.json');
@@ -8,22 +9,10 @@ const ESTADO_PATH = path.join(__dirname, '../../estado.json');
 const LOG_PATH = path.join(__dirname, 'colheita.log');
 
 // Carrega jardim
-let jardim;
-try {
-  jardim = JSON.parse(fs.readFileSync(JARDIM_PATH, 'utf8'));
-} catch (e) {
-  console.error('Erro ao ler jardim.json:', e.message);
-  process.exit(1);
-}
+let jardim = readJSONSafe(JARDIM_PATH, {});
 
 // Carrega estado para ciclo atual
-let estado;
-try {
-  estado = JSON.parse(fs.readFileSync(ESTADO_PATH, 'utf8'));
-} catch (e) {
-  console.error('Erro ao ler estado.json:', e.message);
-  process.exit(1);
-}
+const estado = readJSONSafe(ESTADO_PATH, { c: 4200 });
 
 const cicloAtual = estado.c || 4200;
 
@@ -80,10 +69,11 @@ function main() {
     );
 
     if (madura) {
-      // Verifica se já foi colhida (já existe semente para este elemento)
-      const jaColhida = sementes.some(s => s.elemento === elementoId);
+      // Verifica se já tem semente ativa (pronta, em construção OU já construida)
+      const sementeExistente = sementes.find(s => s.elemento === elementoId);
+      const statusAtivo = sementeExistente && ['pronta_para_construcao', 'em_construcao', 'construida'].includes(sementeExistente.status);
       
-      if (!jaColhida) {
+      if (!statusAtivo) {
         const essencia = extrairEssencia(elementoData, visitas);
         
         const semente = {
@@ -125,8 +115,8 @@ function main() {
 
   // Salva sementes atualizadas
   if (sementesNovas > 0) {
-    fs.writeFileSync(SEMENTES_PATH, JSON.stringify(sementes, null, 2), 'utf8');
-    
+    writeJSONAtomic(SEMENTES_PATH, sementes);
+
     // Log
     const logEntry = `[${new Date().toISOString()}] Ciclo ${cicloAtual} | ${sementesNovas} sementes colhidas | Total: ${sementes.length}\n`;
     fs.appendFileSync(path.join(__dirname, 'colheita.log'), logEntry, 'utf8');

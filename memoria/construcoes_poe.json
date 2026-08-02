@@ -3694,5 +3694,5186 @@
       "ciclo_origem": 3930,
       "ciclo_colheita": 6337
     }
+  },
+  {
+    "id": "poe_fogueira_1785641231515",
+    "semente_id": "semente_fogueira_1785638846008",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6410,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 87,
+      "y": 50
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 3937,
+      "visitas_gang": 1754,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6337
+    }
+  },
+  {
+    "id": "poe_arvore_1785641234721",
+    "semente_id": "semente_arvore_1785638846011",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6410,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 32,
+      "y": 36
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5137,
+      "visitas_gang": 1678,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6337
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785641237855",
+    "semente_id": "semente_biblioteca_1785638846013",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6410,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 14,
+      "y": 43
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2537,
+      "visitas_gang": 1765,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6337
+    }
+  },
+  {
+    "id": "poe_portal_1785641241024",
+    "semente_id": "semente_portal_1785638846015",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6410,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 83,
+      "y": 52
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2397,
+      "visitas_gang": 1691,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6337
+    }
+  },
+  {
+    "id": "poe_jardim_1785641244233",
+    "semente_id": "semente_jardim_1785638846017",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6410,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 68,
+      "y": 51
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2387,
+      "visitas_gang": 1705,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6337
+    }
+  },
+  {
+    "id": "poe_oficina_1785641247369",
+    "semente_id": "semente_oficina_1785638846020",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6410,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 79,
+      "y": 23
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2392,
+      "visitas_gang": 1736,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6337
+    }
+  },
+  {
+    "id": "poe_altar_1785641250534",
+    "semente_id": "semente_altar_1785638846022",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6410,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 42,
+      "y": 40
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2382,
+      "visitas_gang": 1661,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6337
+    }
+  },
+  {
+    "id": "poe_composteira_1785641253723",
+    "semente_id": "semente_composteira_1785638846024",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6410,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 40,
+      "y": 49
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2407,
+      "visitas_gang": 1819,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6337
+    }
+  },
+  {
+    "id": "poe_fogueira_1785641645065",
+    "semente_id": "semente_fogueira_1785641644712",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6421,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 88,
+      "y": 18
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4021,
+      "visitas_gang": 1861,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6421
+    }
+  },
+  {
+    "id": "poe_arvore_1785641648207",
+    "semente_id": "semente_arvore_1785641644715",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6421,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 48,
+      "y": 35
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5221,
+      "visitas_gang": 1787,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6421
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785641651436",
+    "semente_id": "semente_biblioteca_1785641644719",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6421,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 85,
+      "y": 55
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2621,
+      "visitas_gang": 1868,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6421
+    }
+  },
+  {
+    "id": "poe_portal_1785641654597",
+    "semente_id": "semente_portal_1785641644720",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6421,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 78,
+      "y": 62
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2481,
+      "visitas_gang": 1787,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6421
+    }
+  },
+  {
+    "id": "poe_jardim_1785641657769",
+    "semente_id": "semente_jardim_1785641644723",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6421,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 75,
+      "y": 36
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2471,
+      "visitas_gang": 1821,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6421
+    }
+  },
+  {
+    "id": "poe_oficina_1785641660935",
+    "semente_id": "semente_oficina_1785641644725",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6421,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 34,
+      "y": 19
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2476,
+      "visitas_gang": 1849,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6421
+    }
+  },
+  {
+    "id": "poe_altar_1785641664116",
+    "semente_id": "semente_altar_1785641644727",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6421,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 65,
+      "y": 45
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2466,
+      "visitas_gang": 1779,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6421
+    }
+  },
+  {
+    "id": "poe_composteira_1785641667301",
+    "semente_id": "semente_composteira_1785641644730",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6421,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 78,
+      "y": 28
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2491,
+      "visitas_gang": 1936,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6421
+    }
+  },
+  {
+    "id": "poe_fogueira_1785641930869",
+    "semente_id": "semente_fogueira_1785641930712",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6427,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 81,
+      "y": 21
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4027,
+      "visitas_gang": 1875,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_arvore_1785641934135",
+    "semente_id": "semente_arvore_1785641930714",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6427,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 31,
+      "y": 24
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5227,
+      "visitas_gang": 1797,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785641937293",
+    "semente_id": "semente_biblioteca_1785641930717",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6427,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 21,
+      "y": 28
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2627,
+      "visitas_gang": 1883,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_portal_1785641940467",
+    "semente_id": "semente_portal_1785641930719",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6427,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 24,
+      "y": 48
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2487,
+      "visitas_gang": 1794,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_jardim_1785641943666",
+    "semente_id": "semente_jardim_1785641930720",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6427,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 53,
+      "y": 46
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2477,
+      "visitas_gang": 1834,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_oficina_1785641946870",
+    "semente_id": "semente_oficina_1785641930722",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6427,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 68,
+      "y": 67
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2482,
+      "visitas_gang": 1856,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_altar_1785641950100",
+    "semente_id": "semente_altar_1785641930724",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6427,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 65,
+      "y": 38
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2472,
+      "visitas_gang": 1785,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_composteira_1785641953300",
+    "semente_id": "semente_composteira_1785641930727",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 81,
+      "y": 29
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2497,
+      "visitas_gang": 1954,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_fogueira_1785641956522",
+    "semente_id": "semente_fogueira_1785641933994",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 81,
+      "y": 10
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4027,
+      "visitas_gang": 1875,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_fogueira_1785641959698",
+    "semente_id": "semente_fogueira_1785641936419",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 66,
+      "y": 31
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4027,
+      "visitas_gang": 1875,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_arvore_1785641963014",
+    "semente_id": "semente_arvore_1785641936422",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 72,
+      "y": 30
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5227,
+      "visitas_gang": 1797,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_fogueira_1785641966795",
+    "semente_id": "semente_fogueira_1785641939602",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 29,
+      "y": 65
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4027,
+      "visitas_gang": 1875,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_arvore_1785641970059",
+    "semente_id": "semente_arvore_1785641939604",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 69,
+      "y": 47
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5227,
+      "visitas_gang": 1797,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785641973301",
+    "semente_id": "semente_biblioteca_1785641939606",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 48,
+      "y": 65
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2627,
+      "visitas_gang": 1884,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_fogueira_1785641976586",
+    "semente_id": "semente_fogueira_1785641942839",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 77,
+      "y": 31
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4027,
+      "visitas_gang": 1876,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_arvore_1785641979764",
+    "semente_id": "semente_arvore_1785641942842",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6428,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 40,
+      "y": 11
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5227,
+      "visitas_gang": 1797,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785641983094",
+    "semente_id": "semente_biblioteca_1785641942845",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 84,
+      "y": 22
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2627,
+      "visitas_gang": 1884,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_portal_1785641986386",
+    "semente_id": "semente_portal_1785641942848",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 33,
+      "y": 27
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2487,
+      "visitas_gang": 1794,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_fogueira_1785641989892",
+    "semente_id": "semente_fogueira_1785641946043",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 56,
+      "y": 13
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4027,
+      "visitas_gang": 1876,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_arvore_1785641993313",
+    "semente_id": "semente_arvore_1785641946045",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 52,
+      "y": 69
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5227,
+      "visitas_gang": 1797,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785641996467",
+    "semente_id": "semente_biblioteca_1785641946048",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 61,
+      "y": 38
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2627,
+      "visitas_gang": 1884,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_portal_1785642000169",
+    "semente_id": "semente_portal_1785641946049",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 66,
+      "y": 26
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2487,
+      "visitas_gang": 1794,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_jardim_1785642003631",
+    "semente_id": "semente_jardim_1785641946050",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 54,
+      "y": 66
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2477,
+      "visitas_gang": 1836,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6427
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642005981",
+    "semente_id": "semente_fogueira_1785642005234",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 39,
+      "y": 33
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4029,
+      "visitas_gang": 1877,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_arvore_1785642009148",
+    "semente_id": "semente_arvore_1785642005236",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6429,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 47,
+      "y": 13
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5229,
+      "visitas_gang": 1799,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642012317",
+    "semente_id": "semente_biblioteca_1785642005239",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 54,
+      "y": 66
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2629,
+      "visitas_gang": 1885,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_portal_1785642015521",
+    "semente_id": "semente_portal_1785642005240",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 38,
+      "y": 43
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2489,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_jardim_1785642018674",
+    "semente_id": "semente_jardim_1785642005243",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 44,
+      "y": 13
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2479,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_oficina_1785642021871",
+    "semente_id": "semente_oficina_1785642005247",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 89,
+      "y": 30
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2484,
+      "visitas_gang": 1859,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_altar_1785642025056",
+    "semente_id": "semente_altar_1785642005249",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 21,
+      "y": 68
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2474,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_composteira_1785642028252",
+    "semente_id": "semente_composteira_1785642005253",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 53,
+      "y": 29
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2499,
+      "visitas_gang": 1957,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642031486",
+    "semente_id": "semente_fogueira_1785642007397",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 51,
+      "y": 14
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4029,
+      "visitas_gang": 1878,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642034677",
+    "semente_id": "semente_fogueira_1785642010614",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 59,
+      "y": 67
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4029,
+      "visitas_gang": 1878,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_arvore_1785642037874",
+    "semente_id": "semente_arvore_1785642010617",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 55,
+      "y": 15
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5229,
+      "visitas_gang": 1799,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6429
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642041122",
+    "semente_id": "semente_fogueira_1785642013768",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6430,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 11,
+      "y": 29
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642044354",
+    "semente_id": "semente_arvore_1785642013770",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 33,
+      "y": 17
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1799,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642047514",
+    "semente_id": "semente_biblioteca_1785642013772",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 64,
+      "y": 63
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1885,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642050761",
+    "semente_id": "semente_fogueira_1785642016940",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 35,
+      "y": 33
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642053986",
+    "semente_id": "semente_arvore_1785642016942",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 63,
+      "y": 46
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1800,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642057123",
+    "semente_id": "semente_biblioteca_1785642016948",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 49,
+      "y": 36
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1885,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_portal_1785642060388",
+    "semente_id": "semente_portal_1785642016951",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 66,
+      "y": 57
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2490,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642063606",
+    "semente_id": "semente_fogueira_1785642020110",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 62,
+      "y": 47
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642066799",
+    "semente_id": "semente_arvore_1785642020114",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 58,
+      "y": 54
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1800,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642070171",
+    "semente_id": "semente_biblioteca_1785642020117",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6431,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 62,
+      "y": 53
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1885,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_portal_1785642073302",
+    "semente_id": "semente_portal_1785642020119",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6432,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 79,
+      "y": 51
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2490,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642076734",
+    "semente_id": "semente_jardim_1785642020120",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6432,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 29,
+      "y": 40
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642080554",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6432,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 36,
+      "y": 60
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642087319",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6432,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 33,
+      "y": 22
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642090322",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6432,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 45,
+      "y": 24
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642093574",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6432,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 35,
+      "y": 25
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642096694",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6432,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 76,
+      "y": 63
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642099970",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6432,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 37,
+      "y": 14
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642103586",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6433,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 29,
+      "y": 50
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642106790",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6433,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 65,
+      "y": 17
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642111620",
+    "semente_id": "semente_fogueira_1785642023291",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6433,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 34,
+      "y": 54
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642115205",
+    "semente_id": "semente_arvore_1785642023293",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6433,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 39,
+      "y": 24
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1800,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642118774",
+    "semente_id": "semente_biblioteca_1785642023297",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6433,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 15,
+      "y": 50
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_portal_1785642123065",
+    "semente_id": "semente_portal_1785642023300",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6433,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 56,
+      "y": 17
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2490,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642133619",
+    "semente_id": "semente_jardim_1785642023302",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6434,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 77,
+      "y": 41
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642137887",
+    "semente_id": "semente_jardim_1785642023302",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6434,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 85,
+      "y": 41
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642141861",
+    "semente_id": "semente_jardim_1785642023302",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6434,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 76,
+      "y": 44
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642145581",
+    "semente_id": "semente_jardim_1785642023302",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6434,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 75,
+      "y": 68
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642149407",
+    "semente_id": "semente_jardim_1785642023302",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6434,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 66,
+      "y": 58
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_oficina_1785642152657",
+    "semente_id": "semente_oficina_1785642023303",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6434,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 22,
+      "y": 57
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2485,
+      "visitas_gang": 1860,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642156221",
+    "semente_id": "semente_fogueira_1785642026491",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6434,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 54,
+      "y": 19
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642159433",
+    "semente_id": "semente_arvore_1785642026494",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6434,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 52,
+      "y": 55
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642162979",
+    "semente_id": "semente_biblioteca_1785642026498",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6435,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 25,
+      "y": 42
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_portal_1785642166317",
+    "semente_id": "semente_portal_1785642026500",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6435,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 58,
+      "y": 57
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2490,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642175832",
+    "semente_id": "semente_jardim_1785642026502",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6435,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 12,
+      "y": 67
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_oficina_1785642180130",
+    "semente_id": "semente_oficina_1785642026508",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6435,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 22,
+      "y": 41
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2485,
+      "visitas_gang": 1860,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_altar_1785642183278",
+    "semente_id": "semente_altar_1785642026512",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6435,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 12,
+      "y": 44
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2475,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642186464",
+    "semente_id": "semente_fogueira_1785642029670",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6435,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 14,
+      "y": 22
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1879,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642189892",
+    "semente_id": "semente_arvore_1785642029671",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6435,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 11,
+      "y": 52
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642192865",
+    "semente_id": "semente_biblioteca_1785642029673",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 24,
+      "y": 69
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_portal_1785642196007",
+    "semente_id": "semente_portal_1785642029675",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 17,
+      "y": 38
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2490,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642199509",
+    "semente_id": "semente_jardim_1785642029676",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 26,
+      "y": 47
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_oficina_1785642202608",
+    "semente_id": "semente_oficina_1785642029678",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 83,
+      "y": 41
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2485,
+      "visitas_gang": 1860,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_altar_1785642206100",
+    "semente_id": "semente_altar_1785642029682",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 86,
+      "y": 54
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2475,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_composteira_1785642209328",
+    "semente_id": "semente_composteira_1785642029685",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 40,
+      "y": 41
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2500,
+      "visitas_gang": 1959,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642212562",
+    "semente_id": "semente_fogueira_1785642032879",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 44,
+      "y": 48
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1880,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642215915",
+    "semente_id": "semente_arvore_1785642032882",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 34,
+      "y": 13
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642219246",
+    "semente_id": "semente_biblioteca_1785642032884",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6436,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 61,
+      "y": 60
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_portal_1785642222409",
+    "semente_id": "semente_portal_1785642032886",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 27,
+      "y": 65
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2490,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642225452",
+    "semente_id": "semente_jardim_1785642032888",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 67,
+      "y": 58
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_oficina_1785642228832",
+    "semente_id": "semente_oficina_1785642032889",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 48,
+      "y": 63
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2485,
+      "visitas_gang": 1860,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_altar_1785642231993",
+    "semente_id": "semente_altar_1785642032891",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 74,
+      "y": 43
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2475,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_composteira_1785642235377",
+    "semente_id": "semente_composteira_1785642032893",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 59,
+      "y": 36
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2500,
+      "visitas_gang": 1959,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642238493",
+    "semente_id": "semente_fogueira_1785642036204",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 27,
+      "y": 35
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1880,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642241645",
+    "semente_id": "semente_arvore_1785642036207",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 33,
+      "y": 57
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642244923",
+    "semente_id": "semente_biblioteca_1785642036209",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 12,
+      "y": 67
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_portal_1785642248177",
+    "semente_id": "semente_portal_1785642036212",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 57,
+      "y": 17
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2490,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642251218",
+    "semente_id": "semente_jardim_1785642036213",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6437,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 44,
+      "y": 57
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_oficina_1785642254397",
+    "semente_id": "semente_oficina_1785642036216",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 36,
+      "y": 27
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2485,
+      "visitas_gang": 1860,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_altar_1785642257659",
+    "semente_id": "semente_altar_1785642036219",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 49,
+      "y": 38
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2475,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_composteira_1785642260891",
+    "semente_id": "semente_composteira_1785642036221",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 72,
+      "y": 30
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2500,
+      "visitas_gang": 1960,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642264113",
+    "semente_id": "semente_fogueira_1785642039367",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 15,
+      "y": 10
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4030,
+      "visitas_gang": 1880,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_arvore_1785642267546",
+    "semente_id": "semente_arvore_1785642039369",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 68,
+      "y": 39
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5230,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642270612",
+    "semente_id": "semente_biblioteca_1785642039371",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 29,
+      "y": 17
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2630,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_portal_1785642273982",
+    "semente_id": "semente_portal_1785642039372",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 72,
+      "y": 46
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2490,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_jardim_1785642277293",
+    "semente_id": "semente_jardim_1785642039374",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 42,
+      "y": 19
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2480,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_oficina_1785642280621",
+    "semente_id": "semente_oficina_1785642039375",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6438,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 36,
+      "y": 56
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2485,
+      "visitas_gang": 1861,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_altar_1785642283670",
+    "semente_id": "semente_altar_1785642039376",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6439,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 70,
+      "y": 37
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2475,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_composteira_1785642287161",
+    "semente_id": "semente_composteira_1785642039378",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6439,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 57,
+      "y": 25
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2500,
+      "visitas_gang": 1960,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6430
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642290404",
+    "semente_id": "semente_fogueira_1785642042616",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6439,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 42,
+      "y": 67
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4031,
+      "visitas_gang": 1880,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_arvore_1785642293649",
+    "semente_id": "semente_arvore_1785642042619",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6439,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 50,
+      "y": 34
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5231,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642297086",
+    "semente_id": "semente_biblioteca_1785642042623",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6439,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 27,
+      "y": 57
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2631,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_portal_1785642300187",
+    "semente_id": "semente_portal_1785642042624",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6439,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 40,
+      "y": 41
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2491,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_jardim_1785642303718",
+    "semente_id": "semente_jardim_1785642042625",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6439,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 42,
+      "y": 20
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2481,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_oficina_1785642311995",
+    "semente_id": "semente_oficina_1785642042627",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6439,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 16,
+      "y": 53
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2486,
+      "visitas_gang": 1862,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_altar_1785642318218",
+    "semente_id": "semente_altar_1785642042629",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6440,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 22,
+      "y": 46
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2476,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_composteira_1785642321386",
+    "semente_id": "semente_composteira_1785642042632",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6440,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 82,
+      "y": 57
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2501,
+      "visitas_gang": 1960,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642324728",
+    "semente_id": "semente_fogueira_1785642045873",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6440,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 83,
+      "y": 57
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4031,
+      "visitas_gang": 1881,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_arvore_1785642328380",
+    "semente_id": "semente_arvore_1785642045875",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6440,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 85,
+      "y": 18
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5231,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642331712",
+    "semente_id": "semente_biblioteca_1785642045878",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6440,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 62,
+      "y": 10
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2631,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_portal_1785642334917",
+    "semente_id": "semente_portal_1785642045881",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6440,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 44,
+      "y": 11
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2491,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_jardim_1785642338406",
+    "semente_id": "semente_jardim_1785642045884",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6440,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 52,
+      "y": 61
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2481,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_oficina_1785642341811",
+    "semente_id": "semente_oficina_1785642045887",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6440,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 88,
+      "y": 60
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2486,
+      "visitas_gang": 1862,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_altar_1785642345088",
+    "semente_id": "semente_altar_1785642045888",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 18,
+      "y": 18
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2476,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_composteira_1785642348429",
+    "semente_id": "semente_composteira_1785642045890",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 83,
+      "y": 41
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2501,
+      "visitas_gang": 1960,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642351927",
+    "semente_id": "semente_fogueira_1785642049098",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 12,
+      "y": 32
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4031,
+      "visitas_gang": 1882,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_arvore_1785642355201",
+    "semente_id": "semente_arvore_1785642049101",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 68,
+      "y": 39
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5231,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642358636",
+    "semente_id": "semente_biblioteca_1785642049104",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 17,
+      "y": 30
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2631,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_portal_1785642361912",
+    "semente_id": "semente_portal_1785642049105",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 29,
+      "y": 38
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2491,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_jardim_1785642365157",
+    "semente_id": "semente_jardim_1785642049107",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 42,
+      "y": 32
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2481,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_oficina_1785642368691",
+    "semente_id": "semente_oficina_1785642049108",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 40,
+      "y": 69
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2486,
+      "visitas_gang": 1862,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_altar_1785642371781",
+    "semente_id": "semente_altar_1785642049110",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 36,
+      "y": 63
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2476,
+      "visitas_gang": 1789,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_composteira_1785642375135",
+    "semente_id": "semente_composteira_1785642049112",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 71,
+      "y": 56
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2501,
+      "visitas_gang": 1960,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642378613",
+    "semente_id": "semente_fogueira_1785642052327",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 55,
+      "y": 44
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4031,
+      "visitas_gang": 1882,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_arvore_1785642381849",
+    "semente_id": "semente_arvore_1785642052332",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 66,
+      "y": 28
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5231,
+      "visitas_gang": 1801,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642385189",
+    "semente_id": "semente_biblioteca_1785642052336",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 13,
+      "y": 38
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2631,
+      "visitas_gang": 1886,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_portal_1785642388623",
+    "semente_id": "semente_portal_1785642052338",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6441,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 13,
+      "y": 59
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2491,
+      "visitas_gang": 1796,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_jardim_1785642391760",
+    "semente_id": "semente_jardim_1785642052339",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 84,
+      "y": 18
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2481,
+      "visitas_gang": 1839,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_oficina_1785642395147",
+    "semente_id": "semente_oficina_1785642052340",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 72,
+      "y": 12
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2486,
+      "visitas_gang": 1862,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6431
+    }
+  },
+  {
+    "id": "poe_fogueira_1785642397582",
+    "semente_id": "semente_fogueira_1785642397413",
+    "elemento_origem": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 79,
+      "y": 38
+    },
+    "metadata": {
+      "essencia_semente": "O que protege o motivo não é a tradição — é o amor que a mantém viva. | Aqui a gente não queima lenha. A gente queima dúvida. ⟷ E se a fogueira não aquece — ela apenas revela o que já estava frio? | S",
+      "maturidade_ciclos": 4042,
+      "visitas_gang": 1898,
+      "ciclo_origem": 2400,
+      "ciclo_colheita": 6442
+    }
+  },
+  {
+    "id": "poe_arvore_1785642400754",
+    "semente_id": "semente_arvore_1785642397415",
+    "elemento_origem": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "efeito": "Estabiliza regeneração de recursos (reduz variância)",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 20,
+      "pedra": 15,
+      "cristal": 5
+    },
+    "coordenadas": {
+      "x": 64,
+      "y": 59
+    },
+    "metadata": {
+      "essencia_semente": "Raízes não se mostram. Elas só sustentam. ⟷ O que faria essa memória valer a pena ser visitada de novo? | Uma árvore não cresce pra cima. Ela cresce *pra dentro* da terra. E você? | O que faria essa m",
+      "maturidade_ciclos": 5242,
+      "visitas_gang": 1817,
+      "ciclo_origem": 1200,
+      "ciclo_colheita": 6442
+    }
+  },
+  {
+    "id": "poe_biblioteca_1785642403981",
+    "semente_id": "semente_biblioteca_1785642397417",
+    "elemento_origem": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo dos \"Tamo Juntos\" Eternos",
+    "descricao": "Cada livro é um acordo que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "efeito": "Preserva memórias mesmo em reset de estado",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 8
+    },
+    "coordenadas": {
+      "x": 88,
+      "y": 40
+    },
+    "metadata": {
+      "essencia_semente": "Cada livro aqui é um 'tamo junto' que virou eternidade. ⟷ Essa memória ainda serve — ou virou adubo? | O que o Lumin registraria desse momento que a gente não viu? | Quantas histórias aqui nunca foram",
+      "maturidade_ciclos": 2642,
+      "visitas_gang": 1895,
+      "ciclo_origem": 3800,
+      "ciclo_colheita": 6442
+    }
+  },
+  {
+    "id": "poe_portal_1785642407159",
+    "semente_id": "semente_portal_1785642397419",
+    "elemento_origem": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não foge daqui. Traz o lá pra cá.",
+    "tipo": "estrutura_conexao",
+    "custo": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 10,
+      "cristal": 15
+    },
+    "coordenadas": {
+      "x": 72,
+      "y": 37
+    },
+    "metadata": {
+      "essencia_semente": "Não é pra fugir daqui. É pra trazer o lá pra cá. ⟷ O que o Lumin registraria desse momento que a gente não viu? | Se esse elemento pudesse escolher um guardião, quem seria? | O que você *não* disse qu",
+      "maturidade_ciclos": 2502,
+      "visitas_gang": 1811,
+      "ciclo_origem": 3940,
+      "ciclo_colheita": 6442
+    }
+  },
+  {
+    "id": "poe_jardim_1785642410307",
+    "semente_id": "semente_jardim_1785642397421",
+    "elemento_origem": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "coordenadas": {
+      "x": 73,
+      "y": 25
+    },
+    "metadata": {
+      "essencia_semente": "Crescer não é virar grande. É virar profundo. ⟷ A poda não é violência. É *direção*. O que você precisa podar? | Regar todo dia não garante flor. Garante *raiz*. O que você tem regado? | O que faria o",
+      "maturidade_ciclos": 2492,
+      "visitas_gang": 1854,
+      "ciclo_origem": 3950,
+      "ciclo_colheita": 6442
+    }
+  },
+  {
+    "id": "poe_oficina_1785642413500",
+    "semente_id": "semente_oficina_1785642397423",
+    "elemento_origem": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "coordenadas": {
+      "x": 50,
+      "y": 25
+    },
+    "metadata": {
+      "essencia_semente": "Aqui o erro não quebra. Ensina. ⟷ Essa memória ainda serve — ou virou adubo? | O que faria essa memória valer a pena ser visitada de novo? | Quantas vezes você tentou consertar o que não estava quebra",
+      "maturidade_ciclos": 2497,
+      "visitas_gang": 1874,
+      "ciclo_origem": 3945,
+      "ciclo_colheita": 6442
+    }
+  },
+  {
+    "id": "poe_altar_1785642416648",
+    "semente_id": "semente_altar_1785642397425",
+    "elemento_origem": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "coordenadas": {
+      "x": 46,
+      "y": 20
+    },
+    "metadata": {
+      "essencia_semente": "O sagrado não brilha. Silencia. ⟷ Se a Gang fizesse essa pergunta pra você, como você responderia? | Rezar não é pedir. É *alinhar*. Com o que você tá alinhado? | A oferenda não é o que você dá. É o q",
+      "maturidade_ciclos": 2487,
+      "visitas_gang": 1801,
+      "ciclo_origem": 3955,
+      "ciclo_colheita": 6442
+    }
+  },
+  {
+    "id": "poe_composteira_1785642419800",
+    "semente_id": "semente_composteira_1785642397429",
+    "elemento_origem": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "ciclo_construcao": 6442,
+    "status": "construida",
+    "recursos_gastos": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "coordenadas": {
+      "x": 64,
+      "y": 41
+    },
+    "metadata": {
+      "essencia_semente": "Compostagem: tudo vira adubo. Até o que a gente achava que era lixo. ⟷ O que faria o Alysson sorrir se ele visse isso agora? | Lixo não existe. Existe *coisa no lugar errado*. O que você jogou fora qu",
+      "maturidade_ciclos": 2512,
+      "visitas_gang": 1971,
+      "ciclo_origem": 3930,
+      "ciclo_colheita": 6442
+    }
   }
 ]

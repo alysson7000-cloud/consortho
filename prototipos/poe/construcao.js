@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { readJSONSafe, writeJSONAtomic } = require('../../../utils/atomic-write');
 
 // Caminhos
 const SEMENTES_PATH = path.join(__dirname, '../../memoria/sementes.json');
@@ -8,32 +9,13 @@ const CONSTRUCOES_PATH = path.join(__dirname, '../../memoria/construcoes_poe.jso
 const LOG_PATH = path.join(__dirname, 'construcao.log');
 
 // Carrega sementes
-let sementes;
-try {
-  sementes = JSON.parse(fs.readFileSync(SEMENTES_PATH, 'utf8'));
-} catch (e) {
-  console.error('Erro ao ler sementes.json:', e.message);
-  process.exit(1);
-}
+let sementes = readJSONSafe(SEMENTES_PATH, []);
 
 // Carrega estado
-let estado;
-try {
-  estado = JSON.parse(fs.readFileSync(ESTADO_PATH, 'utf8'));
-} catch (e) {
-  console.error('Erro ao ler estado.json:', e.message);
-  process.exit(1);
-}
+const estado = readJSONSafe(ESTADO_PATH, { c: 0 });
 
 // Carrega construções existentes do Poe
-let construcoesPoe = [];
-if (fs.existsSync(CONSTRUCOES_PATH)) {
-  try {
-    construcoesPoe = JSON.parse(fs.readFileSync(CONSTRUCOES_PATH, 'utf8'));
-  } catch (e) {
-    construcoesPoe = [];
-  }
-}
+let construcoesPoe = readJSONSafe(CONSTRUCOES_PATH, []);
 
 // Filtra sementes prontas para construção
 const sementesProntas = sementes.filter(s => s.status === 'pronta_para_construcao');
@@ -177,7 +159,7 @@ const novaConstrucao = {
 };
 
 // Atualiza status da semente
-semente.status = 'em_construcao';
+semente.status = 'construida';
 
 // Salva semente atualizada
 const sementesAtualizadas = sementes.map(s => 
@@ -188,10 +170,7 @@ fs.writeFileSync(require('path').join(__dirname, '../../memoria/sementes.json'),
 
 // Adiciona construção ao registro do Poe
 construcoesPoe.push(novaConstrucao);
-fs.writeFileSync(
-  require('path').join(__dirname, '../../memoria/construcoes_poe.json'),
-  JSON.stringify(construcoesPoe, null, 2), 'utf8'
-);
+writeJSONAtomic(CONSTRUCOES_PATH, construcoesPoe);
 
 // Log
 const logEntry = `[${new Date().toISOString()}] Ciclo ${novaConstrucao.ciclo_construcao} | ${novaConstrucao.emoji} ${novaConstrucao.nome} | Status: ${novaConstrucao.status} | Custo: 🪵${custo.madeira} 🪨${custo.pedra} 💎${custo.cristal}\n`;

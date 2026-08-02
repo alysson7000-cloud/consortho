@@ -4,6 +4,7 @@ const { Server } = require('socket.io');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { writeJSONCoordinated, readJSONSafe, writeJSONAtomic } = require('./utils/atomic-write');
 
 const app = express();
 const server = http.createServer(app);
@@ -87,16 +88,22 @@ function save() {
     lastVisitSavedElements: state.lastVisitSavedElements,
     lastVisitSavedConstrucoes: state.lastVisitSavedConstrucoes
   };
-  // Atomic write using temp file + rename
-  const tmpPath = SAVE + '.tmp';
-  fs.writeFileSync(tmpPath, JSON.stringify(persist));
-  fs.renameSync(tmpPath, SAVE);
+  // Atomic write with file lock coordination (cross-platform, Windows-safe)
+  writeJSONAtomic(SAVE, persist).catch(err => {
+    console.error('[save] Erro atomic write:', err.message);
+    // Fallback to simple write
+    try {
+      fs.writeFileSync(SAVE, JSON.stringify(persist));
+    } catch (e) {
+      console.error('[save] Fallback falhou:', e.message);
+    }
+  });
 }
 
 // Sincroniza estado do arquivo a cada 5s (fonte única: estado.json)
 setInterval(() => {
   try {
-    const saved = JSON.parse(fs.readFileSync(SAVE, 'utf8'));
+    const saved = readJSONSafe(SAVE, {});
     if (saved.c && saved.c > state.c) {
       state.c = saved.c;
       state.e = saved.e || state.e;

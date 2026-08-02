@@ -93,6 +93,28 @@ module.exports = {
       env: {
         NODE_ENV: 'production'
       }
+    },
+    {
+      name: 'telegram-bot',
+      script: 'telegram-bot.js',
+      cwd: __dirname,
+      watch: false,
+      autorestart: true,
+      max_restarts: 5,
+      env: {
+        NODE_ENV: 'production'
+      }
+    },
+    {
+      name: 'guardian',
+      script: 'guardian.js',
+      cwd: __dirname,
+      watch: false,
+      autorestart: true,
+      max_restarts: 10,
+      env: {
+        NODE_ENV: 'production'
+      }
     }
   ]
 };
