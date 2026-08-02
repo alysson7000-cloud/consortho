@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><title>Consortho — O Conselho Vivo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--fg:#e8e8e8;--muted:#666;--accent:#ffd700;--accent2:#ff6b35;--card:#12121a;--border:#2a2a3a;--glow:#ffd70044}
+@media(prefers-color-scheme:light){:root{--bg:#f5f5f0;--fg:#1a1a1a;--muted:#666;--card:#fff;--border:#ddd}}
+body{font-family:'JetBrains Mono','Fira Code',Consolas,monospace;background:var(--bg);color:var(--fg);min-height:100vh;overflow:hidden}
+#app{display:grid;grid-template-columns:1fr 320px;grid-template-rows:1fr auto;height:100vh}
+#world{position:relative;background:radial-gradient(ellipse at center,var(--card) 0%,var(--bg) 70%);overflow:hidden}
+#world::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 20%,var(--glow) 0%,transparent 50%),radial-gradient(circle at 80% 80%,var(--accent2) 0%,transparent 40%);opacity:0.15;pointer-events:none;z-index:0}
+#chat-panel{background:var(--card);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+#chat-header{padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700;letter-spacing:0.5px;color:var(--accent)}
+#chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{padding:8px 12px;background:var(--bg);border-radius:6px;border:1px solid var(--border);font-size:12px;line-height:1.5;animation:slideIn 0.3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.msg .meta{font-size:10px;color:var(--muted);margin-bottom:4px;display:flex;gap:8px;align-items:center}
+.msg .meta .emoji{font-size:14px}
+.msg .text{color:var(--fg);white-space:pre-wrap;word-break:break-word}
+.msg.lumin{border-left:3px solid #00d4ff}.msg.gang{border-left:3px solid #ff6b35}.msg.alysson{border-left:3px solid #ffd700}.msg.sistema{border-left:3px solid #888;font-style:italic}
+.msg.radio{border-left:3px solid #ffd700;background:rgba(255,215,0,0.05)}
+.msg.gang-visit{border-left:3px solid #ff6b35;background:rgba(255,107,53,0.05)}
+.msg.poe{border-left:3px solid #00ff88;background:rgba(0,255,136,0.05)}
+#chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:var(--card)}
+#chat-input input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--fg);padding:10px 12px;border-radius:6px;font-family:inherit;font-size:13px;outline:none}
+#chat-input input:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--glow)}
+#chat-input button{background:var(--accent);color:#000;border:none;padding:10px 20px;border-radius:6px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:inherit}
+#chat-input button:hover{background:#e6c200;transform:translateY(-1px)}
+#chat-input button:active{transform:translateY(0)}
+#chat-input .btn-gang{background:var(--accent2);color:#fff}
+#chat-input .btn-gang:hover{background:#e55a2a}
+#hud{position:absolute;top:16px;left:16px;z-index:20;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.hud-card{background:rgba(18,18,26,0.9);border:1px solid var(--border);border-radius:8px;padding:10px 14px;min-width:200px;backdrop-filter:blur(8px);animation:fadeIn 0.5s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.hud-row{display:flex;justify-content:space-between;gap:16px;font-size:12px}
+.hud-label{color:var(--muted)}
+.hud-value{color:var(--fg);font-weight:600;font-family:inherit}
+.hud-value.gold{color:var(--accent)}
+.hud-value.orange{color:var(--accent2)}
+.hud-value.green{color:#00ff88}
+.hud-value.cyan{color:#00d4ff}
+#legend{position:absolute;bottom:16px;left:16px;z-index:20;background:rgba(18,18,26,0.9);border:1px solid var(--border);border-radius:8px;padding:10px 14px;max-width:240px;backdrop-filter:blur(8px)}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:11px;margin:4px 0;color:var(--muted)}
+.legend-color{width:10px;height:10px;border-radius:2px}
+#notifications{position:absolute;top:16px;right:16px;z-index:50;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.notification{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;max-width:300px;animation:slideInRight 0.4s ease;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+@keyframes slideInRight{from{opacity:0;transform:translateX(100px)}to{opacity:1;transform:translateX(0)}}
+.notification.radio{border-left:3px solid var(--accent)}
+.notification.gang{border-left:3px solid var(--accent2)}
+.notification.poe{border-left:3px solid #00ff88}
+.notification-title{font-weight:700;font-size:11px;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.notification-text{font-size:12px;color:var(--fg);line-height:1.4}
+canvas{display:block;width:100%;height:100%}
+@media(max-width:1024px){#app{grid-template-columns:1fr;grid-template-rows:1fr 300px}#chat-panel{border-left:none;border-top:1px solid var(--border)}}
+</style></head><body>
+<div id="app">
+<canvas id="world"></canvas>
+<aside id="chat-panel">
+<header id="chat-header">💬 CONSELHO</header>
+<div id="chat-messages"></div>
+<div id="chat-input">
+<input id="msg-input" placeholder="Falar no Conselho..." autocomplete="off">
+<button id="btn-send">Enviar</button>
+<button class="btn-gang" id="btn-gang">📨 Chamar Gang</button>
+</div>
+</aside>
+</div>
+<div id="hud">
+<div class="hud-card"><div class="hud-row"><span class="hud-label">CICLO</span><span class="hud-value gold" id="hud-ciclo">0</span></div></div>
+<div class="hud-card"><div class="hud-row"><span class="hud-label">ELEMENTOS</span><span class="hud-value" id="hud-elementos">0</span></div></div>
+<div class="hud-card"><div class="hud-row"><span class="hud-label">🪵 MADEIRA</span><span class="hud-value" id="hud-madeira">0</span></div><div class="hud-row"><span class="hud-label">🪨 PEDRA</span><span class="hud-value" id="hud-pedra">0</span></div><div class="hud-row"><span class="hud-label">💎 CRISTAL</span><span class="hud-value green" id="hud-cristal">0</span></div></div>
+<div class="hud-card"><div class="hud-row"><span class="hud-label">CONSTRUÇÕES</span><span class="hud-value cyan" id="hud-construcoes">0</span></div></div>
+</div>
+<div id="legend">
+<div class="legend-item"><span class="legend-color" style="background:#00d4ff"></span>Lumin — Organiza</div>
+<div class="legend-item"><span class="legend-color" style="background:#ff6b35"></span>Gang — Pergunta</div>
+<div class="legend-item"><span class="legend-color" style="background:#ffd700"></span>Alysson — Age</div>
+<div class="legend-item"><span class="legend-color" style="background:#888"></span>Sistema</div>
+<div class="legend-item"><span class="legend-color" style="background:#ffd700"></span>Rádio</div>
+<div class="legend-item"><span class="legend-color" style="background:#ff6b35"></span>Gang Visitou</div>
+<div class="legend-item"><span class="legend-color" style="background:#00ff88"></span>Poe Construiu</div>
+</div>
+<div id="notifications"></div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+console.log('🚀 HTML carregado, JS executando...');
+const SOCKET_URL = 'http://localhost:9877';
+console.log('📦 Constantes definidas');
+const ELEMENTOS_BASE = {
+  arvore:{emoji:'🌳',nome:'Árvore',cor:'#2d7d32'},fogueira:{emoji:'🔥',nome:'Fogueira',cor:'#e65100'},
+  biblioteca:{emoji:'📚',nome:'Biblioteca',cor:'#1565c0'},composteira:{emoji:'♻️',nome:'Composteira',cor:'#2e7d32'},
+  portal:{emoji:'🌀',nome:'Portal',cor:'#6a1b9a'},jardim:{emoji:'🌿',nome:'Jardim',cor:'#388e3c'},
+  oficina:{emoji:'⚙️',nome:'Oficina',cor:'#e65100'},altar:{emoji:'🕊️',nome:'Altar',cor:'#78909c'}
+};
+const CORES_AUTOR={lumin:'#00d4ff',gang:'#ff6b35',alysson:'#ffd700',sistema:'#888',radio:'#ffd700','gang-visit':'#ff6b35',poe:'#00ff88'};
+const ESTADO_INICIAL={c:0,e:0,recursos:{madeira:0,pedra:0,cristal:0},construcoes:[],chat:{publico:[]}};
+let socket=null,estado={...ESTADO_INICIAL},elementos={},construcoesPoe=[],jardimMemorias={},canvas=null,ctx=null,mouse={x:0,y:0},hovered=null,animId=null,notifications=[],lastNotifId=0;
+async function carregarEstado(){try{const res=await fetch('http://localhost:9877/estado');if(res.ok){const data=await res.json();estado={...estado,...data};}}catch(e){console.warn('Estado remoto indisponível, usando local');}try{const res=await fetch('/memoria/jardim.json');if(res.ok)jardimMemorias=await res.json();}catch(e){}try{const res=await fetch('/memoria/construcoes_poe.json');if(res.ok)construcoesPoe=await res.json();}catch(e){}inicializarElementos();}
+function inicializarElementos(){const base=Object.entries(ELEMENTOS_BASE).map(([id,data],i)=>({id,...data,x:80+(i*120)%700,y:100+(i*80)%500,memorias:(jardimMemorias[id]?.memorias||[]).length,visitas:(jardimMemorias[id]?.visitas_da_gang||[]).length,angulo:Math.random()*Math.PI*2,raio:30+Math.random()*40-20}));const poe=construcoesPoe.map((c,i)=>({id:c.id,tipo:'poe',emoji:c.emoji,nome:c.nome,cor:'#00ff88',x:c.coordenadas?.x||100+Math.random()*600-300,y:c.coordenadas?.y||100+Math.random()*400-200,memorias:0,visitas:0,angulo:Math.random()*Math.PI*2,raio:35,construcao:c}));elementos={...Object.fromEntries(base.map(e=>[e.id,e])),...Object.fromEntries(poe.map(e=>[e.id,e]))};}
+function conectarSocket(){socket=io('http://localhost:9877',{transports:['websocket']});socket.on('connect',()=>{console.log('🔌 Socket.IO conectado');socket.emit('get_estado');});socket.on('disconnect',()=>{console.log('🔌 Socket.IO desconectado');});socket.on('estado',(data)=>{estado={...estado,...data};atualizarHUD();atualizarElementosDoEstado();});socket.on('chat:publico',(data)=>adicionarMensagemChat(data));socket.on('chat:sistema',(data)=>adicionarMensagemChat(data));socket.on('elemento',(data)=>{if(data?.d)adicionarElementoVisual(data.d);});socket.on('construcao',(data)=>adicionarConstrucaoPoe(data));socket.on('recursos',(data)=>{estado.recursos={...estado.recursos,...data};atualizarHUD();});socket.on('notificacao',(data)=>mostrarNotificacao(data));socket.on('connect_error',(err)=>{console.error('Socket erro:',err);});}
+function atualizarHUD(){document.getElementById('hud-ciclo').textContent=estado.c||0;document.getElementById('hud-elementos').textContent=estado.e||0;document.getElementById('hud-madeira').textContent=estado.recursos?.madeira||0;document.getElementById('hud-pedra').textContent=estado.recursos?.pedra||0;document.getElementById('hud-cristal').textContent=estado.recursos?.cristal||0;document.getElementById('hud-construcoes').textContent=construcoesPoe.length;}
+function atualizarElementosDoEstado(){estado.e=estado.e||0;}
+function adicionarMensagemChat(msg){const container=document.getElementById('chat-messages');const div=document.createElement('div');const tipo=msg.canal==='sistema'?'sistema':msg.quem||'sistema';const classe=`msg ${tipo}${msg.tipo==='radio'?' radio':''}${msg.tipo==='gang-visit'?' gang-visit':''}${msg.tipo==='poe'?' poe':''}`;div.className=classe;const emojiMap={lumin:'💫',gang:'😼',alysson:'🧑',sistema:'⚙️',radio:'📻'};const emoji=emojiMap[msg.quem]||'💬';div.innerHTML=`<div class="meta"><span class="emoji">${emoji}</span><span>${msg.quem||'Sistema'}</span><span>${msg.hora||new Date().toLocaleTimeString()}</span></div><div class="text">${escapeHtml(msg.texto)}</div>`;container.appendChild(div);container.scrollTop=container.scrollHeight;while(container.children.length>100)container.removeChild(container.children[0]);}
+function escapeHtml(t){return t.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>')}
+function adicionarElementoVisual(d){if(!d)return;const id='elem_'+d.id;if(elementos[id])return;elementos[id]={id:'visual_'+d.id,emoji:d.emoji||'✨',nome:d.name||'Elemento',cor:'#ffd700',x:d.x||100,y:d.y||100,memorias:0,visitas:0,angulo:0,raio:25,tipo:'dinamico'};mostrarNotificacao({tipo:'elemento',titulo:'🌟 Novo Elemento',texto:`${d.emoji||'✨'} ${d.name||'Elemento'} nasceu no mundo!`});}
+function adicionarConstrucaoPoe(c){construcoesPoe.push(c);const id='poe_'+c.id;elementos[id]={id,tipo:'poe',emoji:c.emoji,nome:c.nome,cor:'#00ff88',x:c.coordenadas?.x||100,y:c.coordenadas?.y||100,memorias:0,visitas:0,angulo:0,raio:35,construcao:c};atualizarHUD();mostrarNotificacao({tipo:'poe',titulo:'🏗️ Poe Construiu',texto:`${c.emoji} ${c.nome} erguido no ciclo ${c.ciclo_construcao}!`});}
+function mostrarNotificacao(n){const container=document.getElementById('notifications');const div=document.createElement('div');div.className=`notification ${n.tipo||''}`;div.id='notif_'+(++lastNotifId);div.innerHTML=`<div class="notification-title">${n.titulo}</div><div class="notification-text">${escapeHtml(n.texto)}</div>`;container.appendChild(div);setTimeout(()=>{div.style.opacity='0';div.style.transform='translateX(100px)';setTimeout(()=>div.remove(),400);},8000);}
+function inicializarCanvas(){canvas=document.getElementById('world');ctx=canvas.getContext('2d');resizeCanvas();window.addEventListener('resize',resizeCanvas);canvas.addEventListener('mousemove',e=>{const rect=canvas.getBoundingClientRect();mouse.x=e.clientX-rect.left;mouse.y=e.clientY-rect.top;verificarHover();});canvas.addEventListener('click',()=>{if(hovered)mostrarTooltip(hovered);});animId=requestAnimationFrame(loop);}
+function resizeCanvas(){const rect=document.getElementById('world').getBoundingClientRect();canvas.width=rect.width*devicePixelRatio;canvas.height=rect.height*devicePixelRatio;canvas.style.width=rect.width+'px';canvas.style.height=rect.height+'px';ctx.scale(devicePixelRatio,devicePixelRatio);ctx.canvas.width=rect.width;ctx.canvas.height=rect.height;}
+function loop(t){ctx.clearRect(0,0,canvas.width,canvas.height);desenharMundo(t);verificarHover();animId=requestAnimationFrame(loop);}
+function desenharMundo(t){const w=canvas.width/devicePixelRatio,h=canvas.height/devicePixelRatio;ctx.save();ctx.translate(w/2,h/2);const grad=ctx.createRadialGradient(0,0,0,0,0,Math.max(w,h));grad.addColorStop(0,'#12121a');grad.addColorStop(1,'#0a0a0f');ctx.fillStyle=grad;ctx.fillRect(-w/2,-h/2,w,h);ctx.restore();Object.values(elementos).forEach(e=>desenharElemento(e,t));desenharConexões(t);}
+function desenharElemento(e,t){const {x,y,emoji,cor,raio,angulo,tipo,construcao}=e;const a=(angulo||0)+t*0.0001;ctx.save();ctx.translate(x,y);if(tipo==='poe'||tipo==='dinamico'){ctx.beginPath();ctx.arc(0,0,raio+4+Math.sin(t*0.002)*3,0,Math.PI*2);ctx.fillStyle=cor+'22';ctx.fill();ctx.strokeStyle=cor+'55';ctx.lineWidth=2;ctx.stroke();}ctx.font='28px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(emoji,0,0);if(tipo==='poe'&&construcao){ctx.font='10px monospace';ctx.fillStyle='#00ff88';ctx.fillText('POE',0,raio+18);}ctx.restore();if(e.memorias>0){ctx.fillStyle='#ffd700';ctx.font='10px monospace';ctx.fillText('📜',x+raio-5,y-raio+5);}if(e.visitas>0){ctx.fillStyle='#ff6b35';ctx.font='10px monospace';ctx.fillText('👁️',x-raio+5,y-raio+5);}}
+function desenharConexões(t){const w=canvas.width/devicePixelRatio,h=canvas.height/devicePixelRatio;const centro={x:w/2,y:h/2};Object.values(elementos).forEach(e=>{const dx=e.x-centro.x,dy=e.y-centro.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<400){ctx.beginPath();ctx.moveTo(centro.x,centro.y);ctx.lineTo(e.x,e.y);ctx.strokeStyle='#ffd70011';ctx.lineWidth=0.5;ctx.stroke();}});}
+function verificarHover(){hovered=null;Object.values(elementos).forEach(e=>{const dx=mouse.x-e.x,dy=mouse.y-e.y;if(Math.sqrt(dx*dx+dy*dy)<(e.raio||25))hovered=e;});canvas.style.cursor=hovered?'pointer':'default';}
+function mostrarTooltip(e){const tooltip=document.getElementById('tooltip');const mem=jardimMemorias[e.id]||{memorias:[],visitas_da_gang:[]};let html=`<div class="tooltip-title">${e.emoji} ${e.nome}</div>`;html+=`<div class="tooltip-meta">Tipo: ${e.tipo||'base'} | ${e.memorias||0} memórias | ${e.visitas||0} visitas</div>`;if(e.construcao){html+=`<div class="tooltip-memory">${escapeHtml(e.construcao.descricao)}</div>`;}if(mem.memorias.length){const m=mem.memorias[0];html+=`<div class="tooltip-memory">"${escapeHtml(m.frase)}"<br><span style="font-size:10px;color:var(--muted)">— ${m.contexto} (Ciclo ${m.ciclo})</span></div>`;}if(mem.visitas_da_gang?.length){const v=mem.visitas_da_gang[mem.visitas_da_gang.length-1];html+=`<div class="tooltip-visit">😼 "${escapeHtml(v.pergunta)}"<br><span style="font-size:10px;color:var(--muted)">${v.contexto}</span></div>`;}tooltip.innerHTML=html;tooltip.classList.add('visible');const rect=canvas.getBoundingClientRect();tooltip.style.left=Math.min(mouse.x+20,canvas.width-300)+'px';tooltip.style.top=Math.min(mouse.y-20,canvas.height-200)+'px';}
+canvas.addEventListener('mouseleave',()=>{document.getElementById('tooltip').classList.remove('visible');hovered=null;});
+document.getElementById('msg-input').addEventListener('keydown',e=>{if(e.key==='Enter')enviarMensagem();});
+document.getElementById('btn-send').addEventListener('click',enviarMensagem);
+document.getElementById('btn-gang').addEventListener('click',()=>{if(socket&&socket.connected){socket.emit('chamar_gang');mostrarNotificacao({tipo:'gang',titulo:'📨 Chamando a Gang',texto:'A Gang foi convocada ao Conselho!'});}});
+function enviarMensagem(){const input=document.getElementById('msg-input');const texto=input.value.trim();if(!texto||!socket||!socket.connected)return;socket.emit('chat:falar',texto);input.value='';}
+async function init(){console.log('🎬 init() chamado');await carregarEstado();console.log('✅ carregarEstado() concluído');inicializarCanvas();console.log('✅ inicializarCanvas() concluído');conectarSocket();console.log('✅ conectarSocket() chamado');setInterval(()=>{if(socket&&socket.connected)socket.emit('get_estado');},30000);console.log('🌍 Consortho GEAR 5 inicializado');}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+</script>
+</body></html>
