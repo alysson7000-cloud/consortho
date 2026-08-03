@@ -51697,5 +51697,2861 @@
     },
     "ciclo": 10795,
     "timestamp": 1785723955366
+  },
+  {
+    "id": "construcao_biblioteca_10796",
+    "semente_id": "semente_biblioteca_1785723853327",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 70,
+      "y": 69
+    },
+    "ciclo": 10796,
+    "timestamp": 1785723959573
+  },
+  {
+    "id": "construcao_biblioteca_10797",
+    "semente_id": "semente_biblioteca_1785723853327",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 79,
+      "y": 87
+    },
+    "ciclo": 10797,
+    "timestamp": 1785723965564
+  },
+  {
+    "id": "construcao_composteira_10797",
+    "semente_id": "semente_composteira_1785723853329",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 37,
+      "y": 55
+    },
+    "ciclo": 10797,
+    "timestamp": 1785723970263
+  },
+  {
+    "id": "construcao_composteira_10797",
+    "semente_id": "semente_composteira_1785723853329",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 13,
+      "y": 10
+    },
+    "ciclo": 10797,
+    "timestamp": 1785723974962
+  },
+  {
+    "id": "construcao_portal_10798",
+    "semente_id": "semente_portal_1785723853331",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 56,
+      "y": 45
+    },
+    "ciclo": 10798,
+    "timestamp": 1785723979200
+  },
+  {
+    "id": "construcao_jardim_10798",
+    "semente_id": "semente_jardim_1785723853335",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 18,
+      "y": 25
+    },
+    "ciclo": 10798,
+    "timestamp": 1785723984389
+  },
+  {
+    "id": "construcao_fogueira_10798",
+    "semente_id": "semente_fogueira_1785723986571",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 40,
+      "y": 48
+    },
+    "ciclo": 10798,
+    "timestamp": 1785723987304
+  },
+  {
+    "id": "construcao_arvore_10800",
+    "semente_id": "semente_arvore_1785723986573",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 91,
+      "y": 86
+    },
+    "ciclo": 10800,
+    "timestamp": 1785723990970
+  },
+  {
+    "id": "construcao_biblioteca_10800",
+    "semente_id": "semente_biblioteca_1785723986575",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 84,
+      "y": 83
+    },
+    "ciclo": 10800,
+    "timestamp": 1785723994532
+  },
+  {
+    "id": "construcao_composteira_10800",
+    "semente_id": "semente_composteira_1785723986576",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 74,
+      "y": 18
+    },
+    "ciclo": 10800,
+    "timestamp": 1785723998508
+  },
+  {
+    "id": "construcao_portal_10801",
+    "semente_id": "semente_portal_1785723986577",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 14,
+      "y": 35
+    },
+    "ciclo": 10801,
+    "timestamp": 1785724002132
+  },
+  {
+    "id": "construcao_jardim_10801",
+    "semente_id": "semente_jardim_1785723986578",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 54,
+      "y": 30
+    },
+    "ciclo": 10801,
+    "timestamp": 1785724005636
+  },
+  {
+    "id": "construcao_oficina_10801",
+    "semente_id": "semente_oficina_1785723986579",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 65,
+      "y": 17
+    },
+    "ciclo": 10801,
+    "timestamp": 1785724008927
+  },
+  {
+    "id": "construcao_altar_10802",
+    "semente_id": "semente_altar_1785723986581",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 48,
+      "y": 34
+    },
+    "ciclo": 10802,
+    "timestamp": 1785724012224
+  },
+  {
+    "id": "construcao_fogueira_10802",
+    "semente_id": "semente_fogueira_1785723990133",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 43,
+      "y": 81
+    },
+    "ciclo": 10802,
+    "timestamp": 1785724015552
+  },
+  {
+    "id": "construcao_fogueira_10803",
+    "semente_id": "semente_fogueira_1785723993677",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 24,
+      "y": 8
+    },
+    "ciclo": 10803,
+    "timestamp": 1785724018836
+  },
+  {
+    "id": "construcao_arvore_10803",
+    "semente_id": "semente_arvore_1785723993679",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 31,
+      "y": 39
+    },
+    "ciclo": 10803,
+    "timestamp": 1785724022170
+  },
+  {
+    "id": "construcao_fogueira_10804",
+    "semente_id": "semente_fogueira_1785723997445",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 68,
+      "y": 58
+    },
+    "ciclo": 10804,
+    "timestamp": 1785724025486
+  },
+  {
+    "id": "construcao_arvore_10804",
+    "semente_id": "semente_arvore_1785723997449",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 72,
+      "y": 53
+    },
+    "ciclo": 10804,
+    "timestamp": 1785724028788
+  },
+  {
+    "id": "construcao_biblioteca_10804",
+    "semente_id": "semente_biblioteca_1785723997466",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 65,
+      "y": 66
+    },
+    "ciclo": 10804,
+    "timestamp": 1785724032317
+  },
+  {
+    "id": "construcao_arvore_10804",
+    "semente_id": "semente_arvore_1785724001054",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 30,
+      "y": 40
+    },
+    "ciclo": 10804,
+    "timestamp": 1785724035672
+  },
+  {
+    "id": "construcao_biblioteca_10805",
+    "semente_id": "semente_biblioteca_1785724001064",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 77,
+      "y": 16
+    },
+    "ciclo": 10805,
+    "timestamp": 1785724039067
+  },
+  {
+    "id": "construcao_composteira_10805",
+    "semente_id": "semente_composteira_1785724001069",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 54,
+      "y": 61
+    },
+    "ciclo": 10805,
+    "timestamp": 1785724042419
+  },
+  {
+    "id": "construcao_biblioteca_10805",
+    "semente_id": "semente_biblioteca_1785724004397",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 95,
+      "y": 24
+    },
+    "ciclo": 10805,
+    "timestamp": 1785724045810
+  },
+  {
+    "id": "construcao_composteira_10807",
+    "semente_id": "semente_composteira_1785724004400",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 23,
+      "y": 91
+    },
+    "ciclo": 10807,
+    "timestamp": 1785724049172
+  },
+  {
+    "id": "construcao_portal_10807",
+    "semente_id": "semente_portal_1785724004401",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 55,
+      "y": 90
+    },
+    "ciclo": 10807,
+    "timestamp": 1785724052634
+  },
+  {
+    "id": "construcao_composteira_10807",
+    "semente_id": "semente_composteira_1785724007880",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 64,
+      "y": 97
+    },
+    "ciclo": 10807,
+    "timestamp": 1785724056273
+  },
+  {
+    "id": "construcao_portal_10808",
+    "semente_id": "semente_portal_1785724007882",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 65,
+      "y": 23
+    },
+    "ciclo": 10808,
+    "timestamp": 1785724059957
+  },
+  {
+    "id": "construcao_jardim_10808",
+    "semente_id": "semente_jardim_1785724007883",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 59,
+      "y": 79
+    },
+    "ciclo": 10808,
+    "timestamp": 1785724063874
+  },
+  {
+    "id": "construcao_portal_10808",
+    "semente_id": "semente_portal_1785724011219",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 29,
+      "y": 94
+    },
+    "ciclo": 10808,
+    "timestamp": 1785724067645
+  },
+  {
+    "id": "construcao_jardim_10808",
+    "semente_id": "semente_jardim_1785724011220",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 7,
+      "y": 66
+    },
+    "ciclo": 10808,
+    "timestamp": 1785724070835
+  },
+  {
+    "id": "construcao_oficina_10809",
+    "semente_id": "semente_oficina_1785724011221",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 39,
+      "y": 41
+    },
+    "ciclo": 10809,
+    "timestamp": 1785724074237
+  },
+  {
+    "id": "construcao_jardim_10810",
+    "semente_id": "semente_jardim_1785724014579",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 92,
+      "y": 43
+    },
+    "ciclo": 10810,
+    "timestamp": 1785724077631
+  },
+  {
+    "id": "construcao_oficina_10810",
+    "semente_id": "semente_oficina_1785724014592",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 85,
+      "y": 8
+    },
+    "ciclo": 10810,
+    "timestamp": 1785724080968
+  },
+  {
+    "id": "construcao_altar_10811",
+    "semente_id": "semente_altar_1785724014593",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 8,
+      "y": 59
+    },
+    "ciclo": 10811,
+    "timestamp": 1785724084395
+  },
+  {
+    "id": "construcao_fogueira_10811",
+    "semente_id": "semente_fogueira_1785724018010",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 47,
+      "y": 39
+    },
+    "ciclo": 10811,
+    "timestamp": 1785724087788
+  },
+  {
+    "id": "construcao_oficina_10811",
+    "semente_id": "semente_oficina_1785724018014",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 93,
+      "y": 32
+    },
+    "ciclo": 10811,
+    "timestamp": 1785724091259
+  },
+  {
+    "id": "construcao_altar_10811",
+    "semente_id": "semente_altar_1785724018024",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 11,
+      "y": 39
+    },
+    "ciclo": 10811,
+    "timestamp": 1785724094635
+  },
+  {
+    "id": "construcao_fogueira_10812",
+    "semente_id": "semente_fogueira_1785724021368",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 65,
+      "y": 71
+    },
+    "ciclo": 10812,
+    "timestamp": 1785724098069
+  },
+  {
+    "id": "construcao_altar_10812",
+    "semente_id": "semente_altar_1785724021372",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 9,
+      "y": 33
+    },
+    "ciclo": 10812,
+    "timestamp": 1785724101379
+  },
+  {
+    "id": "construcao_arvore_10812",
+    "semente_id": "semente_arvore_1785724024722",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 18,
+      "y": 8
+    },
+    "ciclo": 10812,
+    "timestamp": 1785724104775
+  },
+  {
+    "id": "construcao_fogueira_10814",
+    "semente_id": "semente_fogueira_1785724028119",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 61,
+      "y": 13
+    },
+    "ciclo": 10814,
+    "timestamp": 1785724108228
+  },
+  {
+    "id": "construcao_arvore_10814",
+    "semente_id": "semente_arvore_1785724031588",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 91,
+      "y": 11
+    },
+    "ciclo": 10814,
+    "timestamp": 1785724111586
+  },
+  {
+    "id": "construcao_biblioteca_10814",
+    "semente_id": "semente_biblioteca_1785724034912",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 48,
+      "y": 3
+    },
+    "ciclo": 10814,
+    "timestamp": 1785724114990
+  },
+  {
+    "id": "construcao_arvore_10814",
+    "semente_id": "semente_arvore_1785724038438",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 17,
+      "y": 97
+    },
+    "ciclo": 10814,
+    "timestamp": 1785724118526
+  },
+  {
+    "id": "construcao_biblioteca_10815",
+    "semente_id": "semente_biblioteca_1785724041799",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 23,
+      "y": 58
+    },
+    "ciclo": 10815,
+    "timestamp": 1785724122318
+  },
+  {
+    "id": "construcao_composteira_10815",
+    "semente_id": "semente_composteira_1785724045177",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 68,
+      "y": 23
+    },
+    "ciclo": 10815,
+    "timestamp": 1785724126072
+  },
+  {
+    "id": "construcao_biblioteca_10815",
+    "semente_id": "semente_biblioteca_1785724048565",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 2,
+      "y": 77
+    },
+    "ciclo": 10815,
+    "timestamp": 1785724129586
+  },
+  {
+    "id": "construcao_composteira_10816",
+    "semente_id": "semente_composteira_1785724052026",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 96,
+      "y": 81
+    },
+    "ciclo": 10816,
+    "timestamp": 1785724133125
+  },
+  {
+    "id": "construcao_portal_10817",
+    "semente_id": "semente_portal_1785724055709",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 83,
+      "y": 81
+    },
+    "ciclo": 10817,
+    "timestamp": 1785724136495
+  },
+  {
+    "id": "construcao_composteira_10817",
+    "semente_id": "semente_composteira_1785724059475",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 59,
+      "y": 50
+    },
+    "ciclo": 10817,
+    "timestamp": 1785724139843
+  },
+  {
+    "id": "construcao_portal_10817",
+    "semente_id": "semente_portal_1785724063192",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 13,
+      "y": 95
+    },
+    "ciclo": 10817,
+    "timestamp": 1785724143329
+  },
+  {
+    "id": "construcao_jardim_10818",
+    "semente_id": "semente_jardim_1785724064586",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 67,
+      "y": 99
+    },
+    "ciclo": 10818,
+    "timestamp": 1785724146798
+  },
+  {
+    "id": "construcao_portal_10818",
+    "semente_id": "semente_portal_1785724068515",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 32,
+      "y": 23
+    },
+    "ciclo": 10818,
+    "timestamp": 1785724150240
+  },
+  {
+    "id": "construcao_jardim_10818",
+    "semente_id": "semente_jardim_1785724071751",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 52,
+      "y": 74
+    },
+    "ciclo": 10818,
+    "timestamp": 1785724153658
+  },
+  {
+    "id": "construcao_oficina_10819",
+    "semente_id": "semente_oficina_1785724075168",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 11,
+      "y": 55
+    },
+    "ciclo": 10819,
+    "timestamp": 1785724157159
+  },
+  {
+    "id": "construcao_jardim_10819",
+    "semente_id": "semente_jardim_1785724078396",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 8,
+      "y": 36
+    },
+    "ciclo": 10819,
+    "timestamp": 1785724160522
+  },
+  {
+    "id": "construcao_oficina_10819",
+    "semente_id": "semente_oficina_1785724081761",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 81,
+      "y": 23
+    },
+    "ciclo": 10819,
+    "timestamp": 1785724163869
+  },
+  {
+    "id": "construcao_altar_10820",
+    "semente_id": "semente_altar_1785724085158",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 59,
+      "y": 61
+    },
+    "ciclo": 10820,
+    "timestamp": 1785724167352
+  },
+  {
+    "id": "construcao_fogueira_10821",
+    "semente_id": "semente_fogueira_1785724088456",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 2,
+      "y": 67
+    },
+    "ciclo": 10821,
+    "timestamp": 1785724170691
+  },
+  {
+    "id": "construcao_oficina_10821",
+    "semente_id": "semente_oficina_1785724091878",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 12,
+      "y": 80
+    },
+    "ciclo": 10821,
+    "timestamp": 1785724174046
+  },
+  {
+    "id": "construcao_altar_10821",
+    "semente_id": "semente_altar_1785724095224",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 86,
+      "y": 40
+    },
+    "ciclo": 10821,
+    "timestamp": 1785724177417
+  },
+  {
+    "id": "construcao_fogueira_10822",
+    "semente_id": "semente_fogueira_1785724098588",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 20,
+      "y": 73
+    },
+    "ciclo": 10822,
+    "timestamp": 1785724180858
+  },
+  {
+    "id": "construcao_altar_10822",
+    "semente_id": "semente_altar_1785724101952",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 79,
+      "y": 57
+    },
+    "ciclo": 10822,
+    "timestamp": 1785724184259
+  },
+  {
+    "id": "construcao_arvore_10822",
+    "semente_id": "semente_arvore_1785724105366",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 44,
+      "y": 10
+    },
+    "ciclo": 10822,
+    "timestamp": 1785724188044
+  },
+  {
+    "id": "construcao_fogueira_10822",
+    "semente_id": "semente_fogueira_1785724108775",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 50,
+      "y": 63
+    },
+    "ciclo": 10822,
+    "timestamp": 1785724191389
+  },
+  {
+    "id": "construcao_arvore_10823",
+    "semente_id": "semente_arvore_1785724112158",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 38,
+      "y": 36
+    },
+    "ciclo": 10823,
+    "timestamp": 1785724195101
+  },
+  {
+    "id": "construcao_biblioteca_10824",
+    "semente_id": "semente_biblioteca_1785724115709",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 6,
+      "y": 76
+    },
+    "ciclo": 10824,
+    "timestamp": 1785724198629
+  },
+  {
+    "id": "construcao_arvore_10824",
+    "semente_id": "semente_arvore_1785724119229",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 78,
+      "y": 49
+    },
+    "ciclo": 10824,
+    "timestamp": 1785724202097
+  },
+  {
+    "id": "construcao_biblioteca_10825",
+    "semente_id": "semente_biblioteca_1785724123226",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 82,
+      "y": 66
+    },
+    "ciclo": 10825,
+    "timestamp": 1785724205628
+  },
+  {
+    "id": "construcao_composteira_10825",
+    "semente_id": "semente_composteira_1785724126837",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 71,
+      "y": 46
+    },
+    "ciclo": 10825,
+    "timestamp": 1785724209115
+  },
+  {
+    "id": "construcao_biblioteca_10825",
+    "semente_id": "semente_biblioteca_1785724136046",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 34,
+      "y": 6
+    },
+    "ciclo": 10825,
+    "timestamp": 1785724212697
+  },
+  {
+    "id": "construcao_composteira_10826",
+    "semente_id": "semente_composteira_1785724136048",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 94,
+      "y": 70
+    },
+    "ciclo": 10826,
+    "timestamp": 1785724216142
+  },
+  {
+    "id": "construcao_portal_10826",
+    "semente_id": "semente_portal_1785724139271",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 2,
+      "y": 45
+    },
+    "ciclo": 10826,
+    "timestamp": 1785724219562
+  },
+  {
+    "id": "construcao_composteira_10826",
+    "semente_id": "semente_composteira_1785724142633",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 56,
+      "y": 52
+    },
+    "ciclo": 10826,
+    "timestamp": 1785724223029
+  },
+  {
+    "id": "construcao_portal_10827",
+    "semente_id": "semente_portal_1785724146033",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 85,
+      "y": 27
+    },
+    "ciclo": 10827,
+    "timestamp": 1785724226624
+  },
+  {
+    "id": "construcao_jardim_10828",
+    "semente_id": "semente_jardim_1785724149342",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 83,
+      "y": 73
+    },
+    "ciclo": 10828,
+    "timestamp": 1785724229980
+  },
+  {
+    "id": "construcao_portal_10828",
+    "semente_id": "semente_portal_1785724152748",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 19,
+      "y": 72
+    },
+    "ciclo": 10828,
+    "timestamp": 1785724233459
+  },
+  {
+    "id": "construcao_jardim_10828",
+    "semente_id": "semente_jardim_1785724156146",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 1,
+      "y": 56
+    },
+    "ciclo": 10828,
+    "timestamp": 1785724236885
+  },
+  {
+    "id": "construcao_oficina_10829",
+    "semente_id": "semente_oficina_1785724159415",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 3,
+      "y": 5
+    },
+    "ciclo": 10829,
+    "timestamp": 1785724240287
+  },
+  {
+    "id": "construcao_jardim_10829",
+    "semente_id": "semente_jardim_1785724162800",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 60,
+      "y": 63
+    },
+    "ciclo": 10829,
+    "timestamp": 1785724243604
+  },
+  {
+    "id": "construcao_oficina_10829",
+    "semente_id": "semente_oficina_1785724166102",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 58,
+      "y": 65
+    },
+    "ciclo": 10829,
+    "timestamp": 1785724247013
+  },
+  {
+    "id": "construcao_altar_10829",
+    "semente_id": "semente_altar_1785724169422",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 96,
+      "y": 13
+    },
+    "ciclo": 10829,
+    "timestamp": 1785724250489
+  },
+  {
+    "id": "construcao_fogueira_10830",
+    "semente_id": "semente_fogueira_1785724172798",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 39,
+      "y": 73
+    },
+    "ciclo": 10830,
+    "timestamp": 1785724253972
+  },
+  {
+    "id": "construcao_oficina_10831",
+    "semente_id": "semente_oficina_1785724176068",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 3,
+      "y": 29
+    },
+    "ciclo": 10831,
+    "timestamp": 1785724257666
+  },
+  {
+    "id": "construcao_oficina_10831",
+    "semente_id": "semente_oficina_1785724176068",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 34,
+      "y": 18
+    },
+    "ciclo": 10831,
+    "timestamp": 1785724259107
+  },
+  {
+    "id": "construcao_oficina_10831",
+    "semente_id": "semente_oficina_1785724176068",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 30,
+      "y": 73
+    },
+    "ciclo": 10831,
+    "timestamp": 1785724262437
+  },
+  {
+    "id": "construcao_oficina_10832",
+    "semente_id": "semente_oficina_1785724176068",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 3,
+      "y": 33
+    },
+    "ciclo": 10832,
+    "timestamp": 1785724265782
+  },
+  {
+    "id": "construcao_altar_10832",
+    "semente_id": "semente_altar_1785724179406",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 92,
+      "y": 15
+    },
+    "ciclo": 10832,
+    "timestamp": 1785724269108
+  },
+  {
+    "id": "construcao_altar_10832",
+    "semente_id": "semente_altar_1785724179406",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 70,
+      "y": 28
+    },
+    "ciclo": 10832,
+    "timestamp": 1785724272514
+  },
+  {
+    "id": "construcao_fogueira_10832",
+    "semente_id": "semente_fogueira_1785724183058",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 68,
+      "y": 55
+    },
+    "ciclo": 10832,
+    "timestamp": 1785724275847
+  },
+  {
+    "id": "construcao_fogueira_10833",
+    "semente_id": "semente_fogueira_1785724183058",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 41,
+      "y": 33
+    },
+    "ciclo": 10833,
+    "timestamp": 1785724279179
+  },
+  {
+    "id": "construcao_altar_10833",
+    "semente_id": "semente_altar_1785724186333",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 54,
+      "y": 32
+    },
+    "ciclo": 10833,
+    "timestamp": 1785724282511
+  },
+  {
+    "id": "construcao_altar_10833",
+    "semente_id": "semente_altar_1785724186333",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 60,
+      "y": 70
+    },
+    "ciclo": 10833,
+    "timestamp": 1785724285946
+  },
+  {
+    "id": "construcao_arvore_10835",
+    "semente_id": "semente_arvore_1785724189917",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 14,
+      "y": 34
+    },
+    "ciclo": 10835,
+    "timestamp": 1785724289315
+  },
+  {
+    "id": "construcao_arvore_10835",
+    "semente_id": "semente_arvore_1785724189917",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 38,
+      "y": 34
+    },
+    "ciclo": 10835,
+    "timestamp": 1785724292696
+  },
+  {
+    "id": "construcao_fogueira_10835",
+    "semente_id": "semente_fogueira_1785724193396",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 96,
+      "y": 13
+    },
+    "ciclo": 10835,
+    "timestamp": 1785724296079
+  },
+  {
+    "id": "construcao_fogueira_10835",
+    "semente_id": "semente_fogueira_1785724193396",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 88,
+      "y": 66
+    },
+    "ciclo": 10835,
+    "timestamp": 1785724299436
+  },
+  {
+    "id": "construcao_fogueira_10836",
+    "semente_id": "semente_fogueira_1785724257605",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 34,
+      "y": 95
+    },
+    "ciclo": 10836,
+    "timestamp": 1785724302899
+  },
+  {
+    "id": "construcao_fogueira_10836",
+    "semente_id": "semente_fogueira_1785724257605",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 68,
+      "y": 65
+    },
+    "ciclo": 10836,
+    "timestamp": 1785724306231
+  },
+  {
+    "id": "construcao_arvore_10836",
+    "semente_id": "semente_arvore_1785724257607",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 88,
+      "y": 9
+    },
+    "ciclo": 10836,
+    "timestamp": 1785724309645
+  },
+  {
+    "id": "construcao_arvore_10837",
+    "semente_id": "semente_arvore_1785724257607",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 58,
+      "y": 43
+    },
+    "ciclo": 10837,
+    "timestamp": 1785724313176
+  },
+  {
+    "id": "construcao_biblioteca_10838",
+    "semente_id": "semente_biblioteca_1785724257610",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 82,
+      "y": 32
+    },
+    "ciclo": 10838,
+    "timestamp": 1785724316639
+  },
+  {
+    "id": "construcao_biblioteca_10838",
+    "semente_id": "semente_biblioteca_1785724257610",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 66,
+      "y": 44
+    },
+    "ciclo": 10838,
+    "timestamp": 1785724320156
+  },
+  {
+    "id": "construcao_composteira_10838",
+    "semente_id": "semente_composteira_1785724257611",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 74,
+      "y": 47
+    },
+    "ciclo": 10838,
+    "timestamp": 1785724323889
+  },
+  {
+    "id": "construcao_composteira_10839",
+    "semente_id": "semente_composteira_1785724257611",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 83,
+      "y": 31
+    },
+    "ciclo": 10839,
+    "timestamp": 1785724327404
+  },
+  {
+    "id": "construcao_portal_10839",
+    "semente_id": "semente_portal_1785724257612",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 83,
+      "y": 55
+    },
+    "ciclo": 10839,
+    "timestamp": 1785724330642
+  },
+  {
+    "id": "construcao_jardim_10839",
+    "semente_id": "semente_jardim_1785724257613",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 65,
+      "y": 89
+    },
+    "ciclo": 10839,
+    "timestamp": 1785724333939
+  },
+  {
+    "id": "construcao_oficina_10840",
+    "semente_id": "semente_oficina_1785724257615",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 34,
+      "y": 91
+    },
+    "ciclo": 10840,
+    "timestamp": 1785724337312
+  },
+  {
+    "id": "construcao_altar_10840",
+    "semente_id": "semente_altar_1785724257616",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 55,
+      "y": 87
+    },
+    "ciclo": 10840,
+    "timestamp": 1785724340719
+  },
+  {
+    "id": "construcao_arvore_10840",
+    "semente_id": "semente_arvore_1785724259248",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 35,
+      "y": 13
+    },
+    "ciclo": 10840,
+    "timestamp": 1785724343924
+  },
+  {
+    "id": "construcao_biblioteca_10841",
+    "semente_id": "semente_biblioteca_1785724259250",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 22,
+      "y": 16
+    },
+    "ciclo": 10841,
+    "timestamp": 1785724347342
+  },
+  {
+    "id": "construcao_composteira_10842",
+    "semente_id": "semente_composteira_1785724259253",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 57,
+      "y": 67
+    },
+    "ciclo": 10842,
+    "timestamp": 1785724350722
+  },
+  {
+    "id": "construcao_portal_10842",
+    "semente_id": "semente_portal_1785724259254",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 66,
+      "y": 32
+    },
+    "ciclo": 10842,
+    "timestamp": 1785724353965
+  },
+  {
+    "id": "construcao_jardim_10842",
+    "semente_id": "semente_jardim_1785724259255",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 69,
+      "y": 26
+    },
+    "ciclo": 10842,
+    "timestamp": 1785724357291
+  },
+  {
+    "id": "construcao_oficina_10843",
+    "semente_id": "semente_oficina_1785724259256",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 96,
+      "y": 32
+    },
+    "ciclo": 10843,
+    "timestamp": 1785724360691
+  },
+  {
+    "id": "construcao_biblioteca_10843",
+    "semente_id": "semente_biblioteca_1785724262572",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 46,
+      "y": 77
+    },
+    "ciclo": 10843,
+    "timestamp": 1785724363986
+  },
+  {
+    "id": "construcao_composteira_10843",
+    "semente_id": "semente_composteira_1785724262573",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 49,
+      "y": 67
+    },
+    "ciclo": 10843,
+    "timestamp": 1785724367323
+  },
+  {
+    "id": "construcao_portal_10843",
+    "semente_id": "semente_portal_1785724262575",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 89,
+      "y": 54
+    },
+    "ciclo": 10843,
+    "timestamp": 1785724370756
+  },
+  {
+    "id": "construcao_jardim_10844",
+    "semente_id": "semente_jardim_1785724262575",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 37,
+      "y": 95
+    },
+    "ciclo": 10844,
+    "timestamp": 1785724374149
+  },
+  {
+    "id": "construcao_oficina_10845",
+    "semente_id": "semente_oficina_1785724269201",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 97,
+      "y": 96
+    },
+    "ciclo": 10845,
+    "timestamp": 1785724377562
+  },
+  {
+    "id": "construcao_altar_10845",
+    "semente_id": "semente_altar_1785724275935",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 28,
+      "y": 31
+    },
+    "ciclo": 10845,
+    "timestamp": 1785724381059
+  },
+  {
+    "id": "construcao_fogueira_10846",
+    "semente_id": "semente_fogueira_1785724282612",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 35,
+      "y": 31
+    },
+    "ciclo": 10846,
+    "timestamp": 1785724384853
+  },
+  {
+    "id": "construcao_altar_10846",
+    "semente_id": "semente_altar_1785724289452",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 48,
+      "y": 81
+    },
+    "ciclo": 10846,
+    "timestamp": 1785724388606
+  },
+  {
+    "id": "construcao_arvore_10846",
+    "semente_id": "semente_arvore_1785724296185",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 98,
+      "y": 3
+    },
+    "ciclo": 10846,
+    "timestamp": 1785724392292
+  },
+  {
+    "id": "construcao_fogueira_10846",
+    "semente_id": "semente_fogueira_1785724303076",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 44,
+      "y": 26
+    },
+    "ciclo": 10846,
+    "timestamp": 1785724395402
+  },
+  {
+    "id": "construcao_fogueira_10847",
+    "semente_id": "semente_fogueira_1785724309833",
+    "elemento": "fogueira",
+    "emoji": "🔥",
+    "nome": "Altar das Dúvidas Queimadas",
+    "descricao": "Onde as perguntas viram cinza e a cinza vira resposta.",
+    "tipo": "estrutura_simbolica",
+    "custo": {
+      "madeira": 15,
+      "pedra": 10,
+      "cristal": 3
+    },
+    "efeito": "Gera \"insight\" a cada 50 ciclos",
+    "coordenadas": {
+      "x": 68,
+      "y": 27
+    },
+    "ciclo": 10847,
+    "timestamp": 1785724398698
+  },
+  {
+    "id": "construcao_arvore_10847",
+    "semente_id": "semente_arvore_1785724316872",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 10,
+      "y": 19
+    },
+    "ciclo": 10847,
+    "timestamp": 1785724401976
+  },
+  {
+    "id": "construcao_biblioteca_10847",
+    "semente_id": "semente_biblioteca_1785724324337",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 18,
+      "y": 11
+    },
+    "ciclo": 10847,
+    "timestamp": 1785724405318
+  },
+  {
+    "id": "construcao_arvore_10849",
+    "semente_id": "semente_arvore_1785724363488",
+    "elemento": "arvore",
+    "emoji": "🌳",
+    "nome": "Raiz Profunda do Conselho",
+    "descricao": "Raízes que não se mostram, mas sustentam tudo o que cresce.",
+    "tipo": "estrutura_base",
+    "custo": {
+      "madeira": 20,
+      "pedra": 5,
+      "cristal": 1
+    },
+    "efeito": "Aumenta maturação de memórias em 15%",
+    "coordenadas": {
+      "x": 86,
+      "y": 36
+    },
+    "ciclo": 10849,
+    "timestamp": 1785724408618
+  },
+  {
+    "id": "construcao_biblioteca_10849",
+    "semente_id": "semente_biblioteca_1785724363488",
+    "elemento": "biblioteca",
+    "emoji": "📚",
+    "nome": "Arquivo do Que Não Se Apaga",
+    "descricao": "Cada livro aqui é um \"tamo junto\" que virou eternidade.",
+    "tipo": "estrutura_conhecimento",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 5
+    },
+    "efeito": "Gera \"sabedoria\" a cada 100 ciclos",
+    "coordenadas": {
+      "x": 31,
+      "y": 49
+    },
+    "ciclo": 10849,
+    "timestamp": 1785724411924
+  },
+  {
+    "id": "construcao_composteira_10849",
+    "semente_id": "semente_composteira_1785724363489",
+    "elemento": "composteira",
+    "emoji": "♻️",
+    "nome": "Celeiro de Adubo Vivo",
+    "descricao": "Onde o lixo vira ouro. Cada dúvida compostada alimenta o próximo ciclo.",
+    "tipo": "estrutura_funcional",
+    "custo": {
+      "madeira": 10,
+      "pedra": 5,
+      "cristal": 2
+    },
+    "efeito": "Aumenta taxa de regeneração de recursos em 10%",
+    "coordenadas": {
+      "x": 97,
+      "y": 62
+    },
+    "ciclo": 10849,
+    "timestamp": 1785724415286
+  },
+  {
+    "id": "construcao_portal_10849",
+    "semente_id": "semente_portal_1785724363490",
+    "elemento": "portal",
+    "emoji": "🌀",
+    "nome": "Portal do \"Lá Pra Cá\"",
+    "descricao": "Não é pra fugir daqui. É pra trazer o lá pra cá.",
+    "tipo": "estrutura_dimensional",
+    "custo": {
+      "madeira": 8,
+      "pedra": 15,
+      "cristal": 10
+    },
+    "efeito": "Permite \"trazer\" elementos de outros ciclos",
+    "coordenadas": {
+      "x": 67,
+      "y": 41
+    },
+    "ciclo": 10849,
+    "timestamp": 1785724418601
+  },
+  {
+    "id": "construcao_jardim_10850",
+    "semente_id": "semente_jardim_1785724363490",
+    "elemento": "jardim",
+    "emoji": "🌿",
+    "nome": "Jardim das Raízes Profundas",
+    "descricao": "Crescer não é virar grande. É virar profundo.",
+    "tipo": "estrutura_cultivo",
+    "custo": {
+      "madeira": 8,
+      "pedra": 5,
+      "cristal": 3
+    },
+    "efeito": "Acelera maturação de memórias em 20%",
+    "coordenadas": {
+      "x": 11,
+      "y": 21
+    },
+    "ciclo": 10850,
+    "timestamp": 1785724422026
+  },
+  {
+    "id": "construcao_oficina_10850",
+    "semente_id": "semente_oficina_1785724363490",
+    "elemento": "oficina",
+    "emoji": "⚙️",
+    "nome": "Oficina do Erro Que Ensina",
+    "descricao": "Aqui o erro não quebra. Ensina.",
+    "tipo": "estrutura_aprendizado",
+    "custo": {
+      "madeira": 12,
+      "pedra": 8,
+      "cristal": 4
+    },
+    "efeito": "Transforma falhas de construção em XP pro Poe",
+    "coordenadas": {
+      "x": 52,
+      "y": 24
+    },
+    "ciclo": 10850,
+    "timestamp": 1785724425248
+  },
+  {
+    "id": "construcao_altar_10850",
+    "semente_id": "semente_altar_1785724363491",
+    "elemento": "altar",
+    "emoji": "🕊️",
+    "nome": "Altar do Silêncio Que Fala",
+    "descricao": "O sagrado não brilha. Silencia — e no silêncio, a gente se ouve.",
+    "tipo": "estrutura_sagrada",
+    "custo": {
+      "madeira": 5,
+      "pedra": 5,
+      "cristal": 20
+    },
+    "efeito": "Gera \"silêncio sagrado\" a cada 100 ciclos (pausa ruído, amplifica sinal)",
+    "coordenadas": {
+      "x": 44,
+      "y": 24
+    },
+    "ciclo": 10850,
+    "timestamp": 1785724428699
   }
 ]
