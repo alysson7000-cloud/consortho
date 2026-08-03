@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { readJSONSafe, writeJSONAtomic } = require('../../utils/atomic-write');
+// Use local copy of atomic-write
+const { readJSONSafe, writeJSONAtomic } = require('./atomic-write');
 
 // Caminhos
 const JARDIM_PATH = path.join(__dirname, '../../memoria/jardim.json');
@@ -69,11 +70,21 @@ function main() {
     );
 
     if (madura) {
-      // Verifica se já tem semente ativa (pronta, em construção OU já construida)
-      const sementeExistente = sementes.find(s => s.elemento === elementoId);
-      const statusAtivo = sementeExistente && ['pronta_para_construcao', 'em_construcao', 'construida'].includes(sementeExistente.status);
+      // Verifica sementes prontas deste elemento
+      const sementesProntasElemento = sementes.filter(s => s.elemento === elementoId && s.status === 'pronta_para_construcao').length;
+      const LIMITE_SEMENTES_PRONTAS = 3;
       
-      if (!statusAtivo) {
+      // Verifica se já tem semente ativa (pronta, em construção)
+      const sementeExistente = sementes.find(s => s.elemento === elementoId);
+      const statusAtivo = sementeExistente && ['pronta_para_construcao', 'em_construcao'].includes(sementeExistente.status);
+      
+      // Permite novo ciclo se: última construida há 50+ ciclos E tem menos de 3 seeds prontas
+      const ultimoConstruido = sementes.filter(s => s.elemento === elementoId && s.status === 'construida')
+        .sort((a, b) => (b.ciclo_construcao || 0) - (a.ciclo_construcao || 0))[0];
+      const ciclosDesdeConstrucao = ultimoConstruido ? (cicloAtual - (ultimoConstruido.ciclo_construcao || 0)) : 0;
+      const podeNovoCiclo = ultimoConstruido && ciclosDesdeConstrucao >= 50 && sementesProntasElemento < LIMITE_SEMENTES_PRONTAS;
+      
+      if (!statusAtivo && (sementesProntasElemento < LIMITE_SEMENTES_PRONTAS || podeNovoCiclo)) {
         const essencia = extrairEssencia(elementoData, visitas);
         
         const semente = {

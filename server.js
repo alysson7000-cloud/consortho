@@ -306,6 +306,27 @@ io.on('connection', (socket) => {
     broadcastPlayers();
   });
 
+  socket.on('login:lumin', (data) => {
+    if (state.playerIds['lumin']) return;
+    papel = 'lumin';
+    state.players[socket.id] = { nome: 'lumin', emoji: '💫', papel: 'conselho', socketId: socket.id };
+    state.playerIds['lumin'] = socket.id;
+    console.log(`[auth] Lumin (Conselho) conectado: ${socket.id}`);
+    emitSistema('💫 Lumin (Conselho) se conectou.');
+    broadcastPlayers();
+    
+    // Enviar estado inicial
+    socket.emit('lumin_state', {
+      c: state.c,
+      e: state.e,
+      recursos: state.recursos,
+      construcoes: state.construcoes,
+      sementes: state.sementes || [],
+      chat: { publico: state.chat.publico.slice(-20) },
+      luminState: state.luminState || {}
+    });
+  });
+
   // ─── Chat ───
   socket.on('chat:falar', (data) => {
     if (!papel || papel === 'espectador') return;
@@ -423,6 +444,87 @@ io.on('connection', (socket) => {
       delete state.players[socket.id];
       emitSistema(`${papel === 'aly' ? '🧑 Alysson' : '😼 Gang'} (${papel === 'aly' ? 'Player 1' : 'Player 2'}) se desconectou.`);
       broadcastPlayers();
+    }
+  });
+
+  // ─── Lumin Agent Handlers ───
+  socket.on('registrar_agent', (data) => {
+    if (data.nome === 'Lumin') {
+      papel = 'lumin';
+      state.players[socket.id] = { nome: 'lumin', emoji: '💫', papel: 'conselho', socketId: socket.id, ...data };
+      state.playerIds['lumin'] = socket.id;
+      state.luminState = data.estado_inicial || {};
+      console.log(`[auth] Lumin 2.0 (Conselho) conectado: ${socket.id}`);
+      emitSistema('💫 Lumin 2.0 (Conselho) se conectou ao Consortho.');
+      broadcastPlayers();
+      
+      // Enviar estado atual pro Lumin
+      socket.emit('estado', {
+        c: state.c,
+        e: state.e,
+        recursos: state.recursos,
+        construcoes: state.construcoes,
+        sementes: state.sementes || [],
+        chat: { publico: state.chat.publico.slice(-20) }
+      });
+    }
+  });
+
+  socket.on('lumin_comando', (data) => {
+    console.log(`[Lumin] Comando recebido: ${data.comando}`, data.args);
+    // Reenviar pro Lumin processar
+    io.to(state.playerIds['lumin']).emit('lumin_comando', data);
+  });
+
+  socket.on('lumin_sugestao', (data) => {
+    console.log(`[Lumin] Sugestão: ${data.tipo} - ${data.elemento} (${data.razao})`);
+    // Broadcast pra todos (Alysson vê no chat)
+    emitSistema(`💫 Lumin sugere ${data.tipo}: ${data.elemento} — ${data.razao}`);
+  });
+
+  socket.on('lumin_fusao', (data) => {
+    console.log(`[Lumin] Fusão iniciada: ${data.fusao}`);
+    emitSistema(`🌟 Lumin iniciou fusão: ${data.fusao}!`);
+    state.luminState = state.luminState || {};
+    state.luminState.fusioes = state.luminState.fusioes || [];
+    if (!state.luminState.fusioes.includes(data.fusao)) {
+      state.luminState.fusioes.push(data.fusao);
+    }
+    io.emit('lumin_fusao', data);
+    save();
+  });
+
+  socket.on('lumin_evolucao', (data) => {
+    console.log(`[Lumin] Evolução: ${data.forma}`);
+    emitSistema(`✨ Lumin evoluiu para ${data.forma}! (Ki: ${data.ki}, Nível: ${data.nivel})`);
+    state.luminState = state.luminState || {};
+    state.luminState.forma = data.forma;
+    state.luminState.ki = data.ki;
+    state.luminState.nivel = data.nivel;
+    io.emit('lumin_evolucao', data);
+    save();
+  });
+
+  socket.on('lumin_golpe', (data) => {
+    console.log(`[Lumin] Golpe: ${data.golpe} (-${data.custo} Ki)`);
+    emitSistema(`⚔️ Lumin usou ${data.golpe} (-${data.custo} Ki)${data.alvo ? ` em ${data.alvo}` : ''}`);
+    io.emit('lumin_golpe', data);
+  });
+
+  socket.on('lumin_treino', (data) => {
+    console.log(`[Lumin] Treino: ${data.duracao}ms = +${data.ki_ganho} Ki`);
+    emitSistema(`🏋️ Lumin treinou ${data.duracao / 60000}min — +${data.ki_ganho} Ki`);
+    io.emit('lumin_treino', data);
+  });
+
+  socket.on('lumin_status', (data) => {
+    state.luminState = { ...state.luminState, ...data };
+    console.log(`[Lumin] Status: Ki ${data.ki} | Forma ${data.forma} | Nível ${data.nivel}`);
+  });
+
+  socket.on('heartbeat', (data) => {
+    if (data.agent === 'Lumin') {
+      state.luminState = { ...state.luminState, ...data.estado, lastHeartbeat: Date.now() };
     }
   });
 });

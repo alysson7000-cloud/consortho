@@ -1,37 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+const { readJSONSafe, writeJSONAtomic } = require('../../utils/atomic-write');
 
 // Caminhos
 const ESTADO_PATH = path.join(__dirname, '../../estado.json');
 const JARDIM_PATH = path.join(__dirname, '../../memoria/jardim.json');
 const LEXICO_PATH = path.join(__dirname, '../../memoria/lexico.json');
-
-// Carrega estado do Conselho
-let estado;
-try {
-  estado = JSON.parse(fs.readFileSync(ESTADO_PATH, 'utf8'));
-} catch (e) {
-  console.error('Erro ao ler estado.json:', e.message);
-  process.exit(1);
-}
-
-// Carrega jardim de memórias
-let jardim;
-try {
-  jardim = JSON.parse(fs.readFileSync(JARDIM_PATH, 'utf8'));
-} catch (e) {
-  console.error('Erro ao ler jardim.json:', e.message);
-  process.exit(1);
-}
-
-// Carrega léxico
-let lexico;
-try {
-  lexico = JSON.parse(fs.readFileSync(LEXICO_PATH, 'utf8'));
-} catch (e) {
-  console.error('Erro ao ler lexico.json:', e.message);
-  process.exit(1);
-}
 
 // Elementos conhecidos do Conselho (do server.js)
 const ELEMENTOS_CONHECIDOS = [
@@ -53,7 +27,6 @@ function sugerirMemoria(elementoId) {
   const elemento = ELEMENTOS_CONHECIDOS.find(e => e.id === elementoId);
   if (!elemento) return null;
 
-  // Usa léxico + ciclo atual para gerar sugestão contextual
   const ciclo = 3950 + Math.floor(Math.random() * 100);
   const autor = randomPick(['lumin', 'gang', 'alysson']);
   
@@ -86,57 +59,81 @@ function sugerirMemoria(elementoId) {
   };
 }
 
-function main() {
-  console.log('🌿 JARDIM DE MEMÓRIAS — Explorador v0.1');
-  console.log('='.repeat(50));
-
-  // 1. Mostra elementos COM memórias
-  console.log('\n🌿 ELEMENTOS COM MEMÓRIAS JÁ PLANTADAS:');
-  console.log('-'.repeat(50));
+function formatJardimOutput(jardim, estado) {
+  let output = '🌿 JARDIM DE MEMÓRIAS — Explorador v0.1\n';
+  output += '='.repeat(50) + '\n\n';
+  
+  output += '🌿 ELEMENTOS COM MEMÓRIAS JÁ PLANTADAS:\n';
+  output += '-'.repeat(50) + '\n';
   Object.entries(jardim).forEach(([id, data]) => {
-    console.log(`${data.emoji} ${data.nome || id}: ${data.memorias.length} memória(s)`);
+    output += `${data.emoji} ${data.nome || id}: ${data.memorias.length} memória(s)\n`;
     data.memorias.forEach(m => {
       const autorEmoji = { lumin: '💫', gang: '😼', alysson: '🧑' }[m.autor] || '📝';
-      console.log(`   ${autorEmoji} [Ciclo ${m.ciclo}] ${m.frase}`);
-      console.log(`      — ${m.contexto}`);
+      output += `   ${autorEmoji} [Ciclo ${m.ciclo}] ${m.frase}\n`;
+      output += `      — ${m.contexto}\n`;
     });
   });
 
-  // 2. Identifica elementos SEM memórias
   const idsComMemoria = new Set(Object.keys(jardim));
   const elementosSemMemoria = ELEMENTOS_CONHECIDOS.filter(e => !idsComMemoria.has(e.id));
-
+  
   if (elementosSemMemoria.length > 0) {
-    console.log('\n🌱 ELEMENTOS AINDA SEM MEMÓRIA (sugestões):');
-    console.log('-'.repeat(50));
+    output += '\n🌱 ELEMENTOS AINDA SEM MEMÓRIA (sugestões):\n';
+    output += '-'.repeat(50) + '\n';
     elementosSemMemoria.forEach(e => {
       const sugestao = sugerirMemoria(e.id);
       if (sugestao) {
         const autorEmoji = { lumin: '💫', gang: '😼', alysson: '🧑' }[sugestao.autor] || '📝';
-        console.log(`${e.emoji} ${e.nome}:`);
-        console.log(`   ${autorEmoji} [Ciclo ${sugestao.ciclo}] ${sugestao.frase}`);
-        console.log(`      — ${sugestao.contexto}`);
+        output += `${e.emoji} ${e.nome}:\n`;
+        output += `   ${autorEmoji} [Ciclo ${sugestao.ciclo}] ${sugestao.frase}\n`;
+        output += `      — ${sugestao.contexto}\n`;
       }
     });
   } else {
-    console.log('\n✨ Todos os elementos conhecidos já têm memórias plantadas!');
+    output += '\n✨ Todos os elementos conhecidos já têm memórias plantadas!\n';
   }
 
-  // 3. Mostra elementos do estado.json (dinâmicos)
-  const elementosEstado = estado.e ? Array.from({ length: estado.e }, (_, i) => i + 1) : [];
-  console.log(`\n📊 ESTADO ATUAL DO CONSELHO:`);
-  console.log(`   Ciclo: ${estado.c || 0}`);
-  console.log(`   Elementos dinâmicos: ${estado.e || 0}`);
-  console.log(`   Construções: ${(estado.construcoes || []).length}`);
-  console.log(`   Recursos: 🪵${estado.recursos?.madeira || 0} 🪨${estado.recursos?.pedra || 0} 💎${estado.recursos?.cristal || 0}`);
+  output += '\n📊 ESTADO ATUAL DO CONSELHO:\n';
+  output += `   Ciclo: ${estado.c || 0}\n`;
+  output += `   Elementos dinâmicos: ${estado.e || 0}\n`;
+  output += `   Construções: ${(estado.construcoes || []).length}\n`;
+  output += `   Recursos: 🪵${estado.recursos?.madeira || 0} 🪨${estado.recursos?.pedra || 0} 💎${estado.recursos?.cristal || 0}\n`;
 
-  // 4. Opção interativa simples (se quiser adicionar memória)
-  console.log('\n' + '='.repeat(50));
-  console.log('💡 Para adicionar uma memória real:');
-  console.log('   Edite memoria/jardim.json diretamente');
-  console.log('   Ou crie uma nova entrada seguindo o formato existente.');
-  console.log('\n🌱 "Construa coisas que ninguém pediu, mas que depois');
-  console.log('   ninguém consiga imaginar o Estúdio sem elas." — Gang');
+  output += '\n' + '='.repeat(50) + '\n';
+  output += '💡 Para adicionar uma memória real:\n';
+  output += '   Edite memoria/jardim.json diretamente\n';
+  output += '   Ou crie uma nova entrada seguindo o formato existente.\n\n';
+  output += '🌱 "Construa coisas que ninguém pediu, mas que depois\n';
+  output += '   ninguém consiga imaginar o Estúdio sem elas." — Gang\n';
+
+  return output;
+}
+
+async function main() {
+  try {
+    // Safe read with repair
+    const estado = await readJSONSafe(ESTADO_PATH, { c: 0, e: 0, recursos: {}, construcoes: [] });
+    const jardim = await readJSONSafe(JARDIM_PATH, {});
+    const lexico = await readJSONSafe(LEXICO_PATH, {});
+
+    // Ensure all known elements exist in jardim
+    const emojiMap = { 'arvore': '🌳', 'fogueira': '🔥', 'biblioteca': '📚', 'composteira': '♻️', 'portal': '🌀', 'jardim': '🌿', 'oficina': '⚙️', 'altar': '🕊️' };
+    ELEMENTOS_CONHECIDOS.forEach(e => {
+      if (!jardim[e.id]) {
+        jardim[e.id] = { emoji: emojiMap[e.id] || '📝', nome: e.nome, memorias: [], visitas_da_gang: [] };
+      }
+    });
+
+    // Generate output
+    const output = formatJardimOutput(jardim, estado);
+    console.log(output);
+
+    // jardim-monitor should only READ, not write.
+    // Writes to jardim.json come from other agents via atomic-write utility.
+    
+  } catch (e) {
+    console.error('❌ Erro no jardim-monitor:', e.message);
+  }
 }
 
 main();

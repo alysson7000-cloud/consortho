@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /**
- * Guardian Service - Consortho Auto-Healing System
- * - Monitors JSON files for corruption
- * - Auto-restarts failed agents
- * - Monitors cycle health
- * - Repairs estado.json, sementes.json, jardim.json
+ * Guardian Service - Consortho Auto-Healing System v2.0
+ * - File locking for concurrent writes
+ * - Atomic writes with retry
+ * - Auto-restart failed agents
+ * - Cycle health monitoring
+ * - JSON corruption repair with validation
  */
 
 const fs = require('fs');
@@ -30,10 +31,47 @@ const PM2_AGENTS = [
   'guardian'
 ];
 
-const CHECK_INTERVAL = 30000; // 30s
-const MAX_CORRUPTION_RETRIES = 3;
+const CHECK_INTERVAL = 60000; // 1min (reduced frequency)
+const MAX_LOCK_WAIT = 5000; // 5s max wait for lock
 
-let corruptionRetries = {};
+// File lock implementation
+const locks = new Map();
+
+function acquireLock(filePath, timeout = MAX_LOCK_WAIT) {
+  const lockPath = filePath + '.lock';
+  const startTime = Date.now();
+  
+  return new Promise((resolve, reject) => {
+    const tryLock = () => {
+      try {
+        // Try to create lock file exclusively
+        fs.writeFileSync(lockPath, JSON.stringify({
+          pid: process.pid,
+          timestamp: Date.now()
+        }), { flag: 'wx' }); // 'wx' fails if exists
+        resolve();
+      } catch (e) {
+        if (e.code === 'EEXIST') {
+          if (Date.now() - startTime > timeout) {
+            // Force remove stale lock
+            try { fs.unlinkSync(lockPath); } catch {}
+            resolve(); // Force proceed
+          } else {
+            setTimeout(tryLock, 50);
+          }
+        } else {
+          reject(e);
+        }
+      }
+    };
+    tryLock();
+  });
+}
+
+function releaseLock(filePath) {
+  const lockPath = filePath + '.lock';
+  try { fs.unlinkSync(lockPath); } catch {}
+}
 
 // Helper: safe JSON read with repair
 function readJSONSafe(filePath, fallback = {}) {
@@ -51,11 +89,8 @@ function attemptRepair(filePath, fallback) {
   try {
     let content = fs.readFileSync(filePath, 'utf-8');
     
-    // Common fixes
-    // 1. Truncated JSON - find last complete object
     content = content.trim();
     if (!content.endsWith('}') && !content.endsWith(']')) {
-      // Find last complete object
       let braceCount = 0;
       let lastGoodPos = -1;
       for (let i = 0; i < content.length; i++) {
@@ -70,11 +105,8 @@ function attemptRepair(filePath, fallback) {
       }
     }
     
-    // 2. Remove trailing commas
-    content = content.replace(/,(\s*[}\]])/g, '$1');
-    
-    // 3. Fix unterminated strings (basic)
-    content = content.replace(/"([^"]*)$/gm, '"$1"');
+    content = content.replace(/,(\s*[}\]]])/g, '$1');
+    content = content.replace(/\"([^\"]*)$/gm, '\"$1\"');
     
     return JSON.parse(content);
   } catch (e) {
@@ -83,16 +115,21 @@ function attemptRepair(filePath, fallback) {
   }
 }
 
-// Atomic write
-function writeJSONAtomic(filePath, data) {
-  const tmpPath = filePath + '.tmp';
-  const content = JSON.stringify(data, null, 2);
-  fs.writeFileSync(tmpPath, content, 'utf-8');
-  fs.renameSync(tmpPath, filePath);
+// Atomic write with lock
+async function writeJSONAtomic(filePath, data) {
+  await acquireLock(filePath);
+  try {
+    const tmpPath = filePath + '.tmp';
+    const content = JSON.stringify(data, null, 2);
+    fs.writeFileSync(tmpPath, content, 'utf-8');
+    fs.renameSync(tmpPath, filePath);
+  } finally {
+    releaseLock(filePath);
+  }
 }
 
 // Check and repair all JSON files
-function checkJSONHealth() {
+async function checkJSONHealth() {
   const files = [
     { path: ESTADO_PATH, name: 'estado.json', fallback: { c: 0, e: [], recursos: {}, construcoes: [], sementes: [] } },
     { path: SEMENTES_PATH, name: 'sementes.json', fallback: [] },
@@ -109,7 +146,7 @@ function checkJSONHealth() {
     } catch (e) {
       console.log(`🔧 Reparando ${file.name}...`);
       const data = readJSONSafe(file.path, file.fallback);
-      writeJSONAtomic(file.path, data);
+      await writeJSONAtomic(file.path, data);
       repaired = true;
       console.log(`✅ ${file.name} reparado`);
     }
@@ -152,8 +189,8 @@ async function checkAgentsHealth() {
 // Restart unhealthy agents
 async function restartUnhealthy(unhealthy) {
   for (const agent of unhealthy) {
-    if (agent === 'guardian') continue; // Don't restart self
-    if (agent === 'consortho-v2') continue; // Skip known broken
+    if (agent === 'guardian') continue;
+    if (agent === 'consortho-v2') continue;
     
     console.log(`🔄 Reiniciando ${agent}...`);
     exec(`pm2 restart ${agent}`, { cwd: BASE_PATH }, (err, stdout, stderr) => {
@@ -175,9 +212,8 @@ function checkCycleHealth(estado) {
   
   if (lastCycle > 0 && currentCycle === lastCycle) {
     stuckCycles++;
-    if (stuckCycles >= 6) { // 3 minutes stuck
-      console.log(`⚠️ Ciclo travado em ${currentCycle} há ${stuckCycles * 30}s`);
-      // Could trigger emergency restart here
+    if (stuckCycles >= 6) {
+      console.log(`⚠️ Ciclo travado em ${currentCycle} há ${stuckCycles * 60}s`);
     }
   } else {
     stuckCycles = 0;
@@ -188,12 +224,12 @@ function checkCycleHealth(estado) {
 
 // Main guardian loop
 async function guardianLoop() {
-  console.log('🛡️ Guardian iniciado - monitorando sistema...');
+  console.log('🛡️ Guardian v2.0 iniciado - monitorando sistema com file locking...');
   
   while (true) {
     try {
       // 1. Check JSON health
-      const repaired = checkJSONHealth();
+      const repaired = await checkJSONHealth();
       
       // 2. Read estado for cycle monitoring
       const estado = readJSONSafe(ESTADO_PATH, { c: 0 });
@@ -209,9 +245,9 @@ async function guardianLoop() {
         console.log(`✅ Todos ${healthy.length} agents saudáveis`);
       }
       
-      // 4. Log status every 10 cycles (5 min)
+      // Log status every 100 cycles
       if (estado.c % 100 === 0 && estado.c > 0) {
-        console.log(`📊 Guardian status: Ciclo ${estado.c} | Agents: ${healthy.length}/${PM2_AGENTS.length} | JSON: ${repaired ? 'reparado' : 'ok'}`);
+        console.log(`📊 Guardian: Ciclo ${estado.c} | Agents: ${healthy.length}/${PM2_AGENTS.length} | JSON: ${repaired ? 'reparado' : 'ok'}`);
       }
       
     } catch (e) {
@@ -223,11 +259,12 @@ async function guardianLoop() {
 }
 
 // Start
-console.log('🛡️ CONSORTHO GUARDIAN v1.0');
+console.log('🛡️ CONSORTHO GUARDIAN v2.0');
 console.log('==============================');
 console.log(`📁 Monitorando: ${BASE_PATH}`);
 console.log(`🤖 Agents: ${PM2_AGENTS.length}`);
 console.log(`⏱️ Intervalo: ${CHECK_INTERVAL}ms`);
+console.log(`🔒 File locking: ATIVO`);
 console.log('==============================\n');
 
 guardianLoop().catch(console.error);

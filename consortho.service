@@ -1,0 +1,21 @@
+# Consortho - systemd service for auto-start on boot
+# Place at: /etc/systemd/system/consortho.service
+
+[Unit]
+Description=Consortho Autonomous Multi-Agent System
+After=network.target
+
+[Service]
+Type=forking
+User=consortho
+WorkingDirectory=/home/consortho/consortho
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+ExecStart=/usr/local/bin/pm2 start ecosystem.config.js
+ExecReload=/usr/local/bin/pm2 reload all
+ExecStop=/usr/local/bin/pm2 kill
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

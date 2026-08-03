@@ -19,7 +19,7 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
-      cron_restart: '0 */2 * * *',  // A cada 2 horas
+      cron_restart: '0 */2 * * *',
       env: {
         NODE_ENV: 'production'
       }
@@ -31,7 +31,7 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
-      cron_restart: '0 */4 * * *',  // A cada 4 horas
+      cron_restart: '0 */12 * * *',
       env: {
         NODE_ENV: 'production'
       }
@@ -43,7 +43,7 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
-      cron_restart: '0 */6 * * *',  // A cada 6 horas
+      cron_restart: '0 */6 * * *',
       env: {
         NODE_ENV: 'production'
       }
@@ -55,7 +55,7 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
-      cron_restart: '0 */3 * * *',  // A cada 3 horas
+      cron_restart: '0 */6 * * *',
       env: {
         NODE_ENV: 'production'
       }
@@ -67,7 +67,7 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
-      cron_restart: '0 */8 * * *',  // A cada 8 horas
+      cron_restart: '0 */12 * * *',
       env: {
         NODE_ENV: 'production'
       }
@@ -108,6 +108,17 @@ module.exports = {
     {
       name: 'guardian',
       script: 'guardian.js',
+      cwd: __dirname,
+      watch: false,
+      autorestart: true,
+      max_restarts: 10,
+      env: {
+        NODE_ENV: 'production'
+      }
+    },
+    {
+      name: 'lumin-agent',
+      script: 'lumin-consortho-client.js',
       cwd: __dirname,
       watch: false,
       autorestart: true,
