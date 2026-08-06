@@ -7,42 +7,48 @@ const os = require('os');
  * Windows doesn't allow renameSync on files that are open/locked
  */
 function writeJSONAtomic(filePath, data, options = {}) {
-  const { retries = 5, retryDelay = 50, encoding = 'utf-8' } = options;
+  const { retries = 10, retryDelay = 100, encoding = 'utf-8' } = options;
   const tmpPath = filePath + '.tmp';
   const content = JSON.stringify(data, null, 2);
-
+  
   for (let attempt = 0; attempt < retries; attempt++) {
     try {
       // Write to temp file
       fs.writeFileSync(tmpPath, content, encoding);
-
-      // On Windows, need to handle file locking
+      
+      // On Windows, use copy + unlink instead of rename to avoid EPERM
       if (os.platform() === 'win32') {
-        // Try to remove destination first if it exists (Windows quirk)
         try {
-          fs.unlinkSync(filePath);
+          // Copy temp to destination (overwrites)
+          fs.copyFileSync(tmpPath, filePath);
+          // Clean up temp
+          fs.unlinkSync(tmpPath);
         } catch (e) {
-          // Ignore if doesn't exist
+          // If copy fails, try rename as fallback
+          try {
+            fs.unlinkSync(filePath);
+          } catch {}
+          fs.renameSync(tmpPath, filePath);
         }
+      } else {
+        // Unix: atomic rename
+        fs.renameSync(tmpPath, filePath);
       }
-
-      // Atomic rename
-      fs.renameSync(tmpPath, filePath);
       return true;
     } catch (e) {
       // Clean up temp file
       try { fs.unlinkSync(tmpPath); } catch {}
-
+      
       if (attempt === retries - 1) {
         throw e;
       }
-
-      // Wait before retry (sync sleep via Atomics.wait)
+      
+      // Wait before retry with exponential backoff (sync sleep)
       const start = Date.now();
       while (Date.now() - start < retryDelay * (attempt + 1)) {}
     }
   }
-
+  
   return false;
 }
 

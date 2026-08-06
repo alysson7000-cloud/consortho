@@ -6,8 +6,8 @@ const os = require('os');
  * Cross-platform atomic write with retry for Windows
  * Windows doesn't allow renameSync on files that are open/locked
  */
-async function writeJSONAtomic(filePath, data, options = {}) {
-  const { retries = 5, retryDelay = 50, encoding = 'utf-8' } = options;
+function writeJSONAtomic(filePath, data, options = {}) {
+  const { retries = 20, retryDelay = 200, encoding = 'utf-8' } = options;
   const tmpPath = filePath + '.tmp';
   const content = JSON.stringify(data, null, 2);
   
@@ -16,18 +16,27 @@ async function writeJSONAtomic(filePath, data, options = {}) {
       // Write to temp file
       fs.writeFileSync(tmpPath, content, encoding);
       
-      // On Windows, need to handle file locking
+      // On Windows, use copy + unlink instead of rename to avoid EPERM
       if (os.platform() === 'win32') {
-        // Try to remove destination first if it exists (Windows quirk)
         try {
-          fs.unlinkSync(filePath);
+          // Copy temp to destination (overwrites)
+          fs.copyFileSync(tmpPath, filePath);
+          // Clean up temp
+          fs.unlinkSync(tmpPath);
         } catch (e) {
-          // Ignore if doesn't exist
+          // If copy fails, try to remove destination and rename
+          try {
+            fs.unlinkSync(filePath);
+          } catch {}
+          // Small delay before rename
+          const start = Date.now();
+          while (Date.now() - start < 50) {}
+          fs.renameSync(tmpPath, filePath);
         }
+      } else {
+        // Unix: atomic rename
+        fs.renameSync(tmpPath, filePath);
       }
-      
-      // Atomic rename
-      fs.renameSync(tmpPath, filePath);
       return true;
     } catch (e) {
       // Clean up temp file
@@ -37,14 +46,14 @@ async function writeJSONAtomic(filePath, data, options = {}) {
         throw e;
       }
       
-      // Wait before retry
-      await new Promise(resolve => setTimeout(resolve, retryDelay * (attempt + 1)));
+      // Wait before retry with exponential backoff (sync sleep)
+      const start = Date.now();
+      while (Date.now() - start < retryDelay * (attempt + 1)) {}
     }
   }
   
   return false;
 }
-
 /**
  * Safe JSON read with automatic repair
  */

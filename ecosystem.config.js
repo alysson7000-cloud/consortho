@@ -7,6 +7,9 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '500M',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production',
         PORT: 9877
@@ -19,7 +22,10 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '200M',
       cron_restart: '0 */2 * * *',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }
@@ -31,7 +37,10 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '300M',
       cron_restart: '0 */12 * * *',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }
@@ -43,7 +52,10 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '400M',
       cron_restart: '0 */6 * * *',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }
@@ -55,7 +67,10 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '200M',
       cron_restart: '0 */6 * * *',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }
@@ -67,7 +82,10 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '200M',
       cron_restart: '0 */12 * * *',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }
@@ -79,6 +97,9 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '200M',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }
@@ -90,21 +111,29 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '300M',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }
     },
     {
-      name: 'telegram-bot',
-      script: 'telegram-bot.js',
-      cwd: __dirname,
-      watch: false,
-      autorestart: true,
-      max_restarts: 5,
-      env: {
-        NODE_ENV: 'production'
-      }
-    },
+          name: 'telegram-bot',
+          script: 'telegram_bot_v2.js',
+          cwd: __dirname,
+          watch: false,
+          autorestart: true,
+          max_restarts: 5,
+          min_uptime: '10s',
+          max_memory_restart: '200M',
+          windowsHide: true,
+          env: {
+            NODE_ENV: 'production',
+            TELEGRAM_BOT_TOKEN: '8714736735:AAG0kRGrJOAZkmp6i27UbbsIXzXrGFipzbw',
+            TELEGRAM_CHAT_ID: '8828123150'
+          }
+        },
     {
       name: 'guardian',
       script: 'guardian.js',
@@ -112,6 +141,9 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '200M',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }
@@ -123,6 +155,23 @@ module.exports = {
       watch: false,
       autorestart: true,
       max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '300M',
+      windowsHide: true,
+      env: {
+        NODE_ENV: 'production'
+      }
+    },
+    {
+      name: 'bolha',
+      script: 'bolha_v2.js',
+      cwd: __dirname,
+      watch: false,
+      autorestart: true,
+      max_restarts: 10,
+      min_uptime: '10s',
+      max_memory_restart: '200M',
+      windowsHide: true,
       env: {
         NODE_ENV: 'production'
       }

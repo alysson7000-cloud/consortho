@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/127</span>
+                <span class='fraction'>0/133</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/116</span>
+                <span class='fraction'>0/123</span>
             </div>
         
             
@@ -320,7 +320,17 @@
 <a name='L255'></a><a href='#L255'>255</a>
 <a name='L256'></a><a href='#L256'>256</a>
 <a name='L257'></a><a href='#L257'>257</a>
-<a name='L258'></a><a href='#L258'>258</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -340,13 +350,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -354,12 +362,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -585,8 +605,8 @@ const os = <span class="cstat-no" title="statement not covered" >require('os');<
  * Cross-platform atomic write with retry for Windows
  * Windows doesn't allow renameSync on files that are open/locked
  */
-async function <span class="fstat-no" title="function not covered" >writeJSONAtomic(</span>filePath, data, options = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
-  const { retries = <span class="branch-0 cbranch-no" title="branch not covered" >5,</span> retryDelay = <span class="branch-0 cbranch-no" title="branch not covered" >50,</span> encoding = <span class="branch-0 cbranch-no" title="branch not covered" >'utf-8' </span>} = <span class="cstat-no" title="statement not covered" >options;</span>
+function <span class="fstat-no" title="function not covered" >writeJSONAtomic(</span>filePath, data, options = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+  const { retries = <span class="branch-0 cbranch-no" title="branch not covered" >20,</span> retryDelay = <span class="branch-0 cbranch-no" title="branch not covered" >200,</span> encoding = <span class="branch-0 cbranch-no" title="branch not covered" >'utf-8' </span>} = <span class="cstat-no" title="statement not covered" >options;</span>
   const tmpPath = <span class="cstat-no" title="statement not covered" >filePath + '.tmp';</span>
   const content = <span class="cstat-no" title="statement not covered" >JSON.stringify(data, null, 2);</span>
   
@@ -595,18 +615,27 @@ async function <span class="fstat-no" title="function not covered" >writeJSONAto
       // Write to temp file
 <span class="cstat-no" title="statement not covered" >      fs.writeFileSync(tmpPath, content, encoding);</span>
       
-      // On Windows, need to handle file locking
+      // On Windows, use copy + unlink instead of rename to avoid EPERM
 <span class="cstat-no" title="statement not covered" >      if (os.platform() === 'win32') {</span>
-        // Try to remove destination first if it exists (Windows quirk)
 <span class="cstat-no" title="statement not covered" >        try {</span>
-<span class="cstat-no" title="statement not covered" >          fs.unlinkSync(filePath);</span>
+          // Copy temp to destination (overwrites)
+<span class="cstat-no" title="statement not covered" >          fs.copyFileSync(tmpPath, filePath);</span>
+          // Clean up temp
+<span class="cstat-no" title="statement not covered" >          fs.unlinkSync(tmpPath);</span>
         } catch (e) {
-          // Ignore if doesn't exist
+          // If copy fails, try to remove destination and rename
+<span class="cstat-no" title="statement not covered" >          try {</span>
+<span class="cstat-no" title="statement not covered" >            fs.unlinkSync(filePath);</span>
+          } catch {}
+          // Small delay before rename
+          const start = <span class="cstat-no" title="statement not covered" >Date.now();</span>
+<span class="cstat-no" title="statement not covered" >          while (Date.now() - start &lt; 50) {}</span>
+<span class="cstat-no" title="statement not covered" >          fs.renameSync(tmpPath, filePath);</span>
         }
+      } else {
+        // Unix: atomic rename
+<span class="cstat-no" title="statement not covered" >        fs.renameSync(tmpPath, filePath);</span>
       }
-      
-      // Atomic rename
-<span class="cstat-no" title="statement not covered" >      fs.renameSync(tmpPath, filePath);</span>
 <span class="cstat-no" title="statement not covered" >      return true;</span>
     } catch (e) {
       // Clean up temp file
@@ -616,8 +645,9 @@ async function <span class="fstat-no" title="function not covered" >writeJSONAto
 <span class="cstat-no" title="statement not covered" >        throw e;</span>
       }
       
-      // Wait before retry
-<span class="cstat-no" title="statement not covered" >      await new Promise(<span class="fstat-no" title="function not covered" >re</span>solve =&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, retryDelay * (attempt + 1)))</span>;</span>
+      // Wait before retry with exponential backoff (sync sleep)
+      const start = <span class="cstat-no" title="statement not covered" >Date.now();</span>
+<span class="cstat-no" title="statement not covered" >      while (Date.now() - start &lt; retryDelay * (attempt + 1)) {}</span>
     }
   }
   
@@ -841,7 +871,7 @@ async function <span class="fstat-no" title="function not covered" >writeJSONCoo
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-08-03T02:20:43.496Z
+                at 2026-08-05T23:46:58.826Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

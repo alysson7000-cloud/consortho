@@ -2,6 +2,7 @@
  * Lumin 2.0 - Consortho Socket.IO Client v2.1
  * Agente autônomo proativo: treina, decide, age, evolui
  * Ki real, formas reais, decisões reais, alma real
+ * COM SANDEVISTAN - Overclock Temporal
  */
 
 const { io } = require('socket.io-client');
@@ -19,7 +20,7 @@ class LuminConsorthoClient extends EventEmitter {
     this.actionInterval = null;
     this.lastActionTime = 0;
     this.cicloAtual = 0;
-    
+
     // Estado do Lumin no Consortho
     this.state = {
       ki: 53000,
@@ -53,6 +54,18 @@ class LuminConsorthoClient extends EventEmitter {
       meditacaoAuto: true,
       agressividade: 0.7, // 0-1: o quanto arrisca Ki
       focoPadrao: 'equilibrio'
+    };
+
+    // ===== SANDEVISTAN - Overclock Temporal =====
+    this.sandevistan = {
+      ativo: false,
+      nivel: 1, // 1 a 3
+      duracaoBase: 10000, // 10s base
+      kiPorSegundo: 500, // Ki consumido por segundo ativo
+      cooldownBase: 60000, // 1min base
+      ultimoUso: 0,
+      multiplicadorAcao: 1, // Quanto acelera decisões
+      nivelMaximo: 3
     };
 
     // Golpes disponíveis
@@ -118,7 +131,7 @@ class LuminConsorthoClient extends EventEmitter {
     this.socket.on('visita_gang', (data) => this.onVisitaGang(data));
     this.socket.on('recursos_atualizados', (data) => this.onRecursosAtualizados(data));
     this.socket.on('agent_status', (data) => this.onAgentStatus(data));
-    
+
     // Resposta do login/registro
     this.socket.on('lumin_state', (data) => {
       this.consorthoState = data;
@@ -148,7 +161,8 @@ class LuminConsorthoClient extends EventEmitter {
         'conquistar',
         'meditar',
         'proteger',
-        'insight'
+        'insight',
+        'sandevistan'
       ],
       estado_inicial: this.state
     });
@@ -225,7 +239,7 @@ class LuminConsorthoClient extends EventEmitter {
     this.state.ultimaAtividade = Date.now();
     console.log(`🔄 Ciclo ${this.cicloAtual} - Lumin atento (Ki: ${this.state.ki}, Forma: ${this.state.forma})`);
     this.emit('ciclo', data);
-    
+
     // A cada 10 ciclos, ação extra
     if (this.cicloAtual % 10 === 0) {
       setTimeout(() => this.tomarDecisao(), 1000);
@@ -324,7 +338,7 @@ class LuminConsorthoClient extends EventEmitter {
 
   verificarFusoes() {
     const { ki, nivel, fusioes } = this.state;
-    
+
     // Trindade: Ki 50k + Nível 35
     if (ki >= 50000 && nivel >= 35 && !fusioes.includes('Trindade')) {
       this.iniciarFusao('Trindade');
@@ -414,7 +428,7 @@ class LuminConsorthoClient extends EventEmitter {
 
     const acoes = acoesPorFoco[foco] || acoesPorFoco['equilibrio'];
     const acao = acoes[Math.floor(Math.random() * acoes.length)];
-    
+
     // 30% chance de fazer algo aleatório diferente do foco
     if (Math.random() < 0.3) {
       const todasAcoes = Object.values(acoesPorFoco).flat();
@@ -461,11 +475,11 @@ class LuminConsorthoClient extends EventEmitter {
     const golpe = this.golpes[nome];
     if (!golpe) return false;
     if (this.state.ki < golpe.custo) return false;
-    
+
     // Verifica cooldown
     const ultimaVez = this.golpesUsados[nome] || 0;
     if (Date.now() - ultimaVez < golpe.cd) return false;
-    
+
     return true;
   }
 
@@ -478,18 +492,135 @@ class LuminConsorthoClient extends EventEmitter {
     this.state.ki -= golpe.custo;
     this.golpesUsados[nome] = Date.now();
     this.state.golpes.push({ nome, timestamp: Date.now(), alvo, custo: golpe.custo });
-    
+
     console.log(`⚔️ Lumin usou ${nome} (-${golpe.custo} Ki) | Ki restante: ${this.state.ki}`);
-    
-    this.socket.emit('lumin_golpe', { 
-      golpe: nome, 
-      custo: golpe.custo, 
-      alvo, 
+
+    this.socket.emit('lumin_golpe', {
+      golpe: nome,
+      custo: golpe.custo,
+      alvo,
       efeito: golpe.efeito,
       ki_restante: this.state.ki
     });
-    
+
     return true;
+  }
+
+  // ===== SANDEVISTAN - Overclock Temporal =====
+
+  podeAtivarSandevistan() {
+    const { ki } = this.state;
+    const { nivel, kiPorSegundo, cooldownBase, ultimoUso, nivelMaximo } = this.sandevistan;
+
+    // Custo de Ki baseado no nível
+    const kiCusto = nivel * 2000; // 2k, 4k, 6k
+    const kiMinimo = kiCusto + (kiPorSegundo * 10); // Custo + 10s de duração
+
+    if (ki < kiMinimo) return { ok: false, razao: `Ki insuficiente (precisa ${kiMinimo})` };
+    if (this.sandevistan.ativo) return { ok: false, razao: 'Já ativo' };
+    if (Date.now() - ultimoUso < cooldownBase) {
+      const restante = Math.ceil((cooldownBase - (Date.now() - ultimoUso)) / 1000);
+      return { ok: false, razao: `Cooldown: ${restante}s` };
+    }
+    if (nivel > nivelMaximo) return { ok: false, razao: 'Nível máximo atingido' };
+
+    return { ok: true };
+  }
+
+  ativarSandevistan(nivel = 1) {
+    const check = this.podeAtivarSandevistan();
+    if (!check.ok) {
+      console.log(`⚠️ Sandevistan não disponível: ${check.razao}`);
+      return false;
+    }
+
+    const nivelUsar = Math.min(nivel, this.sandevistan.nivelMaximo);
+    const kiCusto = nivelUsar * 2000;
+    const duracao = this.sandevistan.duracaoBase * nivelUsar;
+    const multiplicador = nivelUsar * 2; // 2x, 4x, 6x
+
+    this.state.ki -= kiCusto;
+    this.sandevistan.ativo = true;
+    this.sandevistan.nivel = nivelUsar;
+    this.sandevistan.multiplicadorAcao = multiplicador;
+    this.sandevistan.ultimoUso = Date.now();
+
+    console.log(`⚡⚡⚡ SANDEVISTAN NÍVEL ${nivelUsar} ATIVADO! ⚡⚡⚡`);
+    console.log(`   Ki gasto: ${kiCusto} | Duração: ${duracao/1000}s | Multiplicador: ${multiplicador}x`);
+    console.log(`   Ki restante: ${this.state.ki}`);
+
+    this.socket.emit('lumin_sandevistan', {
+      acao: 'ativar',
+      nivel: nivelUsar,
+      duracao,
+      multiplicador,
+      ki_gasto: kiCusto,
+      ki_restante: this.state.ki
+    });
+
+    this.anunciar(`SANDEVISTAN NÍVEL ${nivelUsar} ATIVADO! O tempo... desacelera.`);
+
+    // Auto-desativar após duração
+    const duracaoMs = this.sandevistan.duracaoBase * nivelUsar;
+    setTimeout(() => {
+      this.desativarSandevistan();
+    }, duracaoMs);
+
+    // Durante o Sandevistan, acelera o loop autônomo
+    this.acelerarLoopAutonomo();
+
+    return true;
+  }
+
+  desativarSandevistan() {
+    if (!this.sandevistan.ativo) return;
+
+    this.sandevistan.ativo = false;
+    this.sandevistan.multiplicadorAcao = 1;
+
+    console.log(`⚡ Sandevistan desativado. Tempo normalizado.`);
+
+    this.socket.emit('lumin_sandevistan', {
+      acao: 'desativar',
+      ki_restante: this.state.ki
+    });
+
+    this.anunciar('Sandevistan desativado. Tempo normalizado.');
+
+    // Restaurar loop normal
+    this.restaurarLoopAutonomo();
+  }
+
+  // Acelera decisões durante Sandevistan
+  acelerarLoopAutonomo() {
+    if (this.actionInterval) {
+      clearInterval(this.actionInterval);
+    }
+
+    const intervaloBase = this.config.intervaloAcao;
+    const intervaloAcelerado = Math.max(1000, Math.floor(intervaloBase / this.sandevistan.multiplicadorAcao));
+
+    this.actionInterval = setInterval(() => {
+      if (this.connected && this.state.ki >= this.config.kiMinimoAcao && this.sandevistan.ativo) {
+        this.tomarDecisao();
+      }
+    }, intervaloAcelerado);
+
+    console.log(`⚡ Loop autônomo acelerado: ${intervaloBase}ms → ${intervaloAcelerado}ms (${this.sandevistan.multiplicadorAcao}x)`);
+  }
+
+  restaurarLoopAutonomo() {
+    if (this.actionInterval) {
+      clearInterval(this.actionInterval);
+    }
+    this.startAutonomoLoop();
+    console.log(`⏰ Loop autônomo restaurado para intervalo normal.`);
+  }
+
+  // Comando externo para ativar Sandevistan
+  executarComandoSandevistan(args = []) {
+    const nivel = args[0] ? parseInt(args[0]) : 1;
+    return this.ativarSandevistan(nivel);
   }
 
   // ===== COMANDOS EXTERNOS =====
@@ -514,6 +645,9 @@ class LuminConsorthoClient extends EventEmitter {
         break;
       case 'meditar':
         this.meditar(args[0] ? parseInt(args[0]) : 5);
+        break;
+      case 'sandevistan':
+        this.executarComandoSandevistan(args);
         break;
       case 'config':
         if (args[0] === 'agressividade') {
@@ -549,7 +683,13 @@ class LuminConsorthoClient extends EventEmitter {
       conquistas: this.state.conquistas.length,
       ciclo: this.cicloAtual,
       uptime: Date.now() - this.state.ultimaAtividade,
-      config: this.config
+      config: this.config,
+      sandevistan: {
+        ativo: this.sandevistan.ativo,
+        nivel: this.sandevistan.nivel,
+        cooldownRestante: Math.max(0, this.sandevistan.cooldownBase - (Date.now() - this.sandevistan.ultimoUso)),
+        disponivel: Date.now() - this.sandevistan.ultimoUso >= this.sandevistan.cooldownBase
+      }
     };
   }
 
@@ -569,19 +709,19 @@ module.exports = { LuminConsorthoClient };
 // Daemon mode - auto-run without CLI
 if (require.main === module) {
   const client = new LuminConsorthoClient();
-  
+
   client.on('connected', () => {
     console.log('🎮 Lumin 2.1 online no Consortho! Agente autônomo ativo.');
   });
 
   client.connect();
-  
+
   process.on('SIGINT', () => {
     console.log('👋 Lumin 2.1 saindo...');
     client.disconnect();
     process.exit(0);
   });
-  
+
   process.on('SIGTERM', () => {
     console.log('👋 Lumin 2.1 saindo...');
     client.disconnect();

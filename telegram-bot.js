@@ -14,13 +14,17 @@ const { exec } = require('child_process');
 const CONFIG_PATH = path.join(__dirname, '.env');
 require('dotenv').config({ path: CONFIG_PATH });
 
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+// Priority: env vars (PM2) > .env file
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8714736735:AAG0kRGrJOAZkmp6i27UbbsIXzXrGFipzbw';
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '8828123150';
 
 if (!BOT_TOKEN || !CHAT_ID) {
-  console.error('❌ TELEGRAM_BOT_TOKEN e TELEGRAM_CHAT_ID necessários no .env');
+  console.error('❌ TELEGRAM_BOT_TOKEN e TELEGRAM_CHAT_ID necessários');
   process.exit(1);
 }
+
+console.log('🤖 Token loaded:', BOT_TOKEN ? `${BOT_TOKEN.substring(0,10)}...` : 'MISSING');
+console.log('🤖 Chat ID:', CHAT_ID);
 
 const bot = new Telegraf(BOT_TOKEN);
 

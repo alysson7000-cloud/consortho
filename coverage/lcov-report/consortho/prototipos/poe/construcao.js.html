@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/192</span>
+                <span class='fraction'>0/196</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/180</span>
+                <span class='fraction'>0/184</span>
             </div>
         
             
@@ -491,7 +491,13 @@
 <a name='L426'></a><a href='#L426'>426</a>
 <a name='L427'></a><a href='#L427'>427</a>
 <a name='L428'></a><a href='#L428'>428</a>
-<a name='L429'></a><a href='#L429'>429</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -511,16 +517,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -928,42 +940,48 @@ const os = <span class="cstat-no" title="statement not covered" >require('os');<
  * Windows doesn't allow renameSync on files that are open/locked
  */
 function <span class="fstat-no" title="function not covered" >writeJSONAtomic(</span>filePath, data, options = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
-  const { retries = <span class="branch-0 cbranch-no" title="branch not covered" >5,</span> retryDelay = <span class="branch-0 cbranch-no" title="branch not covered" >50,</span> encoding = <span class="branch-0 cbranch-no" title="branch not covered" >'utf-8' </span>} = <span class="cstat-no" title="statement not covered" >options;</span>
+  const { retries = <span class="branch-0 cbranch-no" title="branch not covered" >10,</span> retryDelay = <span class="branch-0 cbranch-no" title="branch not covered" >100,</span> encoding = <span class="branch-0 cbranch-no" title="branch not covered" >'utf-8' </span>} = <span class="cstat-no" title="statement not covered" >options;</span>
   const tmpPath = <span class="cstat-no" title="statement not covered" >filePath + '.tmp';</span>
   const content = <span class="cstat-no" title="statement not covered" >JSON.stringify(data, null, 2);</span>
-&nbsp;
+  
 <span class="cstat-no" title="statement not covered" >  for (let attempt = <span class="cstat-no" title="statement not covered" >0;</span> attempt &lt; retries; attempt++) {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Write to temp file
 <span class="cstat-no" title="statement not covered" >      fs.writeFileSync(tmpPath, content, encoding);</span>
-&nbsp;
-      // On Windows, need to handle file locking
+      
+      // On Windows, use copy + unlink instead of rename to avoid EPERM
 <span class="cstat-no" title="statement not covered" >      if (os.platform() === 'win32') {</span>
-        // Try to remove destination first if it exists (Windows quirk)
 <span class="cstat-no" title="statement not covered" >        try {</span>
-<span class="cstat-no" title="statement not covered" >          fs.unlinkSync(filePath);</span>
+          // Copy temp to destination (overwrites)
+<span class="cstat-no" title="statement not covered" >          fs.copyFileSync(tmpPath, filePath);</span>
+          // Clean up temp
+<span class="cstat-no" title="statement not covered" >          fs.unlinkSync(tmpPath);</span>
         } catch (e) {
-          // Ignore if doesn't exist
+          // If copy fails, try rename as fallback
+<span class="cstat-no" title="statement not covered" >          try {</span>
+<span class="cstat-no" title="statement not covered" >            fs.unlinkSync(filePath);</span>
+          } catch {}
+<span class="cstat-no" title="statement not covered" >          fs.renameSync(tmpPath, filePath);</span>
         }
+      } else {
+        // Unix: atomic rename
+<span class="cstat-no" title="statement not covered" >        fs.renameSync(tmpPath, filePath);</span>
       }
-&nbsp;
-      // Atomic rename
-<span class="cstat-no" title="statement not covered" >      fs.renameSync(tmpPath, filePath);</span>
 <span class="cstat-no" title="statement not covered" >      return true;</span>
     } catch (e) {
       // Clean up temp file
 <span class="cstat-no" title="statement not covered" >      try { <span class="cstat-no" title="statement not covered" >fs.unlinkSync(tmpPath); </span>} catch {}</span>
-&nbsp;
+      
 <span class="cstat-no" title="statement not covered" >      if (attempt === retries - 1) {</span>
 <span class="cstat-no" title="statement not covered" >        throw e;</span>
       }
-&nbsp;
-      // Wait before retry (sync sleep via Atomics.wait)
+      
+      // Wait before retry with exponential backoff (sync sleep)
       const start = <span class="cstat-no" title="statement not covered" >Date.now();</span>
 <span class="cstat-no" title="statement not covered" >      while (Date.now() - start &lt; retryDelay * (attempt + 1)) {}</span>
     }
   }
-&nbsp;
+  
 <span class="cstat-no" title="statement not covered" >  return false;</span>
 }
 &nbsp;
@@ -1354,7 +1372,7 @@ const totalSementes = <span class="cstat-no" title="statement not covered" >seme
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-08-03T02:20:43.496Z
+                at 2026-08-05T23:46:58.826Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

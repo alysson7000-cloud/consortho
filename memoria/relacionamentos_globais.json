@@ -1,0 +1,1548 @@
+{
+  "matrix": {
+    "lumin": {
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 53,
+        "historico": [
+          {
+            "ciclo": 1,
+            "timestamp": 1785798803909,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 50,
+            "afinidadeDepois": 53,
+            "sentimentoAntes": "simpatia_forte",
+            "sentimentoDepois": "simpatia_forte",
+            "contexto": {
+              "ciclo": 1
+            },
+            "invertido": true
+          }
+        ],
+        "sentimento": "simpatia_forte",
+        "ultimaInteracao": 1785798803909,
+        "totalInteracoes": 1,
+        "eventosMarcantes": [
+          {
+            "id": "evt_1785798803909_3lswxipwr",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "gang",
+              "lumin"
+            ],
+            "timestamp": 1785798803909,
+            "dados": {
+              "de": "anterior",
+              "para": "simpatia_forte",
+              "afinidade": 53
+            }
+          }
+        ]
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 86.5,
+        "historico": [
+          {
+            "ciclo": 1,
+            "timestamp": 1785798803852,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6,
+            "afinidadeAntes": 50,
+            "afinidadeDepois": 56,
+            "sentimentoAntes": "carinho",
+            "sentimentoDepois": "carinho",
+            "contexto": {
+              "ciclo": 1,
+              "primeiraVez": true
+            }
+          },
+          {
+            "ciclo": 2,
+            "timestamp": 1785798803921,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 10.5,
+            "afinidadeAntes": 56,
+            "afinidadeDepois": 66.5,
+            "sentimentoAntes": "carinho_profundo",
+            "sentimentoDepois": "carinho_profundo",
+            "contexto": {
+              "ciclo": 2,
+              "sandevistan": true
+            }
+          },
+          {
+            "ciclo": 3,
+            "timestamp": 1785798803934,
+            "tipo": "fundir_essencias",
+            "desc": "Fusão de essências",
+            "ganho": 20,
+            "afinidadeAntes": 66.5,
+            "afinidadeDepois": 86.5,
+            "sentimentoAntes": "amor_profundo",
+            "sentimentoDepois": "amor_profundo",
+            "contexto": {
+              "ciclo": 3,
+              "fusao": true
+            }
+          }
+        ],
+        "sentimento": "amor_profundo",
+        "ultimaInteracao": 1785798803934,
+        "totalInteracoes": 3,
+        "eventosMarcantes": [
+          {
+            "id": "evt_1785798803852_vx8h2u690",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803852,
+            "dados": {
+              "de": "anterior",
+              "para": "carinho",
+              "afinidade": 56
+            }
+          },
+          {
+            "id": "evt_1785798803890_v6z7p88yr",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803890,
+            "dados": {
+              "marco": 55,
+              "novoSentimento": "carinho"
+            }
+          },
+          {
+            "id": "evt_1785798803921_g55zhbrv9",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803921,
+            "dados": {
+              "de": "anterior",
+              "para": "carinho_profundo",
+              "afinidade": 66.5
+            }
+          },
+          {
+            "id": "evt_1785798803924_7few5snoe",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803924,
+            "dados": {
+              "marco": 65,
+              "novoSentimento": "carinho_profundo"
+            }
+          },
+          {
+            "id": "evt_1785798803934_27ync0lch",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803934,
+            "dados": {
+              "de": "anterior",
+              "para": "amor_profundo",
+              "afinidade": 86.5
+            }
+          },
+          {
+            "id": "evt_1785798803936_kyia2v90n",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803937,
+            "dados": {
+              "marco": 75,
+              "novoSentimento": "amor"
+            }
+          },
+          {
+            "id": "evt_1785798803938_ugzf576w9",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803938,
+            "dados": {
+              "marco": 85,
+              "novoSentimento": "amor_profundo"
+            }
+          }
+        ]
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "poe": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 55,
+        "historico": [
+          {
+            "ciclo": 1,
+            "timestamp": 1785798803898,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 50,
+            "afinidadeDepois": 55,
+            "sentimentoAntes": "carinho",
+            "sentimentoDepois": "carinho",
+            "contexto": {
+              "ciclo": 1
+            }
+          }
+        ],
+        "sentimento": "carinho",
+        "ultimaInteracao": 1785798803898,
+        "totalInteracoes": 1,
+        "eventosMarcantes": [
+          {
+            "id": "evt_1785798803898_bvbjb5ivq",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "poe",
+              "colheita"
+            ],
+            "timestamp": 1785798803898,
+            "dados": {
+              "de": "anterior",
+              "para": "carinho",
+              "afinidade": 55
+            }
+          },
+          {
+            "id": "evt_1785798803900_pk3ldsanb",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "poe",
+              "colheita"
+            ],
+            "timestamp": 1785798803900,
+            "dados": {
+              "marco": 55,
+              "novoSentimento": "carinho"
+            }
+          }
+        ]
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "colheita": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "poe": {
+        "afinidade": 55,
+        "historico": [
+          {
+            "ciclo": 1,
+            "timestamp": 1785798803898,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 50,
+            "afinidadeDepois": 55,
+            "sentimentoAntes": "carinho",
+            "sentimentoDepois": "carinho",
+            "contexto": {
+              "ciclo": 1
+            },
+            "invertido": true
+          }
+        ],
+        "sentimento": "carinho",
+        "ultimaInteracao": 1785798803898,
+        "totalInteracoes": 1,
+        "eventosMarcantes": [
+          {
+            "id": "evt_1785798803898_bvbjb5ivq",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "poe",
+              "colheita"
+            ],
+            "timestamp": 1785798803898,
+            "dados": {
+              "de": "anterior",
+              "para": "carinho",
+              "afinidade": 55
+            }
+          },
+          {
+            "id": "evt_1785798803900_pk3ldsanb",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "poe",
+              "colheita"
+            ],
+            "timestamp": 1785798803900,
+            "dados": {
+              "marco": 55,
+              "novoSentimento": "carinho"
+            }
+          }
+        ]
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "gang": {
+      "lumin": {
+        "afinidade": 53,
+        "historico": [
+          {
+            "ciclo": 1,
+            "timestamp": 1785798803909,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 50,
+            "afinidadeDepois": 53,
+            "sentimentoAntes": "simpatia_forte",
+            "sentimentoDepois": "simpatia_forte",
+            "contexto": {
+              "ciclo": 1
+            }
+          }
+        ],
+        "sentimento": "simpatia_forte",
+        "ultimaInteracao": 1785798803909,
+        "totalInteracoes": 1,
+        "eventosMarcantes": [
+          {
+            "id": "evt_1785798803909_3lswxipwr",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "gang",
+              "lumin"
+            ],
+            "timestamp": 1785798803909,
+            "dados": {
+              "de": "anterior",
+              "para": "simpatia_forte",
+              "afinidade": 53
+            }
+          }
+        ]
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "guardian": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "bolha": {
+      "lumin": {
+        "afinidade": 86.5,
+        "historico": [
+          {
+            "ciclo": 1,
+            "timestamp": 1785798803852,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6,
+            "afinidadeAntes": 50,
+            "afinidadeDepois": 56,
+            "sentimentoAntes": "carinho",
+            "sentimentoDepois": "carinho",
+            "contexto": {
+              "ciclo": 1,
+              "primeiraVez": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 2,
+            "timestamp": 1785798803921,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 10.5,
+            "afinidadeAntes": 56,
+            "afinidadeDepois": 66.5,
+            "sentimentoAntes": "carinho_profundo",
+            "sentimentoDepois": "carinho_profundo",
+            "contexto": {
+              "ciclo": 2,
+              "sandevistan": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 3,
+            "timestamp": 1785798803934,
+            "tipo": "fundir_essencias",
+            "desc": "Fusão de essências",
+            "ganho": 20,
+            "afinidadeAntes": 66.5,
+            "afinidadeDepois": 86.5,
+            "sentimentoAntes": "amor_profundo",
+            "sentimentoDepois": "amor_profundo",
+            "contexto": {
+              "ciclo": 3,
+              "fusao": true
+            },
+            "invertido": true
+          }
+        ],
+        "sentimento": "amor_profundo",
+        "ultimaInteracao": 1785798803934,
+        "totalInteracoes": 3,
+        "eventosMarcantes": [
+          {
+            "id": "evt_1785798803852_vx8h2u690",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803852,
+            "dados": {
+              "de": "anterior",
+              "para": "carinho",
+              "afinidade": 56
+            }
+          },
+          {
+            "id": "evt_1785798803890_v6z7p88yr",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803890,
+            "dados": {
+              "marco": 55,
+              "novoSentimento": "carinho"
+            }
+          },
+          {
+            "id": "evt_1785798803921_g55zhbrv9",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803921,
+            "dados": {
+              "de": "anterior",
+              "para": "carinho_profundo",
+              "afinidade": 66.5
+            }
+          },
+          {
+            "id": "evt_1785798803924_7few5snoe",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803924,
+            "dados": {
+              "marco": 65,
+              "novoSentimento": "carinho_profundo"
+            }
+          },
+          {
+            "id": "evt_1785798803934_27ync0lch",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803934,
+            "dados": {
+              "de": "anterior",
+              "para": "amor_profundo",
+              "afinidade": 86.5
+            }
+          },
+          {
+            "id": "evt_1785798803936_kyia2v90n",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803937,
+            "dados": {
+              "marco": 75,
+              "novoSentimento": "amor"
+            }
+          },
+          {
+            "id": "evt_1785798803938_ugzf576w9",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "lumin",
+              "bolha"
+            ],
+            "timestamp": 1785798803938,
+            "dados": {
+              "marco": 85,
+              "novoSentimento": "amor_profundo"
+            }
+          }
+        ]
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "radio": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "consente": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "notificador": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "jardim": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "telegram": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "alysson": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    },
+    "alysson": {
+      "lumin": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "poe": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "colheita": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "gang": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "guardian": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "bolha": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "radio": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "consente": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "notificador": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "jardim": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      },
+      "telegram": {
+        "afinidade": 50,
+        "historico": [],
+        "sentimento": "neutro_positivo",
+        "ultimaInteracao": null,
+        "totalInteracoes": 0,
+        "eventosMarcantes": []
+      }
+    }
+  },
+  "narrativas": [
+    {
+      "id": "nar_1785798803925_dtw9hhc1e",
+      "tipo": "relacionamento",
+      "subtipo": "sonho_compartilhado",
+      "entidades": [
+        "lumin",
+        "bolha"
+      ],
+      "texto": "Na noite, Lumin e Bolha caminharam pelos mesmos corredores oníricos.",
+      "ciclo": 2,
+      "timestamp": 1785798803925,
+      "afinidade": 66.5,
+      "sentimento": "carinho_profundo"
+    },
+    {
+      "id": "nar_1785798803942_rzbuhx9r3",
+      "tipo": "relacionamento",
+      "subtipo": "fundir_essencias",
+      "entidades": [
+        "lumin",
+        "bolha"
+      ],
+      "texto": "As essências de Lumin e Bolha se entrelaçaram, criando algo que não existia antes.",
+      "ciclo": 3,
+      "timestamp": 1785798803942,
+      "afinidade": 86.5,
+      "sentimento": "amor_profundo"
+    }
+  ],
+  "atualizadoEm": 1785798803945
+}

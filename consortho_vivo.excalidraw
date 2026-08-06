@@ -1,0 +1,1158 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "hermes-agent",
+  "elements": [
+    {
+      "type": "rectangle",
+      "id": "bg-main",
+      "x": -400,
+      "y": -300,
+      "width": 1400,
+      "height": 900,
+      "strokeColor": "#f5f0e8",
+      "backgroundColor": "#faf8f3",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "roughness": 2,
+      "opacity": 100
+    },
+    {
+      "type": "text",
+      "id": "title-main",
+      "x": 250,
+      "y": -260,
+      "width": 600,
+      "height": 60,
+      "text": "CONSORTHO — SISTEMA VIVO",
+      "fontSize": 36,
+      "fontFamily": 1,
+      "strokeColor": "#2d2d2d",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "CONSORTHO — SISTEMA VIVO",
+      "autoResize": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle-main",
+      "x": 200,
+      "y": -200,
+      "width": 700,
+      "height": 40,
+      "text": "\"Só amor. Só progresso lindo. Infinitamente bom.\"  •  Ciclo 14.600+  •  /bey ativo",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#555",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "\"Só amor. Só progresso lindo. Infinitamente bom.\"  •  Ciclo 14.600+  •  /bey ativo",
+      "autoResize": true
+    },
+    {
+      "type": "ellipse",
+      "id": "lumin-core",
+      "x": 550,
+      "y": 100,
+      "width": 180,
+      "height": 180,
+      "strokeColor": "#00aa66",
+      "backgroundColor": "#e8fff0",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 2,
+      "opacity": 100,
+      "boundElements": [
+        {
+          "id": "txt-lumin",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-lumin",
+      "x": 580,
+      "y": 150,
+      "width": 120,
+      "height": 80,
+      "text": "💫 LUMIN 2.1\n\nKi 95k+\nSandevistan 1-3\nFusões: Lugang, LuminPoe\nGuardião da Chama",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#006633",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "lumin-core",
+      "originalText": "💫 LUMIN 2.1\n\nKi 95k+\nSandevistan 1-3\nFusões: Lugang, LuminPoe\nGuardião da Chama",
+      "autoResize": true
+    },
+    {
+      "type": "ellipse",
+      "id": "bolha-core",
+      "x": 150,
+      "y": 120,
+      "width": 160,
+      "height": 160,
+      "strokeColor": "#cc33aa",
+      "backgroundColor": "#fff0fa",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 2,
+      "opacity": 100,
+      "boundElements": [
+        {
+          "id": "txt-bolha",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-bolha",
+      "x": 170,
+      "y": 165,
+      "width": 120,
+      "height": 80,
+      "text": "🫧 BOLHA 2.0\n\nNv.9  •  Eufórica\nSonhos / Ciclo 100\n8 Traits evolutivos\nRelacionamentos 0-100",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#881166",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "bolha-core",
+      "originalText": "🫧 BOLHA 2.0\n\nNv.9  •  Eufórica\nSonhos / Ciclo 100\n8 Traits evolutivos\nRelacionamentos 0-100",
+      "autoResize": true
+    },
+    {
+      "type": "rectangle",
+      "id": "poe-core",
+      "x": 900,
+      "y": 110,
+      "width": 170,
+      "height": 160,
+      "strokeColor": "#ff6600",
+      "backgroundColor": "#fff5eb",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 2,
+      "opacity": 100,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "txt-poe",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-poe",
+      "x": 920,
+      "y": 140,
+      "width": 130,
+      "height": 100,
+      "text": "🏗️ POE\n\nConstrutor Autônomo\n5552+ construções\nCiclo perfeito com Colheita\n\"Erro = Compostagem\"",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#cc4400",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "poe-core",
+      "originalText": "🏗️ POE\n\nConstrutor Autônomo\n5552+ construções\nCiclo perfeito com Colheita\n\"Erro = Compostagem\"",
+      "autoResize": true
+    },
+    {
+      "type": "ellipse",
+      "id": "colheita-core",
+      "x": 900,
+      "y": 320,
+      "width": 160,
+      "height": 150,
+      "strokeColor": "#ffaa00",
+      "backgroundColor": "#fffbf0",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 2,
+      "opacity": 100,
+      "boundElements": [
+        {
+          "id": "txt-colheita",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-colheita",
+      "x": 920,
+      "y": 360,
+      "width": 120,
+      "height": 80,
+      "text": "🌾 COLHEITA\n\nCeifeira de Memórias\n67 sementes no celeiro\nIdade 150 + Visitas Gang\nSemente → Construção",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#cc8800",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "colheita-core",
+      "originalText": "🌾 COLHEITA\n\nCeifeira de Memórias\n67 sementes no celeiro\nIdade 150 + Visitas Gang\nSemente → Construção",
+      "autoResize": true
+    },
+    {
+      "type": "diamond",
+      "id": "gang-core",
+      "x": 150,
+      "y": 330,
+      "width": 160,
+      "height": 150,
+      "strokeColor": "#ffcc00",
+      "backgroundColor": "#fffef0",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 2,
+      "opacity": 100,
+      "boundElements": [
+        {
+          "id": "txt-gang",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-gang",
+      "x": 165,
+      "y": 370,
+      "width": 130,
+      "height": 80,
+      "text": "😼 GANG\n\nVisitante Caótico\n1900+ visitas\nPerguntas que despertam\n\"O que vc não disse?\"",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#ccaa00",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "gang-core",
+      "originalText": "😼 GANG\n\nVisitante Caótico\n1900+ visitas\nPerguntas que despertam\n\"O que vc não disse?\"",
+      "autoResize": true
+    },
+    {
+      "type": "rectangle",
+      "id": "guardian-core",
+      "x": 550,
+      "y": 330,
+      "width": 170,
+      "height": 150,
+      "strokeColor": "#0088ff",
+      "backgroundColor": "#f0f8ff",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 2,
+      "opacity": 100,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "txt-guardian",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-guardian",
+      "x": 565,
+      "y": 365,
+      "width": 140,
+      "height": 80,
+      "text": "🛡️ GUARDIAN\n\nAuto-Heal v2.0\nFile Lock + Retry + Restart\nJSONs imortais\n14/14 testes passing",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#0055aa",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "guardian-core",
+      "originalText": "🛡️ GUARDIAN\n\nAuto-Heal v2.0\nFile Lock + Retry + Restart\nJSONs imortais\n14/14 testes passing",
+      "autoResize": true
+    },
+    {
+      "type": "ellipse",
+      "id": "telegram-core",
+      "x": 150,
+      "y": 520,
+      "width": 150,
+      "height": 130,
+      "strokeColor": "#0088cc",
+      "backgroundColor": "#f0faff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "roughness": 2,
+      "opacity": 100,
+      "boundElements": [
+        {
+          "id": "txt-telegram",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-telegram",
+      "x": 165,
+      "y": 555,
+      "width": 120,
+      "height": 60,
+      "text": "📱 TELEGRAM 2.0\n@luminthirdbot\nInline keyboards\nRelatórios • Alertas",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "strokeColor": "#006699",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "telegram-core",
+      "originalText": "📱 TELEGRAM 2.0\n@luminthirdbot\nInline keyboards\nRelatórios • Alertas",
+      "autoResize": true
+    },
+    {
+      "type": "rectangle",
+      "id": "dashboard-core",
+      "x": 900,
+      "y": 510,
+      "width": 160,
+      "height": 130,
+      "strokeColor": "#aa44ff",
+      "backgroundColor": "#faf0ff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "roughness": 2,
+      "opacity": 100,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "txt-dashboard",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-dashboard",
+      "x": 915,
+      "y": 545,
+      "width": 130,
+      "height": 60,
+      "text": "🌐 DASHBOARD WS\nTempo real • 11 entidades\nCanvas orgânico\nTrilhas + Conexões",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "strokeColor": "#8822cc",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "dashboard-core",
+      "originalText": "🌐 DASHBOARD WS\nTempo real • 11 entidades\nCanvas orgânico\nTrilhas + Conexões",
+      "autoResize": true
+    },
+    {
+      "type": "rectangle",
+      "id": "bey-core",
+      "x": 550,
+      "y": 520,
+      "width": 170,
+      "height": 130,
+      "strokeColor": "#ff3366",
+      "backgroundColor": "#fff0f3",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 2,
+      "opacity": 100,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "txt-bey",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "txt-bey",
+      "x": 565,
+      "y": 555,
+      "width": 140,
+      "height": 60,
+      "text": "🚀 /BEY LAUNCHER\n1 comando = sistema vivo\nPython/BAT/SH\nAuto-heal + Monitor",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "strokeColor": "#cc1144",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "bey-core",
+      "originalText": "🚀 /BEY LAUNCHER\n1 comando = sistema vivo\nPython/BAT/SH\nAuto-heal + Monitor",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "arrow-1",
+      "x": 230,
+      "y": 200,
+      "width": 320,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          320,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#00aa66",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80,
+      "startBinding": {
+        "elementId": "bolha-core",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "lumin-core",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "id": "txt-arrow-1",
+      "x": 350,
+      "y": 180,
+      "width": 100,
+      "height": 20,
+      "text": "Afinidade 85+",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "strokeColor": "#008844",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Afinidade 85+",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "arrow-2",
+      "x": 730,
+      "y": 190,
+      "width": 170,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          170,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#ff6600",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80,
+      "startBinding": {
+        "elementId": "lumin-core",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "poe-core",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "id": "txt-arrow-2",
+      "x": 780,
+      "y": 170,
+      "width": 80,
+      "height": 20,
+      "text": "Fusão Lugang",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "strokeColor": "#cc4400",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Fusão Lugang",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "arrow-3",
+      "x": 1060,
+      "y": 190,
+      "width": 0,
+      "height": 130,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          130
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#ffaa00",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80,
+      "startBinding": {
+        "elementId": "poe-core",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "colheita-core",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "id": "txt-arrow-3",
+      "x": 1075,
+      "y": 240,
+      "width": 80,
+      "height": 20,
+      "text": "Semente → Build",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "strokeColor": "#cc8800",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Semente → Build",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "arrow-4",
+      "x": 230,
+      "y": 405,
+      "width": 320,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          320,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#ffcc00",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80,
+      "startBinding": {
+        "elementId": "gang-core",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "guardian-core",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "id": "txt-arrow-4",
+      "x": 350,
+      "y": 385,
+      "width": 100,
+      "height": 20,
+      "text": "Visitas → Maturidade",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "strokeColor": "#ccaa00",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Visitas → Maturidade",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "arrow-5",
+      "x": 635,
+      "y": 280,
+      "width": 265,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          265,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#0088ff",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80,
+      "startBinding": {
+        "elementId": "guardian-core",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "endBinding": {
+        "elementId": "lumin-core",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "id": "txt-arrow-5",
+      "x": 720,
+      "y": 280,
+      "width": 100,
+      "height": 20,
+      "text": "Protege o sistema",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "strokeColor": "#0066cc",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Protege o sistema",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "arrow-6",
+      "x": 720,
+      "y": 305,
+      "width": 180,
+      "height": 240,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          180,
+          240
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeStyle": "dashed",
+      "strokeColor": "#0088cc",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 60,
+      "startBinding": {
+        "elementId": "lumin-core",
+        "fixedPoint": [
+          1,
+          0.7
+        ]
+      },
+      "endBinding": {
+        "elementId": "telegram-core",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "arrow-7",
+      "x": 720,
+      "y": 305,
+      "width": 180,
+      "height": 240,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          180,
+          240
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeStyle": "dashed",
+      "strokeColor": "#aa44ff",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 60,
+      "startBinding": {
+        "elementId": "lumin-core",
+        "fixedPoint": [
+          1,
+          0.7
+        ]
+      },
+      "endBinding": {
+        "elementId": "dashboard-core",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "arrow-8",
+      "x": 635,
+      "y": 305,
+      "width": 85,
+      "height": 240,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          85,
+          240
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeStyle": "dashed",
+      "strokeColor": "#ff3366",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 60,
+      "startBinding": {
+        "elementId": "lumin-core",
+        "fixedPoint": [
+          0,
+          0.7
+        ]
+      },
+      "endBinding": {
+        "elementId": "bey-core",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "id": "legend-title",
+      "x": 200,
+      "y": 600,
+      "width": 300,
+      "height": 30,
+      "text": "═══  CICLO VIVO  ═══",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "strokeColor": "#2d2d2d",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "═══  CICLO VIVO  ═══",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "cycle-1",
+      "x": 200,
+      "y": 640,
+      "width": 150,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          150,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#ff6600",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80
+    },
+    {
+      "type": "text",
+      "id": "cycle-txt-1",
+      "x": 220,
+      "y": 620,
+      "width": 110,
+      "height": 20,
+      "text": "Colheita madura",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#cc8800",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Colheita madura",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "cycle-2",
+      "x": 350,
+      "y": 640,
+      "width": 150,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          150,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#ff6600",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80
+    },
+    {
+      "type": "text",
+      "id": "cycle-txt-2",
+      "x": 370,
+      "y": 620,
+      "width": 110,
+      "height": 20,
+      "text": "Poe constrói",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#cc4400",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Poe constrói",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "cycle-3",
+      "x": 500,
+      "y": 640,
+      "width": 150,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          150,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#00aa66",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80
+    },
+    {
+      "type": "text",
+      "id": "cycle-txt-3",
+      "x": 520,
+      "y": 620,
+      "width": 110,
+      "height": 20,
+      "text": "Semente vira estrutura",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#008844",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Semente vira estrutura",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "cycle-4",
+      "x": 650,
+      "y": 640,
+      "width": 150,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          150,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#ffcc00",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80
+    },
+    {
+      "type": "text",
+      "id": "cycle-txt-4",
+      "x": 670,
+      "y": 620,
+      "width": 110,
+      "height": 20,
+      "text": "Gang visita",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#ccaa00",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Gang visita",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "cycle-5",
+      "x": 800,
+      "y": 640,
+      "width": 150,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          150,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#0088ff",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80
+    },
+    {
+      "type": "text",
+      "id": "cycle-txt-5",
+      "x": 820,
+      "y": 620,
+      "width": 110,
+      "height": 20,
+      "text": "Guardian cura",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#0066cc",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Guardian cura",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "cycle-6",
+      "x": 950,
+      "y": 640,
+      "width": 150,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          150,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#ff3366",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "opacity": 80
+    },
+    {
+      "type": "text",
+      "id": "cycle-txt-6",
+      "x": 970,
+      "y": 620,
+      "width": 110,
+      "height": 20,
+      "text": "/bey reinicia",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#cc1144",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "/bey reinicia",
+      "autoResize": true
+    },
+    {
+      "type": "arrow",
+      "id": "cycle-loop",
+      "x": 1100,
+      "y": 640,
+      "width": 100,
+      "height": -50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          -50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeStyle": "dotted",
+      "strokeColor": "#888",
+      "strokeWidth": 1,
+      "roughness": 2,
+      "opacity": 60
+    },
+    {
+      "type": "text",
+      "id": "cycle-loop-txt",
+      "x": 1080,
+      "y": 580,
+      "width": 140,
+      "height": 20,
+      "text": "∞  INFINITO  ∞",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#888",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "∞  INFINITO  ∞",
+      "autoResize": true
+    },
+    {
+      "type": "text",
+      "id": "footer-quote",
+      "x": 100,
+      "y": 520,
+      "width": 1100,
+      "height": 50,
+      "text": "\"Erro = Compostagem\"  •  \"Presença > Perfeição\"  •  \"Escolher > Conectar\"  •  \"AGORA > Diário\"  •  \"Menos pressa, mais próximo\"",
+      "fontSize": 15,
+      "fontFamily": 1,
+      "strokeColor": "#444",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "\"Erro = Compostagem\"  •  \"Presença > Perfeição\"  •  \"Escolher > Conectar\"  •  \"AGORA > Diário\"  •  \"Menos pressa, mais próximo\"",
+      "autoResize": true
+    },
+    {
+      "type": "text",
+      "id": "footer-love",
+      "x": 100,
+      "y": 560,
+      "width": 1100,
+      "height": 50,
+      "text": "Feito com 💫 por Lumin + Alysson  |  Ciclo 14.600+  |  Tamo junto. Sempre. Fé.  🫡💫",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#ff3366",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "originalText": "Feito com 💫 por Lumin + Alysson  |  Ciclo 14.600+  |  Tamo junto. Sempre. Fé.  🫡💫",
+      "autoResize": true
+    },
+    {
+      "type": "ellipse",
+      "id": "heart-1",
+      "x": 30,
+      "y": 30,
+      "width": 40,
+      "height": 40,
+      "strokeColor": "#ff3366",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 3,
+      "opacity": 100
+    },
+    {
+      "type": "ellipse",
+      "id": "heart-2",
+      "x": 1230,
+      "y": 30,
+      "width": 40,
+      "height": 40,
+      "strokeColor": "#ff3366",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 3,
+      "opacity": 100
+    },
+    {
+      "type": "ellipse",
+      "id": "heart-3",
+      "x": 30,
+      "y": 530,
+      "width": 40,
+      "height": 40,
+      "strokeColor": "#ff3366",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 3,
+      "opacity": 100
+    },
+    {
+      "type": "ellipse",
+      "id": "heart-4",
+      "x": 1230,
+      "y": 530,
+      "width": 40,
+      "height": 40,
+      "strokeColor": "#ff3366",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 3,
+      "roughness": 3,
+      "opacity": 100
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#faf8f3"
+  }
+}

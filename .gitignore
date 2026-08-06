@@ -29,3 +29,29 @@ Thumbs.db
 # Temp
 *.tmp
 *.temp
+
+# Coverage reports (generated)
+coverage/
+
+# Radio transmissions (too many, regenerated)
+prototipos/radio/transmissoes/
+
+# Backup server files
+server_broken.js
+server_corrupted.js
+server_patch_part.js
+
+# Test bots
+test_bot.js
+test_bot_clean.js
+telegram_bot_pm2.js
+telegram_bot_stable.js
+
+# Temporary fix scripts
+fix_estado.py
+fix_jardim.py
+
+# Telegram bot versions
+telegram_bot_v2.js
+telegram_bot_pm2.js
+telegram_bot_stable.js
