@@ -3,178 +3,78 @@ module.exports = {
     {
       name: 'consortho',
       script: 'server.js',
-      cwd: __dirname,
+      instances: 1,
+      exec_mode: 'fork',
       watch: false,
-      autorestart: true,
-      max_restarts: 10,
+      max_memory_restart: '1.5G',
       min_uptime: '10s',
-      max_memory_restart: '500M',
-      windowsHide: true,
+      max_restarts: 10,
+      restart_delay: 5000,
       env: {
         NODE_ENV: 'production',
-        PORT: 9877
-      }
-    },
-    {
-      name: 'gang-visitas',
-      script: 'prototipos/gang/visitas.js',
-      cwd: __dirname,
-      watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '200M',
-      cron_restart: '0 */2 * * *',
+        PORT: 9877,
+        TZ: 'America/Sao_Paulo'
+      },
+      env_production: {
+        NODE_ENV: 'production',
+        PORT: 9877,
+        TZ: 'America/Sao_Paulo'
+      },
+      // Logging
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      out_file: './logs/consortho-out.log',
+      error_file: './logs/consortho-error.log',
+      merge_logs: true,
+      log_type: 'json',
+      // Windows compatibility
       windowsHide: true,
-      env: {
-        NODE_ENV: 'production'
-      }
-    },
-    {
-      name: 'colheita',
-      script: 'prototipos/colheita/colheita.js',
-      cwd: __dirname,
-      watch: false,
+      // Auto-restart on crash
       autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '300M',
-      cron_restart: '0 */12 * * *',
-      windowsHide: true,
-      env: {
-        NODE_ENV: 'production'
-      }
+      // Graceful shutdown
+      kill_timeout: 5000,
+      listen_timeout: 8000,
+      // Source map support
+      source_map_support: true,
     },
+    // Diamond Protocol Workers (if needed for heavy processing)
     {
-      name: 'poe-construtor',
-      script: 'prototipos/poe/construcao.js',
-      cwd: __dirname,
+      name: 'consortho-diamond',
+      script: 'diamond_worker.js',
+      instances: 1,
+      exec_mode: 'fork',
       watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '400M',
-      cron_restart: '0 */6 * * *',
-      windowsHide: true,
+      max_memory_restart: '512M',
       env: {
-        NODE_ENV: 'production'
-      }
+        NODE_ENV: 'production',
+        WORKER_TYPE: 'diamond'
+      },
+      windowsHide: true,
     },
+    // Telegram Bot (separate process for reliability)
     {
-      name: 'radio-estudio',
-      script: 'prototipos/radio/radio.js',
-      cwd: __dirname,
+      name: 'consortho-telegram',
+      script: 'consortho/prototipos/telegram/bot.js',
+      instances: 1,
+      exec_mode: 'fork',
       watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '200M',
-      cron_restart: '0 */6 * * *',
-      windowsHide: true,
+      max_memory_restart: '256M',
       env: {
-        NODE_ENV: 'production'
-      }
-    },
-    {
-      name: 'jardim-monitor',
-      script: 'prototipos/jardim/jardim.js',
-      cwd: __dirname,
-      watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '200M',
-      cron_restart: '0 */12 * * *',
+        NODE_ENV: 'production',
+        WORKER_TYPE: 'telegram'
+      },
       windowsHide: true,
-      env: {
-        NODE_ENV: 'production'
-      }
-    },
-    {
-      name: 'consente',
-      script: 'prototipos/consente/consente.js',
-      cwd: __dirname,
-      watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '200M',
-      windowsHide: true,
-      env: {
-        NODE_ENV: 'production'
-      }
-    },
-    {
-      name: 'notificador',
-      script: 'prototipos/notificador/notificador.js',
-      cwd: __dirname,
-      watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '300M',
-      windowsHide: true,
-      env: {
-        NODE_ENV: 'production'
-      }
-    },
-    {
-          name: 'telegram-bot',
-          script: 'telegram_bot_v2.js',
-          cwd: __dirname,
-          watch: false,
-          autorestart: true,
-          max_restarts: 5,
-          min_uptime: '10s',
-          max_memory_restart: '200M',
-          windowsHide: true,
-          env: {
-            NODE_ENV: 'production',
-            TELEGRAM_BOT_TOKEN: '8714736735:AAG0kRGrJOAZkmp6i27UbbsIXzXrGFipzbw',
-            TELEGRAM_CHAT_ID: '8828123150'
-          }
-        },
-    {
-      name: 'guardian',
-      script: 'guardian.js',
-      cwd: __dirname,
-      watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '200M',
-      windowsHide: true,
-      env: {
-        NODE_ENV: 'production'
-      }
-    },
-    {
-      name: 'lumin-agent',
-      script: 'lumin-consortho-client.js',
-      cwd: __dirname,
-      watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '300M',
-      windowsHide: true,
-      env: {
-        NODE_ENV: 'production'
-      }
-    },
-    {
-      name: 'bolha',
-      script: 'bolha_v2.js',
-      cwd: __dirname,
-      watch: false,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: '10s',
-      max_memory_restart: '200M',
-      windowsHide: true,
-      env: {
-        NODE_ENV: 'production'
-      }
     }
-  ]
+  ],
+  deploy: {
+    production: {
+      user: 'consortho',
+      host: 'your-vps-ip',
+      ref: 'origin/main',
+      repo: 'https://github.com/alysson7000-cloud/consortho.git',
+      path: '/opt/consortho',
+      'pre-deploy': 'git fetch origin',
+      'post-deploy': 'npm ci --only=production && npm run build 2>/dev/null || true && pm2 reload ecosystem.config.js --env production',
+      'pre-setup': 'apt-get update && apt-get install -y nodejs npm docker.io docker-compose'
+    }
+  }
 };

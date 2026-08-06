@@ -1,0 +1,223 @@
+version: '3.8'
+
+services:
+  # ============================================================
+  # CONSORTHO MAIN APPLICATION
+  # ============================================================
+  consortho:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: consortho
+    restart: unless-stopped
+    ports:
+      - "9877:9877"
+    environment:
+      - NODE_ENV=production
+      - PORT=9877
+      - TZ=America/Sao_Paulo
+      # Telegram Bot (configure via .env)
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      # Database/State persistence
+      - MEMORIA_PATH=/app/memoria
+      - LOGS_PATH=/app/logs
+      - SNAPSHOTS_PATH=/app/snapshots
+    volumes:
+      # Persistent data
+      - consortho_memoria:/app/memoria
+      - consortho_logs:/app/logs
+      - consortho_snapshots:/app/snapshots
+      # Config (read-only)
+      - ./ecosystem.config.js:/app/ecosystem.config.js:ro
+    networks:
+      - consortho_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9877/api/resumo"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # ============================================================
+  # NGINX REVERSE PROXY + SSL
+  # ============================================================
+  nginx:
+    image: nginx:alpine
+    container_name: consortho_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./certbot/www:/var/www/certbot:ro
+      - consortho_logs:/var/log/nginx
+    networks:
+      - consortho_network
+    depends_on:
+      - consortho
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # ============================================================
+  # CERTBOT FOR SSL CERTIFICATES
+  # ============================================================
+  certbot:
+    image: certbot/certbot
+    container_name: consortho_certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"
+
+  # ============================================================
+  # PROMETHEUS MONITORING
+  # ============================================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: consortho_prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - consortho_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============================================================
+  # GRAFANA DASHBOARDS
+  # ============================================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: consortho_grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - grafana_data:/var/lib/grafana
+    networks:
+      - consortho_network
+    depends_on:
+      - prometheus
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============================================================
+  # LOKI LOG AGGREGATION
+  # ============================================================
+  loki:
+    image: grafana/loki:latest
+    container_name: consortho_loki
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - consortho_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============================================================
+  # PROMTAIL LOG SHIPPER
+  # ============================================================
+  promtail:
+    image: grafana/promtail:latest
+    container_name: consortho_promtail
+    restart: unless-stopped
+    volumes:
+      - consortho_logs:/var/log/consortho:ro
+      - ./monitoring/promtail-config.yml:/etc/promtail/config.yml:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - consortho_network
+    depends_on:
+      - loki
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============================================================
+  # WATCHTOWER AUTO-UPDATE
+  # ============================================================
+  watchtower:
+    image: containrrr/watchtower
+    container_name: consortho_watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_INCLUDE_STOPPED=true
+      - WATCHTOWER_LABEL_ENABLE=true
+    command: --label-enable --cleanup --interval 300
+
+volumes:
+  consortho_memoria:
+    driver: local
+  consortho_logs:
+    driver: local
+  consortho_snapshots:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  loki_data:
+    driver: local
+
+networks:
+  consortho_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

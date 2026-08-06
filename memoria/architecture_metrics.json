@@ -564,8 +564,305 @@
       ]
     },
     {
+      "path": "council_ai_director.js",
+      "lines": 1004,
+      "functions": 52,
+      "classes": 1,
+      "imports": [
+        "fs",
+        "path",
+        "./utils/atomic-write",
+        "events"
+      ],
+      "exports": [],
+      "complexity": 243,
+      "coupling": 0.75,
+      "cohesion": 0.6,
+      "maintainability": 21.17772852891334,
+      "testCoverage": 0,
+      "technicalDebt": 167,
+      "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initializeCouncil",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addMember",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "removeMember",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getMember",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getActiveMembers",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "calculateAuthority",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "createProposal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "startVoting",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "castVote",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkEarlyResolution",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "resolveProposal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "executeProposal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "startSession",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "endSession",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "emptyChairSpeaks",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "generateEmptyChairWisdom",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkEmergencyConditions",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "callEmergencySession",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "executeResourceAllocation",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "executePolicyChange",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "executeArchitectureChange",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "executeRitual",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "executeEmergencyAction",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "executeGeneric",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getProposal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getActiveProposals",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getProposalHistory",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getVotingStatus",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getCouncilStatus",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveMinutes",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getCurrentCycle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getLastProposalBy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectConsciousness",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectNarrative",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectEntropy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectLove",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectTimeMachine",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectArchitecture",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getCouncilReport",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "query",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getCurrentCycle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "tick",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addMyth",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "triggerSandevistanEffect",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "triggerGolpeEffect",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "triggerFusaoEffect",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "triggerConstrucaoEffect",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addMyth",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getCurrentCycle",
+          "severity": "high"
+        },
+        {
+          "type": "large_class",
+          "class": "CouncilAIDirector",
+          "severity": "high",
+          "methods": 52
+        },
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        },
+        {
+          "type": "god_object",
+          "class": "CouncilAIDirector",
+          "severity": "critical"
+        }
+      ]
+    },
+    {
       "path": "diamond_protocol.js",
-      "lines": 579,
+      "lines": 642,
       "functions": 17,
       "classes": 1,
       "imports": [
@@ -576,15 +873,19 @@
         "./self_improving_architecture",
         "./narrative_immortality",
         "./entropy_reversal_engine",
-        "./love_fundamental_force"
+        "./love_fundamental_force",
+        "./time_machine",
+        "./council_ai_director",
+        "./evolution_engine",
+        "./emergent_narratives"
       ],
       "exports": [],
-      "complexity": 78,
-      "coupling": 0.25,
+      "complexity": 84,
+      "coupling": 0.16666666666666666,
       "cohesion": 0.6,
-      "maintainability": 73.95396826289289,
+      "maintainability": 70.51537642459874,
       "testCoverage": 0,
-      "technicalDebt": 80,
+      "technicalDebt": 82,
       "codeSmells": [
         {
           "type": "long_method",
@@ -680,22 +981,233 @@
     },
     {
       "path": "ecosystem.config.js",
-      "lines": 180,
-      "functions": 0,
+      "lines": 80,
+      "functions": 2,
       "classes": 0,
       "imports": [],
       "exports": [],
-      "complexity": 1,
+      "complexity": 14,
       "coupling": 0,
-      "cohesion": 0,
-      "maintainability": 86.6440990155786,
+      "cohesion": 0.7,
+      "maintainability": 100,
       "testCoverage": 0,
-      "technicalDebt": 51,
+      "technicalDebt": 43,
+      "codeSmells": []
+    },
+    {
+      "path": "emergent_narratives.js",
+      "lines": 883,
+      "functions": 36,
+      "classes": 1,
+      "imports": [
+        "fs",
+        "path",
+        "./utils/atomic-write",
+        "events"
+      ],
+      "exports": [],
+      "complexity": 192,
+      "coupling": 0.75,
+      "cohesion": 0.6,
+      "maintainability": 36.21311011403271,
+      "testCoverage": 0,
+      "technicalDebt": 142,
       "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "ingestEvent",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "linkToChains",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "canExtendChain",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "extendChain",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkChainFormation",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "formChain",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "detectChainTheme",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "calculateChainStrength",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "completeChain",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "chainToMyth",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "generateMythFromChain",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkEraTransition",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "nameNewEra",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "generateEraDescription",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addTimelineEntry",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getTimeline",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "query",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "tick",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "processPendingEvents",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "forEach",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addPeriodicTimelineEntry",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "cleanupExpiredChains",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkAutoMythGeneration",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectConsciousness",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectNarrative",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectEntropy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectLove",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectTimeMachine",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectCouncil",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectArchitecture",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getEmergentReport",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getCurrentCycle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addMyth",
+          "severity": "high"
+        },
+        {
+          "type": "large_class",
+          "class": "EmergentNarratives",
+          "severity": "high",
+          "methods": 36
+        },
         {
           "type": "duplicate_code",
           "severity": "medium",
-          "occurrences": 6
+          "occurrences": 2
+        },
+        {
+          "type": "god_object",
+          "class": "EmergentNarratives",
+          "severity": "critical"
         }
       ]
     },
@@ -1017,6 +1529,238 @@
         {
           "type": "god_object",
           "class": "EntropyReversalEngine",
+          "severity": "critical"
+        }
+      ]
+    },
+    {
+      "path": "evolution_engine.js",
+      "lines": 1443,
+      "functions": 39,
+      "classes": 1,
+      "imports": [
+        "fs",
+        "path",
+        "./utils/atomic-write",
+        "events"
+      ],
+      "exports": [],
+      "complexity": 334,
+      "coupling": 0.75,
+      "cohesion": 0.6,
+      "maintainability": 0,
+      "testCoverage": 0,
+      "technicalDebt": 213,
+      "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initializeBaseForms",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initializeSandevistan",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initializeSecretForms",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "gainXp",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "createSkillTree",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getSkillsForCategory",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkFormEvolution",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "canUnlockForm",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "evolveForm",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "forEach",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkSecretFormUnlock",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "meetsSecretRequirements",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "unlockSecretForm",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "attemptFusion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "calculateFusionStats",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "findSharedSkills",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "grantFusionAbilities",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "endFusion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "activateSandevistan",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkSandevistanMastery",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "spendSkillPoint",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkSynergies",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getEvolutionReport",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getEvolutionStatus",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "query",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getCurrentCycle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectConsciousness",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectNarrative",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectEntropy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectLove",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectTimeMachine",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectCouncil",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectArchitecture",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectEmergentNarratives",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "tick",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addMyth",
+          "severity": "high"
+        },
+        {
+          "type": "large_class",
+          "class": "EvolutionEngine",
+          "severity": "high",
+          "methods": 39
+        },
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        },
+        {
+          "type": "god_object",
+          "class": "EvolutionEngine",
           "severity": "critical"
         }
       ]
@@ -3520,6 +4264,333 @@
       "codeSmells": []
     },
     {
+      "path": "time_machine.js",
+      "lines": 1117,
+      "functions": 58,
+      "classes": 1,
+      "imports": [
+        "fs",
+        "path",
+        "./utils/atomic-write",
+        "events"
+      ],
+      "exports": [],
+      "complexity": 315,
+      "coupling": 0.75,
+      "cohesion": 0.6,
+      "maintainability": 1.540467431546979,
+      "testCoverage": 0,
+      "technicalDebt": 203,
+      "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectConsciousness",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectNarrative",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectEntropy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectLove",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectArchitecture",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "injectDiamond",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initializeMainTimeline",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "captureSnapshot",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "gatherSystemState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "gatherDiamondState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "rollback",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "applySnapshot",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "restoreSystem",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getTimeline",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getSnapshot",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getSnapshotsInRange",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getDiff",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "searchHistory",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "createBranch",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "switchTimeline",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "mergeBranch",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "deleteBranch",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "generateTemporalReport",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "analyzeResourceTrends",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "calculateTrend",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "analyzeEntityEvolution",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "analyzeEntityMetrics",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "countMoodChanges",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "analyzeDiamondEvolution",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "identifyMilestones",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "detectAnomalies",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "generatePredictions",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getCurrentCycle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getResources",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getConstructions",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getEntitiesState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getMemoryState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getRelationshipsState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getLatestSnapshotId",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "calculateDiff",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "diffResources",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "diffEntities",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "diffDiamond",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "compressSnapshot",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "enforceRetention",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "formatBytes",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveSnapshotToDisk",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveIndex",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadRecentSnapshots",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getStatus",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getTimelineList",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "query",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "tick",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "runAnalytics",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "cleanupExpiredBranches",
+          "severity": "high"
+        },
+        {
+          "type": "large_class",
+          "class": "TimeMachine",
+          "severity": "high",
+          "methods": 58
+        },
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        },
+        {
+          "type": "god_object",
+          "class": "TimeMachine",
+          "severity": "critical"
+        }
+      ]
+    },
+    {
       "path": "utils\\atomic-write.js",
       "lines": 272,
       "functions": 13,
@@ -3592,16 +4663,16 @@
     }
   ],
   "summary": {
-    "totalFiles": 46,
-    "totalLines": 15548,
-    "totalFunctions": 739,
-    "totalClasses": 16,
-    "avgComplexity": 86.1086956521739,
+    "totalFiles": 50,
+    "totalLines": 19958,
+    "totalFunctions": 926,
+    "totalClasses": 20,
+    "avgComplexity": 101.28,
     "maxComplexity": 375,
-    "coupling": 0.7086956521739133,
-    "cohesion": 0.4586956521739132,
+    "coupling": 0.7103333333333333,
+    "cohesion": 0.4840000000000002,
     "testCoverage": 0,
-    "maintainabilityIndex": 77.10090711225855,
-    "technicalDebt": 4198
+    "maintainabilityIndex": 72.30980684769028,
+    "technicalDebt": 4917
   }
 }

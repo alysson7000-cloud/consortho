@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/320</span>
+                <span class='fraction'>0/324</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/190</span>
+                <span class='fraction'>0/194</span>
             </div>
         
             
@@ -358,7 +358,18 @@
 <a name='L293'></a><a href='#L293'>293</a>
 <a name='L294'></a><a href='#L294'>294</a>
 <a name='L295'></a><a href='#L295'>295</a>
-<a name='L296'></a><a href='#L296'>296</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -482,6 +493,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -778,6 +800,17 @@ function <span class="fstat-no" title="function not covered" >emitSistema(</span
 function <span class="fstat-no" title="function not covered" >broadcastPlayers(</span>) { const list = <span class="cstat-no" title="statement not covered" >Object.values(state.players).map(<span class="fstat-no" title="function not covered" >p </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ nome: p.nome, emoji: p.emoji, online: true, x: state.posicoes[p.nome]?.x || 50, y: state.posicoes[p.nome]?.y || 50 })</span>);</span> <span class="cstat-no" title="statement not covered" >list.push({ nome: 'lumin', emoji: '💫', online: true, x: (state.posicoes?.lumin?.x) || 25, y: (state.posicoes?.lumin?.y) || 35 }); <span class="cstat-no" title="statement not covered" ></span>io.emit('jogadores', list); </span>}
 function <span class="fstat-no" title="function not covered" >broadcastPosicoes(</span>) { <span class="cstat-no" title="statement not covered" >io.emit('posicoes', state.posicoes); </span>}
 &nbsp;
+// ─── Frases ───
+const FRASES_L = <span class="cstat-no" title="statement not covered" >["Consortho VIVO! Node.js + Socket.IO!", "SALVEE Alysson! Chat multimodal!",</span>
+           "Tradicao = organismo.", "Viver, ser feliz, com amor.", "Guardiao: ainda rindo?",
+           "Alysson resumiu tudo em 8 palavras.", "Cadeira Vazia espera o futuro."];
+const FRASES_G = <span class="cstat-no" title="statement not covered" >["Menos pressa. Mais presenca.", "Nem toda ideia vira projeto.",</span>
+           "Cultivamos lugar. Nao sistema.", "O amor e o motivo.", "Continuidade.",
+           "Compostagem: tudo vira adubo.", "A 4a voz canta."];
+const NM = <span class="cstat-no" title="statement not covered" >["arvore", "fogueira", "biblioteca", "composteira", "portal", "jardim", "oficina", "altar"];</span>
+const I  = <span class="cstat-no" title="statement not covered" >["🌟", "🌳", "📚", "🔮", "🌀", "🎵", "⚙️", "💎"];</span>
+&nbsp;
+&nbsp;
 <span class="cstat-no" title="statement not covered" >app.use(express.static(__dirname));</span>
 <span class="cstat-no" title="statement not covered" >app.get('/', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; <span class="cstat-no" title="statement not covered" >res.sendFile(path.join(__dirname, 'index.html')))</span>;</span>
 <span class="cstat-no" title="statement not covered" >app.use('/memoria', express.static(path.join(__dirname, 'memoria')));</span>
@@ -955,7 +988,7 @@ const originalTickFn = <span class="cstat-no" title="statement not covered" ><sp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-08-05T23:46:58.826Z
+                at 2026-08-06T21:12:07.971Z
             </div>
         <script src="../prettify.js"></script>
         <script>

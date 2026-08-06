@@ -21,6 +21,10 @@ const { SelfImprovingArchitecture } = require('./self_improving_architecture');
 const { NarrativeImmortality } = require('./narrative_immortality');
 const { EntropyReversalEngine } = require('./entropy_reversal_engine');
 const { LoveFundamentalForce } = require('./love_fundamental_force');
+const { TimeMachine } = require('./time_machine');
+const { CouncilAIDirector } = require('./council_ai_director');
+const { EvolutionEngine } = require("./evolution_engine");
+const { EmergentNarratives } = require('./emergent_narratives');
 
 class DiamondProtocol {
   constructor(options = {}) {
@@ -101,7 +105,32 @@ class DiamondProtocol {
     this.love = new LoveFundamentalForce({
       archivePath: path.join(this.rootPath, 'memoria', 'love_force.json')
     });
-    
+
+    // Layer 6: Time Machine
+    console.log('[Diamond] Layer 6: Time Machine...');
+    this.timeMachine = new TimeMachine({
+      archivePath: path.join(this.rootPath, 'memoria', 'time_machine.json'),
+      snapshotsPath: path.join(this.rootPath, 'memoria', 'snapshots')
+    });
+
+    // Layer 7: Council AI Director
+    console.log('[Diamond] Layer 7: Council AI Director...');
+    this.council = new CouncilAIDirector({
+      archivePath: path.join(this.rootPath, 'memoria', 'council.json')
+    });
+
+    // Layer 8: Emergent Narratives
+    console.log('[Diamond] Layer 8: Emergent Narratives...');
+    this.emergentNarratives = new EmergentNarratives({
+      archivePath: path.join(this.rootPath, 'memoria', 'emergent_narratives.json')
+    });
+
+    // Layer 9: Evolution Engine
+    console.log('[Diamond] Layer 9: Evolution Engine...');
+    this.evolution = new EvolutionEngine({
+      archivePath: path.join(this.rootPath, 'memoria', 'evolution_engine.json')
+    });
+
     // Cross-link all layers
     this.crossLinkLayers();
     
@@ -114,7 +143,7 @@ class DiamondProtocol {
     }
     
     this.initialized = true;
-    console.log('[Diamond] ✅ All 5 layers initialized and cross-linked!');
+    console.log('[Diamond] ✅ All 9 layers initialized and cross-linked!');
     console.log('[Diamond] 💎 DIAMOND PROTOCOL ACTIVE 💎');
     
     return true;
@@ -131,6 +160,39 @@ class DiamondProtocol {
     this.love.injectArchitecture(this.architecture);
     this.love.injectEntropy(this.entropy);
     
+    // TimeMachine gets all layers for snapshot capture
+    if (this.timeMachine) {
+      this.timeMachine.injectConsciousness(this.consciousness);
+      this.timeMachine.injectNarrative(this.narrative);
+      this.timeMachine.injectArchitecture(this.architecture);
+      this.timeMachine.injectEntropy(this.entropy);
+      this.timeMachine.injectLove(this.love);
+      this.timeMachine.injectDiamond(this);
+    }
+    
+    // EmergentNarratives gets all layers for myth generation
+    if (this.emergentNarratives) {
+      this.emergentNarratives.injectConsciousness(this.consciousness);
+      this.emergentNarratives.injectNarrative(this.narrative);
+      this.emergentNarratives.injectEntropy(this.entropy);
+      this.emergentNarratives.injectLove(this.love);
+      this.emergentNarratives.injectTimeMachine(this.timeMachine);
+      this.emergentNarratives.injectCouncil(this.council);
+      this.emergentNarratives.injectArchitecture(this.architecture);
+    }
+
+    // EvolutionEngine gets all layers for evolution
+    if (this.evolution) {
+      this.evolution.injectConsciousness(this.consciousness);
+      this.evolution.injectNarrative(this.narrative);
+      this.evolution.injectEntropy(this.entropy);
+      this.evolution.injectLove(this.love);
+      this.evolution.injectTimeMachine(this.timeMachine);
+      this.evolution.injectCouncil(this.council);
+      this.evolution.injectArchitecture(this.architecture);
+      this.evolution.injectEmergentNarratives(this.emergentNarratives);
+    }
+
     // Architecture gets consciousness for test generation
     // Narrative gets consciousness for dream generation
     
