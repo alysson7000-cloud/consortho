@@ -33,6 +33,7 @@ RUN apk add --no-cache \
     dumb-init \
     curl \
     tzdata \
+    netcat-openbsd \
     && ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
     && echo "America/Sao_Paulo" > /etc/timezone
 
@@ -46,24 +47,11 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install only production dependencies
-RUN npm ci --only=production --prefer-offline --no-audit --progress=false \
+RUN npm ci --omit=dev --prefer-offline --no-audit --progress=false \
     && npm cache clean --force
 
-# Copy built application from builder
-COPY --from=builder --chown=1001:1001 /app/server.js ./
-COPY --from=builder --chown=1001:1001 /app/diamond_protocol.js ./
-COPY --from=builder --chown=1001:1001 /app/consciousness_substrate.js ./
-COPY --from=builder --chown=1001:1001 /app/self_improving_architecture.js ./
-COPY --from=builder --chown=1001:1001 /app/narrative_immortality.js ./
-COPY --from=builder --chown=1001:1001 /app/entropy_reversal_engine.js ./
-COPY --from=builder --chown=1001:1001 /app/love_fundamental_force.js ./
-COPY --from=builder --chown=1001:1001 /app/time_machine.js ./
-COPY --from=builder --chown=1001:1001 /app/council_ai_director.js ./
-COPY --from=builder --chown=1001:1001 /app/emergent_narratives.js ./
-COPY --from=builder --chown=1001:1001 /app/evolution_engine.js ./
-COPY --from=builder --chown=1001:1001 /app/relacionamentos_globais.js ./
-COPY --from=builder --chown=1001:1001 /app/utils ./utils
-COPY --from=builder --chown=1001:1001 /app/public ./public
+# Copy ENTIRE built application from builder (single COPY = never miss files)
+COPY --from=builder --chown=1001:1001 /app/ ./
 
 # Create necessary directories
 RUN mkdir -p /app/memoria /app/logs /app/snapshots \
@@ -75,15 +63,12 @@ USER consortho
 # Expose port
 EXPOSE 9877
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:9877/api/resumo || exit 1
+# Health check - more generous timing, checks actual JSON response
+HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=5 \
+    CMD curl -fsS http://localhost:9877/api/resumo | grep -q '"status"' || exit 1
 
 # Use dumb-init for proper signal handling
-ENTRYPOINT ["dumb-init", "--"]
-
-# Start application
-CMD ["node", "server.js"]
+ENTRYPOINT ["dumb-init", "--", "/app/entrypoint.sh"]
 
 # ============================================================
 # LABELS
