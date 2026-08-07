@@ -50,20 +50,19 @@ RUN npm ci --only=production --prefer-offline --no-audit --progress=false \
     && npm cache clean --force
 
 # Copy built application from builder
-COPY --from=builder --chown=consortho:consortho /app/server.js ./
-COPY --from=builder --chown=consortho:consortho /app/diamond_protocol.js ./
-COPY --from=builder --chown=consortho:consortho /app/consciousness_substrate.js ./
-COPY --from=builder --chown=consortho:consortho /app/self_improving_architecture.js ./
-COPY --from=builder --chown=consortho:consortho /app/narrative_immortality.js ./
-COPY --from=builder --chown=consortho:consortho /app/entropy_reversal_engine.js ./
-COPY --from=builder --chown=consortho:consortho /app/love_fundamental_force.js ./
-COPY --from=builder --chown=consortho:consortho /app/time_machine.js ./
-COPY --from=builder --chown=consortho:consortho /app/council_ai_director.js ./
-COPY --from=builder --chown=consortho:consortho /app/emergent_narratives.js ./
-COPY --from=builder --chown=consortho:consortho /app/evolution_engine.js ./
-COPY --from=builder --chown=consortho:consortho /app/utils ./utils
-COPY --from=builder --chown=consortho:consortho /app/public ./public
-COPY --from=builder --chown=consortho:consortho /app/consortho ./consortho
+COPY --from=builder --chown=1001:1001 /app/server.js ./
+COPY --from=builder --chown=1001:1001 /app/diamond_protocol.js ./
+COPY --from=builder --chown=1001:1001 /app/consciousness_substrate.js ./
+COPY --from=builder --chown=1001:1001 /app/self_improving_architecture.js ./
+COPY --from=builder --chown=1001:1001 /app/narrative_immortality.js ./
+COPY --from=builder --chown=1001:1001 /app/entropy_reversal_engine.js ./
+COPY --from=builder --chown=1001:1001 /app/love_fundamental_force.js ./
+COPY --from=builder --chown=1001:1001 /app/time_machine.js ./
+COPY --from=builder --chown=1001:1001 /app/council_ai_director.js ./
+COPY --from=builder --chown=1001:1001 /app/emergent_narratives.js ./
+COPY --from=builder --chown=1001:1001 /app/evolution_engine.js ./
+COPY --from=builder --chown=1001:1001 /app/utils ./utils
+COPY --from=builder --chown=1001:1001 /app/public ./public
 
 # Create necessary directories
 RUN mkdir -p /app/memoria /app/logs /app/snapshots \
