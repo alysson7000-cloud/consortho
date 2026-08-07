@@ -36,9 +36,9 @@ RUN apk add --no-cache \
     && ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
     && echo "America/Sao_Paulo" > /etc/timezone
 
-# Create non-root user
-RUN addgroup -g 1000 -S consortho \
-    && adduser -S -D -H -u 1000 -h /app -s /sbin/nologin -G consortho consortho
+# Create non-root user (use 1001 to avoid conflicts with base image)
+RUN addgroup -g 1001 -S consortho \
+    && adduser -S -D -H -u 1001 -h /app -s /sbin/nologin -G consortho consortho
 
 WORKDIR /app
 
@@ -67,7 +67,7 @@ COPY --from=builder --chown=consortho:consortho /app/consortho ./consortho
 
 # Create necessary directories
 RUN mkdir -p /app/memoria /app/logs /app/snapshots \
-    && chown -R consortho:consortho /app
+    && chown -R 1001:1001 /app
 
 # Switch to non-root user
 USER consortho
