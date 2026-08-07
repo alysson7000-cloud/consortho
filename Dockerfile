@@ -61,6 +61,7 @@ COPY --from=builder --chown=1001:1001 /app/time_machine.js ./
 COPY --from=builder --chown=1001:1001 /app/council_ai_director.js ./
 COPY --from=builder --chown=1001:1001 /app/emergent_narratives.js ./
 COPY --from=builder --chown=1001:1001 /app/evolution_engine.js ./
+COPY --from=builder --chown=1001:1001 /app/relacionamentos_globais.js ./
 COPY --from=builder --chown=1001:1001 /app/utils ./utils
 COPY --from=builder --chown=1001:1001 /app/public ./public
 
