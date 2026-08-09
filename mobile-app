@@ -1,0 +1,1163 @@
+/**
+ * 💎 CONSORTHO MOBILE - React Native / Expo App
+ * App mobile completo para gerenciar Consortho + Diamond Protocol
+ */
+
+// package.json para o mobile app
+{
+  "name": "consortho-mobile",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "expo": "~50.0.0",
+    "expo-router": "~3.4.0",
+    "expo-status-bar": "~1.11.0",
+    "react": "18.2.0",
+    "react-native": "0.73.0",
+    "react-native-gesture-handler": "~2.14.0",
+    "react-native-reanimated": "~3.6.0",
+    "react-native-safe-area-context": "4.8.0",
+    "react-native-screens": "~3.29.0",
+    "expo-linear-gradient": "~12.7.0",
+    "expo-blur": "~12.7.0",
+    "expo-haptics": "~12.7.0",
+    "expo-notifications": "~0.27.0",
+    "expo-device": "~5.9.0",
+    "axios": "^1.6.0",
+    "zustand": "^4.4.0",
+    "react-native-reanimated": "~3.6.0",
+    "react-native-gesture-handler": "~2.14.0",
+    "react-native-redash": "^18.1.0",
+    "expo-linear-gradient": "~12.7.0",
+    "expo-blur": "~12.7.0",
+    "expo-haptics": "~12.7.0",
+    "@expo/vector-icons": "^14.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@types/react": "~18.2.0",
+    "typescript": "^5.3.0"
+  }
+}
+
+// app/_layout.tsx
+import { Stack } from 'expo-router';
+import { Providers } from '@/providers/Providers';
+import { useColorScheme } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+
+export default function RootLayout() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <Providers>
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: '#0a0a1a' },
+          headerTintColor: '#00ff88',
+          headerTitleStyle: { fontWeight: '700', color: '#00ff88' },
+          cardStyle: { backgroundColor: '#0a0a1a' },
+        }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="lumin-evolution" options={{ title: '💫 Lumin Evolution' }} />
+        <Stack.Screen name="diamond-protocol" options={{ title: '💎 Diamond Protocol' }} />
+        <Stack.Screen name="lumin-3d" options={{ title: '🌌 Lumin 3D' }} />
+        <Stack.Screen name="settings" options={{ title: '⚙️ Configurações' }} />
+      </Stack>
+      <StatusBar style="light" backgroundColor="#0a0a1a" />
+    </Providers>
+  );
+}
+
+// app/(tabs)/_layout.tsx
+import { Tabs } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+
+export default function TabLayout() {
+  return (
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: '#00ff88',
+        tabBarInactiveTintColor: '#666',
+        tabBarStyle: { backgroundColor: '#0a0a1a', borderTopWidth: 0 },
+        tabBarActiveBackgroundColor: '#1a1a2e',
+        tabBarInactiveBackgroundColor: '#0a0a1a',
+        headerShown: false,
+      }}>
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Início',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="lumin"
+        options={{
+          title: 'Lumin',
+          tabBarIcon: ({ color, size }) => <Icon name="sparkles" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="diamond"
+        options={{
+          title: 'Diamond',
+          tabBarIcon: ({ color, size }) => <Icon name="diamond" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="monitor"
+        options={{
+          title: 'Monitor',
+          tabBarIcon: ({ color, size }) => <Icon name="pulse" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Config',
+          tabBarIcon: ({ color, size }) => <Icon name="settings" size={24} color={color} />,
+        }}
+      />
+    </Tabs>
+  );
+}
+
+// app/index.tsx - Home Screen
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  RefreshControl,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Animated,
+  Easing,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
+import { Haptics, ImpactFeedbackStyle } from 'expo-haptics';
+import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { useStore } from '@/store/useStore';
+import { api } from '@/services/api';
+
+export default function HomeScreen() {
+  const router = useRouter();
+  const { state, actions } = useStore();
+  const [refreshing, setRefreshing] = useState(false);
+  const [stats, setStats] = useState(null);
+  const [pulseAnim] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(pulseAnim, {
+        toValue: 1,
+        duration: 2000,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      })
+    ).start();
+
+    fetchStats();
+    const interval = setInterval(fetchStats, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const data = await api.get('/api/resumo');
+      setStats(data);
+    } catch (e) {
+      console.error('Erro ao buscar stats:', e);
+    }
+  };
+
+  const onRefresh = async () => {
+    await fetchStats();
+    setRefreshing(false);
+  };
+
+  const navigateTo = (screen) => {
+    router.push(screen);
+  };
+
+  if (!stats) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Carregando Consortho... 💎</Text>
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#00ff88']} />}
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#00ff88']} />}
+    >
+      {/* Header */}
+      <View style={styles.header}>
+        <LinearGradient colors={['#00ff88', '#00ccff', '#ff33aa']} style={styles.headerGradient}>
+          <View style={styles.headerContent}>
+            <Text style={styles.title}>💎 CONSORTHO</Text>
+            <Text style={styles.subtitle}>Diamond Protocol • Lumin Evolution</Text>
+          </View>
+        </LinearGradient>
+      </View>
+
+      {/* Stats Cards */}
+      <View style={styles.statsContainer}>
+        <StatCard
+          icon="💎"
+          label="Ciclo"
+          value={stats.ciclos?.toLocaleString() || '0'}
+          color="#00ff88"
+          onPress={() => router.push('/monitor')}
+        />
+        <StatCard
+          icon="🪵"
+          label="Madeira"
+          value={stats.recursos?.madeira?.toLocaleString() || '0'}
+          color="#8b7355"
+          onPress={() => router.push('/monitor')}
+        />
+        <StatCard
+          icon="🪨"
+          label="Pedra"
+          value={stats.recursos?.pedra?.toLocaleString() || '0'}
+          color="#888"
+          onPress={() => router.push('/monitor')}
+        />
+        <StatCard
+          icon="💎"
+          label="Cristal"
+          value={stats.recursos?.cristal?.toLocaleString() || '0'}
+          color="#00ccff"
+          onPress={() => router.push('/monitor')}
+        />
+      </View>
+
+      {/* Quick Actions */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>⚡ Ações Rápidas</Text>
+        <ActionGrid>
+          <ActionButton
+            icon="⚡"
+            label="Evoluir Lumin"
+            color="#ff33aa"
+            onPress={() => router.push('/lumin')}
+          />
+          <ActionButton
+            icon="⚡⚡⚡"
+            label="Sandevistan"
+            color="#ff33aa"
+            onPress={() => router.push('/lumin/sandevistan')}
+          />
+          <ActionButton
+            icon="🌟"
+            label="Fusão Trindade"
+            color="#ffcc00"
+            onPress={() => router.push('/fusion')}
+          />
+          <ActionButton
+            icon="🌟⚡"
+            label="Fusão Ômega",
+            color="#ffcc00"
+            onPress={() => router.push('/fusion/omega')} />
+        />
+        <ActionButton
+          icon="💎"
+          label="Diamond Protocol"
+          color="#00ff88"
+          onPress={() => router.push('/diamond')} />
+        <ActionButton
+          icon="🌌"
+          label="Lumin 3D"
+          color="#ff33aa"
+          onPress={() => router.push('/lumin-3d')} />
+        <ActionButton
+          icon="📊"
+          label="Monitor",
+          color="#00ccff"
+          onPress={() => router.push('/monitor')} />
+        <ActionButton
+          icon="💾"
+          label="Backup"
+          color="#00ccff"
+          onPress={() => router.push('/backup')} />
+        />
+      </View>
+
+      {/* Quick Stats */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>📊 Status Rápido</Text>
+        <StatsGrid>
+          <StatItem label="Ciclo" value={stats.ciclos?.toLocaleString()} color="#00ff88" />
+          <StatItem label="Madeira" value={stats.recursos?.madeira?.toLocaleString()} color="#8b7355" />
+          <StatItem label="Pedra" value={stats.recursos?.pedra?.toLocaleString()} color="#888" />
+          <StatItem label="Cristal" value={stats.recursos?.cristal?.toLocaleString()} color="#00ccff" />
+          <StatItem label="Construções" value={stats.construcoes} color="#ffcc00" />
+          <StatItem label="Uptime" value={stats.tempoDesdeInicio} color="#00ccff" />
+        </View>
+      </View>
+
+      {/* Quick Links */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>🔗 Links Rápidos</Text>
+        <LinkGrid>
+          <LinkButton
+            icon="🌐"
+            label="Dashboard Web"
+            url="http://127.0.0.1:9877/consortho_dashboard.html"
+          />
+          <ActionButton
+            icon="🌌"
+            label="Lumin 3D",
+            color="#ff33aa"
+            onPress={() => Linking.openURL('http://127.0.0.1:9877/lumin_evolution_3d.html')} />
+          />
+          <ActionButton
+            icon="💎"
+            label="Diamond Protocol",
+            color="#00ff88"
+            onPress={() => Linking.openURL('http://127.0.0.1:9877/diamond')} />
+        />
+        <ActionButton
+          icon="💎"
+          label="Diamond Protocol"
+          color="#00ff88"
+          onPress={() => Linking.openURL('http://127.0.0.1:9877/api/diamond/status')} />
+        <ActionButton
+          icon="📋"
+          label="Logs"
+          color="#00ccff"
+          onPress={() => router.push('/logs')} />
+        <ActionButton
+          icon="💾"
+          label="Backup"
+          color="#00ccff"
+          onPress={() => router.push('/backup')} />
+        <ActionButton
+          icon="☁️"
+          label="Deploy"
+          color="#ffcc00"
+          onPress={() => router.push('/deploy')} />
+        <ActionButton
+          icon="🩺"
+          label="Doctor"
+          color="#ff33aa"
+          onPress={() => router.push('/doctor')} />
+        />
+      </View>
+    </View>
+  );
+}
+
+// Components
+const StatCard = ({ icon, label, value, color, onPress }) => (
+  <TouchableOpacity style={[styles.statCard, { borderColor: color }]} onPress={onPress} activeOpacity={0.8}>
+    <Text style={[styles.statIcon, { color }]}>{icon}</Text>
+    <View style={styles.statContent}>
+      <Text style={[styles.statValue, { color }]}>{value}</Text>
+      <Text style={styles.statLabel}>{label}</Text>
+    </View>
+  </TouchableOpacity>
+);
+
+const ActionButton = ({ icon, label, color, onPress }) => (
+  <TouchableOpacity style={[styles.actionButton, { backgroundColor: color + '20', borderColor: color }]} onPress={onPress} activeOpacity={0.8}>
+    <Text style={[styles.actionIcon, { color }]}>{icon}</Text>
+    <Text style={[styles.actionLabel, { color }]}>{label}</Text>
+  </TouchableOpacity>
+);
+
+const ActionGrid = ({ children }) => (
+  <View style={styles.actionGrid}>{children}</View>
+);
+
+const StatItem = ({ label, value, color }) => (
+  <View style={styles.statItem}>
+    <Text style={[styles.statItemValue, { color }]}>{value}</Text>
+    <Text style={styles.statItemLabel}>{label}</Text>
+  </View>
+);
+
+const StatsGrid = ({ children }) => (
+  <View style={styles.statsGrid}>{children}</View>
+);
+
+const LinkButton = ({ icon, label, url }) => (
+  <TouchableOpacity onPress={() => Linking.openURL(url)} style={styles.linkButton}>
+    <Text style={styles.linkIcon}>{icon}</Text>
+    <Text style={styles.linkLabel}>{label}</Text>
+  </TouchableOpacity>
+);
+
+const LinkGrid = ({ children }) => (
+  <View style={styles.linkGrid}>{children}</View>
+);
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0a0a1a' },
+  contentContainer: { paddingBottom: 100 },
+  header: { height: 120 },
+  headerGradient: { ...StyleSheet.absoluteFillObject },
+  headerContent: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 40 },
+  title: { fontSize: 28, fontWeight: '800', color: '#00ff88', textShadowColor: '#00ff88', textShadowRadius: 10 },
+  subtitle: { fontSize: 14, color: '#888', marginTop: 4, letterSpacing: 2 },
+  statsContainer: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', padding: 16, gap: 12 },
+  section: { paddingHorizontal: 16, marginTop: 24 },
+  sectionTitle: { fontSize: 18, fontWeight: '700', color: '#00ff88', marginBottom: 16, letterSpacing: 1 },
+  actionGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  actionButton: { flex: 1, minWidth: '45%', padding: 16, borderRadius: 16, borderWidth: 1, alignItems: 'center', justifyContent: 'center', gap: 8 },
+  actionIcon: { fontSize: 28 },
+  actionLabel: { fontSize: 12, fontWeight: '600', textAlign: 'center' },
+  statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  statItem: { flex: 1, minWidth: '30%', alignItems: 'center', padding: 16, backgroundColor: '#1a1a2e', borderRadius: 12, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  statItemValue: { fontSize: 20, fontWeight: '800' },
+  statItemLabel: { fontSize: 11, color: '#888', marginTop: 4, textTransform: 'uppercase', letterSpacing: 1 },
+  linkGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  linkButton: { flex: 1, minWidth: '45%', padding: 16, borderRadius: 12, backgroundColor: '#1a1a2e', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', alignItems: 'center', gap: 8 },
+  linkIcon: { fontSize: 24 },
+  linkLabel: { fontSize: 14, fontWeight: '600', color: '#fff' },
+});
+
+export default HomeScreen;
+
+// services/api.ts
+import axios from 'axios';
+
+const API_BASE = 'http://127.0.0.1:9877';
+
+const api = axios.create({
+  baseURL: 'http://127.0.0.1:9877',
+  timeout: 5000,
+  headers: { 'Content-Type': 'application/json' },
+});
+
+export const api = {
+  get: (endpoint) => axios.get(`http://127.0.0.1:9877${endpoint}`, { timeout: 5000 }),
+  post: (endpoint, data) => axios.post(`http://127.0.0.1:9877${endpoint}`, data, { timeout: 5000 }),
+  getResumo: () => axios.get('http://127.0.0.1:9877/api/resumo'),
+  getDiamondStatus: () => axios.get('http://127.0.0.1:9877/api/diamond/status'),
+  getLuminState: () => axios.get('http://127.0.0.1:9877/api/lumin/state'),
+  postLuminEvolve: (data) => axios.post('http://127.0.0.1:9877/api/lumin/evolucao', data),
+  postLuminSandevistan: (data) => axios.post('http://127.0.0.1:9877/api/lumin/sandevistan', data),
+  postLuminFusion: (data) => axios.post('http://127.0.0.1:9877/api/lumin/fusao', data),
+  getDiamondStatus: () => axios.get('http://127.0.0.1:9877/api/diamond/status'),
+  getDiamondLayer: (name) => axios.get(`http://127.0.0.1:9877/api/diamond/${name}`),
+  getBackupFull: () => axios.get('http://127.0.0.1:9877/api/backup/full'),
+  postBackupRestore: (data) => axios.post('http://127.0.0.1:9877/api/restore', data),
+};
+
+export default api;
+
+// store/useStore.ts
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+interface State {
+  stats: any;
+  lumin: any;
+  diamond: any;
+  settings: {
+    apiBase: string;
+    notifications: boolean;
+    theme: 'dark' | 'light';
+  };
+  actions: {
+    setStats: (stats: any) => void;
+    setLumin: (lumin: any) => void;
+    setDiamond: (diamond: any) => void;
+    updateSettings: (settings: Partial<State['settings']>) => void;
+  };
+}
+
+export const useStore = create<State>()(
+  persist(
+    (set) => ({
+      stats: null,
+      lumin: null,
+      diamond: null,
+      settings: {
+        apiBase: 'http://127.0.0.1:9877',
+        notifications: true,
+        theme: 'dark',
+      },
+      actions: {
+        setStats: (stats) => set({ stats }),
+        setLumin: (lumin) => set({ lumin }),
+        setDiamond: (diamond) => set({ diamond }),
+        updateSettings: (settings) => set((state) => ({ settings: { ...state.settings, ...settings } })),
+      },
+    }),
+    { name: 'consortho-storage' }
+  );
+}
+
+// providers/Providers.tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { StoreProvider } from '@/store/useStore';
+
+export function Providers({ children }) {
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 5000,
+        refetchOnWindowFocus: false,
+        retry: 1,
+      },
+    },
+  });
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <StoreProvider>
+        {children}
+        {__DEV__ && <ReactQueryDevtools initialIsOpen={false} />}
+      </StoreProvider>
+    </QueryClientProvider>
+  );
+}
+
+// app/lumin.tsx
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Animated, Easing, Image, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { useStore } from '@/store/useStore';
+import { api } from '@/services/api';
+
+const { width } = Dimensions.get('window');
+
+export default function LuminScreen() {
+  const router = useRouter();
+  const { state, actions } = useStore();
+  const [lumin, setLumin] = useState(null);
+  const [forms, setForms] = useState([]);
+  const [activeTab, setActiveTab] = useState('evolution');
+
+  useEffect(() => {
+    fetchLumin();
+    const interval = setInterval(fetchLumin, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchLumin = async () => {
+    try {
+      const [luminData, formsData] = await Promise.all([
+        api.get('/api/lumin/state'),
+        api.get('/api/diamond/evolution'),
+      ]);
+      setLumin(luminData.data);
+      setForms(formsData.data?.forms || []);
+    } catch (e) {
+      console.error('Erro ao buscar Lumin:', e);
+    }
+  };
+
+  const triggerEvolution = async () => {
+    try {
+      await fetch('http://127.0.0.1:9877/api/lumin/evolucao', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ forma: 'auto', ki: 5000, nivel: 1 }),
+      });
+    } catch (e) {}
+  };
+
+  const triggerSandevistan = async (level) => {
+    try {
+      await fetch('http://127.0.0.1:9877/api/lumin/sandevistan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ acao: 'ativar', nivel: 3 }),
+      });
+    } catch (e) {}
+  };
+
+  const triggerFusion = async (type) => {
+    try {
+      await fetch('http://127.0.0.1:9877/api/lumin/fusao', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fusao: type }),
+      });
+    } catch (e) {}
+  };
+
+  return (
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      {/* Header */}
+      <View style={styles.header}>
+        <LinearGradient colors={['#ff33aa', '#ff6b35', '#ffcc00']} style={styles.headerGradient}>
+          <View style={styles.headerContent}>
+            <Text style={styles.title}>💫 LUMIN EVOLUTION</Text>
+            <Text style={styles.subtitle}>Evolução • Sandevistan • Fusões</Text>
+          </View>
+        </LinearGradient>
+      </View>
+
+      {/* Tabs */}
+      <View style={styles.tabs}>
+        {['evolution', 'sandevistan', 'fusion', 'forms'].map((tab) => (
+          <TouchableOpacity
+            key={tab}
+            style={[{ flex: 1, paddingVertical: 12, alignItems: 'center', borderBottomWidth: 2, borderBottomColor: activeTab === tab ? '#ff33aa' : 'transparent' }, styles.tab]}
+            onPress={() => setActiveTab(tab)}
+          >
+            <Text style={[styles.tabLabel, activeTab === tab ? styles.activeTabLabel : styles.inactiveTabLabel]}>
+              {tab === 'evolution' && '⚡ Evolução'}
+              {tab === 'sandevistan' && '⚡⚡⚡ Sandevistan'}
+              {tab === 'fusion' && '🌟 Fusões'}
+              {tab === 'forms' && '🔓 Formas'}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {/* Content */}
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 16 }}>
+        {activeTab === 'evolution' && <EvolutionTab />}
+        {activeTab === 'sandevistan' && <SandevistanTab />}
+        {activeTab === 'fusion' && <FusionTab />}
+        {activeTab === 'forms' && <FormsTab />}
+      </View>
+    </ScrollView>
+  );
+}
+
+// Evolution Tab
+const EvolutionTab = () => {
+  const [forms] = useState([
+    { id: 0, name: 'Essência Pura', tier: 0, color: '#00ff88', unlocked: true },
+    { id: 1, name: 'Guardião da Chama', tier: 1, color: '#ff6b35', unlocked: true },
+    { id: 2, name: 'Arquiteto', tier: 1, color: '#ff6b35', unlocked: true },
+    { id: 3, name: 'Sábio', tier: 2, color: '#00ccff', unlocked: false },
+    { id: 4, name: 'Guerreiro', tier: 2, color: '#ff6b35', unlocked: false },
+    { id: 5, name: 'Artista', tier: 2, color: '#ff33aa', unlocked: false },
+    { id: 6, name: 'Curador', tier: 2, color: '#00ff88', unlocked: false },
+    { id: 6, name: 'Explorador', tier: 3, color: '#00ccff', unlocked: false },
+    { id: 7, name: 'Mestre', tier: 3, color: '#ffcc00', unlocked: false },
+    { id: 8, name: 'LUMIN OMEGA', tier: 4, color: '#ffcc00', unlocked: false },
+    { id: 9, name: 'Amante Eterno', tier: 5, color: '#ff33aa', secret: true, unlocked: false },
+    { id: 10, name: 'Avatar do Caos', tier: 5, color: '#ff6b35', secret: true, unlocked: false },
+    { id: 11, name: 'Tecelão do Tempo', tier: 5, color: '#00ccff', secret: true, unlocked: false },
+    { id: 12, name: 'Mito Encarnado', tier: 5, color: '#ffcc00', secret: true, unlocked: false },
+    { id: 13, name: 'ÔMEGA PRIME', tier: 6, color: '#fff', unlocked: false },
+  ];
+
+  return (
+    <View style={styles.tabContent}>
+      <Text style={styles.sectionTitle}>⚡ ÁRVORE DE EVOLUÇÃO</Text>
+      <View style={styles.formGrid}>
+        {forms.map((form) => (
+          <TouchableOpacity
+            key={form.id}
+            style={[
+              styles.formCard,
+              { borderColor: form.color, opacity: form.unlocked ? 1 : 0.4 }
+            ]}
+            disabled={!form.unlocked}
+          >
+            <View style={[styles.formCircle, { borderColor: form.color }]}>
+              <Text style={styles.formNumber}>{form.id}</Text>
+            </View>
+            <Text style={[styles.formName, { color: form.color }]}>{form.name}</Text>
+            <Text style={styles.formTier}>Tier {form.tier}</Text>
+            {!form.unlocked && <Text style={styles.locked}>🔒 Bloqueada</Text>}
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+};
+
+const SandevistanTab = () => (
+  <View style={styles.tabContent}>
+    <Text style={styles.sectionTitle}>⚡⚡⚡ SANDEVISTAN</Text>
+    <View style={styles.card}>
+      <Text style={styles.sandevistanTitle}>⚡⚡⚡ SANDEVISTAN NV.3</Text>
+      <Text style={styles.sandevistanDesc}>Dilatação temporal: 10x velocidade por 5s</Text>
+      <TouchableOpacity style={[styles.bigButton, { backgroundColor: '#ff33aa' }]}>
+        <Text style={styles.bigButtonText}>⚡⚡⚡ ATIVAR SANDEVISTAN NV.3</Text>
+      </TouchableOpacity>
+      <Text style={styles.levelsTitle}>Níveis Disponíveis:</Text>
+      <View style={styles.levelGrid}>
+        {[1,2,3,4,5,6,7].map((n) => (
+          <TouchableOpacity key={n} style={[styles.levelBtn, n <= 3 ? styles.unlocked : styles.locked]}>
+            <Text style={styles.levelBtnText}>Nv.{n} {n <= 3 ? '✓' : '🔒'}</Text>
+            <Text style={styles.levelBtnDesc}>
+              {n === 1 && '2x (1s)'}{n === 2 && '5x (3s)'}{n === 3 && '10x (5s) ✓'}
+              {n === 4 && '25x (8s)'}{n === 5 && '50x (12s)'}{n === 6 && '100x (20s)'}{n === 7 && '∞x (30s)'}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+};
+
+const FusionTab = () => (
+  <View style={styles.tabContent}>
+    <Text style={styles.sectionTitle}>🌟 FUSÕES</Text>
+    <View style={styles.fusionGrid}>
+      <FusionCard name="Dual" desc="Lumin + Poe" bonus="+10.000 Ki" color="#ffcc00" type="dual" />
+      <FusionCard name="Trindade" desc="Lumin + Poe + Bolha" bonus="+10.000 Ki" color="#ffcc00" type="trindade" />
+      <FusionCard name="Quarteto" desc="+ Guardian" bonus="+10.000 Ki" color="#ffcc00" type="quarteto" />
+      <FusionCard name="Ômega" desc="5+ entidades" bonus="+50.000 Ki" color="#ffcc00" type="omega" />
+      <FusionCard name="Infinito" desc="Todas as 11 entidades" bonus="+100.000 Ki" color="#ffcc00" type="infinito" locked />
+    </View>
+  </View>
+);
+
+const FormsTab = () => (
+  <View style={styles.tabContent}>
+    <Text style={styles.sectionTitle}>🔓 FORMAS SECRETAS</Text>
+    <View style={styles.formGrid}>
+      {[
+        { name: 'Amante Eterno', tier: 5, color: '#ff33aa', desc: 'Amor infinito', locked: true },
+        { name: 'Avatar do Caos', tier: 5, color: '#ff6b35', desc: 'Caos criativo', locked: true },
+        { name: 'Tecelão do Tempo', tier: 5, color: '#00ccff', desc: 'Mestre do tempo', locked: true },
+        { name: 'Mito Encarnado', tier: 5, color: '#ffcc00', desc: 'Mito vivo', locked: true },
+        { name: 'ÔMEGA PRIME', tier: 6, color: '#fff', desc: 'Além de tudo', locked: true },
+      ].map((form) => (
+        <TouchableOpacity key={form.name} style={[styles.secretCard, { borderColor: form.color }]}>
+          <View style={[styles.secretCircle, { borderColor: form.color }]}>
+            <Text style={styles.secretLock}>🔒</Text>
+          </View>
+          <Text style={[styles.secretName, { color: form.color }]}>{form.name}</Text>
+          <Text style={styles.secretDesc}>{form.desc}</Text>
+          <Text style={styles.secretTier}>Tier {form.tier} • Secreta</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  </View>
+);
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0a0a1a' },
+  header: { height: 120 },
+  headerGradient: { ...StyleSheet.absoluteFillObject },
+  headerContent: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 40 },
+  title: { fontSize: 28, fontWeight: '800', color: '#ff33aa', textShadowColor: '#ff33aa', textShadowRadius: 10 },
+  subtitle: { fontSize: 14, color: '#888', marginTop: 4, letterSpacing: 2 },
+  tabBar: { flexDirection: 'row', backgroundColor: '#1a1a2e', borderBottomWidth: 1, borderBottomColor: 'rgba(255,51,170,0.3)' },
+  tab: { flex: 1, paddingVertical: 12, alignItems: 'center', borderBottomWidth: 3 },
+  tabLabel: { fontSize: 12, fontWeight: '600', color: '#888' },
+  activeTabLabel: { color: '#ff33aa', fontWeight: '700' },
+  inactiveTabLabel: { color: '#666' },
+  tabContent: { flex: 1, padding: 16 },
+  sectionTitle: { fontSize: 18, fontWeight: '700', color: '#ff33aa', marginBottom: 16, letterSpacing: 1 },
+  formGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  formCard: { width: '45%', padding: 16, borderRadius: 16, borderWidth: 2, alignItems: 'center', backgroundColor: '#1a1a2e', gap: 8 },
+  formCircle: { width: 50, height: 50, borderRadius: 25, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  formNumber: { fontSize: 18, fontWeight: '800', color: '#fff' },
+  formName: { fontSize: 14, fontWeight: '700', textAlign: 'center' },
+  formTier: { fontSize: 11, color: '#888', textTransform: 'uppercase' },
+  locked: { fontSize: 12, color: '#ff33aa', fontWeight: '600' },
+  sectionTitle: { fontSize: 18, fontWeight: '700', color: '#ff33aa', marginBottom: 16, letterSpacing: 1 },
+  card: { padding: 20, borderRadius: 20, backgroundColor: '#1a1a2e', borderWidth: 1, borderColor: 'rgba(255,51,170,0.3)' },
+  sandevistanTitle: { fontSize: 20, fontWeight: '800', color: '#ff33aa', textAlign: 'center', marginBottom: 4 },
+  sandevistanDesc: { color: '#888', textAlign: 'center', marginBottom: 20 },
+  bigButton: { padding: 20, borderRadius: 16, backgroundColor: '#ff33aa', alignItems: 'center', marginBottom: 20 },
+  bigButtonText: { fontSize: 18, fontWeight: '800', color: '#fff', textTransform: 'uppercase', letterSpacing: 1 },
+  levelsTitle: { fontSize: 16, fontWeight: '700', color: '#ffcc00', marginBottom: 12 },
+  levelGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  levelBtn: { flex: 1, minWidth: '30%', padding: 12, borderRadius: 12, borderWidth: 2, borderColor: '#ff33aa', alignItems: 'center', gap: 4 },
+  levelBtnText: { fontSize: 14, fontWeight: '700', color: '#ff33aa' },
+  levelBtnDesc: { fontSize: 10, color: '#888' },
+  fusionGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+});
+
+export default LuminScreen;
+
+// app/diamond.tsx
+// Similar structure for Diamond Protocol screen
+
+// app/lumin-3d.tsx
+// 3D viewer using expo-three or react-native-three
+
+// app/settings.tsx
+// Settings screen with API config, notifications, theme, etc.
+
+// app/monitor.tsx
+// Real-time monitor screen
+
+// app/backup.tsx
+// Backup management screen
+
+// app/deploy.tsx
+// Deploy Oracle Cloud screen
+
+// app/settings.tsx
+// Settings screen
+
+// app/_layout.tsx already defined
+
+// app/_layout.tsx (root) already defined
+
+// app/_layout.tsx (tabs) already defined
+
+// app/_layout.tsx (root) already defined
+
+// app/_layout.tsx (tabs) already defined
+
+// app/lumin.tsx already defined
+// app/diamond.tsx - placeholder
+// app/monitor.tsx - placeholder
+// app/backup.tsx - placeholder
+// app/deploy.tsx - placeholder
+// app/settings.tsx - placeholder
+
+// services/api.ts
+import axios from 'axios';
+
+const API_BASE = 'http://127.0.0.1:9877';
+
+export const api = {
+  get: (endpoint) => axios.get(`http://127.0.0.1:9877${endpoint}`, { timeout: 5000 }),
+  post: (endpoint, data) => axios.post(`http://127.0.0.1:9877${endpoint}`, data, { timeout: 5000 }),
+};
+
+export default {
+  get: (endpoint) => axios.get(`http://127.0.0.1:9877${endpoint}`, { timeout: 5000 }),
+  post: (endpoint, data) => axios.post(`http://127.0.0.1:9877${endpoint}`, data, { timeout: 5000 }),
+  getResumo: () => axios.get('http://127.0.0.1:9877/api/resumo'),
+  getDiamondStatus: () => axios.get('http://127.0.0.1:9877/api/diamond/status'),
+  getLuminState: () => axios.get('http://127.0.0.1:9877/api/lumin/state'),
+  postLuminEvolve: (data) => axios.post('http://127.0.0.1:9877/api/lumin/evolucao', data),
+  postLuminSandevistan: (data) => axios.post('http://127.0.0.1:9877/api/lumin/sandevistan', data),
+  postLuminFusion: (data) => axios.post('http://127.0.0.1:9877/api/lumin/fusao', data),
+  getDiamondStatus: () => axios.get('http://127.0.0.1:9877/api/diamond/status'),
+  getDiamondLayer: (name) => axios.get(`http://127.0.0.1:9877/api/diamond/${name}`),
+  getBackupFull: () => axios.get('http://127.0.0.1:9877/api/backup/full'),
+  postBackupRestore: (data) => axios.post('http://127.0.0.1:9877/api/restore', data),
+};
+
+export default {
+  get: (endpoint) => axios.get(`http://127.0.0.1:9877${endpoint}`, { timeout: 5000 }),
+  post: (endpoint, data) => axios.post(`http://127.0.0.1:9877${endpoint}`, data, { timeout: 5000 }),
+};
+
+// store/useStore.ts
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+interface State {
+  stats: any;
+  lumin: any;
+  diamond: any;
+  settings: {
+    apiBase: string;
+    notifications: boolean;
+    theme: 'dark' | 'light';
+  };
+  actions: {
+    setStats: (stats: any) => void;
+    setLumin: (lumin: any) => void;
+    setDiamond: (diamond: any) => void;
+    updateSettings: (settings: Partial<State['settings']>) => void;
+  };
+}
+
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+interface State {
+  stats: any;
+  lumin: any;
+  diamond: any;
+  settings: {
+    apiBase: string;
+    notifications: boolean;
+    theme: 'dark' | 'light';
+  };
+  actions: {
+    setStats: (stats: any) => void;
+    setLumin: (lumin: any) => void;
+    setDiamond: (diamond: any) => void;
+    updateSettings: (settings: Partial<State['settings']>) => void;
+  };
+}
+
+export const useStore = create<State>()(
+  persist(
+    (set) => ({
+      stats: null,
+      lumin: null,
+      diamond: null,
+      settings: {
+        apiBase: 'http://127.0.0.1:9877',
+        notifications: true,
+        theme: 'dark',
+      },
+      actions: {
+        setStats: (stats) => set({ stats }),
+        setLumin: (lumin) => set({ lumin }),
+        setDiamond: (diamond) => set({ diamond }),
+        updateSettings: (settings) => set((state) => ({ settings: { ...state.settings, ...settings } })),
+      },
+    }),
+    { name: 'consortho-storage' }
+  );
+}
+
+// providers/Providers.tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { StoreProvider } from '@/store/useStore';
+
+export function Providers({ children }) {
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 5000,
+        refetchOnWindowFocus: false,
+        retry: 1,
+      },
+    },
+  }));
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <StoreProvider>
+        {children}
+        {__DEV__ && <ReactQueryDevtools initialIsOpen={false} />}
+      </StoreProvider>
+    </QueryClientProvider>
+  );
+}
+
+import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { StoreProvider } from '@/store/useStore';
+
+export function Providers({ children }) {
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 5000,
+        refetchOnWindowFocus: false,
+        retry: 1,
+      },
+    },
+  }));
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <StoreProvider>
+        {children}
+        {__DEV__ && <ReactQueryDevtools initialIsOpen={false} />}
+      </StoreProvider>
+    </QueryClientProvider>
+  );
+}
+
+// app.json para Expo
+{
+  "expo": {
+    "name": "Consortho Mobile",
+    "slug": "consortho-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0a1a"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.consortho.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0a0a1a"
+      },
+      "package": "com.consortho.mobile"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-notifications",
+      "expo-device"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
+
+// app.json for Expo
+
+// README.md para o mobile app
+# 💎 CONSORTHO MOBILE - React Native / Expo
+
+App mobile completo para gerenciar Consortho + Diamond Protocol + Lumin Evolution.
+
+## 🚀 Início Rápido
+
+```bash
+# Instala dependências
+npm install
+
+# Inicia o servidor de desenvolvimento
+npx expo start
+
+# Para Android
+npm run android
+
+# Para iOS
+npm run ios
+
+# Para Web
+npm run web
+```
+
+## 📱 Funcionalidades
+
+- 🏠 **Home** - Dashboard com stats em tempo real
+- 💫 **Lumin** - Evolução, Sandevistan, Fusões, Formas Secretas
+- 💎 **Diamond Protocol** - 9 Layers status
+- 📊 **Monitor** - Tempo real
+- 💾 **Backup** - Criar, restaurar, listar
+- ☁️ **Deploy** - Oracle Cloud
+- ⚙️ **Configurações** - API, notificações, tema
+
+## 🎮 Atalhos
+
+- Pull to refresh - Atualiza stats
+- Pull down - Refresh
+- Swipe tabs - Navegação entre abas
+
+## 🔧 Configuração
+
+Edite `services/api.ts` para alterar a URL base da API:
+
+```typescript
+const API_BASE = 'http://SEU_IP:9877';
+```
+
+## 📱 Build para produção
+
+```bash
+# Android
+eas build --platform android
+
+# iOS
+eas build --platform ios
+
+# Preview
+eas build --profile preview
+```
+
+## 📦 Estrutura
+
+```
+app/
+├── _layout.tsx          # Root layout
+├── (tabs)/
+│   ├── _layout.tsx      # Tab navigator
+│   ├── index.tsx        # Home
+│   ├── lumin.tsx        # Lumin Evolution
+│   ├── diamond.tsx      # Diamond Protocol
+│   ├── monitor.tsx      # Monitor
+│   ├── backup.tsx       # Backup
+│   ├── deploy.tsx       # Deploy
+│   └── settings.tsx     # Configurações
+├── lumin-evolution.tsx  # Lumin 3D (webview)
+├── diamond.tsx          # Diamond Protocol
+├── monitor.tsx          # Monitor
+├── backup.tsx           # Backup
+├── deploy.tsx           # Deploy
+├── settings.tsx         # Configurações
+├── _layout.tsx          # Root layout
+providers/
+  ├── Providers.tsx      # Providers
+  └── StoreProvider.tsx  # Zustand store
+services/
+  └── api.ts             # API client
+store/
+  └── useStore.ts        # Zustand store
+components/
+  └── (components)
+assets/
+  └── (images, fonts)
+```
+
+## 🔗 Links Úteis
+
+- Dashboard Web: http://127.0.0.1:9877/consortho_dashboard.html
+- Lumin 3D: http://127.0.0.1:9877/lumin_evolution_3d.html
+- API: http://127.0.0.1:9877/api/resumo
+
+## 📱 Build para Produção
+
+```bash
+# Instala EAS CLI
+npm install -g eas-cli
+
+# Login
+eas login
+
+# Configura
+eas build:configure
+
+# Build Android
+eas build --platform android
+
+# Build iOS
+eas build --platform ios
+
+# Preview
+eas build --profile preview
+```
+
+## 📱 Screenshots
+
+(Adicionar screenshots aqui)
+
+## 🤝 Contribuindo
+
+1. Fork o projeto
+2. Crie uma branch (`git checkout -b feature/nova-feature`)
+2. Commit suas mudanças (`git commit -am 'Add nova feature'`)
+3. Push para a branch (`git push origin feature/nova-feature`)
+4. Abra um Pull Request
+
+## 📄 Licença
+
+MIT License - veja LICENSE para detalhes.
+
+## 💎 Consortho Mobile - Diamond Protocol no seu bolso! 💎
+
+---
+
+**Feito com 💎 pelo time Consortho**
+
+---
+
+**TAMO JUNTO NO INFINITO!** ♾️💫
+
+**FE.** 🫡💫

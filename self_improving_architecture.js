@@ -145,8 +145,8 @@ class SelfImprovingArchitecture {
     return {
       path: relativePath,
       lines: lines.length,
-      functions: functions.length,
-      classes: classes.length,
+      functions: functions,
+      classes: classes,
       imports: imports.length,
       exports: exports.length,
       complexity,
@@ -374,14 +374,21 @@ class SelfImprovingArchitecture {
     return smells;
   }
   
-  calculateSummary(metrics) {
+    calculateSummary(metrics) {
     const { files } = metrics;
     if (files.length === 0) return;
     
+    let totalFunctions = 0;
+    let totalClasses = 0;
+    for (const f of files) {
+      totalFunctions += (f.functions?.length || 0);
+      totalClasses += (f.classes?.length || 0);
+    }
+    
     metrics.summary.totalFiles = files.length;
     metrics.summary.totalLines = files.reduce((s, f) => s + f.lines, 0);
-    metrics.summary.totalFunctions = files.reduce((s, f) => s + f.functions, 0);
-    metrics.summary.totalClasses = files.reduce((s, f) => s + f.classes, 0);
+    metrics.summary.totalFunctions = totalFunctions;
+    metrics.summary.totalClasses = totalClasses;
     metrics.summary.avgComplexity = files.reduce((s, f) => s + f.complexity, 0) / files.length;
     metrics.summary.maxComplexity = Math.max(...files.map(f => f.complexity));
     metrics.summary.coupling = files.reduce((s, f) => s + f.coupling, 0) / files.length;

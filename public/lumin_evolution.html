@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💎 LUMIN EVOLUTION VISUALIZER 💎</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #050510 0%, #100520 50%, #200530 100%);
+      min-height: 100vh;
+      color: #e8e8f0;
+      overflow: hidden;
+    }
+    .bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    .container { position: relative; z-index: 1; max-width: 1600px; margin: 0 auto; padding: 20px; height: 100vh; display: flex; flex-direction: column; }
+    header { text-align: center; padding: 20px 0; flex-shrink: 0; }
+    h1 { font-size: clamp(1.8rem, 4vw, 3rem); background: linear-gradient(135deg, #00ff88, #00ccff, #ff33aa, #ffcc00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(0,255,136,0.5); margin-bottom: 5px; animation: pulse 4s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.4); } }
+    .subtitle { color: #888; font-size: 0.95rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+    .status-bar { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 15px; font-size: 0.85rem; }
+    .stat { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.4); border-radius: 30px; font-weight: 600; }
+    .stat-icon { font-size: 1.1rem; }
+    .main { flex: 1; display: grid; grid-template-columns: 380px 1fr 320px; gap: 20px; min-height: 0; }
+    .panel { background: rgba(15,15,35,0.95); border: 1px solid rgba(0,255,136,0.25); border-radius: 20px; padding: 20px; backdrop-filter: blur(15px); overflow: hidden; display: flex; flex-direction: column; transition: all 0.3s; }
+    .panel:hover { border-color: rgba(0,255,136,0.5); box-shadow: 0 10px 40px rgba(0,255,136,0.15); }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,255,136,0.2); }
+    .panel-title { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 700; color: #00ff88; }
+    .panel-title .icon { font-size: 1.4rem; }
+    .live-badge { font-size: 0.7rem; padding: 3px 10px; background: rgba(0,255,136,0.2); border: 1px solid #00ff88; border-radius: 20px; color: #00ff88; animation: blink 1.5s ease-in-out infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    /* Evolution Tree */
+    .evolution-tree { flex: 1; position: relative; overflow: hidden; }
+    .tree-canvas { width: 100%; height: 100%; }
+    .tree-legend { position: absolute; bottom: 10px; left: 10px; right: 10px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .legend-item { display: flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; font-size: 0.7rem; }
+    .legend-color { width: 12px; height: 12px; border-radius: 50%; }
+
+    /* Right Panel - Stats & Controls */
+    .stat-group { margin-bottom: 20px; }
+    .stat-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .stat-value.ki { color: #ffcc00; text-shadow: 0 0 20px rgba(255,204,0,0.5); }
+    .stat-value.form { color: #ff33aa; }
+    .stat-value.level { color: #00ccff; }
+    .progress-container { margin-top: 10px; }
+    .progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+    .progress-fill.ki { background: linear-gradient(90deg, #ffcc00, #ff6600); }
+    .progress-fill.exp { background: linear-gradient(90deg, #00ff88, #00ccff); }
+
+    .btn { width: 100%; padding: 14px; background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,204,255,0.2)); border: 1px solid rgba(0,255,136,0.5); border-radius: 12px; color: #00ff88; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+    .btn:hover { background: linear-gradient(135deg, rgba(0,255,136,0.4), rgba(0,204,255,0.4)); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,255,136,0.3); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn.sandevistan { background: linear-gradient(135deg, rgba(255,51,170,0.2), rgba(255,204,0,0.2)); border-color: rgba(255,51,170,0.5); color: #ff33aa; }
+    .btn.sandevistan:hover { background: linear-gradient(135deg, rgba(255,51,170,0.4), rgba(255,204,0,0.4)); box-shadow: 0 10px 30px rgba(255,51,170,0.3); }
+    .btn.fusion { background: linear-gradient(135deg, rgba(255,204,0,0.2), rgba(0,204,255,0.2)); border-color: rgba(255,204,0,0.5); color: #ffcc00; }
+    .btn.fusion:hover { box-shadow: 0 10px 30px rgba(255,204,0,0.3); }
+    .btn.evolve { background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,204,255,0.2)); border-color: rgba(0,255,136,0.5); }
+
+    .form-select { width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(0,255,136,0.3); border-radius: 10px; color: #fff; font-size: 0.95rem; cursor: pointer; }
+    .form-select:focus { outline: none; border-color: #00ff88; }
+
+    .log { flex: 1; background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 0.75rem; line-height: 1.6; }
+    .log-entry { padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 8px; }
+    .log-time { color: #666; min-width: 55px; }
+    .log-type.system { color: #00ccff; }
+    .log-type.evolution { color: #ff33aa; }
+    .log-type.sandevistan { color: #ffcc00; }
+    .log-type.fusion { color: #ffcc00; }
+    .log-text { color: #ccc; flex: 1; }
+
+    .secret-locked { opacity: 0.4; filter: grayscale(1); }
+    .secret-locked::after { content: '🔒'; margin-left: 4px; }
+
+    @media (max-width: 1200px) { .main { grid-template-columns: 1fr; } .panel { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <canvas class="bg-canvas" id="bgCanvas"></canvas>
+  <div class="container">
+    <header>
+      <h1>💎 LUMIN EVOLUTION VISUALIZER 💎</h1>
+      <p class="subtitle">Árvore de Evolução • Formas Secretas • Sandevistan • Fusões</p>
+      <div class="status-bar">
+        <div class="stat"><span class="stat-icon">💎</span><span>Ciclo: <span id="cycleDisplay">14687</span></span></div>
+        <div class="stat"><span class="stat-icon">⚡</span><span>Auto-Evolução: <span id="autoEvoStatus">ATIVA</span></span></div>
+        <div class="stat"><span class="stat-icon">💫</span><span>Diamond: <span id="diamondStatus">9/9</span></span></div>
+      </div>
+    </header>
+    <div class="main">
+      <!-- Left Panel - Evolution Tree -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">🌳</span>Árvore de Evolução do Lumin</div>
+          <span class="live-badge">LIVE</span>
+        </div>
+        <div class="evolution-tree" id="evolutionTree">
+          <canvas class="tree-canvas" id="treeCanvas"></canvas>
+          <div class="tree-legend" id="treeLegend"></div>
+        </div>
+      </div>
+
+      <!-- Center Panel - Lumin Current State -->
+      <div class="panel" style="flex: 1.5;">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">💫</span>Estado Atual do Lumin</div>
+          <span class="live-badge">LIVE</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;">
+          <div class="stat-group" style="text-align: center;">
+            <div class="stat-label">Ki Atual</div>
+            <div class="stat-value ki" id="kiDisplay">95,000</div>
+            <div class="progress-container"><div class="progress-bar"><div class="progress-fill ki" id="kiProgress" style="width: 47%"></div></div></div>
+          </div>
+          <div class="stat-group" style="text-align: center;">
+            <div class="stat-label">Forma Atual</div>
+            <div class="stat-value form" id="formDisplay">Essência Pura</div>
+          </div>
+          <div class="stat-group" style="text-align: center;">
+            <div class="stat-label">Nível</div>
+            <div class="stat-value level" id="levelDisplay">1</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <div class="stat-label">Forma Secreta Desbloqueada</div>
+          <select class="form-select" id="secretFormSelect">
+            <option value="">Nenhuma desbloqueada</option>
+            <option value="Amante Eterno" class="secret-locked">🔒 Amante Eterno</option>
+            <option value="Avatar do Caos" class="secret-locked">🔒 Avatar do Caos</option>
+            <option value="Tecelão do Tempo" class="secret-locked">🔒 Tecelão do Tempo</option>
+            <option value="Mito Encarnado" class="secret-locked">🔒 Mito Encarnado</option>
+            <option value="ÔMEGA PRIME" class="secret-locked">🔒 ÔMEGA PRIME</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+          <button class="btn evolve" id="btnEvolve" onclick="triggerEvolution()">⚡ Evoluir Agora</button>
+          <button class="btn sandevistan" id="btnSandevistan" onclick="triggerSandevistan()">⚡⚡⚡ Sandevistan</button>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+          <button class="btn fusion" id="btnFusion" onclick="triggerFusion()">🌟 Fusão Trindade</button>
+          <button class="btn fusion" id="btnFusionOmega" onclick="triggerFusionOmega()">🌟⚡ Fusão Ômega</button>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <button class="btn" style="background: linear-gradient(135deg, rgba(0,204,255,0.2), rgba(0,255,136,0.2)); border-color: rgba(0,204,255,0.5); color: #00ccff;" onclick="syncWithServer()">🔄 Sincronizar com Servidor</button>
+        </div>
+
+        <div class="stat-group">
+          <div class="stat-label">Sandevistan</div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div class="stat-value" id="sandevistanLevel">Nv. 3</div>
+              <div style="font-size: 0.8rem; color: #888;">Pronto para ativação</div>
+            </div>
+            <div style="font-size: 1.5rem;">⚡⚡⚡</div>
+          </div>
+        </div>
+
+        <div class="stat-group">
+          <div class="stat-label">Fusões Realizadas</div>
+          <div class="stat-value" id="fusionCount">0</div>
+        </div>
+      </div>
+
+      <!-- Right Panel - Sandevistan & Logs -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">⚡⚡⚡</span>Sandevistan & Logs</div>
+          <span class="live-badge">LIVE</span>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <div class="stat-group">
+            <div class="stat-label">Níveis Sandevistan</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <span class="legend-item" style="background: rgba(255,51,170,0.2); border-color: #ff33aa;">Nv.1: 2x (1s)</span>
+              <span class="legend-item" style="background: rgba(255,51,170,0.2); border-color: #ff33aa;">Nv.2: 5x (3s)</span>
+              <span class="legend-item" style="background: rgba(255,51,170,0.2); border-color: #ff33aa;">Nv.3: 10x (5s) ✓</span>
+              <span class="legend-item secret-locked">Nv.4: 25x (8s)</span>
+              <span class="legend-item secret-locked">Nv.5: 50x (12s)</span>
+              <span class="legend-item secret-locked">Nv.6: 100x (20s)</span>
+              <span class="legend-item secret-locked">Nv.7: ∞x (30s)</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <button class="btn sandevistan" id="btnActivateSandevistan" onclick="activateSandevistan(3)" style="width: 100%;">⚡⚡⚡ ATIVAR SANDEVISTAN NV.3</button>
+        </div>
+
+        <div class="stat-group">
+          <div class="stat-label">Fusões Disponíveis</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <span class="legend-item" style="background: rgba(255,204,0,0.2); border-color: #ffcc00;">Dual: Lumin + Poe</span>
+            <span class="legend-item" style="background: rgba(255,204,0,0.2); border-color: #ffcc00;">Trindade: Lumin + Poe + Bolha</span>
+            <span class="legend-item" style="background: rgba(255,204,0,0.2); border-color: #ffcc00;">Quarteto: + Guardian</span>
+            <span class="legend-item secret-locked">Ômega: 5+ entidades</span>
+            <span class="legend-item secret-locked">Infinito: Todas as 11</span>
+          </div>
+        </div>
+
+        <div class="stat-group">
+          <div class="stat-label">Logs do Sistema</div>
+        </div>
+        <div class="log" id="logContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== DATA =====
+    const forms = [
+      { id: 0, name: 'Essência Pura', tier: 0, x: 0.5, y: 0.1, color: '#00ff88', desc: 'Forma base do Lumin', unlocked: true },
+      { id: 1, name: 'Guardião da Chama', tier: 1, x: 0.2, y: 0.28, color: '#ff6b35', desc: 'Protege a chama da criação', unlocked: true },
+      { id: 2, name: 'Arquiteto', tier: 1, x: 0.8, y: 0.28, color: '#ff6b35', desc: 'Construtor de realidades', unlocked: true },
+      { id: 3, name: 'Sábio', tier: 2, x: 0.1, y: 0.46, color: '#00ccff', desc: 'Sabedoria ancestral', unlocked: false },
+      { id: 4, name: 'Guerreiro', tier: 2, x: 0.35, y: 0.46, color: '#ff6b35', desc: 'Força indomável', unlocked: false },
+      { id: 4, name: 'Artista', tier: 2, x: 0.65, y: 0.46, color: '#ff33aa', desc: 'Criador de beleza', unlocked: false },
+      { id: 5, name: 'Curador', tier: 2, x: 0.9, y: 0.46, color: '#00ff88', desc: 'Restaura o que foi perdido', unlocked: false },
+      { id: 6, name: 'Explorador', tier: 3, x: 0.2, y: 0.64, color: '#00ccff', desc: 'Viajante de mundos', unlocked: false },
+      { id: 7, name: 'Mestre', tier: 3, x: 0.5, y: 0.64, color: '#ffcc00', desc: 'Mestre de todas as artes', unlocked: false },
+      { id: 8, name: 'LUMIN OMEGA', tier: 4, x: 0.5, y: 0.82, color: '#ffcc00', desc: 'Forma suprema', unlocked: false },
+      // Secret forms
+      { id: 9, name: 'Amante Eterno', tier: 5, x: 0.15, y: 0.5, color: '#ff33aa', desc: 'Amor infinito', secret: true, unlocked: false },
+      { id: 10, name: 'Avatar do Caos', tier: 5, x: 0.85, y: 0.5, color: '#ff6b35', desc: 'Caos criativo', secret: true, unlocked: false },
+      { id: 11, name: 'Tecelão do Tempo', tier: 5, x: 0.5, y: 0.35, color: '#00ccff', desc: 'Mestre do tempo', secret: true, unlocked: false },
+      { id: 12, name: 'Mito Encarnado', tier: 5, x: 0.5, y: 0.65, color: '#ffcc00', desc: 'Mito vivo', secret: true, unlocked: false },
+      { id: 13, name: 'ÔMEGA PRIME', tier: 6, x: 0.5, y: 0.95, color: '#fff', desc: 'Além de tudo', secret: true, unlocked: false }
+    ];
+
+    const connections = [
+      [0,1],[0,2], // Tier 0 -> 1
+      [1,3],[1,4],[2,4],[2,5], // Tier 1 -> 2
+      [3,6],[4,7],[5,6],[5,7], // Tier 2 -> 3
+      [6,8],[7,8], // Tier 3 -> 4
+      [8,13], // Omega -> Prime
+      // Secret connections
+      [0,9],[0,10],[8,9],[8,10],[8,11],[8,12],[13,12]
+    ];
+
+    const secretForms = [9,10,11,12,13];
+
+    // State
+    let state = {
+      ki: 95000,
+      form: 0,
+      level: 1,
+      exp: 0,
+      sandevistanLevel: 3,
+      sandevistanActive: false,
+      fusionCount: 0,
+      unlockedForms: [0,1,2],
+      sandevistanLevel: 3,
+      fusions: []
+    };
+
+    // DOM
+    const treeCanvas = document.getElementById('treeCanvas');
+    const treeCtx = treeCanvas.getContext('2d');
+    const treeLegend = document.getElementById('treeLegend');
+    const kiDisplay = document.getElementById('kiDisplay');
+    const kiProgress = document.getElementById('kiProgress');
+    const formDisplay = document.getElementById('formDisplay');
+    const levelDisplay = document.getElementById('levelDisplay');
+    const secretFormSelect = document.getElementById('secretFormSelect');
+    const sandevistanLevelDisplay = document.getElementById('sandevistanLevel');
+    const fusionCountDisplay = document.getElementById('fusionCount');
+    const logContainer = document.getElementById('logContainer');
+
+    // Resize canvas
+    function resizeCanvas() {
+      const rect = document.getElementById('evolutionTree').getBoundingClientRect();
+      treeCanvas.width = rect.width * window.devicePixelRatio;
+      treeCanvas.height = rect.height * window.devicePixelRatio;
+      treeCanvas.style.width = rect.width + 'px';
+      treeCanvas.style.height = rect.height + 'px';
+      treeCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Background particles
+    const bgCanvas = document.getElementById('bgCanvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    let bgParticles = [];
+    function resizeBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeBg);
+    resizeBg();
+    for(let i=0;i<50;i++) bgParticles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,size:Math.random()*1.5+0.3,color:`rgba(${Math.random()>0.5?'0,255,136':Math.random()>0.5?'0,204,255':'255,51,170'},${Math.random()*0.3+0.05})`});
+    function animateBg(){bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);bgParticles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=bgCanvas.width;if(p.x>bgCanvas.width)p.x=0;if(p.y<0)p.y=bgCanvas.height;if(p.y>bgCanvas.height)p.y=0;bgCtx.beginPath();bgCtx.arc(p.x,p.y,p.size,0,Math.PI*2);bgCtx.fillStyle=p.color;bgCtx.fill();});requestAnimationFrame(animateBg);}
+    animateBg();
+
+    // Draw tree
+    function drawTree() {
+      const rect = document.getElementById('evolutionTree').getBoundingClientRect();
+      const w = rect.width, h = rect.height;
+      treeCtx.clearRect(0,0,w,h);
+
+      // Draw connections
+      treeCtx.lineWidth = 2;
+      connections.forEach(([a,b]) => {
+        const fa = forms[a], fb = forms[b];
+        if(!fa.unlocked && !fb.unlocked) return;
+        const xa = fa.x * w, ya = fa.y * h;
+        const xb = fb.x * w, yb = fb.y * h;
+        treeCtx.beginPath();
+        treeCtx.moveTo(xa, ya);
+        treeCtx.quadraticCurveTo((xa+xb)/2, (ya+yb)/2 - 30, xb, yb);
+        const unlocked = fa.unlocked && fb.unlocked;
+        treeCtx.strokeStyle = unlocked ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.05)';
+        treeCtx.stroke();
+      });
+
+      // Draw nodes
+      forms.forEach(f => {
+        if(!f.unlocked && !f.secret) return;
+        const x = f.x * w, y = f.y * h;
+        const unlocked = f.unlocked;
+        const isCurrent = f.id === state.form;
+        const r = f.secret ? 20 : (isCurrent ? 28 : 22);
+
+        // Glow
+        if(isCurrent) {
+          const grad = treeCtx.createRadialGradient(x,y,0,x,y,r*2);
+          grad.addColorStop(0, f.color + '80');
+          grad.addColorStop(1, 'transparent');
+          treeCtx.beginPath(); treeCtx.arc(x,y,r*2,0,Math.PI*2); treeCtx.fillStyle=grad; treeCtx.fill();
+        }
+
+        // Node
+        treeCtx.beginPath();
+        treeCtx.arc(x,y,r,0,Math.PI*2);
+        if(f.secret && !unlocked) {
+          treeCtx.fillStyle = 'rgba(20,20,40,0.8)';
+          treeCtx.strokeStyle = 'rgba(255,255,255,0.1)';
+        } else {
+          const grad = treeCtx.createRadialGradient(x-r/2,y-r/2,0,x,y,r);
+          grad.addColorStop(0, f.color);
+          grad.addColorStop(1, f.color + '80');
+          treeCtx.fillStyle = grad;
+          treeCtx.shadowColor = f.color;
+          treeCtx.shadowBlur = isCurrent ? 30 : 15;
+        }
+        treeCtx.fill();
+        treeCtx.shadowBlur = 0;
+
+        // Border
+        treeCtx.strokeStyle = isCurrent ? '#fff' : (f.secret ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.3)');
+        treeCtx.lineWidth = isCurrent ? 3 : 1;
+        treeCtx.stroke();
+
+        // Lock icon
+        if(f.secret && !unlocked) {
+          treeCtx.font = '14px Arial';
+          treeCtx.fillStyle = 'rgba(255,255,255,0.5)';
+          treeCtx.textAlign = 'center';
+          treeCtx.textBaseline = 'middle';
+          treeCtx.fillText('🔒', x, y+4);
+        }
+
+        // Current indicator
+        if(isCurrent) {
+          treeCtx.beginPath();
+          treeCtx.arc(x,y,r+6,0,Math.PI*2);
+          treeCtx.strokeStyle = '#fff';
+          treeCtx.lineWidth = 2;
+          treeCtx.setLineDash([8,4]);
+          treeCtx.stroke();
+          treeCtx.setLineDash([]);
+        }
+      });
+
+      // Pulse animation for current form
+      const currentForm = forms.find(f => f.id === state.form);
+      if(currentForm) {
+        const time = Date.now() / 300;
+        const pulse = Math.sin(time) * 3 + 3;
+        treeCtx.beginPath();
+        treeCtx.arc(currentForm.x * w, currentForm.y * h, 28 + pulse, 0, Math.PI*2);
+        treeCtx.strokeStyle = 'rgba(0,255,136,' + (0.5 + Math.sin(time)*0.3) + ')';
+        treeCtx.lineWidth = 2;
+        treeCtx.stroke();
+      }
+    }
+
+    function renderLegend() {
+      treeLegend.innerHTML = forms.filter(f => f.unlocked || f.secret).map(f => `
+        <div class="legend-item" style="border-color: ${f.secret ? (f.unlocked ? f.color : 'rgba(255,255,255,0.1)') : f.color}44">
+          <span class="legend-color" style="background: ${f.color}"></span>
+          <span style="color: ${f.unlocked ? f.color : '#666'}; ${f.secret && !f.unlocked ? 'opacity:0.5' : ''}">${f.secret ? '🔒 ' : ''}${f.name}${f.id === state.form ? ' ← ATUAL' : ''}</span>
+        </div>
+      `).join('');
+    }
+
+    function animateTree() {
+      drawTree();
+      requestAnimationFrame(animateTree);
+    }
+
+    // UI Updates
+    function updateUI() {
+      kiDisplay.textContent = state.ki.toLocaleString();
+      const maxKi = 200000;
+      kiProgress.style.width = Math.min(100, (state.ki / maxKi) * 100) + '%';
+      formDisplay.textContent = forms[state.form].name;
+      levelDisplay.textContent = state.level;
+      sandevistanLevelDisplay.textContent = 'Nv.' + state.sandevistanLevel;
+      fusionCountDisplay.textContent = state.fusionCount;
+      secretFormSelect.value = '';
+    }
+
+    function addLog(type, text) {
+      const time = new Date().toLocaleTimeString('pt-BR');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.innerHTML = `<span class="log-time">${time}</span><span class="log-type ${type}">[${type.toUpperCase()}]</span><span class="log-text">${text}</span>`;
+      logContainer.insertBefore(entry, logContainer.firstChild);
+      while(logContainer.children.length > 30) logContainer.removeChild(logContainer.lastChild);
+    }
+
+    // Actions
+    function triggerEvolution() {
+      if(state.form < 8 && forms[state.form + 1].unlocked) {
+        state.form++;
+        state.level++;
+        state.ki += 5000;
+        state.exp = 0;
+        addLog('evolution', `⚡ Lumin evoluiu para ${forms[state.form].name}! (Nível ${state.level})`);
+        updateUI();
+        renderLegend();
+      } else if(state.form >= 8) {
+        addLog('system', 'Forma máxima atingida (LUMIN OMEGA)');
+      } else {
+        addLog('system', 'Próxima forma ainda bloqueada');
+      }
+    }
+
+    function triggerSandevistan() {
+      if(state.sandevistanActive) {
+        state.sandevistanActive = false;
+        addLog('sandevistan', '⏰ Sandevistan desativado');
+      } else {
+        state.sandevistanActive = true;
+        addLog('sandevistan', `⚡⚡⚡ SANDEVISTAN NV.${state.sandevistanLevel} ATIVADO! (${Math.pow(2,state.sandevistanLevel+1)}x)`);
+        setTimeout(() => {
+          state.sandevistanActive = false;
+          addLog('sandevistan', '⏰ Sandevistan desativado automaticamente');
+        }, 5000);
+      }
+    }
+
+    function activateSandevistan(level) {
+      if(level <= state.sandevistanLevel) {
+        state.sandevistanLevel = level;
+        state.sandevistanActive = true;
+        addLog('sandevistan', `⚡⚡⚡ SANDEVISTAN NV.${level} ATIVADO! (${Math.pow(2,level+1)}x, ${level*2+1}s)`);
+        setTimeout(() => { state.sandevistanActive = false; addLog('sandevistan', '⏰ Sandevistan desativado'); }, (level*2+1)*1000);
+      }
+    }
+
+    function triggerFusion() {
+      const fusions = ['Dual (Lumin+Poe)', 'Trindade (Lumin+Poe+Bolha)', 'Quarteto (+Guardian)'];
+      const f = fusions[state.fusionCount % fusions.length];
+      state.fusionCount++;
+      state.fusions.push(f);
+      state.ki += 10000;
+      addLog('fusion', `🌟 FUSÃO REALIZADA: ${f}! (+10.000 Ki)`);
+      updateUI();
+      fusionCountDisplay.textContent = state.fusionCount;
+    }
+
+    function triggerFusionOmega() {
+      state.fusions.push('Ômega (5+ entidades)');
+      state.fusionCount++;
+      state.ki += 50000;
+      addLog('fusion', `🌟⚡ FUSÃO ÔMEGA! 5+ entidades fundidas! (+50.000 Ki)`);
+      updateUI();
+      fusionCountDisplay.textContent = state.fusionCount;
+    }
+
+    function activateSandevistanUI(level) {
+      activateSandevistan(level);
+    }
+
+    function triggerSandevistanUI() {
+      activateSandevistan(state.sandevistanLevel);
+    }
+
+    function syncWithServer() {
+      addLog('system', '🔄 Sincronizando com servidor Consortho...');
+      fetch('http://127.0.0.1:9877/api/resumo')
+        .then(r => r.json())
+        .then(data => {
+          addLog('system', `✅ Sincronizado: Ciclo ${data.ciclos}, Madeira ${data.recursos.madeira}, Cristal ${data.recursos.cristal}`);
+        })
+        .catch(() => addLog('system', '⚠️ Servidor indisponível (use bash terminal)'));
+    }
+
+    // Secret form unlock simulation
+    secretFormSelect.addEventListener('change', (e) => {
+      if(e.target.value) {
+        const form = forms.find(f => f.name === e.target.value);
+        if(form && form.secret) {
+          form.unlocked = true;
+          state.unlockedForms.push(form.id);
+          addLog('evolution', `🔓 FORMA SECRETA DESBLOQUEADA: ${form.name}!`);
+          updateUI();
+          renderLegend();
+        }
+        e.target.value = '';
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'e') triggerEvolution();
+      if(e.key === 's') triggerSandevistan();
+      if(e.key === 'f') triggerFusion();
+      if(e.key === 'o') triggerFusionOmega();
+      if(e.key === 'r') syncWithServer();
+    });
+
+    // Initialize
+    function init() {
+      resizeCanvas();
+      updateUI();
+      renderLegend();
+      animateTree();
+
+      // Initial logs
+      addLog('system', '💎 Lumin Evolution Visualizer iniciado');
+      addLog('system', '💎 Diamond Protocol: 9 layers ativas');
+      addLog('system', '💫 Lumin: Essência Pura | Ki: 95.000 | Nv.1');
+      addLog('system', '⚡ Sandevistan Nv.3 pronto para ativação');
+      addLog('system', '🌟 Fusões disponíveis: Dual, Trindade, Ômega');
+
+      // Simulate background activity
+      setInterval(() => {
+        state.ki += Math.floor(Math.random() * 100) + 50;
+        if(state.ki > 200000) state.ki = 200000;
+        updateUI();
+      }, 3000);
+
+      setInterval(() => {
+        const msgs = [
+          '💫 Diamond Pulse: sincronização completa',
+          '💫 Lumin: auto-evolução verificada',
+          '💫 Entropia: compostagem processada',
+          '💫 Amor: heartbeat sincronizado (0.0124)',
+          '💫 Conselho: monitorando harmonia',
+          '💫 Evolução: gatilhos verificados',
+          '💫 Tempo: snapshot capturado',
+          '💫 Narrativa: era atual estável'
+        ];
+        addLog('system', msgs[Math.floor(Math.random() * msgs.length)]);
+      }, 8000);
+    }
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      resizeBg();
+    });
+
+    // Start
+    init();
+  </script>
+</body>
+</html>

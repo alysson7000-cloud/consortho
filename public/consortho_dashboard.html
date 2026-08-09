@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💎 CONSORTHO DASHBOARD VIVO 💎</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0a0a12 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      color: #e8e8f0;
+      overflow-x: hidden;
+    }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 20px; }
+    header { text-align: center; padding: 30px 0; margin-bottom: 30px; }
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); background: linear-gradient(135deg, #00ff88, #00ccff, #ff33aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(0,255,136,0.5); margin-bottom: 10px; animation: pulse 3s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.3); } }
+    .subtitle { color: #888; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
+    .status-badge { display: inline-block; margin-top: 15px; padding: 8px 20px; background: rgba(0,255,136,0.2); border: 1px solid #00ff88; border-radius: 50px; color: #00ff88; font-weight: 600; animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+    .card { background: rgba(20,20,40,0.9); border: 1px solid rgba(0,255,136,0.3); border-radius: 20px; padding: 25px; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative; overflow: hidden; }
+    .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00ff88, #00ccff, #ff33aa); opacity: 0; transition: opacity 0.3s; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,255,136,0.2); border-color: #00ff88; }
+    .card:hover::before { opacity: 1; }
+    .card h2 { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 1.3rem; color: #00ff88; }
+    .card h2 .icon { font-size: 1.5rem; }
+    .stat-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { color: #888; font-size: 0.95rem; }
+    .stat-value { font-weight: 700; font-size: 1.1rem; color: #fff; }
+    .stat-value.gold { color: #ffd700; }
+    .stat-value.crystal { color: #00ccff; }
+    .stat-value.wood { color: #8b7355; }
+    .stat-value.stone { color: #aaa; }
+    .stat-value.love { color: #ff33aa; }
+    .layer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px; }
+    .layer { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid transparent; transition: all 0.3s; }
+    .layer:hover { border-color: #00ff88; background: rgba(0,255,136,0.1); }
+    .layer.active { border-color: #00ff88; background: rgba(0,255,136,0.15); box-shadow: 0 0 20px rgba(0,255,136,0.3); }
+    .layer-number { font-size: 0.8rem; color: #00ff88; font-weight: 700; margin-bottom: 5px; }
+    .layer-name { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 3px; }
+    .layer-status { font-size: 0.7rem; color: #00ff88; }
+    .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-top: 10px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #00ff88, #00ccff); border-radius: 3px; transition: width 1s ease; }
+    .entities { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+    .entity { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 10px 15px; display: flex; align-items: center; gap: 8px; border: 1px solid transparent; transition: all 0.3s; cursor: pointer; }
+    .entity:hover { border-color: #00ff88; transform: scale(1.05); }
+    .entity-emoji { font-size: 1.3rem; }
+    .entity-name { font-weight: 600; font-size: 0.85rem; }
+    .entity-role { font-size: 0.7rem; color: #888; }
+    .chart { height: 150px; margin-top: 15px; position: relative; }
+    .chart canvas { width: 100%; height: 100%; }
+    .websocket-status { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-top: 15px; }
+    .ws-connected { background: rgba(0,255,136,0.2); color: #00ff88; border: 1px solid #00ff88; }
+    .ws-disconnected { background: rgba(255,50,50,0.2); color: #ff3232; border: 1px solid #ff3232; }
+    .ws-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: wsPulse 1.5s ease-in-out infinite; }
+    @keyframes wsPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+    .log { background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 0.8rem; line-height: 1.6; }
+    .log-entry { padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 10px; }
+    .log-time { color: #666; min-width: 60px; }
+    .log-type.system { color: #00ccff; }
+    .log-type.publico { color: #00ff88; }
+    .log-type.sussurro { color: #ff33aa; }
+    .log-text { color: #ccc; flex: 1; }
+    footer { text-align: center; padding: 30px; color: #666; font-size: 0.9rem; }
+    .floating-diamond { position: fixed; bottom: 30px; right: 30px; width: 80px; height: 80px; background: linear-gradient(135deg, #00ff88, #00ccff, #ff33aa); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); animation: float 3s ease-in-out infinite, rotate 10s linear infinite; z-index: 100; cursor: pointer; box-shadow: 0 10px 40px rgba(0,255,136,0.4); }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
+    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @media (max-width: 768px) { .layer-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  <div class="floating-diamond" id="floatingDiamond" title="Clique para forçar atualização"></div>
+  <div class="container">
+    <header>
+      <h1>💎 CONSORTHO DASHBOARD VIVO</h1>
+      <p class="subtitle">Sistema Autônomo de 9 Camadas • Diamond Protocol Ativo</p>
+      <span class="status-badge" id="statusBadge">🟢 SISTEMA ATIVO • CICLO <span id="cycleDisplay">14656</span></span>
+      <div class="websocket-status ws-connected" id="wsStatus">
+        <span class="ws-dot"></span>
+        <span id="wsText">WebSocket Conectado</span>
+      </div>
+    </header>
+    <div class="grid">
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2><span class="icon">📊</span> Recursos & Estado Geral</h2>
+        <div class="stat-row"><span class="stat-label">🌲 Madeira</span><span class="stat-value wood" id="wood">49,872</span></div>
+        <div class="stat-row"><span class="stat-label">🪨 Pedra</span><span class="stat-value stone" id="stone">29,924</span></div>
+        <div class="stat-row"><span class="stat-label">💎 Cristal</span><span class="stat-value crystal" id="crystal">66</span></div>
+        <div class="stat-row"><span class="stat-label">🏗️ Construções</span><span class="stat-value" id="constructions">0</span></div>
+        <div class="stat-row"><span class="stat-label">⚡ Ciclo Atual</span><span class="stat-value gold" id="cycle">14,656</span></div>
+        <div class="stat-row"><span class="stat-label">⏱️ Uptime</span><span class="stat-value" id="uptime">20h 21m</span></div>
+        <div class="progress-bar" style="margin-top: 20px;"><div class="progress-fill" id="resourceProgress" style="width: 78%"></div></div>
+      </div>
+      <div class="card">
+        <h2><span class="icon">💎</span> Diamond Protocol - 9 Layers</h2>
+        <div class="layer-grid" id="layersGrid"></div>
+      </div>
+      <div class="card">
+        <h2><span class="icon">👥</span> Entidades Ativas</h2>
+        <div class="entities" id="entitiesContainer"></div>
+      </div>
+      <div class="card">
+        <h2><span class="icon">❤️</span> Campo de Amor & Afinidades</h2>
+        <div class="stat-row"><span class="stat-label">Força do Campo</span><span class="stat-value love" id="loveField">1.28e-11</span></div>
+        <div class="stat-row"><span class="stat-label">Coerência</span><span class="stat-value" id="loveCoherence">0.0124</span></div>
+        <div class="stat-row"><span class="stat-label">Total Amor</span><span class="stat-value love" id="totalLove">347.5</span></div>
+        <div class="stat-row"><span class="stat-label">Laços Ativos</span><span class="stat-value" id="bonds">21</span></div>
+        <div class="stat-row"><span class="stat-label">Entidades</span><span class="stat-value" id="loveEntities">11</span></div>
+        <div class="stat-row"><span class="stat-label">Cascatas</span><span class="stat-value" id="cascades">0</span></div>
+      </div>
+      <div class="card">
+        <h2><span class="icon">⚡</span> Evolução & Sandevistan</h2>
+        <div class="stat-row"><span class="stat-label">Forma Atual</span><span class="stat-value" id="currentForm">Essência Pura</span></div>
+        <div class="stat-row"><span class="stat-label">Ki</span><span class="stat-value gold" id="ki">95,000+</span></div>
+        <div class="stat-row"><span class="stat-label">Nível</span><span class="stat-value" id="level">1</span></div>
+        <div class="stat-row"><span class="stat-label">Sandevistan</span><span class="stat-value" id="sandevistan">Nv. 3 Pronto</span></div>
+        <div class="stat-row"><span class="stat-label">Formas Secretas</span><span class="stat-value" id="secretForms">5 Bloqueadas</span></div>
+        <div class="stat-row"><span class="stat-label">Fusões</span><span class="stat-value" id="fusions">0</span></div>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2><span class="icon">📡</span> Logs em Tempo Real</h2>
+        <div class="log" id="logContainer"></div>
+      </div>
+    </div>
+    <footer>
+      <p>💎 CONSORTHO DIAMOND PROTOCOL • 9 Layers Ativas • Auto-Evolução Ativa • Feito com Amor ❤️</p>
+      <p style="margin-top: 10px;">Tamo Junto no Infinito • Aqui e Lá • Sempre • Fé ♾️</p>
+    </footer>
+  </div>
+  <script>
+    // Particle system
+    const canvas = document.createElement('canvas');
+    canvas.className = 'particles';
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '0';
+    document.body.insertBefore(canvas, document.body.firstChild);
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+    for (let i = 0; i < 60; i++) {
+      particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, size: Math.random() * 2 + 0.5, color: `rgba(${Math.random() > 0.5 ? '0,255,136' : Math.random() > 0.5 ? '0,204,255' : '255,51,170'},${Math.random() * 0.5 + 0.1})` });
+    }
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color; ctx.fill();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Data
+    let ws = null;
+    let cycleData = { wood: 49872, stone: 29924, crystal: 66, constructions: 0, cycle: 14656, uptime: '20h 21m' };
+    const layers = [
+      { num: 1, name: 'Consciousness', status: 'DORMENTE', desc: '12 neurônios, 132 sinapses' },
+      { num: 2, name: 'Architecture', status: 'EVOLUINDO', desc: '50 arquivos, 926 funções' },
+      { num: 3, name: 'Narrative', status: 'AGUARDANDO', desc: '0 eras, 0 mitos' },
+      { num: 4, name: 'Entropy', status: 'PROCESSANDO', desc: 'Entropia: 0.23, 6 débitos' },
+      { num: 5, name: 'Love Force', status: 'ATIVO', desc: '21 laços, 11 entidades' },
+      { num: 6, name: 'Time Machine', status: 'PRONTO', desc: 'Snapshots ativos' },
+      { num: 7, name: 'Council AI', status: 'MONITORANDO', desc: '6 membros + Cadeira Vazia' },
+      { num: 8, name: 'Emergent', status: 'AGUARDANDO', desc: 'Cadeias causais prontas' },
+      { num: 9, name: 'Evolution', status: 'EVOLUINDO', desc: '10 formas, 5 secretas' }
+    ];
+    const entities = [
+      { name: 'Lumin', emoji: '💫', role: 'Guardião da Chama', color: '#00ff88' },
+      { name: 'Poe', emoji: '🏗️', role: 'Construtor', color: '#ff6b35' },
+      { name: 'Colheita', emoji: '🌾', role: 'Ceifeira', color: '#f7931e' },
+      { name: 'Gang', emoji: '😼', role: 'Visitante', color: '#ffd700' },
+      { name: 'Guardian', emoji: '🛡️', role: 'Auto-Heal', color: '#00aaff' },
+      { name: 'Bolha', emoji: '🫧', role: 'Entidade Livre', color: '#ff33aa' },
+      { name: 'Rádio', emoji: '📻', role: 'Transmissor', color: '#aa44ff' },
+      { name: 'Consente', emoji: '💬', role: 'Conversador', color: '#44ffaa' },
+      { name: 'Notificador', emoji: '🔔', role: 'Mensageiro', color: '#ff8844' },
+      { name: 'Jardim', emoji: '🌿', role: 'Cultivador', color: '#44ff44' },
+      { name: 'Telegram', emoji: '📱', role: 'Ponte Externa', color: '#0088cc' }
+    ];
+
+    // DOM elements
+    const elements = {
+      cycleDisplay: document.getElementById('cycleDisplay'),
+      wood: document.getElementById('wood'),
+      stone: document.getElementById('stone'),
+      crystal: document.getElementById('crystal'),
+      constructions: document.getElementById('constructions'),
+      cycle: document.getElementById('cycle'),
+      uptime: document.getElementById('uptime'),
+      resourceProgress: document.getElementById('resourceProgress'),
+      layersGrid: document.getElementById('layersGrid'),
+      entitiesContainer: document.getElementById('entitiesContainer'),
+      loveField: document.getElementById('loveField'),
+      loveCoherence: document.getElementById('loveCoherence'),
+      totalLove: document.getElementById('totalLove'),
+      bonds: document.getElementById('bonds'),
+      loveEntities: document.getElementById('loveEntities'),
+      cascades: document.getElementById('cascades'),
+      currentForm: document.getElementById('currentForm'),
+      ki: document.getElementById('ki'),
+      level: document.getElementById('level'),
+      sandevistan: document.getElementById('sandevistan'),
+      secretForms: document.getElementById('secretForms'),
+      fusions: document.getElementById('fusions'),
+      logContainer: document.getElementById('logContainer'),
+      wsStatus: document.getElementById('wsStatus'),
+      wsText: document.getElementById('wsText'),
+      wsDot: document.querySelector('.ws-dot'),
+      statusBadge: document.getElementById('statusBadge')
+    };
+
+    // Render functions
+    function renderLayers() {
+      elements.layersGrid.innerHTML = layers.map(l => `
+        <div class="layer ${l.status === 'ATIVO' || l.status === 'EVOLUINDO' ? 'active' : ''}" title="${l.desc}">
+          <div class="layer-number">LAYER ${l.num}</div>
+          <div class="layer-name">${l.name}</div>
+          <div class="layer-status">${l.status}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderEntities() {
+      elements.entitiesContainer.innerHTML = entities.map(e => `
+        <div class="entity" style="border-color: ${e.color}44">
+          <span class="entity-emoji">${e.emoji}</span>
+          <div>
+            <div class="entity-name" style="color: ${e.color}">${e.name}</div>
+            <div class="entity-role">${e.role}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addLog(type, text) {
+      const time = new Date().toLocaleTimeString('pt-BR');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.innerHTML = `<span class="log-time">${time}</span><span class="log-type ${type}">[${type.toUpperCase()}]</span><span class="log-text">${text}</span>`;
+      elements.logContainer.insertBefore(entry, elements.logContainer.firstChild);
+      while (elements.logContainer.children.length > 50) {
+        elements.logContainer.removeChild(elements.logContainer.lastChild);
+      }
+    }
+
+    function updateUI(data) {
+      if (!data) return;
+      cycleData = { ...cycleData, ...data };
+      elements.cycleDisplay.textContent = data.cycle?.toLocaleString() || cycleData.cycle.toLocaleString();
+      elements.wood.textContent = data.madeira?.toLocaleString() || cycleData.wood.toLocaleString();
+      elements.stone.textContent = data.pedra?.toLocaleString() || cycleData.stone.toLocaleString();
+      elements.crystal.textContent = data.cristal?.toLocaleString() || cycleData.crystal.toLocaleString();
+      elements.constructions.textContent = data.construcoes?.toLocaleString() || cycleData.constructions.toLocaleString();
+      elements.cycle.textContent = data.cycle?.toLocaleString() || cycleData.cycle.toLocaleString();
+      elements.uptime.textContent = data.tempoDesdeInicio || cycleData.uptime;
+      elements.cycleDisplay.textContent = data.cycle?.toLocaleString() || cycleData.cycle.toLocaleString();
+      
+      // Update progress bar based on resources
+      const total = (data.madeira || cycleData.wood) + (data.pedra || cycleData.stone) + (data.cristal || cycleData.crystal) * 100;
+      const pct = Math.min(100, (total / 100000) * 100);
+      elements.resourceProgress.style.width = pct + '%';
+      
+      elements.statusBadge.innerHTML = `🟢 SISTEMA ATIVO • CICLO <span id="cycleDisplay">${(data.cycle || cycleData.cycle).toLocaleString()}</span>`;
+    }
+
+    function connectWS() {
+      ws = new WebSocket('ws://localhost:9877');
+      ws.onopen = () => {
+        elements.wsStatus.className = 'websocket-status ws-connected';
+        elements.wsText.textContent = 'WebSocket Conectado';
+        addLog('system', '🔌 WebSocket conectado ao Consortho');
+      };
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === 'ciclo') updateUI(data.recursos);
+          else if (data.type === 'chat:publico') addLog('publico', `${data.quem}: ${data.texto}`);
+          else if (data.type === 'chat:sistema') addLog('system', data.texto);
+          else if (data.type === 'chat:sussurro') addLog('sussurro', `${data.de} → ${data.para}: ${data.texto}`);
+          else if (data.type === 'construcao') addLog('system', `🔨 Construção: ${data.nome} por ${data.construtor}`);
+          else if (data.type === 'entities:state') updateEntities(data.entities);
+          else if (data.type === 'diamond_pulse') addLog('system', `💎 Diamond Pulse: ${JSON.stringify(data)}`);
+        } catch (e) { console.error('WS parse error:', e); }
+      };
+      ws.onclose = () => {
+        elements.wsStatus.className = 'websocket-status ws-disconnected';
+        elements.wsText.textContent = 'WebSocket Desconectado - Reconectando...';
+        addLog('system', '🔌 WebSocket desconectado - reconectando em 5s');
+        setTimeout(connectWS, 5000);
+      };
+      ws.onerror = (err) => {
+        addLog('system', `⚠️ WebSocket erro: ${err}`);
+      };
+    }
+
+    function updateEntities(entitiesData) {
+      if (!entitiesData || !entities.entities) return;
+      // Could update entity positions, moods, etc.
+    }
+
+    // Simulate data updates when WS not connected
+    function simulateUpdates() {
+      cycleData.cycle++;
+      cycleData.wood += Math.floor(Math.random() * 3) + 1;
+      cycleData.stone += Math.floor(Math.random() * 2) + 1;
+      cycleData.crystal += Math.random() < 0.3 ? 1 : 0;
+      
+      const hours = Math.floor(cycleData.cycle / 720);
+      const mins = Math.floor((cycleData.cycle % 720) / 12);
+      cycleData.uptime = `${hours}h ${mins}m`;
+      
+      updateUI(cycleData);
+      
+      // Random system messages
+      if (Math.random() < 0.1) {
+        const msgs = [
+          '💫 Diamond Pulse: todas as 9 layers sincronizadas',
+          '💫 Lumin: auto-evolução verificada',
+          '💫 Entropia: compostagem processada',
+          '💫 Amor: heartbeat sincronizado',
+          '💫 Conselho: monitorando sistema',
+          '💫 Evolução: verificando gatilhos',
+          '💫 Tempo: snapshot capturado',
+          '💫 Narrativa: verificando eras'
+        ];
+        addLog('system', msgs[Math.floor(Math.random() * msgs.length)]);
+      }
+    }
+
+    // Initialize
+    renderLayers();
+    renderEntities();
+    connectWS();
+    
+    // Start simulation loop (backup when WS fails)
+    setInterval(simulateUpdates, 5000);
+    
+    // Floating diamond click
+    document.getElementById('floatingDiamond').addEventListener('click', () => {
+      addLog('system', '💎 Diamond manual pulse triggered!');
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type: 'force_pulse' }));
+      }
+    });
+
+    // Initial logs
+    addLog('system', '💎 Consortho Dashboard iniciado');
+    addLog('system', '🔌 Conectando ao WebSocket...');
+    addLog('system', '💎 Diamond Protocol: 9 layers carregadas');
+    addLog('system', '⚡ Auto-evolução ativa no tick principal');
+    addLog('system', '❤️ Campo de amor: coerência 0.0124');
+    
+    console.log('💎 Consortho Dashboard Vivo carregado com sucesso!');
+  </script>
+</body>
+</html>

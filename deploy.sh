@@ -15,7 +15,7 @@ NC='\033[0m' # No Color
 ENVIRONMENT=${1:-production}
 PROJECT_DIR="/opt/consortho"
 BACKUP_DIR="/opt/consortho/backups"
-COMPOSE_FILE="docker-compose.yml"
+COMPOSE_FILE="$PROJECT_DIR/docker-compose.yml"
 
 log() {
     echo -e "${BLUE}[$(date '+%Y-%m-%d %H:%M:%S')]${NC} $1"
@@ -46,7 +46,7 @@ check_prerequisites() {
     log "Checking prerequisites..."
     
     command -v docker >/dev/null 2>&1 || error "Docker not installed"
-    command -v docker-compose >/dev/null 2>&1 || error "Docker Compose not installed"
+    docker compose version >/dev/null 2>&1 || error "Docker Compose not installed"
     command -v curl >/dev/null 2>&1 || error "curl not installed"
     
     # Check Docker daemon
@@ -94,14 +94,14 @@ backup_state() {
 # Pull latest images
 pull_images() {
     log "Pulling latest Docker images..."
-    docker-compose -f "$COMPOSE_FILE" pull || warning "Some images failed to pull"
+    docker compose -f "$COMPOSE_FILE" pull || warning "Some images failed to pull"
     success "Images pulled"
 }
 
 # Build application
 build_app() {
     log "Building application..."
-    docker-compose -f "$COMPOSE_FILE" build --no-cache consortho || error "Build failed"
+    docker compose -f "$COMPOSE_FILE" build --no-cache consortho || error "Build failed"
     success "Application built"
 }
 
@@ -137,15 +137,15 @@ setup_ssl() {
     success "SSL certificates ready"
 }
 
-# Deploy with docker-compose
+# Deploy with docker compose
 deploy() {
     log "Deploying Consortho stack..."
     
     # Stop existing containers gracefully
-    docker-compose -f "$COMPOSE_FILE" down --timeout 30 2>/dev/null || true
+    docker compose -f "$COMPOSE_FILE" down --timeout 30 2>/dev/null || true
     
     # Start new containers
-    docker-compose -f "$COMPOSE_FILE" up -d || error "Deploy failed"
+    docker compose -f "$COMPOSE_FILE" up -d || error "Deploy failed"
     
     success "Stack deployed"
 }
@@ -175,7 +175,7 @@ wait_for_health() {
 show_status() {
     log "Deployment Status:"
     echo ""
-    docker-compose -f "$COMPOSE_FILE" ps
+    docker compose -f "$COMPOSE_FILE" ps
     echo ""
     
     log "Service URLs:"
