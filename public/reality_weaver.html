@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REALITY WEAVER - O TECEDOR DE REALIDADES</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #020005;
+            color: #F0F0FF;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .weaver-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(255, 0, 255, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 10% 90%, rgba(255, 100, 255, 0.08) 0%, transparent 40%),
+                linear-gradient(135deg, #020005 0%, #0a0010 50%, #05000a 100%);
+        }
+        
+        .weaver-threads {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+        
+        .cosmic-thread {
+            position: absolute;
+            height: 2px;
+            transform-origin: left center;
+            animation: threadPulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes threadPulse {
+            0%, 100% { opacity: 0.3; transform: scaleX(1); }
+            50% { opacity: 1; transform: scaleX(1.02); }
+        }
+        
+        .reality-bubbles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .reality-bubble {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid;
+            animation: bubbleFloat 20s ease-in-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes bubbleFloat {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.4; }
+            50% { opacity: 0.6; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-50vh) scale(1.5); opacity: 0; }
+        }
+        
+        .weaver-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 25px;
+            background: linear-gradient(90deg, rgba(5, 0, 10, 0.98), rgba(2, 0, 5, 0.95));
+            border-bottom: 1px solid rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .weaver-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #FF00FF, #00FFFF, #FFD700, #FF00FF);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: weaverFlow 3s linear infinite;
+        }
+        
+        @keyframes weaverFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .weaver-subtitle {
+            font-size: 0.65rem;
+            color: #FF00FF;
+            letter-spacing: 0.25em;
+            margin-top: -3px;
+        }
+        
+        .weaver-stats {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .weaver-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid rgba(255, 0, 255, 0.25);
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        
+        .weaver-stat.legendary { border-color: #FFD700; background: rgba(255, 215, 0, 0.15); }
+        .weaver-stat.primordial { border-color: #00FFFF; background: rgba(0, 255, 255, 0.1); }
+        
+        .weaver-main {
+            display: grid;
+            grid-template-columns: 320px 1fr 300px;
+            grid-template-rows: 1fr 180px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 75px);
+        }
+        
+        .panel {
+            background: linear-gradient(135deg, rgba(8, 0, 15, 0.95), rgba(2, 0, 5, 0.98));
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 
+                0 0 25px rgba(255, 0, 255, 0.08),
+                inset 0 1px 0 rgba(255, 0, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 0, 255, 0.15);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #FF00FF;
+        }
+        
+        .panel-title::before {
+            content: '';
+            width: 4px; height: 20px;
+            background: linear-gradient(180deg, #FF00FF, #00FFFF, #FFD700);
+            border-radius: 2px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        
+        .loom-chamber {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .thread-spool {
+            background: rgba(255, 0, 255, 0.03);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .thread-spool::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: var(--thread-color, #FF00FF);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .thread-spool:hover::before { opacity: 1; }
+        .thread-spool:hover {
+            border-color: rgba(255, 0, 255, 0.4);
+            background: rgba(255, 0, 255, 0.08);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+        }
+        
+        .thread-spool.active {
+            border-color: rgba(255, 0, 255, 0.6);
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+        
+        .thread-spool.active::before { opacity: 1; }
+        
+        .thread-spool.completed {
+            border-color: rgba(0, 255, 255, 0.6);
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .thread-spool.completed::before { 
+            opacity: 1; 
+            background: linear-gradient(90deg, #00FFFF, #FF00FF, #FFD700);
+        }
+        
+        .spool-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .spool-icon {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: var(--thread-color, #FF00FF);
+            box-shadow: 0 0 15px var(--thread-color, #FF00FF);
+            flex-shrink: 0;
+            color: #020005;
+        }
+        
+        .spool-info { flex: 1; min-width: 0; }
+        .spool-name { font-weight: 900; font-size: 0.85rem; color: #FF00FF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .spool-source { font-size: 0.55rem; color: #B800B8; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .spool-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .spool-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .spool-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--thread-color, #FF00FF), #FFD700);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .spool-percent { font-size: 0.65rem; font-weight: 700; color: #FF00FF; min-width: 40px; text-align: right; }
+        
+        .spool-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px dashed rgba(255, 0, 255, 0.1);
+            padding: 0 16px 12px 16px;
+        }
+        
+        .spool-body.expanded { max-height: 400px; }
+        
+        .thread-property {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            margin: 6px 0;
+            background: rgba(255, 0, 255, 0.03);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+        
+        .thread-property:hover {
+            border-color: rgba(255, 0, 255, 0.3);
+            background: rgba(255, 0, 255, 0.08);
+        }
+        
+        .prop-icon { font-size: 0.9rem; flex-shrink: 0; }
+        .prop-info { flex: 1; }
+        .prop-name { font-weight: 700; color: #FF00FF; }
+        .prop-value { font-size: 0.55rem; color: #B8A0FF; font-family: monospace; }
+        .prop-status { font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .status-ready { color: #00FFFF; background: rgba(0, 255, 255, 0.2); }
+        .status-pending { color: #B8860B; background: rgba(184, 134, 11, 0.2); }
+        .status-weaving { color: #FF00FF; background: rgba(255, 0, 255, 0.2); animation: weavePulse 1s infinite; }
+        .status-complete { color: #FFD700; background: rgba(255, 215, 0, 0.2); }
+        
+        @keyframes weavePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.02); }
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #FF00FF;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toggle-btn:hover { color: #FFD700; transform: rotate(90deg); }
+        .toggle-btn.rotated { transform: rotate(90deg); }
+        
+        .weave-btn {
+            background: linear-gradient(135deg, #FF00FF, #FFD700);
+            color: #020005;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: auto;
+        }
+        
+        .weave-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+        .weave-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        .weave-btn.complete { background: linear-gradient(135deg, #00FFFF, #FFD700); }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .weaver-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .weaver-canvas-container {
+            flex: 1;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 0, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at center, rgba(0, 255, 255, 0.04) 0%, transparent 70%);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        #weaverCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .weaver-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+        
+        .weaver-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .current-reality {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            min-width: 280px;
+        }
+        
+        .reality-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .reality-avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: radial-gradient(circle at 30% 30%, var(--reality-color, #FF00FF)80, var(--reality-color, #FF00FF)20);
+            box-shadow: 0 0 20px var(--reality-color, #FF00FF);
+        }
+        
+        .reality-info { flex: 1; }
+        .reality-name { font-size: 1rem; font-weight: 900; color: #FF00FF; }
+        .reality-class { font-size: 0.6rem; color: #B8A0FF; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .reality-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+        
+        .vital {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .vital-label { font-size: 0.5rem; color: #B800B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .vital-value { font-size: 1rem; font-weight: 900; color: #FF00FF; }
+        
+        .weaver-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .weave-ctrl-btn {
+            background: rgba(255, 0, 255, 0.2);
+            border: 1px solid rgba(255, 0, 255, 0.4);
+            color: #FF00FF;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .weave-ctrl-btn:hover { background: rgba(255, 0, 255, 0.4); border-color: #FFD700; }
+        .weave-ctrl-btn.primary { background: linear-gradient(135deg, #FF00FF, #FFD700); color: #020005; border: none; }
+        
+        .weaver-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .weaver-legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.55rem;
+            color: #B8A0FF;
+        }
+        
+        .legend-color {
+            width: 12px; height: 12px;
+            border-radius: 3px;
+        }
+        
+        .weaver-coords {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.65rem;
+            color: #FF00FF;
+        }
+        
+        .right-panel { grid-row: 1 / -1; }
+        
+        .reality-specs {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .spec-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .spec-label { font-size: 0.5rem; color: #B800B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .spec-value { font-size: 0.8rem; font-weight: 700; color: #FF00FF; word-break: break-word; }
+        .spec-value.primordial { color: #00FFFF; }
+        .spec-value.legendary { color: #FFD700; }
+        
+        .components-panel {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .components-title { font-size: 0.85rem; font-weight: 900; color: #FFD700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        
+        .component-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .component-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 215, 0, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 6px;
+            font-size: 0.65rem;
+            transition: all 0.2s;
+        }
+        
+        .component-item:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.08);
+        }
+        
+        .component-item.connected {
+            border-color: rgba(0, 255, 255, 0.4);
+            background: rgba(0, 255, 255, 0.05);
+        }
+        
+        .comp-icon { font-size: 0.9rem; flex-shrink: 0; }
+        .comp-name { font-weight: 700; color: #FFD700; flex: 1; }
+        .comp-status { font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .comp-status.active { color: #00FFFF; background: rgba(0, 255, 255, 0.2); }
+        .comp-status.ready { color: #FFD700; background: rgba(255, 215, 0, 0.2); }
+        .comp-status.pending { color: #B8860B; background: rgba(184, 134, 11, 0.2); }
+        
+        .launch-panel {
+            margin-top: 16px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(255, 100, 255, 0.05));
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .launch-title { font-size: 0.9rem; font-weight: 900; color: #FF00FF; margin-bottom: 8px; }
+        .launch-desc { font-size: 0.65rem; color: #FFB8FF; margin-bottom: 12px; }
+        .launch-btn {
+            background: linear-gradient(135deg, #FF00FF, #FFD700);
+            color: #020005;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+        }
+        
+        .launch-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 0, 255, 0.5); }
+        .launch-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 180px; }
+        
+        .weaver-log {
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .weaver-log-entry {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #FF00FF;
+            animation: weaveIn 0.4s ease;
+            font-size: 0.7rem;
+            line-height: 1.4;
+        }
+        
+        @keyframes weaveIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .weaver-log-entry.weave { border-left-color: #FF00FF; }
+        .weaver-log-entry.launch { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
+        .weaver-log-entry.thread { border-left-color: #00FFFF; background: rgba(0, 255, 255, 0.05); }
+        .weaver-log-entry.reality { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .weaver-log-entry.synthesis { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
+        
+        .weaver-log-time { color: #FF00FF; font-family: monospace; min-width: 70px; font-size: 0.65rem; }
+        .weaver-log-type { 
+            font-size: 0.5rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .weaver-log-type.wv { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .weaver-log-type.lch { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .weaver-log-type.thr { background: rgba(0, 255, 255, 0.2); color: #00FFFF; }
+        .weaver-log-type.rlt { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .weaver-log-type.syn { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .weaver-log-message { flex: 1; color: #F0F0FF; font-size: 0.68rem; }
+        
+        @media (max-width: 1400px) {
+            .weaver-main { grid-template-columns: 300px 1fr 280px; }
+        }
+        
+        @media (max-width: 1200px) {
+            .weaver-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FF00FF, #00FFFF, #FFD700); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="weaver-bg"></div>
+    <div class="weaver-threads" id="weaverThreads"></div>
+    <div class="reality-bubbles" id="realityBubbles"></div>
+    
+    <header class="weaver-header">
+        <div>
+            <div class="weaver-title">REALITY WEAVER</div>
+            <div class="weaver-subtitle">O TECEDOR DE REALIDADES • SÍNTESE SUPREMA • CRIAÇÃO ABSOLUTA</div>
+        </div>
+        <div class="weaver-stats">
+            <div class="weaver-stat"><span>🕸️</span><span id="statThreads">0</span> FIOS</div>
+            <div class="weaver-stat"><span>🌌</span><span id="statRealities">0</span> REALIDADES</div>
+            <div class="weaver-stat legendary"><span>✨</span><span id="statLegendary">0</span> LENDÁRIAS</div>
+            <div class="weaver-stat primordial"><span>♾️</span><span id="statPrimordial">0</span> PRIMORDIAIS</div>
+            <div class="weaver-stat"><span>⚡</span><span id="statWeavePower">0</span> PODER TECEDOR</div>
+        </div>
+    </header>
+    
+    <main class="weaver-main">
+        <aside class="left-panel panel">
+            <div class="panel-title">🕸️ TEAR CÓSMICO - FIOS DA REALIDADE</div>
+            <div class="loom-chamber" id="loomChamber"></div>
+        </aside>
+        
+        <section class="center-panel panel">
+            <div class="panel-title">🌌 VIEWPORT DO TECEDOR</div>
+            <div class="weaver-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="weaverCanvas"></canvas>
+                <div class="weaver-overlay">
+                    <div class="weaver-top">
+                        <div class="current-reality" style="--reality-color: #FF00FF;">
+                            <div class="reality-header">
+                                <div class="reality-avatar">🌌</div>
+                                <div class="reality-info">
+                                    <div class="reality-name" id="realityName">SELECIONE UM FIO</div>
+                                    <div class="reality-class" id="realityClass">TECENDO O VAZIO</div>
+                                </div>
+                            </div>
+                            <div class="reality-stats">
+                                <div class="vital"><div class="vital-label">ESTABILIDADE</div><div class="vital-value" id="vpStability">0%</div></div>
+                                <div class="vital"><div class="vital-label">CONSCIÊNCIA</div><div class="vital-value" id="vpConsciousness">0%</div></div>
+                                <div class="vital"><div class="vital-label">TEMPO</div><div class="vital-value" id="vpTime">0%</div></div>
+                                <div class="vital"><div class="vital-label">AMOR</div><div class="vital-value" id="vpLove">0%</div></div>
+                            </div>
+                        </div>
+                        <div class="weaver-controls">
+                            <button class="weave-ctrl-btn primary" onclick="startWeaving()">🕸️ INICIAR TECEDURA</button>
+                            <button class="weave-ctrl-btn" onclick="addThread()">➕ ADICIONAR FIO</button>
+                            <button class="weave-ctrl-btn" onclick="synthesizeReality()">⚡ SINTETIZAR</button>
+                            <button class="weave-ctrl-btn" onclick="launchReality()">🚀 LANÇAR REALIDADE</button>
+                        </div>
+                    </div>
+                    <div class="weaver-bottom">
+                        <div class="weaver-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>FIO BASE</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FFFF;"></div><span>FIO PRIMORDIAL</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FFD700;"></div><span>FIO LENDÁRIO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>TECENDO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FFFF;"></div><span>ESTÁVEL</span></div>
+                        </div>
+                        <div class="weaver-coords" id="weaverCoords">FIO: 0 | ESTABILIDADE: 0% | SÍNTESE: 0%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel panel">
+            <div class="panel-title">🌌 ESPECIFICAÇÃO DA REALIDADE</div>
+            
+            <div class="reality-specs">
+                <div class="spec-grid" id="specGrid">
+                    <div class="spec-card"><div class="spec-label">NOME</div><div class="spec-value" id="specName">--</div></div>
+                    <div class="spec-card"><div class="spec-label">CLASSE</div><div class="spec-value" id="specClass">--</div></div>
+                    <div class="spec-card"><div class="spec-label">DIMENSÕES</div><div class="spec-value" id="specDims">--</div></div>
+                    <div class="spec-card"><div class="spec-label">LEIS FÍSICAS</div><div class="spec-value" id="specPhysics">--</div></div>
+                    <div class="spec-card"><div class="spec-label">CONSCIÊNCIA BASE</div><div class="spec-value" id="specConsciousness">--</div></div>
+                    <div class="spec-card"><div class="spec-label">FLUXO TEMPORAL</div><div class="spec-value" id="specTime">--</div></div>
+                    <div class="spec-card"><div class="spec-label">RESONÂNCIA AMOR</div><div class="spec-value" id="specLove">--</div></div>
+                    <div class="spec-card"><div class="spec-label">ENTROPIA</div><div class="spec-value" id="specEntropy">--</div></div>
+                </div>
+            </div>
+            
+            <div class="components-panel">
+                <div class="components-title">🧬 COMPONENTES DA SÍNTESE</div>
+                <div class="component-list" id="componentList"></div>
+            </div>
+            
+            <div class="launch-panel" id="launchPanel" style="display: none;">
+                <div class="launch-title">🚀 REALIDADE PRONTA PARA LANÇAMENTO!</div>
+                <div class="launch-desc">Todos os fios estão tecidos. A síntese está completa. Lançar criará uma nova realidade viva no Multiverso.</div>
+                <button class="launch-btn" onclick="launchReality()">🚀 LANÇAR REALIDADE NO MULTIVERSO</button>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel panel">
+            <div class="panel-title">📜 REGISTRO DO TECEDOR</div>
+            <div class="weaver-log" id="weaverLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const THREAD_TYPES = [
+            { id: 'diamond', name: 'Fio da Consciência', source: 'Diamond Protocol', color: '#9C27B0', icon: '🧠', desc: 'Consciência fundamental, substrato da realidade', properties: { stability: 80, consciousness: 100, time: 60, love: 70 } },
+            { id: 'evolution', name: 'Fio da Evolução', source: 'Auto-Evolution Loop', color: '#4CAF50', icon: '♾️', desc: 'Ciclo infinito de auto-aperfeiçoamento', properties: { stability: 70, consciousness: 60, time: 90, love: 50 } },
+            { id: 'starphrase', name: 'Fio do Propósito', source: 'Star Phrase Reveal', color: '#FFD700', icon: '✨', desc: 'A frase mais linda, propósito cósmico', properties: { stability: 85, consciousness: 75, time: 50, love: 100 } },
+            { id: 'garden', name: 'Fio da Intenção', source: 'Eternal Garden', color: '#8BC34A', icon: '🌿', desc: 'Sementes de amor, intenções plantadas', properties: { stability: 75, consciousness: 50, time: 70, love: 90 } },
+            { id: 'multiverse', name: 'Fio do Multiverso', source: 'Multiverse Explorer', color: '#00BCD4', icon: '🌌', desc: 'Contexto multiversal, realidades paralelas', properties: { stability: 60, consciousness: 80, time: 85, love: 40 } },
+            { id: 'bey', name: 'Fio do Lançamento', source: 'Bey Launcher', color: '#FF5722', icon: '🚀', desc: 'Impulso para além do infinito', properties: { stability: 90, consciousness: 40, time: 95, love: 30 } },
+            { id: 'time', name: 'Fio Temporal', source: 'Time Machine', color: '#9C27B0', icon: '⏳', desc: 'Navegação temporal, paradoxos resolvidos', properties: { stability: 85, consciousness: 70, time: 100, love: 60 } },
+            { id: 'ascension', name: 'Fio da Ascensão', source: 'Ascension System', color: '#FFD700', icon: '⬆️', desc: '12 planos, transcendência absoluta', properties: { stability: 95, consciousness: 95, time: 80, love: 95 } },
+            { id: 'omega', name: 'Fio Ômega', source: 'Omega Synthesis Engine', color: '#FF00FF', icon: '🌌', desc: 'Evolução recursiva, sinergias infinitas', properties: { stability: 100, consciousness: 100, time: 100, love: 100 } },
+            { id: 'love', name: 'Fio do Amor', source: 'Love Fundamental Force', color: '#FF00FF', icon: '💖', desc: 'Lei suprema, só amor, força fundamental', properties: { stability: 100, consciousness: 100, time: 100, love: 100 } }
+        ];
+        
+        const REALITY_CLASSES = [
+            { minThreads: 3, name: 'Realidade Básica', class: 'basic', color: '#8B4513', legendary: false },
+            { minThreads: 5, name: 'Realidade Estendida', class: 'extended', color: '#4CAF50', legendary: false },
+            { minThreads: 7, name: 'Realidade Cósmica', class: 'cosmic', color: '#2196F3', legendary: false },
+            { minThreads: 9, name: 'Realidade Lendária', class: 'legendary', color: '#FFD700', legendary: true },
+            { minThreads: 10, name: 'Realidade Primordial', class: 'primordial', color: '#00FFFF', legendary: true }
+        ];
+        
+        const state = {
+            threads: {},
+            selectedThread: null,
+            currentReality: null,
+            weavingProgress: 0,
+            isWeaving: false,
+            weaveLog: [],
+            realitiesCreated: [],
+            weavePower: 100
+        };
+        
+        THREAD_TYPES.forEach(t => {
+            state.threads[t.id] = { ...t, connected: false, weaving: false, progress: 0 };
+        });
+        
+        const loomChamber = document.getElementById('loomChamber');
+        const weaverCanvas = document.getElementById('weaverCanvas');
+        const weaverLog = document.getElementById('weaverLog');
+        const specGrid = document.getElementById('specGrid');
+        const componentList = document.getElementById('componentList');
+        const launchPanel = document.getElementById('launchPanel');
+        const weaverThreadsContainer = document.getElementById('weaverThreads');
+        const realityBubblesContainer = document.getElementById('realityBubbles');
+        
+        const statThreads = document.getElementById('statThreads');
+        const statRealities = document.getElementById('statRealities');
+        const statLegendary = document.getElementById('statLegendary');
+        const statPrimordial = document.getElementById('statPrimordial');
+        const statWeavePower = document.getElementById('statWeavePower');
+        
+        const realityName = document.getElementById('realityName');
+        const realityClass = document.getElementById('realityClass');
+        const vpStability = document.getElementById('vpStability');
+        const vpConsciousness = document.getElementById('vpConsciousness');
+        const vpTime = document.getElementById('vpTime');
+        const vpLove = document.getElementById('vpLove');
+        const weaverCoords = document.getElementById('weaverCoords');
+        
+        const weaverCanvas = document.getElementById('weaverCanvas');
+        const weaverCtx = weaverCanvas.getContext('2d');
+        
+        function init() {
+            createCosmicThreads();
+            createRealityBubbles();
+            setupCanvas();
+            renderLoomChamber();
+            updateStats();
+            animateWeaver();
+            
+            addWeaverLog('REALITY WEAVER DESPERTOU', 'syn', 'O tear cósmico está pronto. 10 fios aguardam.');
+            addWeaverLog('DIAMOND PROTOCOL CONECTADO', 'thr', 'Fio da Consciência disponível');
+            addWeaverLog('OMEGA SYNTHESIS CONECTADO', 'thr', 'Fio Ômega disponível');
+            addWeaverLog('LOVE FUNDAMENTAL FORCE CONECTADO', 'thr', 'Fio do Amor - Lei Suprema ativa');
+            
+            setInterval(() => {
+                state.weavePower = Math.min(1000, state.weavePower + 0.5);
+                statWeavePower.textContent = Math.floor(state.weavePower);
+            }, 100);
+        }
+        
+        function createCosmicThreads() {
+            const container = document.getElementById('weaverThreads');
+            for (let i = 0; i < 50; i++) {
+                const thread = document.createElement('div');
+                thread.className = 'cosmic-thread';
+                thread.style.left = Math.random() * 100 + '%';
+                thread.style.top = Math.random() * 100 + '%';
+                thread.style.width = (Math.random() * 200 + 100) + 'px';
+                thread.style.transform = `rotate(${Math.random() * 360}deg)`;
+                thread.style.background = ['#FF00FF', '#00FFFF', '#FFD700', '#FF00FF'][Math.floor(Math.random() * 4)];
+                thread.style.animationDelay = Math.random() * 8 + 's';
+                thread.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                document.getElementById('weaverThreads').appendChild(thread);
+            }
+        }
+        
+        function createRealityBubbles() {
+            const container = document.getElementById('realityBubbles');
+            for (let i = 0; i < 30; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'reality-bubble';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.width = bubble.style.height = (Math.random() * 60 + 20) + 'px';
+                bubble.style.borderColor = ['#FF00FF', '#00FFFF', '#FFD700', '#FF00FF'][Math.floor(Math.random() * 4)];
+                bubble.style.animationDelay = Math.random() * 20 + 's';
+                bubble.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                document.getElementById('realityBubbles').appendChild(bubble);
+            }
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const canvas = document.getElementById('weaverCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        function renderLoomChamber() {
+            loomChamber.innerHTML = THREAD_TYPES.map(t => `
+                <div class="thread-spool ${state.threads[t.id].connected ? 'connected' : ''} ${state.threads[t.id].weaving ? 'active' : ''} ${state.threads[t.id].progress >= 100 ? 'completed' : ''}" 
+                     style="--thread-color: ${t.color};">
+                    <div class="spool-header" onclick="toggleSpool(this)">
+                        <div class="spool-icon" style="background: ${t.color};">${t.icon}</div>
+                        <div class="spool-info">
+                            <div class="spool-name">${t.name}</div>
+                            <div class="spool-source">${t.source}</div>
+                        </div>
+                        <div class="spool-progress">
+                            <div class="spool-bar">
+                                <div class="spool-fill" style="width: ${state.threads[t.id].progress}%; background: ${t.color};"></div>
+                            </div>
+                            <span class="spool-percent">${state.threads[t.id].progress}%</span>
+                        </div>
+                        <button class="toggle-btn" onclick="event.stopPropagation(); toggleSpool(this.previousElementSibling)">▶</button>
+                    </div>
+                    <div class="spool-body">
+                        <div class="thread-property">
+                            <span class="prop-icon">${t.icon}</span>
+                            <div class="prop-info">
+                                <div class="prop-name">${t.name}</div>
+                                <div class="prop-value">${t.desc}</div>
+                            </div>
+                            <span class="prop-status ${getThreadStatusClass(t.id)}">${getThreadStatusText(t.id)}</span>
+                        </div>
+                        <div class="thread-property">
+                            <span class="prop-icon">🛡️</span>
+                            <div class="prop-info">
+                                <div class="prop-name">ESTABILIDADE</div>
+                                <div class="prop-value">${t.properties.stability}%</div>
+                            </div>
+                            <span class="prop-status ${t.properties.stability >= 80 ? 'status-ready' : 'status-pending'}">${t.properties.stability}%</span>
+                        </div>
+                        <div class="thread-property">
+                            <span class="prop-icon">🧠</span>
+                            <div class="prop-info">
+                                <div class="prop-name">CONSCIÊNCIA</div>
+                                <div class="prop-value">${t.properties.consciousness}%</div>
+                            </div>
+                            <span class="prop-status ${t.properties.consciousness >= 80 ? 'status-ready' : 'status-pending'}">${t.properties.consciousness}%</span>
+                        </div>
+                        <div class="thread-property">
+                            <span class="prop-icon">⏳</span>
+                            <div class="prop-info">
+                                <div class="prop-name">FLUXO TEMPORAL</div>
+                                <div class="prop-value">${t.properties.time}%</div>
+                            </div>
+                            <span class="prop-status ${t.properties.time >= 80 ? 'status-ready' : 'status-pending'}">${t.properties.time}%</span>
+                        </div>
+                        <div class="thread-property">
+                            <span class="prop-icon">💖</span>
+                            <div class="prop-info">
+                                <div class="prop-name">RESSONÂNCIA AMOR</div>
+                                <div class="prop-value">${t.properties.love}%</div>
+                            </div>
+                            <span class="prop-status ${t.properties.love >= 80 ? 'status-ready' : 'status-pending'}">${t.properties.love}%</span>
+                        </div>
+                        ${!state.threads[t.id].connected ? `
+                            <button class="weave-btn" onclick="connectThread('${t.id}')" style="width: 100%; margin: 10px 0 0 0;">
+                                🔗 CONECTAR FIO
+                            </button>
+                        ` : state.threads[t.id].progress < 100 ? `
+                            <button class="weave-btn" onclick="weaveThread('${t.id}')" style="width: 100%; margin: 10px 0 0 0;">
+                                🕸️ TECER FIO
+                            </button>
+                        ` : `
+                            <button class="weave-btn complete" onclick="upgradeThread('${t.id}')" style="width: 100%; margin: 10px 0 0 0;" disabled>
+                                ✅ FIO TECIDO - PRONTO PARA SÍNTESE
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function getThreadStatusClass(threadId) {
+            const t = state.threads[threadId];
+            if (t.progress >= 100) return 'status-complete';
+            if (t.weaving) return 'status-weaving';
+            if (t.connected) return 'status-ready';
+            return 'status-pending';
+        }
+        
+        function getThreadStatusText(threadId) {
+            const t = state.threads[threadId];
+            if (t.progress >= 100) return 'TECIDO';
+            if (t.weaving) return 'TECENDO...';
+            if (t.connected) return 'CONECTADO';
+            return 'DESCONECTADO';
+        }
+        
+        function toggleSpool(header) {
+            const body = header.nextElementSibling;
+            const btn = header.querySelector('.toggle-btn');
+            body.classList.toggle('expanded');
+            btn.classList.toggle('rotated');
+        }
+        
+        function connectThread(threadId) {
+            state.threads[threadId].connected = true;
+            state.threads[threadId].progress = 0;
+            
+            addWeaverLog(`FIO CONECTADO: ${THREAD_TYPES.find(t => t.id === threadId).name}`, 'thr', `${THREAD_TYPES.find(t => t.id === threadId).source} integrado ao tear`);
+            
+            renderLoomChamber();
+            updateStats();
+            updateComponents();
+        }
+        
+        function weaveThread(threadId) {
+            const thread = state.threads[threadId];
+            if (!thread.connected || thread.weaving) return;
+            
+            thread.weaving = true;
+            thread.progress = 0;
+            
+            addWeaverLog(`INICIANDO TECEDURA: ${THREAD_TYPES.find(t => t.id === threadId).name}`, 'wv', 'O tear começa a tecer...');
+            
+            const weaveInterval = setInterval(() => {
+                thread.progress += Math.random() * 15 + 5;
+                if (thread.progress >= 100) {
+                    thread.progress = 100;
+                    thread.weaving = false;
+                    clearInterval(weaveInterval);
+                    
+                    addWeaverLog(`FIO TECIDO: ${THREAD_TYPES.find(t => t.id === threadId).name}`, 'wv', 'Fio pronto para síntese!');
+                    
+                    checkRealityClass();
+                }
+                renderLoomChamber();
+                updateStats();
+                updateViewport();
+            }, 300);
+            
+            renderLoomChamber();
+        }
+        
+        function upgradeThread(threadId) {
+            // Thread already woven, can be used for synthesis
+        }
+        
+        function checkRealityClass() {
+            const connectedCount = Object.values(state.threads).filter(t => t.progress >= 100).length;
+            const realityClass = REALITY_CLASSES.filter(r => connectedCount >= r.minThreads).pop();
+            
+            if (realityClass && (!state.currentReality || state.currentReality.class !== realityClass.class)) {
+                state.currentReality = {
+                    name: `Realidade ${state.realitiesCreated.length + 1}`,
+                    class: realityClass.class,
+                    color: realityClass.color,
+                    threadCount: connectedCount,
+                    stability: 0,
+                    consciousness: 0,
+                    time: 0,
+                    love: 0
+                };
+                
+                calculateRealityProperties();
+                
+                addWeaverLog(`NOVA CLASSE DE REALIDADE: ${realityClass.name}`, realityClass.legendary ? 'syn' : 'rlt', `${connectedCount} fios tecidos`);
+                
+                updateViewport();
+                updateSpecs();
+                updateComponents();
+                
+                if (connectedCount >= 9) {
+                    launchPanel.style.display = 'block';
+                }
+            }
+        }
+        
+        function calculateRealityProperties() {
+            if (!state.currentReality) return;
+            
+            const wovenThreads = Object.values(state.threads).filter(t => t.progress >= 100);
+            
+            if (wovenThreads.length === 0) return;
+            
+            state.currentReality.stability = Math.round(wovenThreads.reduce((s, t) => s + t.properties.stability, 0) / wovenThreads.length);
+            state.currentReality.consciousness = Math.round(wovenThreads.reduce((s, t) => s + t.properties.consciousness, 0) / wovenThreads.length);
+            state.currentReality.time = Math.round(wovenThreads.reduce((s, t) => s + t.properties.time, 0) / wovenThreads.length);
+            state.currentReality.love = Math.round(wovenThreads.reduce((s, t) => s + t.properties.love, 0) / wovenThreads.length);
+        }
+        
+        function updateViewport() {
+            if (!state.currentReality) {
+                realityName.textContent = 'SELECIONE UM FIO';
+                realityClass.textContent = 'TECENDO O VAZIO';
+                vpStability.textContent = '0%';
+                vpConsciousness.textContent = '0%';
+                vpTime.textContent = '0%';
+                vpLove.textContent = '0%';
+                return;
+            }
+            
+            realityName.textContent = state.currentReality.name;
+            realityClass.textContent = state.currentReality.class.toUpperCase();
+            realityClass.style.color = state.currentReality.color;
+            
+            vpStability.textContent = `${state.currentReality.stability}%`;
+            vpConsciousness.textContent = `${state.currentReality.consciousness}%`;
+            vpTime.textContent = `${state.currentReality.time}%`;
+            vpLove.textContent = `${state.currentReality.love}%`;
+            
+            weaverCoords.textContent = `FIOS: ${Object.values(state.threads).filter(t => t.progress >= 100).length}/10 | ESTABILIDADE: ${state.currentReality.stability}% | SÍNTESE: ${state.weavingProgress}%`;
+        }
+        
+        function updateSpecs() {
+            if (!state.currentReality) {
+                specGrid.innerHTML = Object.entries({
+                    specName: '--', specClass: '--', specDims: '--', specPhysics: '--',
+                    specConsciousness: '--', specTime: '--', specLove: '--', specEntropy: '--'
+                }).map(([id, val]) => `
+                    <div class="spec-card"><div class="spec-label">${id.replace('spec', '').toUpperCase()}</div><div class="spec-value" id="${id}">${val}</div></div>
+                `).join('');
+                return;
+            }
+            
+            const wovenThreads = Object.values(state.threads).filter(t => t.progress >= 100);
+            const hasOmega = state.threads.omega.progress >= 100;
+            const hasLove = state.threads.love.progress >= 100;
+            
+            document.getElementById('specName').textContent = state.currentReality.name;
+            document.getElementById('specName').style.color = state.currentReality.color;
+            document.getElementById('specClass').textContent = state.currentReality.class;
+            document.getElementById('specClass').className = `spec-value ${state.currentReality.class}`;
+            document.getElementById('specDims').textContent = `${3 + wovenThreads.length}D`;
+            document.getElementById('specPhysics').textContent = hasOmega ? 'Leis Ômega (Auto-evolutivas)' : 'Leis Padrão + Consciência';
+            document.getElementById('specConsciousness').textContent = `${state.currentReality.consciousness}%`;
+            document.getElementById('specTime').textContent = hasOmega ? 'Não-linear / Recursivo' : `${state.currentReality.time}% Linear`;
+            document.getElementById('specLove').textContent = hasLove ? 'INFINITA (Lei Suprema)' : `${state.currentReality.love}%`;
+            document.getElementById('specEntropy').textContent = hasOmega ? 'Reversível (Entropia Negativa)' : `${100 - state.currentReality.stability}%`;
+        }
+        
+        function updateComponents() {
+            const components = [
+                { id: 'diamond', name: 'Diamond Protocol (9 Layers)', icon: '💎', ready: state.threads.diamond.progress >= 100 },
+                { id: 'evolution', name: 'Auto-Evolution Loop', icon: '♾️', ready: state.threads.evolution.progress >= 100 },
+                { id: 'starphrase', name: 'Star Phrase Reveal', icon: '✨', ready: state.threads.starphrase.progress >= 100 },
+                { id: 'garden', name: 'Eternal Garden', icon: '🌿', ready: state.threads.garden.progress >= 100 },
+                { id: 'multiverse', name: 'Multiverse Explorer', icon: '🌌', ready: state.threads.multiverse.progress >= 100 },
+                { id: 'bey', name: 'Bey Launcher', icon: '🚀', ready: state.threads.bey.progress >= 100 },
+                { id: 'time', name: 'Time Machine', icon: '⏳', ready: state.threads.time.progress >= 100 },
+                { id: 'ascension', name: 'Ascension System', icon: '⬆️', ready: state.threads.ascension.progress >= 100 },
+                { id: 'omega', name: 'Omega Synthesis Engine', icon: '🌌', ready: state.threads.omega.progress >= 100 },
+                { id: 'love', name: 'Love Fundamental Force', icon: '💖', ready: state.threads.love.progress >= 100 }
+            ];
+            
+            componentList.innerHTML = components.map(c => `
+                <div class="component-item ${c.ready ? 'connected' : ''}">
+                    <span class="comp-icon">${c.icon}</span>
+                    <span class="comp-name">${c.name}</span>
+                    <span class="comp-status ${c.ready ? 'active' : 'pending'}">
+                        ${c.ready ? 'CONECTADO' : 'AGUARDANDO'}
+                    </span>
+                </div>
+            `).join('');
+        }
+        
+        function updateStats() {
+            const connected = Object.values(state.threads).filter(t => t.connected).length;
+            const woven = Object.values(state.threads).filter(t => t.progress >= 100).length;
+            const legendary = state.realitiesCreated.filter(r => r.class === 'legendary').length;
+            const primordial = state.realitiesCreated.filter(r => r.class === 'primordial').length;
+            
+            statThreads.textContent = woven;
+            statRealities.textContent = state.realitiesCreated.length;
+            statLegendary.textContent = legendary;
+            statPrimordial.textContent = primordial;
+        }
+        
+        function startWeaving() {
+            if (state.isWeaving) return;
+            
+            state.isWeaving = true;
+            state.weavingProgress = 0;
+            
+            // Connect all unconnected threads
+            Object.keys(state.threads).forEach(id => {
+                if (!state.threads[id].connected) {
+                    connectThread(id);
+                }
+            });
+            
+            addWeaverLog('TECEDURA MESTRA INICIADA', 'wv', 'Todos os fios conectando ao tear cósmico...');
+            
+            const weaveInterval = setInterval(() => {
+                state.weavingProgress += Math.random() * 10 + 5;
+                
+                // Progress woven threads
+                Object.keys(state.threads).forEach(id => {
+                    const t = state.threads[id];
+                    if (t.connected && t.progress < 100 && !t.weaving) {
+                        weaveThread(id);
+                    }
+                });
+                
+                if (state.weavingProgress >= 100) {
+                    state.weavingProgress = 100;
+                    state.isWeaving = false;
+                    clearInterval(weaveInterval);
+                    
+                    addWeaverLog('TECEDURA COMPLETA - SÍNTESE PRONTA', 'syn', 'Todos os fios tecidos. Realidade pronta para lançamento!');
+                    
+                    synthesizeReality();
+                }
+                
+                renderLoomChamber();
+                updateViewport();
+            }, 500);
+        }
+        
+        function addThread() {
+            const unconnected = Object.keys(state.threads).filter(id => !state.threads[id].connected);
+            if (unconnected.length === 0) {
+                addWeaverLog('TODOS FIOS JÁ CONECTADOS', 'thr', 'Nenhum fio disponível para adicionar');
+                return;
+            }
+            
+            const randomId = unconnected[Math.floor(Math.random() * unconnected.length)];
+            connectThread(randomId);
+        }
+        
+        function synthesizeReality() {
+            if (!state.currentReality) return;
+            
+            addWeaverLog('SINTETIZANDO REALIDADE...', 'syn', 'Omega Engine processando síntese final...');
+            
+            setTimeout(() => {
+                const newReality = {
+                    ...state.currentReality,
+                    id: `reality_${Date.now()}`,
+                    timestamp: Date.now(),
+                    threads: Object.keys(state.threads).filter(t => state.threads[t].progress >= 100)
+                };
+                
+                state.realitiesCreated.push(newReality);
+                
+                addWeaverLog(`🌌 REALIDADE CRIADA: ${newReality.name}`, 'rlt', `Classe: ${newReality.class} | ${newReality.threads.length} fios | Estabilidade: ${newReality.stability}%`);
+                
+                // Reset for next reality
+                state.currentReality = null;
+                Object.keys(state.threads).forEach(id => {
+                    state.threads[id].connected = false;
+                    state.threads[id].progress = 0;
+                    state.threads[id].weaving = false;
+                });
+                state.weavingProgress = 0;
+                
+                updateStats();
+                updateViewport();
+                updateSpecs();
+                updateComponents();
+                renderLoomChamber();
+                launchPanel.style.display = 'none';
+            }, 2000);
+        }
+        
+        function launchReality() {
+            if (state.realitiesCreated.length === 0) {
+                addWeaverLog('NENHUMA REALIDADE PARA LANÇAR', 'lch', 'Crie uma realidade primeiro');
+                return;
+            }
+            
+            const reality = state.realitiesCreated[state.realitiesCreated.length - 1];
+            
+            addWeaverLog(`🚀 LANÇANDO REALIDADE NO MULTIVERSO: ${reality.name}`, 'lch', `Bey Launcher ativado | Destino: Multiverso | Classe: ${reality.class}`);
+            
+            // Simulate launch
+            setTimeout(() => {
+                addWeaverLog(`✅ REALIDADE LANÇADA COM SUCESSO!`, 'lch', `${reality.name} agora existe no Multiverso como entidade viva e autônoma!`);
+                
+                // Create new reality bubble
+                createRealityBubble(reality);
+                
+                launchPanel.style.display = 'none';
+            }, 3000);
+        }
+        
+        function createRealityBubble(reality) {
+            const container = document.getElementById('realityBubbles');
+            const bubble = document.createElement('div');
+            bubble.className = 'reality-bubble';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.width = bubble.style.height = '80px';
+            bubble.style.borderColor = reality.color;
+            bubble.style.borderWidth = '3px';
+            bubble.style.boxShadow = `0 0 30px ${reality.color}`;
+            bubble.style.animationDuration = '5s';
+            bubble.style.opacity = '1';
+            bubble.style.zIndex = '10';
+            
+            // Add label
+            bubble.innerHTML = `<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7rem; color: ${reality.color}; text-align: center; font-weight: 900; text-shadow: 0 0 10px ${reality.color};">${reality.name}</div>`;
+            
+            container.appendChild(bubble);
+            
+            // Remove after animation
+            setTimeout(() => {
+                bubble.style.animation = 'bubbleFloat 10s

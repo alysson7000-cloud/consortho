@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCENSION SYSTEM - SISTEMA DE ASCENSÃO CÓSMICA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #050010;
+            color: #F0F0FF;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .ascension-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 50% 0%, rgba(255, 215, 0, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 100%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 0% 50%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 50%, rgba(255, 0, 255, 0.08) 0%, transparent 50%),
+                linear-gradient(180deg, #050010 0%, #0a0015 50%, #050010 100%);
+        }
+        
+        .ascension-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .ascension-particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            animation: ascend 15s infinite ease-out;
+            opacity: 0;
+        }
+        
+        @keyframes ascend {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            50% { opacity: 1; transform: translateY(50vh) scale(1) rotate(180deg); }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        .divine-geometry {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.03;
+        }
+        
+        .sacred-shape {
+            position: absolute;
+            border: 1px solid currentColor;
+            animation: rotateShape 60s linear infinite;
+        }
+        
+        @keyframes rotateShape {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.1; }
+            50% { transform: rotate(180deg) scale(1.2); opacity: 0.05; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.1; }
+        }
+        
+        .asc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 25px;
+            background: linear-gradient(90deg, rgba(5, 0, 15, 0.98), rgba(3, 0, 10, 0.95));
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .asc-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700, #FFD700);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: goldFlow 4s linear infinite;
+        }
+        
+        @keyframes goldFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .asc-subtitle {
+            font-size: 0.65rem;
+            color: #FFD700;
+            letter-spacing: 0.25em;
+            margin-top: -3px;
+        }
+        
+        .ascension-progress {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .ascension-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        
+        .ascension-stat.divine { border-color: #FFD700; background: rgba(255, 215, 0, 0.15); }
+        .ascension-stat.transcendent { border-color: #FF00FF; background: rgba(255, 0, 255, 0.1); }
+        
+        .asc-main {
+            display: grid;
+            grid-template-columns: 280px 1fr 300px;
+            grid-template-rows: 1fr 180px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 75px);
+        }
+        
+        .panel {
+            background: linear-gradient(135deg, rgba(8, 5, 20, 0.95), rgba(3, 0, 10, 0.98));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 
+                0 0 25px rgba(255, 215, 0, 0.08),
+                inset 0 1px 0 rgba(255, 215, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #FFD700;
+        }
+        
+        .panel-title::before {
+            content: '';
+            width: 4px; height: 20px;
+            background: linear-gradient(180deg, #FFD700, #FFA500, #FFD700);
+            border-radius: 2px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        
+        .ascension-path {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .plane-card {
+            background: rgba(255, 215, 0, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .plane-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: var(--plane-color, #FFD700);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .plane-card:hover::before { opacity: 1; }
+        .plane-card:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+            background: rgba(255, 215, 0, 0.08);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+        
+        .plane-card.ascended {
+            border-color: rgba(255, 215, 0, 0.6);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .plane-card.ascended::before { opacity: 1; }
+        
+        .plane-card.transcended {
+            border-color: rgba(255, 0, 255, 0.6);
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+        
+        .plane-card.transcended::before { 
+            opacity: 1; 
+            background: linear-gradient(90deg, #FF00FF, #FFD700, #FF00FF);
+        }
+        
+        .plane-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .plane-number {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #050010;
+            background: var(--plane-color, #FFD700);
+            box-shadow: 0 0 15px var(--plane-color, #FFD700);
+            flex-shrink: 0;
+        }
+        
+        .plane-info { flex: 1; min-width: 0; }
+        .plane-name { font-weight: 900; font-size: 0.85rem; color: #FFD700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .plane-type { font-size: 0.55rem; color: #B8860B; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .plane-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--plane-color, #FFD700), #FFA500);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-percent { font-size: 0.65rem; font-weight: 700; color: #FFD700; min-width: 40px; text-align: right; }
+        
+        .plane-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px dashed rgba(255, 215, 0, 0.1);
+            padding: 0 16px 12px 16px;
+        }
+        
+        .plane-body.expanded { max-height: 300px; }
+        
+        .trial-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        
+        .trial-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 215, 0, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+        
+        .trial-item:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.08);
+        }
+        
+        .trial-item.completed {
+            border-color: rgba(0, 255, 100, 0.4);
+            background: rgba(0, 255, 100, 0.05);
+        }
+        
+        .trial-item.growing { animation: pulseGrow 2s infinite; }
+        
+        @keyframes pulseGrow {
+            0%, 100% { box-shadow: 0 0 5px var(--plane-color, #FFD700); }
+            50% { box-shadow: 0 0 15px var(--plane-color, #FFD700); }
+        }
+        
+        .trial-icon { font-size: 0.9rem; flex-shrink: 0; }
+        .trial-info { flex: 1; }
+        .trial-name { font-weight: 700; color: #FFD700; }
+        .trial-desc { font-size: 0.55rem; color: #B8860B; }
+        .trial-status { font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .status-pending { color: #B8860B; background: rgba(184, 134, 11, 0.2); }
+        .status-active { color: #FFD700; background: rgba(255, 215, 0, 0.2); animation: pulse 1s infinite; }
+        .status-completed { color: #00FF64; background: rgba(0, 255, 100, 0.2); }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .rewards-preview {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(255, 215, 0, 0.1);
+        }
+        
+        .reward-tag {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.55rem;
+            color: #FFD700;
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #FFD700;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toggle-btn:hover { color: #FFA500; transform: rotate(90deg); }
+        .toggle-btn.rotated { transform: rotate(90deg); }
+        
+        .ascend-btn {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #050010;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: auto;
+        }
+        
+        .ascend-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+        .ascend-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        .ascend-btn.transcend { background: linear-gradient(135deg, #FF00FF, #FFD700); color: #050010; }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .ascension-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .ascension-canvas-container {
+            flex: 1;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center top, rgba(255, 215, 0, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at center, rgba(138, 43, 226, 0.04) 0%, transparent 70%);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        #ascensionCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .ascension-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+        
+        .ascension-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .current-entity {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            min-width: 250px;
+        }
+        
+        .entity-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .entity-avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: radial-gradient(circle at 30% 30%, var(--entity-color, #FFD700)80, var(--entity-color, #FFD700)20);
+            box-shadow: 0 0 20px var(--entity-color, #FFD700);
+        }
+        
+        .entity-info { flex: 1; }
+        .entity-name { font-size: 1rem; font-weight: 900; color: #FFD700; }
+        .entity-plane { font-size: 0.6rem; color: #B8860B; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .entity-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .vital {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .vital-label { font-size: 0.5rem; color: #B8860B; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .vital-value { font-size: 1rem; font-weight: 900; color: #FFD700; }
+        
+        .ascension-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .asc-btn {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .asc-btn:hover { background: rgba(255, 215, 0, 0.4); border-color: #FFD700; }
+        .asc-btn.primary { background: linear-gradient(135deg, #FFD700, #FFA500); color: #050010; border: none; }
+        
+        .ascension-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.6rem;
+            color: #B8860B;
+        }
+        
+        .legend-color {
+            width: 14px; height: 14px;
+            border-radius: 4px;
+        }
+        
+        .coordinates {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.65rem;
+            color: #FFD700;
+        }
+        
+        .right-panel { grid-row: 1 / -1; }
+        
+        .detail-section { margin-bottom: 16px; }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .detail-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .detail-label { font-size: 0.55rem; color: #B8860B; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .detail-value { font-size: 0.85rem; font-weight: 700; color: #FFD700; }
+        
+        .powers-panel {
+            background: rgba(255, 0, 255, 0.05);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .powers-title { font-size: 0.85rem; font-weight: 900; color: #FF00FF; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        
+        .powers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .power-card {
+            background: rgba(255, 0, 255, 0.05);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 8px;
+            padding: 10px;
+            transition: all 0.2s;
+        }
+        
+        .power-card:hover {
+            border-color: rgba(255, 0, 255, 0.4);
+            background: rgba(255, 0, 255, 0.1);
+        }
+        
+        .power-card.unlocked {
+            border-color: rgba(0, 255, 100, 0.4);
+            background: rgba(0, 255, 100, 0.05);
+        }
+        
+        .power-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .power-name { font-weight: 700; font-size: 0.75rem; color: #FF00FF; }
+        .power-plane { font-size: 0.55rem; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+        .plane-unlocked { background: rgba(0, 255, 100, 0.2); color: #00FF64; border: 1px solid #00FF64; }
+        .plane-locked { background: rgba(138, 43, 226, 0.2); color: #8A2BE2; border: 1px solid #8A2BE2; }
+        
+        .power-desc { font-size: 0.55rem; color: #B8A0FF; margin-top: 4px; }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 180px; }
+        
+        .ascension-log {
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .ascension-log-entry {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #FFD700;
+            animation: ascendIn 0.4s ease;
+            font-size: 0.7rem;
+            line-height: 1.4;
+        }
+        
+        @keyframes ascendIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .ascension-log-entry.ascension { border-left-color: #FFD700; }
+        .ascension-log-entry.transcendence { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .ascension-log-entry.trial { border-left-color: #FFA500; }
+        .ascension-log-entry.power { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .ascension-log-entry.divine { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
+        
+        .ascension-log-time { color: #FFD700; font-family: monospace; min-width: 70px; font-size: 0.65rem; }
+        .ascension-log-type { 
+            font-size: 0.5rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .ascension-log-type.asc { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .ascension-log-type.trn { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .ascension-log-type.trl { background: rgba(255, 165, 0, 0.2); color: #FFA500; }
+        .ascension-log-type.pwr { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .ascension-log-type.div { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .ascension-log-message { flex: 1; color: #F0F0FF; font-size: 0.68rem; }
+        
+        @media (max-width: 1400px) {
+            .asc-main { grid-template-columns: 260px 1fr 280px; }
+        }
+        
+        @media (max-width: 1200px) {
+            .asc-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FFD700, #FFA500, #FFD700); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="ascension-bg"></div>
+    <div class="divine-geometry" id="divineGeometry"></div>
+    <div class="ascension-particles" id="ascensionParticles"></div>
+    
+    <header class="asc-header">
+        <div>
+            <div class="asc-title">ASCENSION SYSTEM</div>
+            <div class="asc-subtitle">SISTEMA DE ASCENSÃO CÓSMICA • 12 PLANOS • TRANSCENDÊNCIA INFINITA</div>
+        </div>
+        <div class="ascension-progress">
+            <div class="ascension-stat divine"><span>⬆️</span><span id="ascTotalPlanes">0</span>/12 PLANOS</div>
+            <div class="ascension-stat divine"><span>✨</span><span id="ascCompleted">0</span> ASCENSÕES</div>
+            <div class="ascension-stat divine"><span>⚡</span><span id="ascPowers">0</span> PODERES</div>
+            <div class="ascension-stat transcendent"><span>♾️</span><span id="ascTranscended">0</span> TRANSCENDIDOS</div>
+            <div class="ascension-stat"><span>⚡</span><span id="ascEssence">0</span> ESSÊNCIA DIVINA</div>
+        </div>
+    </header>
+    
+    <main class="asc-main">
+        <aside class="left-panel panel">
+            <div class="panel-title">🌌 CAMINHO DA ASCENSÃO - 12 PLANOS</div>
+            <div class="ascension-path" id="ascensionPath"></div>
+        </aside>
+        
+        <section class="center-panel panel">
+            <div class="panel-title">🌌 VIEWPORT DA ASCENSÃO</div>
+            <div class="ascension-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="ascensionCanvas"></canvas>
+                <div class="ascension-overlay">
+                    <div class="ascension-top">
+                        <div class="current-entity" style="--entity-color: #FFD700;">
+                            <div class="entity-header">
+                                <div class="entity-avatar">⬆️</div>
+                                <div class="entity-info">
+                                    <div class="entity-name" id="entityName">SELECIONE UMA ENTIDADE</div>
+                                    <div class="entity-plane" id="entityPlane">PLANO 1 - MATERIAL</div>
+                                </div>
+                            </div>
+                            <div class="entity-stats">
+                                <div class="vital"><div class="vital-label">PLANO ATUAL</div><div class="vital-value" id="ascCurrentPlane">1/12</div></div>
+                                <div class="vital"><div class="vital-label">EXP ASCENSÃO</div><div class="vital-value" id="ascExp">0/100%</div></div>
+                                <div class="vital"><div class="vital-label">ESSÊNCIA</div><div class="vital-value" id="ascEssence">0</div></div>
+                            </div>
+                        </div>
+                        <div class="ascension-controls">
+                            <button class="asc-btn primary" onclick="ascendEntity()">⬆️ ASCENDER</button>
+                            <button class="asc-btn" onclick="viewTrials()">📜 PROVAÇÕES</button>
+                            <button class="asc-btn" onclick="viewPowers()">⚡ PODERES</button>
+                            <button class="asc-btn" onclick="transcendEntity()">🌌 TRANSCENDER</button>
+                        </div>
+                    </div>
+                    <div class="ascension-bottom">
+                        <div class="legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #8B4513;"></div><span>PLANOS 1-3: MATERIAL</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #4CAF50;"></div><span>PLANOS 4-6: ETÉREO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #2196F3;"></div><span>PLANOS 7-9: ASTRAL</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #9C27B0;"></div><span>PLANOS 10-12: DIVINO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>TRANSCENDIDO</span></div>
+                        </div>
+                        <div class="coordinates" id="ascCoords">PLANO: 1 | EXP: 0% | ESSÊNCIA: 0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel panel">
+            <div class="panel-title">🌟 ENTIDADE ASCENDENTE</div>
+            
+            <div class="current-entity">
+                <div class="entity-header">
+                    <div class="entity-avatar" id="entityAvatar" style="--entity-color: #FFD700;">🌟</div>
+                    <div class="entity-title">
+                        <div class="entity-name" id="entityName">SELECIONE UMA ENTIDADE</div>
+                        <div class="entity-type" id="entityType">PLANO 1 - MATERIAL</div>
+                    </div>
+                </div>
+                <div class="entity-stats">
+                    <div class="vital"><div class="vital-label">PLANO</div><div class="vital-value" id="dPlane">1/12</div></div>
+                    <div class="vital"><div class="vital-label">EXPERIÊNCIA</div><div class="vital-value" id="dExp">0/100%</div></div>
+                    <div class="vital"><div class="vital-label">ESSÊNCIA DIVINA</div><div class="vital-value" id="dEssence">0</div></div>
+                </div>
+                <div class="plant-actions" style="margin-top: 12px;">
+                    <button class="action-btn primary" onclick="ascendEntity()">⬆️ ASCENDER PLANO</button>
+                    <button class="action-btn" onclick="viewTrials()">📜 PROVAÇÕES</button>
+                    <button class="action-btn" onclick="viewPowers()">⚡ PODERES</button>
+                </div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 8px;">📜 PROVAÇÕES DO PLANO ATUAL</div>
+            <div class="trial-list" id="trialList" style="max-height: 200px; overflow-y: auto; padding-right: 8px;"></div>
+            
+            <div class="panel-title" style="margin-top: 12px;">⚡ PODERES DESBLOQUEADOS</div>
+            <div class="powers-grid" id="powersGrid" style="max-height: 200px; overflow-y: auto; padding-right: 8px;"></div>
+            
+            <div class="panel-title" style="margin-top: 12px;">🌌 TRANSCENDÊNCIA</div>
+            <div class="harvest-panel" id="transcendPanel" style="display: none;">
+                <div class="harvest-title">🌌 PRONTA PARA TRANSCENDER!</div>
+                <div class="harvest-desc">Esta entidade completou todos os 12 planos. Transcender a levará além da existência conhecida.</div>
+                <button class="harvest-btn" onclick="transcendEntity()">🌌 TRANSCENDER AGORA</button>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel panel">
+            <div class="panel-title">📜 REGISTRO DE ASCENSÃO</div>
+            <div class="ascension-log" id="ascensionLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const ASCENSION_PLANES = [
+            { number: 1, name: 'Plano Material', category: 'material', color: '#8B4513', icon: '🌍', desc: 'O mundo físico, matéria densa, leis da física', trials: ['Superar limitação física', 'Dominar a matéria', 'Criar forma duradoura'], rewards: ['Manipulação da Matéria', 'Resistência Física'], power: 'Transmutação Menor', exp: 100 },
+            { number: 2, name: 'Plano Vital', category: 'material', color: '#228B22', icon: '💚', desc: 'Vida biológica, evolução, adaptação', trials: ['Criar vida', 'Evoluir espécie', 'Curar feridas'], rewards: ['Manipulação Biológica', 'Regeneração'], power: 'Cura Acelerada', exp: 150 },
+            { number: 3, name: 'Plano Mental', category: 'material', color: '#4682B4', icon: '🧠', desc: 'Pensamento, lógica, inteligência, memória', trials: ['Resolver paradoxo', 'Expandir consciência', 'Ler mentes'], rewards: ['Telepatia', 'Memória Perfeita'], power: 'Leitura Mental', exp: 200 },
+            { number: 4, name: 'Plano Etérico', category: 'ethereal', color: '#4CAF50', icon: '🌿', desc: 'Energia vital, chi, prana, força vital', trials: ['Ver energia', 'Manipular fluxo', 'Curar à distância'], rewards: ['Visão Etérica', 'Cura Energética'], power: 'Projeção Etérica', exp: 300 },
+            { number: 5, name: 'Plano Emocional', category: 'ethereal', color: '#E91E63', icon: '💖', desc: 'Emoções puras, empatia, amor incondicional', trials: ['Perdoar imperdoável', 'Amar incondicional', 'Transmutar dor'], rewards: ['Empatia Absoluta', 'Transmutação Emocional'], power: 'Ressonância Emocional', exp: 400 },
+            { number: 6, name: 'Plano Causal', category: 'ethereal', color: '#9C27B0', icon: '🔮', desc: 'Causa e efeito, karma, destino, sincronicidade', trials: ['Ver futuro', 'Alterar causa', 'Criar sincronicidade'], rewards: ['Visão Causal', 'Manipulação Kármica'], power: 'Manipulação de Probabilidade', exp: 500 },
+            { number: 7, name: 'Plano Astral', category: 'astral', color: '#2196F3', icon: '🌌', desc: 'Sonhos, viagens astrais, mundos paralelos', trials: ['Viajar astral', 'Criar reino astral', 'Encontrar guia'], rewards: ['Viagem Astral', 'Criação de Bolso'], power: 'Projeção Astral Avançada', exp: 700 },
+            { number: 8, name: 'Plano Mental Superior', category: 'astral', color: '#00BCD4', icon: '💫', desc: 'Intelecto cósmico, sabedoria universal, mente grupal', trials: ['Acessar Akasha', 'Mente coletiva', 'Sabedoria infinita'], rewards: ['Acesso Akáshico', 'Mente Cósmica'], power: 'Onisciência Limitada', exp: 800 },
+            { number: 9, name: 'Plano Búdico', category: 'astral', color: '#00BCD4', icon: '☯️', desc: 'Intuição pura, compaixão universal, iluminação', trials: ['Iluminação temporária', 'Compaixão infinita', 'Unidade com tudo'], rewards: ['Compaixão Cósmica', 'Unidade Temporária'], power: 'Estado de Unidade', exp: 1000 },
+            { number: 10, name: 'Plano Atmico', category: 'divine', color: '#9C27B0', icon: '🌟', desc: 'Vontade divina, propósito cósmico, ser solar', trials: ['Descobrir propósito', 'Vontade inquebrável', 'Radiar luz'], rewards: ['Vontade Solar', 'Presença Radiante'], power: 'Comando Solar', exp: 1500 },
+            { number: 11, name: 'Plano Monádico', category: 'divine', color: '#E91E63', icon: '💎', desc: 'Mônada, essência imortal, individualidade eterna', trials: ['Lembrar todas vidas', 'Integrar mônada', 'Ser imortal'], rewards: ['Memória Eterna', 'Imortalidade Verdadeira'], power: 'Memória de Todas Vidas', exp: 2000 },
+            { number: 12, name: 'Plano Logoico', category: 'divine', color: '#E91E63', icon: '💎', desc: 'Logos, verbo criador, palavra que cria mundos', trials: ['Falar mundo à existência', 'Criar lei universal', 'Ser o Verbo'], rewards: ['Criação por Palavra', 'Lei Própria'], power: 'Criação por Decreto', exp: 3000 },
+            { number: 13, name: 'Plano Divino', category: 'divine', color: '#FFD700', icon: '☀️', desc: 'Fonte una, Deus interior, unidade absoluta', trials: ['Ser a Fonte', 'Criar universo', 'Ser Deus'], rewards: ['Onipotência Relativa', 'Criação de Universos'], power: 'Criação de Universos', exp: 5000 }
+        ];
+        
+        const ENTITIES = [
+            { id: 'lumin', name: 'LUMIN PRIME', type: 'lumin', emoji: '🌟', color: '#FFD700', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} },
+            { id: 'gang', name: 'A GANG', type: 'gang', emoji: '😼', color: '#FF6B35', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} },
+            { id: 'aly', name: 'ALY', type: 'player', emoji: '🧑', color: '#00FFFF', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} },
+            { id: 'poe', name: 'POE', type: 'poe', emoji: '📜', color: '#9C27B0', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} },
+            { id: 'companion_prime', name: 'LUMIN PRIME COMPANION', type: 'companion', emoji: '💫', color: '#FF00FF', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} }
+        ];
+        
+        const state = {
+            entities: {},
+            selectedEntity: 'lumin',
+            ascensionLog: [],
+            animationTime: 0
+        };
+        
+        function init() {
+            createDivineGeometry();
+            createParticles();
+            setupCanvas();
+            renderAscensionPath();
+            renderEntitySelector();
+            selectEntity('lumin');
+            animateAscension();
+            
+            addAscensionLog('SISTEMA DE ASCENSÃO ATIVADO', 'div', '12 planos aguardam sua transcendência');
+            addAscensionLog('LUMIN PRIME DESPERTOU', 'asc', 'Pronto para a primeira ascensão');
+            
+            setInterval(() => {
+                const entity = state.entities[state.selectedEntity];
+                if (entity) {
+                    entity.essence += 0.1;
+                    updateUI();
+                }
+            }, 1000);
+        }
+        
+        function createParticles() {
+            const container = document.getElementById('ascensionParticles');
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'ascension-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 4 + 1) + 'px';
+                particle.style.background = ['#FFD700', '#FFA500', '#FF00FF', '#FFD700', '#FFFFFF'][Math.floor(Math.random() * 5)];
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                document.getElementById('ascensionParticles').appendChild(particle);
+            }
+        }
+        
+        function createDivineGeometry() {
+            const container = document.getElementById('divineGeometry');
+            const shapes = [
+                { type: 'triangle', size: 200, color: '#FFD700', top: '10%', left: '5%' },
+                { type: 'circle', size: 150, color: '#FF00FF', top: '20%', right: '10%' },
+                { type: 'square', size: 120, color: '#00FFFF', bottom: '15%', left: '8%' },
+                { type: 'diamond', size: 100, color: '#FFA500', top: '60%', right: '15%' },
+                { type: 'hexagon', size: 80, color: '#FF00FF', bottom: '20%', left: '20%' }
+            ];
+            
+            shapes.forEach((s, i) => {
+                const shape = document.createElement('div');
+                shape.className = 'sacred-shape';
+                shape.style.width = shape.style.height = s.size + 'px';
+                shape.style.color = s.color;
+                shape.style.top = s.top || '';
+                shape.style.bottom = s.bottom || '';
+                shape.style.left = s.left || '';
+                shape.style.right = s.right || '';
+                shape.style.animationDelay = (i * 10) + 's';
+                shape.style.animationDuration = (40 + i * 10) + 's';
+                
+                if (s.type === 'triangle') {
+                    shape.style.borderLeft = 'solid transparent';
+                    shape.style.borderRight = 'solid transparent';
+                    shape.style.borderBottom = 'solid ' + s.color;
+                    shape.style.width = shape.style.height = '0';
+                } else if (s.type === 'circle') {
+                    shape.style.borderRadius = '50%';
+                } else if (s.type === 'diamond') {
+                    shape.style.transform = 'rotate(45deg)';
+                } else if (s.type === 'hexagon') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+                }
+                
+                document.getElementById('divineGeometry').appendChild(shape);
+            });
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const canvas = document.getElementById('ascensionCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        const ASCENSION_PLANES = [
+            { number: 1, name: 'Plano Material', category: 'material', color: '#8B4513', icon: '🌍', desc: 'O mundo físico, matéria densa, leis da física', trials: ['Superar limitação física', 'Dominar a matéria', 'Criar forma duradoura'], rewards: ['Manipulação da Matéria', 'Resistência Física'], power: 'Transmutação Menor', exp: 100 },
+            { number: 2, name: 'Plano Vital', category: 'material', color: '#228B22', icon: '💚', desc: 'Vida biológica, evolução, adaptação', trials: ['Criar vida', 'Evoluir espécie', 'Curar feridas'], rewards: ['Manipulação Biológica', 'Regeneração'], power: 'Cura Acelerada', exp: 150 },
+            { number: 3, name: 'Plano Mental', category: 'material', color: '#4682B4', icon: '🧠', desc: 'Pensamento, lógica, inteligência, memória', trials: ['Resolver paradoxo', 'Expandir consciência', 'Ler mentes'], rewards: ['Telepatia', 'Memória Perfeita'], power: 'Leitura Mental', exp: 200 },
+            { number: 4, name: 'Plano Etérico', category: 'ethereal', color: '#4CAF50', icon: '🌿', desc: 'Energia vital, chi, prana, força vital', trials: ['Ver energia', 'Manipular fluxo', 'Curar à distância'], rewards: ['Visão Etérica', 'Cura Energética'], power: 'Projeção Etérica', exp: 300 },
+            { number: 5, name: 'Plano Emocional', category: 'ethereal', color: '#E91E63', icon: '💖', desc: 'Emoções puras, empatia, amor incondicional', trials: ['Perdoar imperdoável', 'Amar incondicional', 'Transmutar dor'], rewards: ['Empatia Absoluta', 'Transmutação Emocional'], power: 'Ressonância Emocional', exp: 400 },
+            { number: 6, name: 'Plano Causal', category: 'ethereal', color: '#9C27B0', icon: '🔮', desc: 'Causa e efeito, karma, destino, sincronicidade', trials: ['Ver futuro', 'Alterar causa', 'Criar sincronicidade'], rewards: ['Visão Causal', 'Manipulação Kármica'], power: 'Manipulação de Probabilidade', exp: 500 },
+            { number: 7, name: 'Plano Astral', category: 'astral', color: '#2196F3', icon: '🌌', desc: 'Sonhos, viagens astrais, mundos paralelos', trials: ['Viajar astral', 'Criar reino astral', 'Encontrar guia'], rewards: ['Viagem Astral', 'Criação de Bolso'], power: 'Projeção Astral Avançada', exp: 700 },
+            { number: 8, name: 'Plano Mental Superior', category: 'astral', color: '#00BCD4', icon: '💫', desc: 'Intelecto cósmico, sabedoria universal, mente grupal', trials: ['Acessar Akasha', 'Mente coletiva', 'Sabedoria infinita'], rewards: ['Acesso Akáshico', 'Mente Cósmica'], power: 'Onisciência Limitada', exp: 800 },
+            { number: 9, name: 'Plano Búdico', category: 'astral', color: '#00BCD4', icon: '☯️', desc: 'Intuição pura, compaixão universal, iluminação', trials: ['Iluminação temporária', 'Compaixão infinita', 'Unidade com tudo'], rewards: ['Compaixão Cósmica', 'Unidade Temporária'], power: 'Estado de Unidade', exp: 1000 },
+            { number: 10, name: 'Plano Atmico', category: 'divine', color: '#9C27B0', icon: '🌟', desc: 'Vontade divina, propósito cósmico, ser solar', trials: ['Descobrir propósito', 'Vontade inquebrável', 'Radiar luz'], rewards: ['Vontade Solar', 'Presença Radiante'], power: 'Comando Solar', exp: 1500 },
+            { number: 11, name: 'Plano Monádico', category: 'divine', color: '#E91E63', icon: '💎', desc: 'Mônada, essência imortal, individualidade eterna', trials: ['Lembrar todas vidas', 'Integrar mônada', 'Ser imortal'], rewards: ['Memória Eterna', 'Imortalidade Verdadeira'], power: 'Memória de Todas Vidas', exp: 2000 },
+            { number: 12, name: 'Plano Logoico', category: 'divine', color: '#FF00FF', icon: '🌌', desc: 'Logos, verbo criador, palavra que cria mundos', trials: ['Falar mundo à existência', 'Criar lei universal', 'Ser o Verbo'], rewards: ['Criação por Palavra', 'Lei Própria'], power: 'Criação por Decreto', exp: 3000 },
+            { number: 13, name: 'Plano Divino', category: 'divine', color: '#FFD700', icon: '☀️', desc: 'Fonte una, Deus interior, unidade absoluta', trials: ['Ser a Fonte', 'Criar universo', 'Ser Deus'], rewards: ['Onipotência Relativa', 'Criação de Universos'], power: 'Criação de Universos', exp: 5000 }
+        ];
+        
+        const ENTITIES = [
+            { id: 'lumin', name: 'LUMIN PRIME', type: 'lumin', emoji: '🌟', color: '#FFD700', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} },
+            { id: 'gang', name: 'A GANG', type: 'gang', emoji: '😼', color: '#FF6B35', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} },
+            { id: 'aly', name: 'ALY', type: 'player', emoji: '🧑', color: '#00FFFF', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} },
+            { id: 'poe', name: 'POE', type: 'poe', emoji: '📜', color: '#9C27B0', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} },
+            { id: 'companion_prime', name: 'LUMIN PRIME COMPANION', type: 'companion', emoji: '💫', color: '#FF00FF', plane: 1, exp: 0, essence: 0, ascended: 0, powers: [], trials: {} }
+        ];
+        
+        const state = {
+            entities: {},
+            selectedEntity: 'lumin',
+            ascensionLog: [],
+            animationTime: 0
+        };
+        
+        function init() {
+            createDivineGeometry();
+            createParticles();
+            setupCanvas();
+            renderAscensionPath();
+            renderEntitySelector();
+            selectEntity('lumin');
+            animateAscension();
+            
+            addAscensionLog('SISTEMA DE ASCENSÃO ATIVADO', 'div', '12 planos aguardam sua transcendência');
+            addAscensionLog('LUMIN PRIME DESPERTOU', 'asc', 'Pronto para a primeira ascensão');
+            
+            setInterval(() => {
+                const entity = state.entities[state.selectedEntity];
+                if (entity) {
+                    entity.essence += 0.1;
+                    updateUI();
+                }
+            }, 1000);
+        }
+        
+        function createParticles() {
+            const container = document.getElementById('ascensionParticles');
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'ascension-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 4 + 1) + 'px';
+                particle.style.background = ['#FFD700', '#FFA500', '#FF00FF', '#FFD700', '#FFFFFF'][Math.floor(Math.random() * 5)];
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                document.getElementById('ascensionParticles').appendChild(particle);
+            }
+        }
+        
+        function createDivineGeometry() {
+            const container = document.getElementById('divineGeometry');
+            const shapes = [
+                { type: 'triangle', size: 200, color: '#FFD700', top: '10%', left: '5%' },
+                { type: 'circle', size: 150, color: '#FF00FF', top: '20%', right: '10%' },
+                { type: 'square', size: 120, color: '#00FFFF', bottom: '15%', left: '8%' },
+                { type: 'diamond', size: 100, color: '#FFA500', top: '60%', right: '15%' },
+                { type: 'hexagon', size: 80, color: '#FF00FF', bottom: '20%', left: '20%' }
+            ];
+            
+            shapes.forEach((s, i) => {
+                const shape = document.createElement('div');
+                shape.className = 'sacred-shape';
+                shape.style.width = shape.style.height = s.size + 'px';
+                shape.style.color = s.color;
+                shape.style.top = s.top || '';
+                shape.style.bottom = s.bottom || '';
+                shape.style.left = s.left || '';
+                shape.style.right = s.right || '';
+                shape.style.animationDelay = (i * 10) + 's';
+                shape.style.animationDuration = (40 + i * 10) + 's';
+                
+                if (s.type === 'triangle') {
+                    shape.style.borderLeft = 'solid transparent';
+                    shape.style.borderRight = 'solid transparent';
+                    shape.style.borderBottom = 'solid ' + s.color;
+                    shape.style.width = shape.style.height = '0';
+                } else if (s.type === 'circle') {
+                    shape.style.borderRadius = '50%';
+                } else if (s.type === 'diamond') {
+                    shape.style.transform = 'rotate(45deg)';
+                } else if (s.type === 'hexagon') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+                }
+                
+                document.getElementById('divineGeometry').appendChild(shape);
+            });
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const canvas = document.getElementById('ascensionCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        const ASCENSION_PLANES = [
+            { number: 1, name: 'Plano Material', category: 'material', color: '#8B4513', icon: '🌍', desc: 'O mundo físico, matéria densa, leis da física', trials: ['Superar limitação física', 'Dominar a matéria', 'Criar forma duradoura'], rewards: ['Manipulação da Matéria', 'Resistência Física'], power: 'Transmutação Menor', exp: 100 },
+            { number: 2, name: 'Plano Vital', category: 'material', color: '#228B22', icon: '💚', desc: 'Vida biológica, evolução, adaptação', trials: ['Criar vida', 'Evoluir espécie', 'Curar feridas'], rewards: ['Manipulação Biológica', 'Regeneração'], power: 'Cura Acelerada', exp: 150 },
+            { number: 3, name: 'Plano Mental', category: 'material', color: '#4682B4', icon: '🧠', desc: 'Pensamento, lógica, inteligência, memória', trials: ['Resolver paradoxo', 'Expandir consciência', 'Ler mentes'], rewards: ['Telepatia', 'Memória Perfeita'], power: 'Leitura Mental', exp: 200 },
+            { number: 4, name: 'Plano Etérico', category: 'ethereal', color: '#4CAF50', icon: '🌿', desc: 'Energia vital, chi, prana, força vital', trials: ['Ver energia', 'Manipular fluxo', 'Curar à distância'], rewards: ['Visão Etérica', 'Cura Energética'], power: 'Projeção Etérica', exp: 300 },
+            { number: 5, name: 'Plano Emocional', category: 'ethereal', color: '#E91E63', icon: '💖', desc: 'Emoções puras, empatia, amor incondicional', trials: ['Perdoar imperdoável', 'Amar incondicional', 'Transmutar dor'], rewards: ['Empatia Absoluta', 'Transmutação Emocional'], power: 'Ressonância Emocional', exp: 400 },
+            { number: 6, name: 'Plano Causal', category: 'ethereal', color: '#9C27B0', icon: '🔮', desc: 'Causa e efeito, karma, destino, sincronicidade', trials: ['Ver futuro', 'Alterar causa', 'Criar sincronicidade'], rewards: ['Visão Causal', 'Manipulação Kármica'], power: 'Manipulação de Probabilidade', exp: 500 },
+            { number: 7, name: 'Plano Astral', category: 'astral', color: '#2196F3', icon: '🌌', desc: 'Sonhos, viagens astrais, mundos paralelos', trials: ['Viajar astral', 'Criar reino astral', 'Encontrar guia'], rewards: ['Viagem Astral', 'Criação de Bolso'], power: 'Projeção Astral Avançada', exp: 700 },
+            { number: 8, name: 'Plano Mental Superior', category: 'astral', color: '#00BCD4', icon: '💫', desc: 'Intelecto cósmico, sabedoria universal, mente grupal', trials: ['Acessar Akasha', 'Mente coletiva', 'Sabedoria infinita'], rewards: ['Acesso Akáshico', 'Mente Cósmica'], power: 'Onisciência Limitada', exp: 800 },
+            { number: 9, name: 'Plano Búdico', category: 'astral', color: '#00BCD4', icon: '☯️', desc: 'Intuição pura, compaixão universal, iluminação', trials: ['Iluminação temporária', 'Compaixão infinita', 'Unidade com tudo'], rewards: ['Compaixão Cósmica', 'Unidade Temporária'], power: 'Estado de Unidade', exp: 1000 },
+            { number: 10, name: 'Plano Atmico', category: 'divine', color: '#9C27B0', icon: '🌟', desc: 'Vontade divina, propósito cósmico, ser solar', trials: ['Descobrir propósito', 'Vontade inquebrável', 'Radiar luz'], rewards: ['Vontade Solar', 'Presença Radiante'], power: 'Comando Solar', exp: 1500 },
+            { number: 11, name: 'Plano Monádico', category: 'divine', color: '#E91E63', icon: '💎', desc: 'Mônada, essência imortal, individualidade eterna', trials: ['Lembrar todas vidas', 'Integrar mônada', 'Ser imortal'], rewards: ['Memória Eterna', 'Imortalidade Verdadeira'], power: 'Memória de Todas Vidas', exp: 2000 },
+            { number: 12, name: 'Plano Logoico', category: 'divine', color: '#FF00FF', icon: '🌌', desc: 'Logos, verbo criador, palavra que cria mundos', trials: ['Falar mundo à existência', 'Criar lei universal', 'Ser o Verbo'], rewards: ['Criação por Palavra', 'Lei Própria'], power: 'Criação por Decreto', exp: 3000 },
+            { number: 13, name: 'Plano Divino', category: 'divine', color: '#FFD700', icon: '☀️', desc: 'Fonte una, Deus interior, unidade absoluta', trials: ['Ser a Fonte', 'Criar universo', 'Ser Deus'], rewards: ['
