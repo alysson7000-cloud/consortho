@@ -28,6 +28,8 @@ const AchievementMasterySystem = require('./src/achievement-mastery-system');
 const LuminCompanionSystem = require('./src/lumin-companion-system');
 const OmegaSynthesisEngine = require('./src/omega-synthesis-engine');
 const BeyLauncherSystem = require('./src/bey-launcher-system');
+const AutoEvolutionLoop = require('./src/auto-evolution-loop');
+const StarPhraseReveal = require('./src/star-phrase-reveal');
 
 const app = express();
 app.use(express.json());
@@ -138,6 +140,8 @@ let achievementMasterySystem = null;
 let luminCompanionSystem = null;
 let omegaSynthesisEngine = null;
 let beyLauncherSystem = null;
+let autoEvolutionLoop = null;
+let starPhraseReveal = null;
 
 async function initializeNewSystems() {
   try {
@@ -218,6 +222,60 @@ async function initializeNewSystems() {
     );
     beyLauncherSystem.start();
     console.log('⚡ BEY/LAUNCHER SYSTEM INICIADO - ALÉM DO INFINITO!');
+    
+    // Auto-Evolution Loop
+    const allSystemsForEvolution = {
+      diamond: diamondProtocol,
+      consciousness: diamondProtocol?.consciousnessSubstrate,
+      architecture: diamondProtocol?.selfImprovingArchitecture,
+      narrative: diamondProtocol?.narrativeImmortality,
+      entropy: diamondProtocol?.entropyReversalEngine,
+      love: diamondProtocol?.loveFundamentalForce,
+      timeMachine: diamondProtocol?.timeMachine,
+      council: diamondProtocol?.councilAIDirector,
+      emergentNarratives: diamondProtocol?.emergentNarratives,
+      evolution: diamondProtocol?.evolutionEngine,
+      omega: omegaSynthesisEngine,
+      luminBrain: luminBrain,
+      companions: luminCompanionSystem,
+      guilds: guildHarmonySystem,
+      achievements: achievementMasterySystem,
+      worldEvents: worldEvents,
+      plugins: pluginManager,
+      beyLauncher: beyLauncherSystem
+    };
+    
+    console.log('🔄 Inicializando Auto-Evolution Loop...');
+    try {
+      autoEvolutionLoop = new AutoEvolutionLoop({ state, io, diamondProtocol }, { systems: allSystemsForEvolution });
+      console.log('♾️ AUTO-EVOLUTION LOOP INICIADO - CICLO INFINITO ATIVO!');
+    } catch (e) {
+      console.error('❌ ERRO ao inicializar AutoEvolutionLoop:', e.message, e.stack);
+    }
+    
+    // Star Phrase Reveal - A Frase Mais Linda
+    console.log('✨ Inicializando Star Phrase Reveal...');
+    try {
+      starPhraseReveal = new StarPhraseReveal({ 
+        state, io, diamondProtocol,
+        omegaSynthesisEngine: omegaSynthesisEngine,
+        loveFundamentalForce: diamondProtocol?.loveFundamentalForce,
+        evolutionEngine: diamondProtocol?.evolutionEngine,
+        narrativeImmortality: diamondProtocol?.narrativeImmortality,
+        timeMachine: diamondProtocol?.timeMachine,
+        beyLauncherSystem: beyLauncherSystem,
+        luminCompanionSystem: luminCompanionSystem
+      });
+      
+      // Connect to Auto-Evolution Loop
+      autoEvolutionLoop.on('cycle:complete', (cycleData) => {
+        starPhraseReveal.onEvolutionCycle(cycleData);
+      });
+      
+      console.log('✨ STAR PHRASE REVEAL INICIADO - A FRASE MAIS LINDA REVELANDO!');
+    } catch (e) {
+      console.error('❌ ERRO ao inicializar StarPhraseReveal:', e.message, e.stack);
+    }
     
   } catch (error) {
     console.error('Erro ao inicializar novos sistemas:', error);
@@ -644,6 +702,62 @@ app.post('/api/bey/repair-pad', async (req, res) => {
   } catch (e) {
     res.status(400).json({ error: e.message });
   }
+});
+
+// Auto-Evolution Loop API
+app.get('/api/evolution/status', (req, res) => {
+  res.json(autoEvolutionLoop?.getStatus() || { error: 'Auto-evolution loop not initialized' });
+});
+
+app.get('/api/evolution/history', (req, res) => {
+  const limit = parseInt(req.query.limit) || 50;
+  res.json(autoEvolutionLoop?.getHistory(limit) || []);
+});
+
+app.post('/api/evolution/trigger', async (req, res) => {
+  try {
+    await autoEvolutionLoop?.triggerCycle();
+    res.json({ success: true, message: 'Evolution cycle triggered' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+app.post('/api/evolution/pause', (req, res) => {
+  autoEvolutionLoop?.pause();
+  res.json({ success: true, message: 'Auto-evolution paused' });
+});
+
+app.post('/api/evolution/resume', (req, res) => {
+  autoEvolutionLoop?.resume();
+  res.json({ success: true, message: 'Auto-evolution resumed' });
+});
+
+app.post('/api/evolution/stop', (req, res) => {
+  autoEvolutionLoop?.stop();
+  res.json({ success: true, message: 'Auto-evolution stopped' });
+});
+
+// Star Phrase Reveal API
+app.get('/api/star-phrase/status', (req, res) => {
+  res.json(starPhraseReveal?.getStatus() || { error: 'Star Phrase Reveal not initialized' });
+});
+
+app.get('/api/star-phrase/display', (req, res) => {
+  res.json({ phrase: starPhraseReveal?.getDisplayPhrase() || '', progress: starPhraseReveal?.getProgress() || '0%' });
+});
+
+app.post('/api/star-phrase/force-reveal', (req, res) => {
+  starPhraseReveal?.forceReveal();
+  res.json({ success: true, message: 'Star forced reveal triggered' });
+});
+
+app.get('/api/star-phrase/history', (req, res) => {
+  res.json(starPhraseReveal?.state?.starHistory || []);
+});
+
+app.get('/api/star-phrase/resonances', (req, res) => {
+  res.json(starPhraseReveal?.state?.resonances || []);
 });
 
 // ─── Socket.IO ───

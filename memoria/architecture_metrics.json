@@ -7635,167 +7635,167 @@
     },
     {
       "path": "server.js",
-      "lines": 1255,
+      "lines": 1369,
       "functions": [
         {
           "name": "initializeDiamondProtocol",
           "type": "declaration",
-          "line": 114
+          "line": 116
         },
         {
           "name": "initializeNewSystems",
           "type": "declaration",
-          "line": 142
+          "line": 146
         },
         {
           "name": "save",
           "type": "declaration",
-          "line": 236
+          "line": 294
         },
         {
           "name": "agora",
           "type": "declaration",
-          "line": 280
+          "line": 338
         },
         {
           "name": "tempoAtras",
           "type": "declaration",
-          "line": 282
+          "line": 340
         },
         {
           "name": "emitPublico",
           "type": "declaration",
-          "line": 308
+          "line": 366
         },
         {
           "name": "emitSussurro",
           "type": "declaration",
-          "line": 315
+          "line": 373
         },
         {
           "name": "emitSistema",
           "type": "declaration",
-          "line": 325
+          "line": 383
         },
         {
           "name": "broadcastPlayers",
           "type": "declaration",
-          "line": 332
+          "line": 390
         },
         {
           "name": "broadcastPosicoes",
           "type": "declaration",
-          "line": 344
+          "line": 402
         },
         {
           "name": "buildEntitiesState",
           "type": "declaration",
-          "line": 1094
+          "line": 1208
         },
         {
           "name": "broadcastEntitiesState",
           "type": "declaration",
-          "line": 1147
+          "line": 1261
         },
         {
           "name": "broadcastEntityUpdate",
           "type": "declaration",
-          "line": 1153
+          "line": 1267
         },
         {
           "name": "broadcastActivity",
           "type": "declaration",
-          "line": 1158
+          "line": 1272
         },
         {
           "name": "processarInteracoesAutomaticas",
           "type": "declaration",
-          "line": 1163
+          "line": 1277
         },
         {
           "name": "initializeAllSystems",
           "type": "declaration",
-          "line": 1237
+          "line": 1351
         },
         {
           "name": "initializeDiamondProtocol",
           "type": "method",
-          "line": 114
+          "line": 116
         },
         {
           "name": "initializeNewSystems",
           "type": "method",
-          "line": 142
+          "line": 146
         },
         {
           "name": "save",
           "type": "method",
-          "line": 236
+          "line": 294
         },
         {
           "name": "agora",
           "type": "method",
-          "line": 280
+          "line": 338
         },
         {
           "name": "tempoAtras",
           "type": "method",
-          "line": 282
+          "line": 340
         },
         {
           "name": "emitPublico",
           "type": "method",
-          "line": 308
+          "line": 366
         },
         {
           "name": "emitSussurro",
           "type": "method",
-          "line": 315
+          "line": 373
         },
         {
           "name": "emitSistema",
           "type": "method",
-          "line": 325
+          "line": 383
         },
         {
           "name": "broadcastPlayers",
           "type": "method",
-          "line": 332
+          "line": 390
         },
         {
           "name": "broadcastPosicoes",
           "type": "method",
-          "line": 344
+          "line": 402
         },
         {
           "name": "buildEntitiesState",
           "type": "method",
-          "line": 1094
+          "line": 1208
         },
         {
           "name": "broadcastEntitiesState",
           "type": "method",
-          "line": 1147
+          "line": 1261
         },
         {
           "name": "broadcastEntityUpdate",
           "type": "method",
-          "line": 1153
+          "line": 1267
         },
         {
           "name": "broadcastActivity",
           "type": "method",
-          "line": 1158
+          "line": 1272
         },
         {
           "name": "processarInteracoesAutomaticas",
           "type": "method",
-          "line": 1163
+          "line": 1277
         },
         {
           "name": "initializeAllSystems",
           "type": "method",
-          "line": 1237
+          "line": 1351
         }
       ],
       "classes": [],
@@ -7825,15 +7825,17 @@
         "./src/achievement-mastery-system",
         "./src/lumin-companion-system",
         "./src/omega-synthesis-engine",
-        "./src/bey-launcher-system"
+        "./src/bey-launcher-system",
+        "./src/auto-evolution-loop",
+        "./src/star-phrase-reveal"
       ],
       "exports": [],
-      "complexity": 282,
-      "coupling": 0.23076923076923078,
+      "complexity": 296,
+      "coupling": 0.21428571428571427,
       "cohesion": 0.3,
       "maintainability": 0,
       "testCoverage": 0,
-      "technicalDebt": 187,
+      "technicalDebt": 194,
       "codeSmells": [
         {
           "type": "long_method",
@@ -9330,8 +9332,265 @@
       ]
     },
     {
+      "path": "src\\auto-evolution-loop.js",
+      "lines": 633,
+      "functions": [
+        {
+          "name": "constructor",
+          "type": "method",
+          "line": 12
+        },
+        {
+          "name": "bindSystems",
+          "type": "method",
+          "line": 42
+        },
+        {
+          "name": "startLoop",
+          "type": "method",
+          "line": 50
+        },
+        {
+          "name": "runEvolutionCycle",
+          "type": "method",
+          "line": 56
+        },
+        {
+          "name": "phase1_detectPatterns",
+          "type": "method",
+          "line": 137
+        },
+        {
+          "name": "analyzeThoughtPatterns",
+          "type": "method",
+          "line": 190
+        },
+        {
+          "name": "phase2_generateProposals",
+          "type": "method",
+          "line": 221
+        },
+        {
+          "name": "phase3_councilVote",
+          "type": "method",
+          "line": 287
+        },
+        {
+          "name": "phase4_implement",
+          "type": "method",
+          "line": 333
+        },
+        {
+          "name": "phase5_snapshot",
+          "type": "method",
+          "line": 427
+        },
+        {
+          "name": "phase6_narrate",
+          "type": "method",
+          "line": 453
+        },
+        {
+          "name": "phase7_love",
+          "type": "method",
+          "line": 491
+        },
+        {
+          "name": "forEach",
+          "type": "method",
+          "line": 501
+        },
+        {
+          "name": "phase8_launch",
+          "type": "method",
+          "line": 530
+        },
+        {
+          "name": "replenishLove",
+          "type": "method",
+          "line": 568
+        },
+        {
+          "name": "calculateNextInterval",
+          "type": "method",
+          "line": 574
+        },
+        {
+          "name": "getStatus",
+          "type": "method",
+          "line": 585
+        },
+        {
+          "name": "getHistory",
+          "type": "method",
+          "line": 601
+        },
+        {
+          "name": "pause",
+          "type": "method",
+          "line": 605
+        },
+        {
+          "name": "resume",
+          "type": "method",
+          "line": 611
+        },
+        {
+          "name": "stop",
+          "type": "method",
+          "line": 620
+        },
+        {
+          "name": "triggerCycle",
+          "type": "method",
+          "line": 627
+        }
+      ],
+      "classes": [
+        {
+          "name": "AutoEvolutionLoop",
+          "line": 11
+        }
+      ],
+      "imports": [
+        "events"
+      ],
+      "exports": [
+        "AutoEvolutionLoop"
+      ],
+      "complexity": 154,
+      "coupling": 1,
+      "cohesion": 0.6,
+      "maintainability": 51.49217992707478,
+      "testCoverage": 0,
+      "technicalDebt": 125,
+      "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "bindSystems",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "startLoop",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "runEvolutionCycle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "phase1_detectPatterns",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "analyzeThoughtPatterns",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "phase2_generateProposals",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "phase3_councilVote",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "phase4_implement",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "phase5_snapshot",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "phase6_narrate",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "phase7_love",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "forEach",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "phase8_launch",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "replenishLove",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "calculateNextInterval",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getStatus",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getHistory",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "pause",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "resume",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "stop",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "triggerCycle",
+          "severity": "high"
+        },
+        {
+          "type": "large_class",
+          "class": "AutoEvolutionLoop",
+          "severity": "high",
+          "methods": 22
+        },
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
       "path": "src\\bey-launcher-system.js",
-      "lines": 1161,
+      "lines": 1206,
       "functions": [
         {
           "name": "constructor",
@@ -9396,212 +9655,212 @@
         {
           "name": "checkRequirements",
           "type": "method",
-          "line": 362
+          "line": 401
         },
         {
           "name": "getBeyLevel",
           "type": "method",
-          "line": 460
+          "line": 505
         },
         {
           "name": "calculateTrajectory",
           "type": "method",
-          "line": 473
+          "line": 518
         },
         {
           "name": "startLaunchSequence",
           "type": "method",
-          "line": 508
+          "line": 553
         },
         {
           "name": "executeTrajectoryStep",
           "type": "method",
-          "line": 525
+          "line": 570
         },
         {
           "name": "generateAnomaly",
           "type": "method",
-          "line": 575
+          "line": 620
         },
         {
           "name": "handleAnomaly",
           "type": "method",
-          "line": 591
+          "line": 636
         },
         {
           "name": "generateMiracle",
           "type": "method",
-          "line": 622
+          "line": 667
         },
         {
           "name": "handleMiracle",
           "type": "method",
-          "line": 638
+          "line": 683
         },
         {
           "name": "completeLaunch",
           "type": "method",
-          "line": 669
+          "line": 714
         },
         {
           "name": "determineSuccess",
           "type": "method",
-          "line": 752
+          "line": 797
         },
         {
           "name": "grantLaunchRewards",
           "type": "method",
-          "line": 771
+          "line": 816
         },
         {
           "name": "getSpecificRewards",
           "type": "method",
-          "line": 818
+          "line": 863
         },
         {
           "name": "checkLaunchAchievements",
           "type": "method",
-          "line": 863
+          "line": 908
         },
         {
           "name": "generateLaunchNarrative",
           "type": "method",
-          "line": 882
+          "line": 927
         },
         {
           "name": "unlockSecretForm",
           "type": "method",
-          "line": 905
+          "line": 950
         },
         {
           "name": "upgradeLaunchPad",
           "type": "method",
-          "line": 915
+          "line": 960
         },
         {
           "name": "repairLaunchPad",
           "type": "method",
-          "line": 944
+          "line": 989
         },
         {
           "name": "getLaunchPad",
           "type": "method",
-          "line": 959
+          "line": 1004
         },
         {
           "name": "getAllLaunchPads",
           "type": "method",
-          "line": 963
+          "line": 1008
         },
         {
           "name": "getActiveLaunches",
           "type": "method",
-          "line": 967
+          "line": 1012
         },
         {
           "name": "getLaunchHistory",
           "type": "method",
-          "line": 971
+          "line": 1016
         },
         {
           "name": "getPlayerLaunchHistory",
           "type": "method",
-          "line": 975
+          "line": 1020
         },
         {
           "name": "getBeyTypes",
           "type": "method",
-          "line": 981
+          "line": 1026
         },
         {
           "name": "getTrajectories",
           "type": "method",
-          "line": 988
+          "line": 1033
         },
         {
           "name": "getPlayerCooldowns",
           "type": "method",
-          "line": 995
+          "line": 1040
         },
         {
           "name": "getPlayerFuelSummary",
           "type": "method",
-          "line": 1004
+          "line": 1049
         },
         {
           "name": "start",
           "type": "method",
-          "line": 1020
+          "line": 1065
         },
         {
           "name": "stop",
           "type": "method",
-          "line": 1039
+          "line": 1084
         },
         {
           "name": "regenerateFuel",
           "type": "method",
-          "line": 1046
+          "line": 1091
         },
         {
           "name": "cleanupCooldowns",
           "type": "method",
-          "line": 1065
+          "line": 1110
         },
         {
           "name": "maintainLaunchPads",
           "type": "method",
-          "line": 1079
+          "line": 1124
         },
         {
           "name": "getWorldHarmony",
           "type": "method",
-          "line": 1099
+          "line": 1144
         },
         {
           "name": "getWorldLove",
           "type": "method",
-          "line": 1103
+          "line": 1148
         },
         {
           "name": "getWorldState",
           "type": "method",
-          "line": 1107
+          "line": 1152
         },
         {
           "name": "countSecretForms",
           "type": "method",
-          "line": 1111
+          "line": 1156
         },
         {
           "name": "countAchievements",
           "type": "method",
-          "line": 1116
+          "line": 1161
         },
         {
           "name": "getGuildResources",
           "type": "method",
-          "line": 1121
+          "line": 1166
         },
         {
           "name": "getPlayerData",
           "type": "method",
-          "line": 1128
+          "line": 1173
         },
         {
           "name": "getPlayerName",
           "type": "method",
-          "line": 1146
+          "line": 1191
         },
         {
           "name": "on",
           "type": "method",
-          "line": 1152
+          "line": 1197
         },
         {
           "name": "emit",
           "type": "method",
-          "line": 1156
+          "line": 1201
         }
       ],
       "classes": [
@@ -9618,12 +9877,12 @@
       "exports": [
         "BeyLauncherSystem"
       ],
-      "complexity": 261,
+      "complexity": 260,
       "coupling": 1,
       "cohesion": 0.6,
-      "maintainability": 14.312449076777462,
+      "maintainability": 13.946366905029045,
       "testCoverage": 0,
-      "technicalDebt": 179,
+      "technicalDebt": 178,
       "codeSmells": [
         {
           "type": "long_method",
@@ -13244,6 +13503,255 @@
       ]
     },
     {
+      "path": "src\\star-phrase-reveal.js",
+      "lines": 470,
+      "functions": [
+        {
+          "name": "constructor",
+          "type": "method",
+          "line": 12
+        },
+        {
+          "name": "initialize",
+          "type": "method",
+          "line": 55
+        },
+        {
+          "name": "selectTargetPhrase",
+          "type": "method",
+          "line": 69
+        },
+        {
+          "name": "onEvolutionCycle",
+          "type": "method",
+          "line": 78
+        },
+        {
+          "name": "revealNextStar",
+          "type": "method",
+          "line": 97
+        },
+        {
+          "name": "checkWordCompletion",
+          "type": "method",
+          "line": 163
+        },
+        {
+          "name": "triggerResonance",
+          "type": "method",
+          "line": 180
+        },
+        {
+          "name": "calculateResonanceIntensity",
+          "type": "method",
+          "line": 200
+        },
+        {
+          "name": "getAffectedSystems",
+          "type": "method",
+          "line": 210
+        },
+        {
+          "name": "applyResonanceEffects",
+          "type": "method",
+          "line": 220
+        },
+        {
+          "name": "generateCosmicEnergy",
+          "type": "method",
+          "line": 259
+        },
+        {
+          "name": "checkResonances",
+          "type": "method",
+          "line": 279
+        },
+        {
+          "name": "completeReveal",
+          "type": "method",
+          "line": 289
+        },
+        {
+          "name": "selectNewPhrase",
+          "type": "method",
+          "line": 329
+        },
+        {
+          "name": "archivePhrase",
+          "type": "method",
+          "line": 353
+        },
+        {
+          "name": "getProgress",
+          "type": "method",
+          "line": 391
+        },
+        {
+          "name": "getStatus",
+          "type": "method",
+          "line": 396
+        },
+        {
+          "name": "saveState",
+          "type": "method",
+          "line": 413
+        },
+        {
+          "name": "loadState",
+          "type": "method",
+          "line": 435
+        },
+        {
+          "name": "forceReveal",
+          "type": "method",
+          "line": 459
+        },
+        {
+          "name": "getDisplayPhrase",
+          "type": "method",
+          "line": 465
+        }
+      ],
+      "classes": [
+        {
+          "name": "StarPhraseReveal",
+          "line": 11
+        }
+      ],
+      "imports": [
+        "fs",
+        "path",
+        "events"
+      ],
+      "exports": [
+        "StarPhraseReveal"
+      ],
+      "complexity": 118,
+      "coupling": 1,
+      "cohesion": 0.6,
+      "maintainability": 65.98012459693336,
+      "testCoverage": 0,
+      "technicalDebt": 107,
+      "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initialize",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "selectTargetPhrase",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "onEvolutionCycle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "revealNextStar",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkWordCompletion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "triggerResonance",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "calculateResonanceIntensity",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getAffectedSystems",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "applyResonanceEffects",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "generateCosmicEnergy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "checkResonances",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "completeReveal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "selectNewPhrase",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "archivePhrase",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getProgress",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getStatus",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadState",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "forceReveal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getDisplayPhrase",
+          "severity": "high"
+        },
+        {
+          "type": "large_class",
+          "class": "StarPhraseReveal",
+          "severity": "high",
+          "methods": 21
+        },
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
       "path": "telegram-bot.js",
       "lines": 663,
       "functions": [
@@ -13760,6 +14268,23 @@
           "occurrences": 2
         }
       ]
+    },
+    {
+      "path": "test_loop.js",
+      "lines": 6,
+      "functions": [],
+      "classes": [],
+      "imports": [
+        "./src/auto-evolution-loop"
+      ],
+      "exports": [],
+      "complexity": 1,
+      "coupling": 0,
+      "cohesion": 0,
+      "maintainability": 100,
+      "testCoverage": 0,
+      "technicalDebt": 51,
+      "codeSmells": []
     },
     {
       "path": "test_path.js",
@@ -14547,16 +15072,16 @@
     }
   ],
   "summary": {
-    "totalFiles": 59,
-    "totalLines": 30614,
-    "totalFunctions": 1390,
-    "totalClasses": 36,
-    "avgComplexity": 124.37288135593221,
+    "totalFiles": 62,
+    "totalLines": 31882,
+    "totalFunctions": 1433,
+    "totalClasses": 38,
+    "avgComplexity": 122.96774193548387,
     "maxComplexity": 465,
-    "coupling": 0.7454367666232073,
-    "cohesion": 0.5067796610169496,
+    "coupling": 0.7413594470046084,
+    "cohesion": 0.5016129032258069,
     "testCoverage": 0,
-    "maintainabilityIndex": 64.83122634433194,
-    "technicalDebt": 6477
+    "maintainabilityIndex": 65.19594478496523,
+    "technicalDebt": 6766
   }
 }

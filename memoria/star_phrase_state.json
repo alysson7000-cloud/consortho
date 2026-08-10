@@ -1,0 +1,42 @@
+{
+  "revealedStars": 1,
+  "totalStars": 36,
+  "currentPhrase": "O___________________________________",
+  "targetPhrase": "O CORAÇÃO BATE NO RITMO DAS ESTRELAS",
+  "starHistory": [
+    {
+      "index": 0,
+      "character": "O",
+      "symbol": "🌟",
+      "color": "#FF69B4",
+      "cycle": 1,
+      "timestamp": 1786320227483,
+      "cosmicEnergy": 0,
+      "position": {
+        "x": 0.3486427920714388,
+        "y": 0.12514672312889075
+      }
+    }
+  ],
+  "resonances": [
+    {
+      "type": "word_complete",
+      "data": {
+        "word": "O",
+        "index": 0
+      },
+      "cycle": 1,
+      "timestamp": 1786320227483,
+      "intensity": 0.303,
+      "affectedSystems": [
+        "narrative",
+        "companions",
+        "consciousness"
+      ]
+    }
+  ],
+  "cosmicEnergy": 10,
+  "currentCycle": 1,
+  "lastRevealCycle": 1,
+  "isComplete": false
+}
