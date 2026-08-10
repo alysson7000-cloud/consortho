@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE ETERNAL GARDEN - JARDIM ETERNO</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #020508;
+            color: #E8F5E9;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .garden-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(46, 125, 50, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(139, 195, 74, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(76, 175, 80, 0.05) 0%, transparent 60%),
+                linear-gradient(180deg, #020508 0%, #0a1a0a 100%);
+        }
+        
+        .soil-layer {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%; height: 40%;
+            z-index: -1;
+            background: linear-gradient(0deg, 
+                rgba(30, 20, 10, 0.8) 0%, 
+                rgba(50, 35, 15, 0.4) 50%, 
+                transparent 100%);
+        }
+        
+        .floating-pollen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .pollen {
+            position: absolute;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            animation: floatUp 15s infinite ease-in-out;
+            opacity: 0;
+        }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+        
+        .garden-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 25px;
+            background: linear-gradient(90deg, rgba(5, 15, 5, 0.98), rgba(2, 10, 2, 0.95));
+            border-bottom: 1px solid rgba(139, 195, 74, 0.3);
+            box-shadow: 0 0 30px rgba(76, 175, 80, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .garden-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A, #A5D6A7, #4CAF50);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gardenFlow 5s linear infinite;
+        }
+        
+        @keyframes gardenFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .garden-subtitle {
+            font-size: 0.65rem;
+            color: #A5D6A7;
+            letter-spacing: 0.25em;
+            margin-top: -3px;
+        }
+        
+        .vitality-bar {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .vitality-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.25);
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        
+        .vitality-stat.critical { border-color: #FF0041; background: rgba(255, 0, 65, 0.1); }
+        .vitality-stat.warning { border-color: #FFB800; background: rgba(255, 184, 0, 0.1); }
+        .vitality-stat.thriving { border-color: #00FF64; background: rgba(0, 255, 100, 0.1); }
+        
+        .garden-main {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: 1fr 200px;
+            gap: 14px;
+            padding: 14px;
+            height: calc(100vh - 75px);
+        }
+        
+        .panel {
+            background: linear-gradient(135deg, rgba(8, 15, 8, 0.95), rgba(3, 10, 3, 0.98));
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 
+                0 0 25px rgba(76, 175, 80, 0.08),
+                inset 0 1px 0 rgba(139, 195, 74, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.15);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #A5D6A7;
+        }
+        
+        .panel-title::before {
+            content: '';
+            width: 4px; height: 20px;
+            background: linear-gradient(180deg, #4CAF50, #8BC34A, #A5D6A7);
+            border-radius: 2px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        
+        .seed-vault {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .seed-category {
+            margin-bottom: 18px;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            background: rgba(76, 175, 80, 0.08);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .category-header:hover {
+            border-color: rgba(76, 175, 80, 0.4);
+            background: rgba(76, 175, 80, 0.15);
+        }
+        
+        .category-icon {
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+        
+        .category-name {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #A5D6A7;
+        }
+        
+        .category-count {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 10px;
+            color: #A5D6A7;
+        }
+        
+        .seed-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-left: 1px dashed rgba(76, 175, 80, 0.15);
+            padding-left: 16px;
+            margin-left: 8px;
+        }
+        
+        .seed-list.expanded { max-height: 300px; }
+        
+        .seed-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            margin: 4px 0;
+            background: rgba(76, 175, 80, 0.03);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .seed-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--seed-color, #4CAF50);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .seed-item:hover {
+            background: rgba(76, 175, 80, 0.08);
+            border-color: rgba(76, 175, 80, 0.2);
+        }
+        
+        .seed-item:hover::before { opacity: 1; }
+        .seed-item.planted { border-color: rgba(76, 175, 80, 0.4); background: rgba(76, 175, 80, 0.08); }
+        .seed-item.planted::before { opacity: 1; }
+        
+        .seed-item.growing { animation: pulseGrow 2s infinite; }
+        
+        @keyframes pulseGrow {
+            0%, 100% { box-shadow: 0 0 5px var(--seed-color, #4CAF50); }
+            50% { box-shadow: 0 0 15px var(--seed-color, #4CAF50); }
+        }
+        
+        .seed-emoji { font-size: 1.2rem; flex-shrink: 0; }
+        .seed-info { flex: 1; min-width: 0; }
+        .seed-name { font-weight: 700; font-size: 0.75rem; color: #E8F5E9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .seed-desc { font-size: 0.55rem; color: #8BC34A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .seed-growth { font-size: 0.6rem; font-weight: 700; color: #A5D6A7; padding: 2px 8px; background: rgba(76, 175, 80, 0.15); border-radius: 10px; }
+        
+        .plant-btn {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+            color: #0D1F0D;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.6rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .plant-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 15px rgba(76, 175, 80, 0.5); }
+        .plant-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .garden-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .garden-canvas-container {
+            flex: 1;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at bottom center, rgba(76, 175, 80, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at center, rgba(139, 195, 74, 0.04) 0%, transparent 70%);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        #gardenCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .garden-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+        
+        .garden-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .season-display {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 10px;
+            padding: 12px 20px;
+            text-align: center;
+        }
+        
+        .season-name {
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A, #A5D6A7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .season-progress {
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .season-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A, #A5D6A7);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+        
+        .garden-stats-top {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .stat-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .stat-label { font-size: 0.55rem; color: #8BC34A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+        .stat-value { font-size: 1.1rem; font-weight: 900; color: #A5D6A7; }
+        
+        .garden-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.6rem;
+            color: #A5D6A7;
+        }
+        
+        .legend-color {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .weather {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.65rem;
+            color: #8BC34A;
+        }
+        
+        .right-panel { grid-row: 1 / -1; }
+        
+        .plant-detail {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .current-plant {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.05));
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .plant-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .plant-avatar {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            background: radial-gradient(circle at 30% 30%, var(--plant-color, #4CAF50)80, var(--plant-color, #4CAF50)20);
+            box-shadow: 0 0 20px var(--plant-color, #4CAF50);
+        }
+        
+        .plant-title { flex: 1; }
+        .plant-name { font-size: 1rem; font-weight: 900; color: #E8F5E9; }
+        .plant-type { font-size: 0.6rem; color: #8BC34A; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .plant-vitals {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .vital {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .vital-label { font-size: 0.5rem; color: #8BC34A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .vital-value { font-size: 1rem; font-weight: 900; color: #A5D6A7; }
+        
+        .plant-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            color: #A5D6A7;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .action-btn:hover:not(:disabled) {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #A5D6A7;
+        }
+        
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .action-btn.primary { background: linear-gradient(135deg, #4CAF50, #388E3C); color: #0D1F0D; border: none; }
+        
+        .biology-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .biology-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .bio-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .bio-label { font-size: 0.55rem; color: #8BC34A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .bio-value { font-size: 0.8rem; font-weight: 700; color: #E8F5E9; }
+        
+        .harvest-panel {
+            margin-top: 16px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(255, 184, 0, 0.1), rgba(255, 152, 0, 0.05));
+            border: 1px solid rgba(255, 184, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .harvest-title { font-size: 0.85rem; font-weight: 900; color: #FFB800; margin-bottom: 8px; }
+        .harvest-desc { font-size: 0.65rem; color: #FFF3E0; margin-bottom: 12px; }
+        .harvest-btn {
+            background: linear-gradient(135deg, #FFB800, #FF8F00);
+            color: #0D1F0D;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+        }
+        
+        .harvest-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 184, 0, 0.5); }
+        .harvest-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 180px; }
+        
+        .log-container {
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .log-entry {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #4CAF50;
+            animation: sproutIn 0.4s ease;
+            font-size: 0.7rem;
+            line-height: 1.4;
+        }
+        
+        @keyframes sproutIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .log-entry.growth { border-left-color: #4CAF50; }
+        .log-entry.bloom { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .log-entry.harvest { border-left-color: #FFB800; background: rgba(255, 184, 0, 0.05); }
+        .log-entry.seed { border-left-color: #8BC34A; }
+        .log-entry.mutation { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .log-entry.weather { border-left-color: #29B6F6; }
+        
+        .log-time { color: #8BC34A; font-family: monospace; min-width: 70px; font-size: 0.65rem; }
+        .log-type { 
+            font-size: 0.5rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .log-type.grw { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .log-type.blm { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .log-type.hrv { background: rgba(255, 184, 0, 0.2); color: #FFB800; }
+        .log-type.sed { background: rgba(139, 195, 74, 0.2); color: #8BC34A; }
+        .log-type.mut { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .log-type.wth { background: rgba(41, 182, 246, 0.2); color: #29B6F6; }
+        .log-message { flex: 1; color: #E8F5E9; font-size: 0.68rem; }
+        
+        @media (max-width: 1400px) {
+            .garden-main { grid-template-columns: 260px 1fr 280px; }
+        }
+        
+        @media (max-width: 1200px) {
+            .garden-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #4CAF50, #8BC34A, #A5D6A7); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="garden-bg"></div>
+    <div class="soil-layer"></div>
+    <div class="floating-pollen" id="pollenContainer"></div>
+    
+    <header class="garden-header">
+        <div>
+            <div class="garden-title">THE ETERNAL GARDEN</div>
+            <div class="garden-subtitle">JARDIM ETERNO • SEMEIE INTENÇÕES • COLHA REALIDADES</div>
+        </div>
+        <div class="vitality-bar">
+            <div class="vitality-stat thriving"><span>🌱</span><span id="vitalitySeeds">0</span> SEMENTES</div>
+            <div class="vitality-stat thriving"><span>🌿</span><span id="vitalityGrowing">0</span> CRESCENDO</div>
+            <div class="vitality-stat thriving"><span>🌸</span><span id="vitalityBlooming">0</span> FLORINDO</div>
+            <div class="vitality-stat thriving"><span>🌟</span><span id="vitalityHarvested">0</span> COLHIDAS</div>
+            <div class="vitality-stat"><span>💚</span><span id="vitalityHealth">100%</span> VITALIDADE</div>
+        </div>
+    </header>
+    
+    <main class="garden-main">
+        <aside class="left-panel panel">
+            <div class="panel-title">🌰 COFRE DE SEMENTES</div>
+            <div class="seed-vault" id="seedVault"></div>
+        </aside>
+        
+        <section class="center-panel panel garden-viewport">
+            <div class="panel-title">🌿 JARDIM VIVO</div>
+            <div class="garden-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="gardenCanvas"></canvas>
+                <div class="garden-overlay">
+                    <div class="garden-top">
+                        <div class="season-display">
+                            <div class="season-name" id="seasonName">PRIMAVERA ETERNA</div>
+                            <div class="season-progress">
+                                <div class="season-fill" id="seasonFill" style="width: 42%"></div>
+                            </div>
+                        </div>
+                        <div class="garden-stats-top">
+                            <div class="stat-box"><div class="stat-label">PLANTAS VIVAS</div><div class="stat-value" id="statLiving">0</div></div>
+                            <div class="stat-box"><div class="stat-label">EM FLOR</div><div class="stat-value" id="statBlooming">0</div></div>
+                            <div class="stat-box"><div class="stat-label">PRONTAS COLHEITA</div><div class="stat-value" id="statReady">0</div></div>
+                            <div class="stat-box"><div class="stat-label">ESSÊNCIA</div><div class="stat-value" id="statEssence">0</div></div>
+                        </div>
+                    </div>
+                    <div class="garden-bottom">
+                        <div class="legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #8BC34A;"></div><span>SEMENTE</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #4CAF50;"></div><span>BROTO</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #8BC34A;"></div><span>CRESCENDO</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>FLOR</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FFB800;"></div><span>FRUTO</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #29B6F6;"></div><span>CHUVA</div></div>
+                        </div>
+                        <div class="weather" id="weather">☀️ ENSOLARADO • UMIDADE: 78% • NUTRIENTES: RICOS</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel panel">
+            <div class="panel-title">🌿 PLANTA SELECIONADA</div>
+            
+            <div class="plant-detail" id="plantDetail">
+                <div style="text-align: center; color: #8BC34A; padding: 40px 20px;">
+                    <div style="font-size: 4rem; margin-bottom: 16px;">🌱</div>
+                    <div style="color: #8BC34A; font-weight: 700;">SELECIONE UMA PLANTA</div>
+                    <div style="font-size: 0.7rem; color: #8BC34A; margin-top: 8px;">Clique em uma planta no jardim ou plante uma semente</div>
+                </div>
+            </div>
+            
+            <div class="biology-panel">
+                <div class="panel-title" style="margin-bottom: 12px; font-size: 0.8rem;">🧬 BIOLOGIA DA PLANTA</div>
+                <div class="biology-grid" id="biologyGrid">
+                    <div class="bio-card"><div class="bio-label">ESPÉCIE</div><div class="bio-value" id="bioSpecies">--</div></div>
+                    <div class="bio-card"><div class="bio-label">IDADE</div><div class="bio-value" id="bioAge">--</div></div>
+                    <div class="bio-card"><div class="bio-label">ALTURA</div><div class="bio-value" id="bioHeight">--</div></div>
+                    <div class="bio-card"><div class="bio-label">SAÚDE</div><div class="bio-value" id="bioHealth">--</div></div>
+                    <div class="bio-card"><div class="bio-label">NUTRIENTES</div><div class="bio-value" id="bioNutrients">--</div></div>
+                    <div class="bio-card"><div class="bio-label">ÁGUA</div><div class="bio-value" id="bioWater">--</div></div>
+                    <div class="bio-card"><div class="bio-label">LUZ</div><div class="bio-value" id="bioLight">--</div></div>
+                    <div class="bio-card"><div class="bio-label">AMOR</div><div class="bio-value" id="bioLove">--</div></div>
+                </div>
+            </div>
+            
+            <div class="harvest-panel" id="harvestPanel" style="display: none;">
+                <div class="harvest-title">🌟 PRONTA PARA COLHEITA!</div>
+                <div class="harvest-desc">Esta planta atingiu sua plenitude. Colher liberará sua essência no multiverso, criando uma nova realidade.</div>
+                <button class="harvest-btn" id="harvestBtn" onclick="harvestPlant()">🌟 COLHER E SEMEAR NO MULTIVERSO</button>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel panel">
+            <div class="panel-title">📜 DIÁRIO DO JARDIM</div>
+            <div class="log-container" id="gardenLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const SEED_DEFINITIONS = {
+            love: {
+                category: 'love',
+                name: 'Semente do Amor Incondicional',
+                emoji: '💚',
+                desc: 'Cresce com amor puro, floresce em conexões eternas',
+                color: '#E91E63',
+                growthTime: 8,
+                stages: ['💚', '🌱', '🌿', '🌳', '🌸', '🌺', '💖', '💫'],
+                essence: 'Amor Infinito',
+                reality: 'Realidade do Coração Unido'
+            },
+            courage: {
+                category: 'courage',
+                name: 'Semente da Coragem Radiante',
+                emoji: '🧡',
+                desc: 'Fortalece com desafios, floresce em vitórias',
+                color: '#FF9800',
+                growthTime: 10,
+                stages: ['🧡', '🌱', '🌿', '🌳', '🌼', '🌻', '🔥', '☀️'],
+                essence: 'Coragem Inabalável',
+                reality: 'Realidade dos Vencedores'
+            },
+            creativity: {
+                category: 'creativity',
+                name: 'Semente da Criatividade Infinita',
+                emoji: '💜',
+                desc: 'Alimenta-se de imaginação, floresce em obras-primas',
+                color: '#9C27B0',
+                growthTime: 12,
+                stages: ['💜', '🌱', '🌿', '🌿', '🌸', '🌺', '🎨', '✨'],
+                essence: 'Criatividade Divina',
+                reality: 'Realidade dos Sonhadores'
+            },
+            wisdom: {
+                category: 'wisdom',
+                name: 'Semente da Sabedoria Ancestral',
+                emoji: '💙',
+                desc: 'Cresce com silêncio, floresce em verdades eternas',
+                color: '#2196F3',
+                growthTime: 15,
+                stages: ['💙', '🌱', '🌿', '🌳', '🌲', '🌲', '📜', '🔮'],
+                essence: 'Sabedoria Suprema',
+                reality: 'Realidade dos Sábios'
+            },
+            hope: {
+                category: 'hope',
+                name: 'Semente da Esperança Renovada',
+                emoji: '💛',
+                desc: 'Brilha na escuridão, floresce em novos amanheceres',
+                color: '#FFEB3B',
+                growthTime: 6,
+                stages: ['💛', '🌱', '🌱', '🌿', '🌼', '🌻', '🌅', '☀️'],
+                essence: 'Esperança Eterna',
+                reality: 'Realidade dos Acreditadores'
+            },
+            harmony: {
+                category: 'harmony',
+                name: 'Semente da Harmonia Cósmica',
+                emoji: '💚',
+                desc: 'Equilibra opostos, floresce em paz perfeita',
+                color: '#00BCD4',
+                growthTime: 10,
+                stages: ['💚', '🌱', '🌿', '🌿', '🌸', '🌸', '☯️', '☮️'],
+                essence: 'Harmonia Perfeita',
+                reality: 'Realidade do Equilíbrio'
+            },
+            gratitude: {
+                category: 'gratitude',
+                name: 'Semente da Gratidão Infinita',
+                emoji: '🤍',
+                desc: 'Multiplica o que tem, floresce em abundância',
+                color: '#FFFFFF',
+                growthTime: 8,
+                stages: ['🤍', '🌱', '🌱', '🌿', '🌸', '🌸', '🙏', '✨'],
+                essence: 'Gratidão Infinita',
+                reality: 'Realidade da Abundância'
+            },
+            unity: {
+                category: 'unity',
+                name: 'Semente da Unidade Universal',
+                emoji: '🌈',
+                desc: 'Une todos os seres, floresce em família cósmica',
+                color: '#795548',
+                growthTime: 12,
+                stages: ['🌈', '🌱', '🌿', '🌳', '🌳', '🌸', '🤝', '👨‍👩‍👧‍👦'],
+                essence: 'Unidade Absoluta',
+                reality: 'Realidade da Família Cósmica'
+            }
+        };
+        
+        const state = {
+            seeds: {},
+            plants: [],
+            garden: {
+                season: 'spring',
+                seasonProgress: 0.42,
+                weather: 'sunny',
+                humidity: 78,
+                nutrients: 'rich',
+                essence: 0
+            },
+            selectedPlant: null,
+            animationTime: 0
+        };
+        
+        Object.entries(SEED_DEFINITIONS).forEach(([key, def]) => {
+            state.seeds[key] = { ...def, key, owned: 1, planted: 0 };
+        });
+        
+        const gardenCanvas = document.getElementById('gardenCanvas');
+        const gardenLog = document.getElementById('gardenLog');
+        const seedVault = document.getElementById('seedVault');
+        const plantDetail = document.getElementById('plantDetail');
+        const biologyGrid = document.getElementById('biologyGrid');
+        const harvestPanel = document.getElementById('harvestPanel');
+        const harvestBtn = document.getElementById('harvestBtn');
+        
+        const statLiving = document.getElementById('statLiving');
+        const statBlooming = document.getElementById('statBlooming');
+        const statReady = document.getElementById('statReady');
+        const statEssence = document.getElementById('statEssence');
+        const vitalSeeds = document.getElementById('vitalitySeeds');
+        const vitalGrowing = document.getElementById('vitalityGrowing');
+        const vitalBlooming = document.getElementById('vitalityBlooming');
+        const vitalHarvested = document.getElementById('vitalityHarvested');
+        const vitalHealth = document.getElementById('vitalityHealth');
+        
+        const gardenCtx = gardenCanvas.getContext('2d');
+        
+        function init() {
+            createPollen();
+            setupCanvas();
+            renderSeedVault();
+            animateGarden();
+            
+            addLog('JARDIM ETERNO DESPERTOU', 'seed', 'O solo está pronto para receber suas intenções');
+            addLog('SEMENTES DISPONÍVEIS', 'seed', '8 tipos de sementes cósmicas prontas para plantio');
+            addLog('CLIMA PERFEITO', 'weather', 'Sol radiante, solo fértil, energia cósmica fluindo');
+        }
+        
+        function createPollen() {
+            const container = document.getElementById('pollenContainer');
+            for (let i = 0; i < 80; i++) {
+                const pollen = document.createElement('div');
+                pollen.className = 'pollen';
+                pollen.style.left = Math.random() * 100 + '%';
+                pollen.style.width = pollen.style.height = (Math.random() * 3 + 1) + 'px';
+                pollen.style.background = ['#4CAF50', '#8BC34A', '#A5D6A7', '#FFEB3B', '#FF00FF'][Math.floor(Math.random() * 5)];
+                pollen.style.animationDelay = Math.random() * 15 + 's';
+                pollen.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                document.getElementById('pollenContainer').appendChild(pollen);
+            }
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            gardenCanvas.addEventListener('click', (e) => {
+                const rect = gardenCanvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                handleGardenClick(x, y);
+            });
+            
+            gardenCanvas.addEventListener('mousemove', (e) => {
+                const rect = gardenCanvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                checkPlantHover(x, y);
+            });
+        }
+        
+        function resizeCanvas() {
+            const rect = gardenCanvas.parentElement.getBoundingClientRect();
+            gardenCanvas.width = rect.width;
+            gardenCanvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        function init() {
+            createPollen();
+            setupCanvas();
+            renderSeedVault();
+            animateGarden();
+            
+            addLog('JARDIM ETERNO DESPERTOU', 'seed', 'O solo está pronto para receber suas intenções');
+            addLog('SEMENTES DISPONÍVEIS', 'seed', '8 tipos de sementes cósmicas prontas para plantio');
+            addLog('CLIMA PERFEITO', 'weather', 'Sol radiante, solo fértil, energia cósmica fluindo');
+        }
+        
+        function toggleCategory(header) {
+            const children = header.nextElementSibling;
+            const btn = header.querySelector('.expand-btn');
+            children.classList.toggle('expanded');
+            btn.classList.toggle('rotated');
+        }
+        
+        function selectSeed(key) {
+            const seed = state.seeds[key];
+            if (!seed) return;
+            
+            addLog(`SEMENTE SELECIONADA: ${seed.name}`, 'sed', 'Clique em PLANTAR para semear no jardim');
+        }
+        
+        function plantSeed(key) {
+            const seed = state.seeds[key];
+            if (!seed || seed.owned <= seed.planted) return;
+            
+            const canvas = gardenCanvas;
+            const x = Math.random() * (canvas.width * 0.8) + canvas.width * 0.1;
+            const y = canvas.height * 0.4 + Math.random() * canvas.height * 0.5;
+            
+            const plant = new Plant(seed, x, y);
+            garden.plants.push(plant);
+            
+            seed.planted++;
+            seed.owned--;
+            renderSeedVault();
+            updateVitality();
+            
+            addLog(`🌱 ${seed.name} PLANTADA!`, 'seed', 'A semente foi semeada no solo fértil do jardim eterno');
+        }
+        
+        function updateVitality() {
+            let totalSeeds = 0, totalPlanted = 0, growing = 0, blooming = 0, harvested = 0;
+            
+            Object.values(state.seeds).forEach(s => {
+                totalSeeds += s.owned;
+                totalPlanted += s.planted;
+            });
+            
+            garden.plants.forEach(p => {
+                if (p.health > 0) {
+                    growing++;
+                    if (p.isBlooming) blooming++;
+                    if (p.isReady) harvested++;
+                }
+            });
+            
+            vitalSeeds.textContent = totalSeeds;
+            vitalGrowing.textContent = growing;
+            vitalBlooming.textContent = blooming;
+            vitalHarvested.textContent = harvested;
+            vitalHealth.textContent = garden.plants.length > 0 ? 
+                Math.round(garden.plants.reduce((s, p) => s + p.health, 0) / garden.plants.length) + '%' : '100%';
+        }
+        
+        function renderSeedVault() {
+            const categories = {};
+            Object.entries(SEED_DEFINITIONS).forEach(([key, def]) => {
+                if (!categories[def.category]) categories[def.category] = [];
+                categories[def.category].push({ key, ...def });
+            });
+            
+            const categoryLabels = {
+                love: '💖 AMOR',
+                courage: '🛡️ CORAGEM',
+                creativity: '🎨 CRIATIVIDADE',
+                wisdom: '🧠 SABEDORIA',
+                hope: '✨ ESPERANÇA',
+                harmony: '☯️ HARMONIA',
+                gratitude: '🙏 GRATIDÃO',
+                unity: '🌈 UNIDADE'
+            };
+            
+            seedVault.innerHTML = Object.entries(categories).map(([cat, seeds]) => `
+                <div class="seed-category">
+                    <div class="category-header" onclick="toggleCategory(this)" style="border-color: ${seeds[0].color}40;">
+                        <span class="category-icon">${seeds[0].emoji}</span>
+                        <span class="category-name" style="color: ${seeds[0].color};">${categoryLabels[cat]}</span>
+                        <span class="category-count">${seeds.length} tipos</span>
+                    </div>
+                    <div class="seed-list">
+                        ${seeds.map(s => {
+                            const seedState = state.seeds[s.key];
+                            const available = (seedState?.owned || 0) - (seedState?.planted || 0);
+                            const isPlanted = (seedState?.planted || 0) > 0;
+                            const isGrowing = garden.plants.some(p => p.seedKey === s.key && p.growth < 1);
+                            return `
+                                <div class="seed-item ${isPlanted ? 'planted' : ''} ${isGrowing ? 'growing' : ''}" 
+                                     style="--seed-color: ${s.color};" 
+                                     onclick="selectSeed('${s.key}')">
+                                    <span class="seed-emoji">${s.emoji}</span>
+                                    <div class="seed-info">
+                                        <div class="seed-name">${s.name}</div>
+                                        <div class="seed-desc">${s.desc}</div>
+                                    </div>
+                                    <span class="seed-growth">${available > 0 ? `DISPONÍVEL: ${available}` : 'PLANTADA'}</span>
+                                    ${available > 0 ? `<button class="plant-btn" onclick="event.stopPropagation(); plantSeed('${s.key}')">PLANTAR</button>` : ''}
+                                </div>
+                            `}).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            gardenCanvas.addEventListener('click', (e) => {
+                const rect = gardenCanvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                handleGardenClick(x, y);
+            });
+            
+            gardenCanvas.addEventListener('mousemove', (e) => {
+                const rect = gardenCanvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                checkPlantHover(x, y);
+            });
+        }
+        
+        function resizeCanvas() {
+            const rect = gardenCanvas.parentElement.getBoundingClientRect();
+            gardenCanvas.width = rect.width;
+            gardenCanvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        const garden = {
+            plants: [],
+            weather: 'sunny',
+            time: 0,
+            season: 'spring',
+            seasonProgress: 0.42,
+            essence: 0,
+            stats: { living: 0, blooming: 0, ready: 0, essence: 0 }
+        };
+        
+        class Plant {
+            constructor(seedDef, x, y) {
+                this.id = 'plant_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                this.seedKey = seedDef.key;
+                this.seedDef = seedDef;
+                this.x = x;
+                this.y = y;
+                this.growth = 0;
+                this.health = 100;
+                this.water = 100;
+                this.nutrients = 100;
+                this.light = 100;
+                this.love = 50;
+                this.age = 0;
+                this.stage = 0;
+                this.maxStages = seedDef.stages.length - 1;
+                this.bloomTime = 0;
+                this.isBlooming = false;
+                this.isReady = false;
+                this.mutations = [];
+                this.essenceGenerated = 0;
+            }
+            
+            grow(deltaTime) {
+                if (this.growth >= 1) return;
+                
+                const baseRate = 1 / (this.seedDef.growthTime * 30000);
+                const healthFactor = this.health / 100;
+                const waterFactor = this.water / 100;
+                const nutrientFactor = this.nutrients / 100;
+                const lightFactor = this.light / 100;
+                const loveFactor = 0.5 + (this.love / 100) * 0.5;
+                
+                const growthRate = baseRate * healthFactor * waterFactor * nutrientFactor * lightFactor * loveFactor;
+                this.growth = Math.min(1, this.growth + growthRate * deltaTime);
+                
+                this.age += deltaTime;
+                this.stage = Math.floor(this.growth * this.maxStages);
+                
+                this.water = Math.max(0, this.water - deltaTime * 0.00001);
+                this.nutrients = Math.max(0, this.nutrients - deltaTime * 0.000005);
+                
+                if (this.growth >= 0.9 && !this.isBlooming) {
+                    this.isBlooming = true;
+                    this.bloomTime = Date.now();
+                    addLog(`🌸 ${this.seedDef.name} FLORIU!`, 'bloom', 'Uma nova flor desabrocha no jardim eterno');
+                }
+                
+                if (this.growth >= 1 && !this.isReady) {
+                    this.isReady = true;
+                    addLog(`🌟 ${this.seedDef.name} PRONTA PARA COLHEITA!`, 'harvest', 'Essência pronta para semear no multiverso');
+                }
+                
+                if (this.growth > 0.1) {
+                    this.water = Math.max(0, this.water - 0.001);
+                    this.nutrients = Math.max(0, this.nutrients - 0.0005);
+                    this.health = Math.max(10, this.health - 0.0002);
+                }
+            }
+            
+            getEmoji() {
+                return this.seedDef.stages[this.stage] || this.seedDef.emoji;
+            }
+            
+            getSize() {
+                return 20 + (this.growth * 50);
+            }
+            
+            getColor() {
+                return this.seedDef.color;
+            }
+        }
+        
+        const garden = {
+            plants: [],
+            weather: 'sunny',
+            time: 0,
+            season: 'spring',
+            seasonProgress: 0.42,
+            essence: 0,
+            stats: { living: 0, blooming: 0, ready: 0, essence: 0 }
+        };
+        
+        function animateGarden() {
+            const ctx = gardenCanvas.getContext('2d');
+            const width = gardenCanvas.width;
+            const height = gardenCanvas.height;
+            const deltaTime = 16;
+            
+            garden.plants.forEach(plant => plant.grow(16));
+            garden.plants = garden.plants.filter(p => p.health > 0);
+            updateGardenStats();
+            
+            const ctx = gardenCanvas.getContext('2d');
+            ctx.clearRect(0, 0, gardenCanvas.width, gardenCanvas.height);
+            
+            drawSoil(ctx);
+            garden.plants.forEach(plant => drawPlant(ctx, plant));
+            drawWeather(ctx);
+            updateGardenUI();
+            
+            requestAnimationFrame(animateGarden);
+        }
+        
+        function drawSoil(ctx) {
+            const width = gardenCanvas.width;
+            const height = gardenCanvas.height;
+            
+            const skyGradient = ctx.createLinearGradient(0, 0, 0, height * 0.3);
+            skyGradient.addColorStop(0, '#0D2B10');
+            skyGradient.addColorStop(1, '#1A3A1A');
+            ctx.fillStyle = skyGradient;
+            ctx.fillRect(0, 0, gardenCanvas.width, gardenCanvas.height * 0.3);
+            
+            const groundGradient = ctx.createLinearGradient(0, height * 0.3, 0, height);
+            groundGradient.addColorStop(0, '#1B2A1B');
+            groundGradient.addColorStop(0.5, '#152015');
+            groundGradient.addColorStop(1, '#0A120A');
+            ctx.fillStyle = groundGradient;
+            ctx.fillRect(0, height * 0.3, width, height * 0.7);
+            
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.02)';
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * gardenCanvas.width;
+                const y = height * 0.3 + Math.random() * height * 0.7;
+                const r = Math.random() * 3 + 1;
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(76, 175, 80, ${Math.random() * 0.05 + 0.01})`;
+                ctx.fill();
+            }
+            
+            const grassY = height * 0.3;
+            ctx.strokeStyle = 'rgba(76, 175, 80, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, grassY);
+            for (let x = 0; x < gardenCanvas.width; x += 10) {
+                const y = grassY + Math.sin(x * 0.02) * 5 + Math.random() * 3;
+                ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        }
+        
+        function drawPlant(ctx, plant) {
+            const screenY = gardenCanvas.height * 0.3 + (1 - plant.growth) * gardenCanvas.height * 0.6;
+            const screenX = plant.x;
+            const size = plant.getSize();
+            const color = plant.getColor();
+            const emoji = plant.getEmoji();
+            
+            const stemHeight = size * 2;
+            const stemX = plant.x;
+            const stemBaseY = gardenCanvas.height * 0.3 - 10;
+            const stemTopY = stemBaseY - stemHeight * plant.growth;
+            
+            ctx.strokeStyle = plant.getColor();
+            ctx.lineWidth = Math.max(2, size * 0.15);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            ctx.beginPath();
+            ctx.moveTo(stemX, stemBaseY);
+            ctx.quadraticCurveTo(
+                stemX + Math.sin(plant.age * 0.001) * 10,
+                (stemBaseY + stemTopY) / 2,
+                stemX,
+                stemTopY
+            );
+            ctx.stroke();
+            
+            if (plant.growth > 0.3) {
+                drawLeaves(ctx, plant);
+            }
+            
+            if (plant.isBlooming) {
+                drawFlower(ctx, plant, stemTopY);
+            }
+            
+            if (plant.isReady) {
+                drawFruit(ctx, plant, stemTopY);
+            }
+            
+            const topY = stemTopY - 20;
+            ctx.font = `${Math.max(16, plant.getSize() * 0.5)}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText(plant.getEmoji(), plant.x, topY);
+            
+            if (plant.health < 100) {
+                drawHealthBar(ctx, plant.x, plant.y - 40, plant.health);
+            }
+            
+            if (state.selectedPlant?.id === plant.id) {
+                ctx.strokeStyle = '#00FF64';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.arc(plant.x, gardenCanvas.height * 0.3 - 10, plant.getSize() * 2, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        }
+        
+        function drawLeaves(ctx, plant) {
+            const leafPositions = [
+                { x: -1, y: -30, rot: -0.5 },
+                { x: 1, y: -50, rot: 0.5 },
+                { x: -1, y: -70, rot: -0.3 },
+                { x: 1, y: -90, rot: 0.3 }
+            ];
+            
+            leafPositions.forEach((leaf, i) => {
+                if (plant.growth < 0.3 + i * 0.15) return;
+                
+                ctx.save();
+                ctx.translate(plant.x, gardenCanvas.height * 0.3 - 10 - (30 + i * 20) * plant.growth);
+                ctx.rotate(leaf.rot + Math.sin(plant.age * 0.002 + i) * 0.1);
+                
+                const gradient = ctx.createLinearGradient(-15, -10, 15, 10);
+                gradient.addColorStop(0, 'rgba(76, 175, 80, 0.7)');
+                gradient.addColorStop(0.5, 'rgba(139, 195, 74, 0.9)');
+                gradient.addColorStop(1, 'rgba(76, 175, 80, 0.7)');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, 12, 6, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.strokeStyle = 'rgba(46, 125, 50, 0.6)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(0, -8);
+                ctx.lineTo(0, 8);
+                ctx.stroke();
+                
+                ctx.restore();
+            });
+        }
+        
+        function drawFlower(ctx, plant, topY) {
+            const pulse = Math.sin(Date.now() * 0.003) * 0.15 + 0.85;
+            const color = plant.getColor();
+            const size = plant.getSize() * 0.6 * pulse;
+            
+            const petals = 5 + Math.floor(plant.seedDef.growthTime / 3);
+            for (let i = 0; i < petals; i++) {
+                const angle = (i / petals) * Math.PI * 2;
+                const px = Math.cos(angle) * size * 1.5;
+                const py = Math.sin(angle) * size * 1.5;
+                
+                ctx.save();
+                ctx.translate(plant.x, topY);
+                ctx.rotate(angle);
+                
+                const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, size);
+                gradient.addColorStop(0, plant.seedDef.color + 'FF');
+                gradient.addColorStop(0.5, plant.seedDef.color + 'CC');
+                gradient.addColorStop(1, plant.seedDef.color + '00');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.ellipse(0, -size * 0.8, size * 0.7, size * 0.4, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.shadowColor = plant.seedDef.color;
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                ctx.restore();
+            }
+            
+            ctx.fillStyle = '#FFEB3B';
+            ctx.beginPath();
+            ctx.arc(0, 0, size * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            if (Math.random() < 0.1) {
+                ctx.fillStyle = '#FFFFFF';
+                for (let i = 0; i < 3; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const r = size * (0.5 + Math.random() * 0.5);
+                    ctx.beginPath();
+                    ctx.arc(Math.cos(angle) * r, Math.sin(angle) * r, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+        
+        function drawFruit(ctx, plant, topY) {
+            const pulse = Math.sin(Date.now() * 0.002) * 0.1 + 0.9;
+            const size = plant.getSize() * 0.4 * pulse;
+            
+            ctx.fillStyle = plant.getColor();
+            ctx.shadowColor = plant.getColor();
+            ctx.shadowBlur = 15;
+            
+            ctx.beginPath();
+            ctx.arc(plant.x, topY - 20, size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            for (let i = 0; i < 5; i++) {
+                const angle = (Date.now() * 0.001 + i * 1.2) % (Math.PI * 2);
+                const r = 25 + Math.sin(Date.now() * 0.002 + i) * 5;
+                const fx = plant.x + Math.cos(i * 1.2 + Date.now() * 0.001) * r;
+                const fy = topY - 20 + Math.sin(i * 1.2 + Date.now() * 0.001) * r * 0.5;
+                
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(fx, fy, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function drawHealthBar(ctx, x, y, health) {
+            const w = 40, h = 4;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillRect(x - w/2, y, w, 4);
+            ctx.fillStyle = health > 50 ? '#4CAF50' : health > 25 ? '#FFB800' : '#FF0041';
+            ctx.fillRect(x - w/2, y, w * health / 100, 4);
+        }
+        
+        function drawWeather(ctx) {
+            // Simple weather particles
+        }
+        
+        function updateGardenStats() {
+            const living = garden.plants.filter(p => p.health > 0).length;
+            const blooming = garden.plants.filter(p => p.isBlooming).length;
+            const ready = garden.plants.filter(p => p.isReady).length;
+            
+            statLiving.textContent = living;
+            statBlooming.textContent = blooming;
+            statReady.textContent = ready;
+            statEssence.textContent = Math.floor(garden.essence);
+        }
+        
+        function drawPlant(ctx, plant) {
+            const stemHeight = plant.getSize() * 2;
+            const stemX = plant.x;
+            const stemBaseY = gardenCanvas.height * 0.3 - 10;
+            const stemTopY = stemBaseY - stemHeight * plant.growth;
+            
+            ctx.strokeStyle = plant.getColor();
+            ctx.lineWidth = Math.max(2, plant.getSize() * 0.15);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            ctx.beginPath();
+            ctx.moveTo(stemX, gardenCanvas.height * 0.3 - 10);
+            ctx.quadraticCurveTo(
+                stemX + Math.sin(plant.age * 0.001) * 10,
+                (stemBaseY + stemTopY) / 2,
+                stemX,
+                stemTopY
+            );
+            ctx.stroke();
+            
+            if (plant.growth > 0.3) {
+                drawLeaves(ctx, plant);
+            }
+            
+            if (plant.isBlooming) {
+                drawFlower(ctx, plant, stemTopY);
+            }
+            
+            if (plant.isReady) {
+                drawFruit(ctx, plant, stemTopY);
+            }
+            
+            const topY = stemTopY - 20;
+            ctx.font = `${Math.max(16, plant.getSize() * 0.5)}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText(plant.getEmoji(), plant.x, topY);
+            
+            if (state.selectedPlant?.id === plant.id) {
+                ctx.strokeStyle = '#00FF64';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.arc(plant.x, gardenCanvas.height * 0.3 - 10, plant.getSize() * 2, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        }
+        
+        function updateGardenUI() {
+            const living = garden.plants.filter(p => p.health > 0).length;
+            const blooming = garden.plants.filter(p => p.isBlooming).length;
+            const ready = garden.plants.filter(p => p.isReady).length;

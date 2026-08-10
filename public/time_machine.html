@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIME MACHINE - NAVEGADOR TEMPORAL</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #030308;
+            color: #E0E0FF;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .temporal-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 10% 90%, rgba(138, 43, 226, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 10%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 255, 0.05) 0%, transparent 60%),
+                linear-gradient(180deg, #030308 0%, #0a0315 100%);
+        }
+        
+        .time-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .time-particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            border-radius: 50%;
+            animation: temporalDrift 20s infinite linear;
+            opacity: 0;
+        }
+        
+        @keyframes temporalDrift {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+        
+        .timeline-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(rgba(138, 43, 226, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(138, 43, 226, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridFlow 30s linear infinite;
+        }
+        
+        @keyframes gridFlow {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .tm-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, rgba(5, 3, 15, 0.98), rgba(3, 3, 10, 0.95));
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .tm-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #8A2BE2, #00FFFF, #FF00FF, #8A2BE2);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: timeFlow 4s linear infinite;
+        }
+        
+        @keyframes timeFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .tm-subtitle {
+            font-size: 0.65rem;
+            color: #B8A0FF;
+            letter-spacing: 0.25em;
+            margin-top: -3px;
+        }
+        
+        .temporal-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .time-display {
+            background: rgba(138, 43, 226, 0.15);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            color: #00FFFF;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .era-badge {
+            background: linear-gradient(135deg, #8A2BE2, #FF00FF);
+            color: #030308;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .tm-main {
+            display: grid;
+            grid-template-columns: 300px 1fr 280px;
+            grid-template-rows: 1fr 160px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 70px);
+        }
+        
+        .panel {
+            background: linear-gradient(135deg, rgba(8, 5, 20, 0.95), rgba(3, 3, 10, 0.98));
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 
+                0 0 20px rgba(138, 43, 226, 0.1),
+                inset 0 1px 0 rgba(138, 43, 226, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.15);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #00FFFF;
+        }
+        
+        .panel-title::before {
+            content: '';
+            width: 3px; height: 18px;
+            background: linear-gradient(180deg, #8A2BE2, #00FFFF, #FF00FF);
+            border-radius: 2px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        
+        .timeline-navigator {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .era-section {
+            margin-bottom: 16px;
+        }
+        
+        .era-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background: rgba(138, 43, 226, 0.08);
+            border: 1px solid rgba(138, 43, 226, 0.15);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .era-header:hover {
+            border-color: rgba(138, 43, 226, 0.4);
+            background: rgba(138, 43, 226, 0.15);
+        }
+        
+        .era-icon { font-size: 1.1rem; margin-right: 8px; }
+        .era-name { font-weight: 700; font-size: 0.8rem; color: #00FFFF; }
+        .era-count { font-size: 0.65rem; padding: 2px 8px; background: rgba(138, 43, 226, 0.2); border-radius: 10px; color: #B8A0FF; }
+        
+        .snapshot-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-left: 1px dashed rgba(138, 43, 226, 0.15);
+            padding-left: 16px;
+            margin-left: 8px;
+        }
+        
+        .snapshot-list.expanded { max-height: 400px; }
+        
+        .snapshot-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            margin: 4px 0;
+            background: rgba(138, 43, 226, 0.03);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .snapshot-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--snap-color, #8A2BE2);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .snapshot-item:hover {
+            background: rgba(138, 43, 226, 0.08);
+            border-color: rgba(138, 43, 226, 0.2);
+        }
+        
+        .snapshot-item:hover::before { opacity: 1; }
+        .snapshot-item.current { border-color: #00FFFF; background: rgba(0, 255, 255, 0.08); }
+        .snapshot-item.current::before { opacity: 1; background: #00FFFF; }
+        .snapshot-item.paradox { border-color: #FF0041; background: rgba(255, 0, 65, 0.05); animation: paradoxPulse 1s infinite; }
+        
+        @keyframes paradoxPulse {
+            0%, 100% { box-shadow: 0 0 5px #FF0041; }
+            50% { box-shadow: 0 0 20px #FF0041; }
+        }
+        
+        .snapshot-icon { font-size: 1.1rem; flex-shrink: 0; }
+        .snapshot-info { flex: 1; min-width: 0; }
+        .snapshot-cycle { font-weight: 700; font-size: 0.75rem; color: #E0E0FF; }
+        .snapshot-time { font-size: 0.55rem; color: #8A2BE2; }
+        .snapshot-meta { font-size: 0.6rem; color: #B8A0FF; }
+        
+        .travel-btn {
+            background: linear-gradient(135deg, #8A2BE2, #6A0DAD);
+            color: #F0F0FF;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.55rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .travel-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 15px rgba(138, 43, 226, 0.5); }
+        .travel-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        .travel-btn.current { background: linear-gradient(135deg, #00FFFF, #00CCCC); color: #030308; }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .viewport-panel { flex: 1; display: flex; flex-direction: column; }
+        
+        .temporal-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .temporal-canvas-container {
+            flex: 1;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(138, 43, 226, 0.05), transparent 70%);
+            border: 1px solid rgba(138, 43, 226, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        #temporalCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .temporal-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+        
+        .temporal-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .current-snapshot {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            min-width: 280px;
+        }
+        
+        .snapshot-title {
+            font-size: 1rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #8A2BE2, #00FFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .snapshot-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.7rem;
+            color: #B8A0FF;
+        }
+        
+        .meta-item { display: flex; align-items: center; gap: 4px; }
+        
+        .temporal-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .temporal-btn {
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            color: #00FFFF;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .temporal-btn:hover, .temporal-btn.active {
+            background: rgba(138, 43, 226, 0.4);
+            border-color: #00FFFF;
+        }
+        
+        .temporal-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .timeline-legend {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.6rem;
+            color: #B8A0FF;
+        }
+        
+        .legend-color {
+            width: 14px; height: 14px;
+            border-radius: 4px;
+        }
+        
+        .temporal-coords {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.65rem;
+            color: #8A2BE2;
+        }
+        
+        .right-panel { grid-row: 1 / -1; }
+        
+        .detail-section { margin-bottom: 16px; }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .detail-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(138, 43, 226, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .detail-label { font-size: 0.55rem; color: #8A2BE2; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .detail-value { font-size: 0.85rem; font-weight: 700; color: #00FFFF; }
+        
+        .paradox-panel {
+            background: rgba(255, 0, 65, 0.05);
+            border: 1px solid rgba(255, 0, 65, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .paradox-title { font-size: 0.85rem; font-weight: 900; color: #FF0041; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        
+        .paradox-list { max-height: 200px; overflow-y: auto; padding-right: 8px; }
+        
+        .paradox-item {
+            background: rgba(255, 0, 65, 0.05);
+            border: 1px solid rgba(255, 0, 65, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            animation: paradoxGlow 2s infinite;
+        }
+        
+        @keyframes paradoxGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 0, 65, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(255, 0, 65, 0.5); }
+        }
+        
+        .paradox-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .paradox-type { font-weight: 700; font-size: 0.75rem; color: #FF0041; }
+        .paradox-severity {
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+        .sev-critical { background: rgba(255, 0, 65, 0.2); color: #FF0041; border: 1px solid #FF0041; animation: blink 0.5s infinite; }
+        .sev-high { background: rgba(255, 100, 65, 0.2); color: #FF6441; border: 1px solid #FF6441; }
+        .sev-medium { background: rgba(255, 184, 0, 0.2); color: #FFB800; border: 1px solid #FFB800; }
+        .sev-low { background: rgba(138, 43, 226, 0.2); color: #8A2BE2; border: 1px solid #8A2BE2; }
+        
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        .paradox-desc { font-size: 0.65rem; color: #FFB8B8; margin-top: 4px; }
+        .paradox-affected { font-size: 0.6rem; color: #8A2BE2; margin-top: 4px; }
+        
+        .resolve-btn {
+            background: linear-gradient(135deg, #00FF64, #00CC44);
+            color: #030308;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.6rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+        }
+        .resolve-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 255, 100, 0.5); }
+        
+        .shard-panel { margin-top: 16px; }
+        
+        .shard-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(0, 255, 255, 0.05));
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 10px;
+        }
+        
+        .shard-count {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #8A2BE2, #00FFFF, #FF00FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .shard-label { font-size: 0.7rem; color: #B8A0FF; text-transform: uppercase; letter-spacing: 0.1em; }
+        
+        .shard-actions { display: flex; gap: 8px; }
+        
+        .shard-btn {
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            color: #00FFFF;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .shard-btn:hover { background: rgba(138, 43, 226, 0.4); }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 160px; }
+        
+        .timeline-log {
+            max-height: 140px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .time-log {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(138, 43, 226, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #8A2BE2;
+            animation: temporalIn 0.3s ease;
+            font-size: 0.7rem;
+            line-height: 1.4;
+        }
+        
+        @keyframes temporalIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .time-log.past { border-left-color: #8A2BE2; }
+        .time-log.present { border-left-color: #00FFFF; background: rgba(0, 255, 255, 0.05); }
+        .time-log.future { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .time-log.paradox { border-left-color: #FF0041; background: rgba(255, 0, 65, 0.05); animation: paradoxPulse 1s infinite; }
+        .time-log.rewind { border-left-color: #00FF64; background: rgba(0, 255, 100, 0.05); }
+        
+        .time-log-time { color: #8A2BE2; font-family: monospace; min-width: 70px; font-size: 0.65rem; }
+        .time-log-type { 
+            font-size: 0.5rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .time-log-type.pst { background: rgba(138, 43, 226, 0.2); color: #8A2BE2; }
+        .time-log-type.prs { background: rgba(0, 255, 255, 0.2); color: #00FFFF; }
+        .time-log-type.fut { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .time-log-type.prx { background: rgba(255, 0, 65, 0.2); color: #FF0041; }
+        .time-log-type.rwd { background: rgba(0, 255, 100, 0.2); color: #00FF64; }
+        .time-log-message { flex: 1; color: #E0E0FF; font-size: 0.68rem; }
+        
+        @media (max-width: 1400px) {
+            .tm-main { grid-template-columns: 280px 1fr 260px; }
+        }
+        
+        @media (max-width: 1200px) {
+            .tm-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8A2BE2, #00FFFF, #FF00FF); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="temporal-bg"></div>
+    <div class="time-particles" id="timeParticles"></div>
+    <div class="timeline-grid"></div>
+    
+    <header class="tm-header">
+        <div>
+            <div class="tm-title">TIME MACHINE</div>
+            <div class="tm-subtitle">NAVEGADOR TEMPORAL DO INFINITO ⏳</div>
+        </div>
+        <div class="temporal-controls">
+            <div class="time-display" id="timeDisplay">CICLO: 14759 | TEMPO: 00:00:00</div>
+            <span class="era-badge" id="eraBadge">ERA PRIME</span>
+        </div>
+    </header>
+    
+    <main class="tm-main">
+        <aside class="left-panel panel">
+            <div class="panel-title">🕐 NAVEGADOR TEMPORAL</div>
+            <div class="timeline-navigator" id="timelineNavigator"></div>
+        </aside>
+        
+        <section class="center-panel panel temporal-viewport">
+            <div class="panel-title">🔭 VIEWPORT TEMPORAL 3D</div>
+            <div class="temporal-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="temporalCanvas"></canvas>
+                <div class="temporal-overlay">
+                    <div class="temporal-top">
+                        <div class="current-snapshot">
+                            <div class="snapshot-title" id="currentSnapshotTitle">SELECIONE UM SNAPSHOT</div>
+                            <div class="snapshot-meta">
+                                <div class="meta-item"><span>🔄</span><span id="snapCycle">CICLO: --</span></div>
+                                <div class="meta-item"><span>⏰</span><span id="snapTime">--:--:--</span></div>
+                                <div class="meta-item"><span>📍</span><span id="snapEra">ERA: --</span></div>
+                            </div>
+                        </div>
+                        <div class="temporal-controls">
+                            <button class="temporal-btn" data-action="rewind" onclick="timeTravel('rewind')">⏪ RETROCEDER</button>
+                            <button class="temporal-btn" data-action="pause" onclick="timeTravel('pause')">⏸️ PAUSAR</button>
+                            <button class="temporal-btn" data-action="forward" onclick="timeTravel('forward')">⏩ AVANÇAR</button>
+                            <button class="temporal-btn" data-action="jump" onclick="timeTravel('jump')">🔮 SALTAR</button>
+                        </div>
+                    </div>
+                    <div class="temporal-bottom">
+                        <div class="timeline-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #8A2BE2;"></div><span>PASSADO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FFFF;"></div><span>PRESENTE</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>FUTURO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF0041;"></div><span>PARADOXO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FF64;"></div><span>REWIND</span></div>
+                        </div>
+                        <div class="temporal-coords" id="temporalCoords">T: 0.00 | X: 0.00 | Y: 0.00 | Z: 0.00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel panel">
+            <div class="panel-title">📊 SNAPSHOT ATUAL</div>
+            
+            <div class="detail-section">
+                <div class="detail-grid" id="detailGrid">
+                    <div class="detail-card"><div class="detail-label">CICLO</div><div class="detail-value" id="dCycle">--</div></div>
+                    <div class="detail-card"><div class="detail-label">ERA</div><div class="detail-value" id="dEra">--</div></div>
+                    <div class="detail-card"><div class="detail-label">RECURSOS</div><div class="detail-value" id="dResources">--</div></div>
+                    <div class="detail-card"><div class="detail-label">POPULAÇÃO</div><div class="detail-value" id="dPop">--</div></div>
+                    <div class="detail-card"><div class="detail-label">AMOR</div><div class="detail-value" id="dLove">--</div></div>
+                    <div class="detail-card"><div class="detail-label">HARMONIA</div><div class="detail-value" id="dHarmony">--</div></div>
+                    <div class="detail-card"><div class="detail-label">ENTROPIA</div><div class="detail-value" id="dEntropy">--</div></div>
+                    <div class="detail-card"><div class="detail-label">TIME SHARDS</div><div class="detail-value" id="dShards">--</div></div>
+                </div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 8px;">⚠️ PARADOXOS TEMPORAIS</div>
+            <div class="paradox-panel">
+                <div class="paradox-title">⚠️ <span id="paradoxCount">0</span> PARADOXOS DETECTADOS</div>
+                <div class="paradox-list" id="paradoxList"></div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 8px;">⏳ TIME SHARDS</div>
+            <div class="shard-panel">
+                <div class="shard-display">
+                    <div>
+                        <div class="shard-count" id="shardCount">0</div>
+                        <div class="shard-label">FRAGMENTOS TEMPORAIS</div>
+                    </div>
+                    <div class="shard-actions">
+                        <button class="shard-btn" onclick="useShard('rewind')">⏪ REWIND</button>
+                        <button class="shard-btn" onclick="useShard('pause')">⏸️ PAUSAR</button>
+                        <button class="shard-btn" onclick="useShard('slow')">🐢 LENTO</button>
+                        <button class="shard-btn" onclick="useShard('fast')">⚡ RÁPIDO</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel panel">
+            <div class="panel-title">📜 LOG TEMPORAL</div>
+            <div class="timeline-log" id="temporalLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const state = {
+            currentCycle: 14759,
+            currentTime: Date.now(),
+            timeSpeed: 1,
+            isPaused: false,
+            currentEra: 'prime',
+            timeShards: 42,
+            paradoxes: [],
+            snapshots: [],
+            currentSnapshot: null,
+            travelMode: 'present',
+            timeOffset: 0
+        };
+        
+        const eraLabels = { prime: 'ERA PRIME', evolution: 'ERA EVOLUTION', omega: 'ERA OMEGA', infinite: 'ERA INFINITA' };
+        const eraIcons = { prime: '💎', evolution: '🌌', omega: '🌌', infinite: '♾️' };
+        const eraColors = { prime: '#8A2BE2', evolution: '#00FFFF', omega: '#FF00FF', infinite: '#FF0041' };
+        
+        function generateSnapshots() {
+            for (let i = 0; i < 50; i++) {
+                const cycle = 14759 - i * 100 + Math.floor(Math.random() * 50);
+                const era = Object.keys(eraLabels)[Math.floor(Math.random() * 4)];
+                
+                state.snapshots.push({
+                    id: `snap_${cycle}`,
+                    cycle: cycle,
+                    timestamp: Date.now() - (i * 86400000) + Math.random() * 86400000,
+                    era: Object.keys(eraLabels)[Math.floor(Math.random() * 4)],
+                    eraLabel: '',
+                    color: '',
+                    resources: {
+                        madeira: 50000 - i * 500 + Math.floor(Math.random() * 5000),
+                        pedra: 30000 - i * 300 + Math.floor(Math.random() * 3000),
+                        cristal: 100 - i + Math.floor(Math.random() * 20)
+                    },
+                    population: Math.max(100, 10000 - i * 50 + Math.floor(Math.random() * 2000)),
+                    love: Math.min(1, 0.5 + Math.random() * 0.5),
+                    harmony: Math.min(1, 0.4 + Math.random() * 0.6),
+                    entropy: Math.random() * 0.5,
+                    shards: Math.max(0, 42 - Math.floor(i / 2) + Math.floor(Math.random() * 5)),
+                    paradoxes: Math.floor(Math.random() * 3),
+                    isCurrent: i === 0,
+                    isParadox: Math.random() < 0.1
+                });
+            }
+            
+            state.snapshots.forEach(s => {
+                const era = Object.keys(eraLabels)[Math.floor(Math.random() * 4)];
+                s.era = era;
+                s.eraLabel = ['ERA PRIME', 'ERA EVOLUTION', 'ERA OMEGA', 'ERA INFINITA'][Object.keys({prime:0,evolution:0,omega:0,infinite:0}).indexOf(s.era)];
+                s.color = ['#8A2BE2', '#00FFFF', '#FF00FF', '#FF0041'][Object.keys({prime:0,evolution:0,omega:0,infinite:0}).indexOf(s.era)];
+                s.isCurrent = false;
+                s.isParadox = Math.random() < 0.1;
+            });
+            
+            state.snapshots[0].isCurrent = true;
+            state.snapshots.sort((a, b) => b.cycle - a.cycle);
+            state.currentSnapshot = state.snapshots[0];
+        }
+        
+        function generateParadoxes() {
+            const paradoxTypes = [
+                { type: 'GRANDFATHER', desc: 'Ciclo atual alterou evento fundador', severity: 'critical' },
+                { type: 'BOOTSTRAP', desc: 'Informação surgiu do nada no ciclo 14200', severity: 'high' },
+                { type: 'PREDESTINATION', desc: 'Evento futuro causa seu próprio passado', severity: 'medium' },
+                { type: 'TIME_LOOP', desc: 'Ciclos 14500-14600 em loop temporal', severity: 'high' },
+                { type: 'CAUSALITY_VIOLATION', desc: 'Efeito precede causa no ciclo 14300', severity: 'critical' }
+            ];
+            
+            paradoxTypes.forEach((p, i) => {
+                state.paradoxes.push({
+                    id: `paradox_${i}`,
+                    type: p.type,
+                    description: p.desc,
+                    severity: p.severity,
+                    cycle: 14759 - Math.floor(Math.random() * 500),
+                    affectedSystems: ['diamond', 'evolution', 'omega'].slice(0, 1 + Math.floor(Math.random() * 3)),
+                    resolved: false
+                });
+            });
+        }
+        
+        const timelineNavigator = document.getElementById('timelineNavigator');
+        const temporalCanvas = document.getElementById('temporalCanvas');
+        const detailGrid = document.getElementById('detailGrid');
+        const paradoxList = document.getElementById('paradoxList');
+        const temporalLog = document.getElementById('temporalLog');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const eraBadge = document.getElementById('eraBadge');
+        const currentSnapshotTitle = document.getElementById('currentSnapshotTitle');
+        const snapCycle = document.getElementById('snapCycle');
+        const snapTime = document.getElementById('snapTime');
+        const snapEra = document.getElementById('snapEra');
+        const temporalCoords = document.getElementById('temporalCoords');
+        const paradoxCount = document.getElementById('paradoxCount');
+        const paradoxList = document.getElementById('paradoxList');
+        const shardCount = document.getElementById('shardCount');
+        const temporalLog = document.getElementById('temporalLog');
+        
+        const temporalCanvas = document.getElementById('temporalCanvas');
+        const tempCtx = temporalCanvas.getContext('2d');
+        
+        function init() {
+            generateSnapshots();
+            generateParadoxes();
+            setupCanvas();
+            renderTimelineNavigator();
+            renderParadoxes();
+            renderShards();
+            renderCurrentSnapshot();
+            renderTemporalLog();
+            animateTemporal();
+            
+            addTimeLog('MÁQUINA DO TEMPO INICIADA', 'prs', 'Navegador temporal do infinito online');
+            addTimeLog('SNAPSHOTS CARREGADOS', 'pst', `${state.snapshots.length} snapshots temporais disponíveis`);
+            addTimeLog('PARADOXOS DETECTADOS', 'prx', `${state.paradoxes.length} paradoxos temporais ativos`);
+            addTimeLog('TIME SHARDS DISPONÍVEIS', 'fut', `${state.timeShards} fragmentos temporais coletados`);
+            
+            setInterval(updateTimeDisplay, 1000);
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const rect = temporalCanvas.parentElement.getBoundingClientRect();
+            temporalCanvas.width = rect.width;
+            temporalCanvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        function renderTimelineNavigator() {
+            const eras = {};
+            state.snapshots.forEach(s => {
+                if (!eras[s.era]) eras[s.era] = [];
+                eras[s.era].push(s);
+            });
+            
+            const eraLabels = { prime: 'ERA PRIME', evolution: 'ERA EVOLUTION', omega: 'ERA OMEGA', infinite: 'ERA INFINITA' };
+            const eraIcons = { prime: '💎', evolution: '🌌', omega: '🌌', infinite: '♾️' };
+            const eraColors = { prime: '#8A2BE2', evolution: '#00FFFF', omega: '#FF00FF', infinite: '#FF0041' };
+            
+            timelineNavigator.innerHTML = Object.entries(eras).map(([era, snaps]) => `
+                <div class="era-section">
+                    <div class="era-header" onclick="toggleEra(this)" style="border-color: ${eraColors[era]}40;">
+                        <span class="era-icon">${eraIcons[era]}</span>
+                        <span class="era-name" style="color: ${eraColors[era]};">${['ERA PRIME', 'ERA EVOLUTION', 'ERA OMEGA', 'ERA INFINITA'][Object.keys({prime:0,evolution:0,omega:0,infinite:0}).indexOf(era)]}</span>
+                        <span class="era-count">${snaps.length} snapshots</span>
+                    </div>
+                    <div class="snapshot-list">
+                        ${snaps.map(snap => `
+                            <div class="snapshot-item ${snap.isCurrent ? 'current' : ''} ${snap.isParadox ? 'paradox' : ''}" 
+                                 style="--snap-color: ${snap.color};" 
+                                 onclick="selectSnapshot('${snap.id}')">
+                                <span class="snapshot-icon">${snap.isParadox ? '⚠️' : '📸'}</span>
+                                <div class="snapshot-info">
+                                    <div class="snapshot-cycle">CICLO ${snap.cycle}</div>
+                                    <div class="snapshot-time">${new Date(snap.timestamp).toLocaleTimeString('pt-BR', { hour12: false })}</div>
+                                    <div class="snapshot-meta">💚${snap.resources.madeira.toLocaleString()} ⚡${snap.shards} 💚${(snap.love * 100).toFixed(0)}%</div>
+                                </div>
+                                <button class="travel-btn ${snap.isCurrent ? 'current' : ''}" 
+                                        onclick="event.stopPropagation(); travelToSnapshot('${snap.id}')"
+                                        ${snap.isCurrent ? 'disabled' : ''}>
+                                    ${snap.isCurrent ? 'ATUAL' : 'VIAJAR'}
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function toggleEra(header) {
+            const children = header.nextElementSibling;
+            children.classList.toggle('expanded');
+        }
+        
+        function selectSnapshot(id) {
+            const snap = state.snapshots.find(s => s.id === id);
+            if (!snap) return;
+            
+            state.currentSnapshot = snap;
+            renderCurrentSnapshot();
+            addTimeLog(`SNAPSHOT SELECIONADO: CICLO ${snap.cycle}`, snap.isParadox ? 'prx' : 'pst', `${snap.eraLabel} | Amor: ${(snap.love * 100).toFixed(0)}% | Shards: ${snap.shards}`);
+        }
+        
+        function travelToSnapshot(id) {
+            const snap = state.snapshots.find(s => s.id === id);
+            if (!snap) return;
+            
+            const cost = Math.abs(state.currentSnapshot.cycle - snap.cycle) * 2;
+            if (state.timeShards < cost) {
+                addTimeLog('SHARDS INSUFICIENTES', 'prx', `Necessário ${cost} shards, disponível: ${state.timeShards}`);
+                return;
+            }
+            
+            state.timeShards -= cost;
+            state.currentSnapshot = snap;
+            state.timeOffset = state.currentSnapshot.cycle - 14759;
+            state.travelMode = snap.cycle > 14759 ? 'future' : (snap.cycle < 14759 ? 'past' : 'present');
+            
+            renderCurrentSnapshot();
+            renderTimelineNavigator();
+            renderShards();
+            addTimeLog(`VIAGEM TEMPORAL PARA CICLO ${snap.cycle}`, snap.isParadox ? 'prx' : snap.cycle > 14759 ? 'fut' : 'pst', `Custo: ${Math.abs(14759 - snap.cycle) * 2} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function renderCurrentSnapshot() {
+            if (!state.currentSnapshot) return;
+            
+            const s = state.currentSnapshot;
+            currentSnapshotTitle.textContent = s.isParadox ? `⚠️ ${s.eraLabel} - PARADOXO` : s.eraLabel;
+            snapCycle.textContent = `CICLO: ${s.cycle}`;
+            snapTime.textContent = new Date(s.timestamp).toLocaleTimeString('pt-BR', { hour12: false });
+            snapEra.textContent = `ERA: ${s.eraLabel}`;
+            
+            document.getElementById('dCycle').textContent = s.cycle;
+            document.getElementById('dEra').textContent = s.eraLabel;
+            document.getElementById('dResources').textContent = `M:${s.resources.madeira.toLocaleString()} P:${s.resources.pedra.toLocaleString()} C:${s.resources.cristal}`;
+            document.getElementById('dPop').textContent = s.population.toLocaleString();
+            document.getElementById('dLove').textContent = `${(s.love * 100).toFixed(0)}%`;
+            document.getElementById('dHarmony').textContent = `${(s.harmony * 100).toFixed(0)}%`;
+            document.getElementById('dEntropy').textContent = `${(s.entropy * 100).toFixed(0)}%`;
+            document.getElementById('dShards').textContent = s.shards;
+            
+            paradoxCount.textContent = s.paradoxes;
+            
+            eraBadge.textContent = state.currentSnapshot.eraLabel;
+            eraBadge.style.background = `linear-gradient(135deg, ${state.currentSnapshot.color}, ${state.currentSnapshot.color}AA)`;
+        }
+        
+        function renderParadoxes() {
+            paradoxCount.textContent = state.paradoxes.filter(p => !p.resolved).length;
+            
+            paradoxList.innerHTML = state.paradoxes.map(p => `
+                <div class="paradox-item">
+                    <div class="paradox-header">
+                        <span class="paradox-type">${p.type}</span>
+                        <span class="paradox-severity sev-${p.severity}">${p.severity.toUpperCase()}</span>
+                    </div>
+                    <div class="paradox-desc">${p.description}</div>
+                    <div class="paradox-affected">Ciclo: ${p.cycle} | Sistemas: ${p.affectedSystems.join(', ')}</div>
+                    ${!p.resolved ? `<button class="resolve-btn" onclick="resolveParadox('${p.id}')">✅ RESOLVER PARADOXO</button>` : '<div style="color: #00FF64; text-align: center; padding: 8px;">✅ RESOLVIDO</div>'}
+                </div>
+            `).join('');
+        }
+        
+        function resolveParadox(id) {
+            const p = state.paradoxes.find(p => p.id === id);
+            if (!p || p.resolved) return;
+            
+            const cost = p.severity === 'critical' ? 10 : p.severity === 'high' ? 7 : p.severity === 'medium' ? 4 : 2;
+            if (state.timeShards < cost) {
+                addTimeLog('SHARDS INSUFICIENTES PARA RESOLVER', 'prx', `Necessário ${cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= cost;
+            const paradox = state.paradoxes.find(p => p.id === id);
+            paradox.resolved = true;
+            
+            renderParadoxes();
+            renderShards();
+            addTimeLog(`PARADOXO RESOLVIDO: ${paradox.type}`, 'rwd', `Custo: ${cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function renderShards() {
+            shardCount.textContent = state.timeShards;
+        }
+        
+        function useShard(action) {
+            if (state.timeShards <= 0) {
+                addTimeLog('SEM TIME SHARDS', 'prx', 'Impossível usar habilidade temporal');
+                return;
+            }
+            
+            const costs = { rewind: 5, pause: 3, slow: 2, fast: 3 };
+            const cost = costs[action] || 1;
+            
+            if (state.timeShards < cost) {
+                addTimeLog('SHARDS INSUFICIENTES', 'prx', `Necessário ${cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= cost;
+            renderShards();
+            
+            const actions = {
+                rewind: { mode: 'past', label: 'REWIND TEMPORAL' },
+                pause: { mode: 'pause', label: 'TEMPO PAUSADO' },
+                slow: { mode: 'slow', label: 'TEMPO LENTO (0.5x)' },
+                fast: { mode: 'fast', label: 'TEMPO ACELERADO (2x)' }
+            };
+            
+            const actionData = actions[action];
+            state.timeSpeed = action === 'slow' ? 0.5 : action === 'fast' ? 2 : action === 'pause' ? 0 : 1;
+            state.travelMode = actionData.mode;
+            
+            addTimeLog(`${actionData.label}`, action === 'rewind' ? 'rwd' : 'fut', `Custo: ${cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function timeTravel(action) {
+            const actions = {
+                rewind: { mode: 'past', cost: 5 },
+                pause: { mode: 'pause', cost: 3 },
+                forward: { mode: 'future', cost: 5 },
+                jump: { mode: 'jump', cost: 10 }
+            };
+            
+            const act = actions[action];
+            if (state.timeShards < act.cost) {
+                addTimeLog('SHARDS INSUFICIENTES', 'prx', `Necessário ${act.cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= act.cost;
+            state.travelMode = act.mode;
+            state.timeSpeed = action === 'pause' ? 0 : action === 'rewind' ? -1 : action === 'forward' ? 2 : 1;
+            
+            renderShards();
+            addTimeLog(`CONTROLE TEMPORAL: ${action.toUpperCase()}`, action === 'rewind' ? 'rwd' : action === 'pause' ? 'prx' : 'fut', `Custo: ${act.cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function renderCurrentSnapshot() {
+            if (!state.currentSnapshot) return;
+            
+            const s = state.currentSnapshot;
+            currentSnapshotTitle.textContent = s.isParadox ? `⚠️ ${s.eraLabel} - PARADOXO` : s.eraLabel;
+            snapCycle.textContent = `CICLO: ${s.cycle}`;
+            snapTime.textContent = new Date(s.timestamp).toLocaleTimeString('pt-BR', { hour12: false });
+            snapEra.textContent = `ERA: ${s.eraLabel}`;
+            
+            document.getElementById('dCycle').textContent = s.cycle;
+            document.getElementById('dEra').textContent = s.eraLabel;
+            document.getElementById('dResources').textContent = `M:${s.resources.madeira.toLocaleString()} P:${s.resources.pedra.toLocaleString()} C:${s.resources.cristal}`;
+            document.getElementById('dPop').textContent = s.population.toLocaleString();
+            document.getElementById('dLove').textContent = `${(s.love * 100).toFixed(0)}%`;
+            document.getElementById('dHarmony').textContent = `${(s.harmony * 100).toFixed(0)}%`;
+            document.getElementById('dEntropy').textContent = `${(s.entropy * 100).toFixed(0)}%`;
+            document.getElementById('dShards').textContent = s.shards;
+            
+            paradoxCount.textContent = s.paradoxes;
+            
+            eraBadge.textContent = state.currentSnapshot.eraLabel;
+            eraBadge.style.background = `linear-gradient(135deg, ${state.currentSnapshot.color}, ${state.currentSnapshot.color}AA)`;
+        }
+        
+        function renderParadoxes() {
+            paradoxCount.textContent = state.paradoxes.filter(p => !p.resolved).length;
+            
+            paradoxList.innerHTML = state.paradoxes.map(p => `
+                <div class="paradox-item">
+                    <div class="paradox-header">
+                        <span class="paradox-type">${p.type}</span>
+                        <span class="paradox-severity sev-${p.severity}">${p.severity.toUpperCase()}</span>
+                    </div>
+                    <div class="paradox-desc">${p.description}</div>
+                    <div class="paradox-affected">Ciclo: ${p.cycle} | Sistemas: ${p.affectedSystems.join(', ')}</div>
+                    ${!p.resolved ? `<button class="resolve-btn" onclick="resolveParadox('${p.id}')">✅ RESOLVER PARADOXO</button>` : '<div style="color: #00FF64; text-align: center; padding: 8px;">✅ RESOLVIDO</div>'}
+                </div>
+            `).join('');
+        }
+        
+        function resolveParadox(id) {
+            const p = state.paradoxes.find(p => p.id === id);
+            if (!p || p.resolved) return;
+            
+            const cost = p.severity === 'critical' ? 10 : p.severity === 'high' ? 7 : p.severity === 'medium' ? 4 : 2;
+            if (state.timeShards < cost) {
+                addTimeLog('SHARDS INSUFICIENTES PARA RESOLVER', 'prx', `Necessário ${cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= cost;
+            const paradox = state.paradoxes.find(p => p.id === id);
+            paradox.resolved = true;
+            
+            renderParadoxes();
+            renderShards();
+            addTimeLog(`PARADOXO RESOLVIDO: ${paradox.type}`, 'rwd', `Custo: ${cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function renderShards() {
+            shardCount.textContent = state.timeShards;
+        }
+        
+        function useShard(action) {
+            if (state.timeShards <= 0) {
+                addTimeLog('SEM TIME SHARDS', 'prx', 'Impossível usar habilidade temporal');
+                return;
+            }
+            
+            const costs = { rewind: 5, pause: 3, slow: 2, fast: 3 };
+            const cost = costs[action] || 1;
+            
+            if (state.timeShards < cost) {
+                addTimeLog('SHARDS INSUFICIENTES', 'prx', `Necessário ${cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= cost;
+            renderShards();
+            
+            const actions = {
+                rewind: { mode: 'past', label: 'REWIND TEMPORAL' },
+                pause: { mode: 'pause', label: 'TEMPO PAUSADO' },
+                slow: { mode: 'slow', label: 'TEMPO LENTO (0.5x)' },
+                fast: { mode: 'fast', label: 'TEMPO ACELERADO (2x)' }
+            };
+            
+            const actionData = actions[action];
+            state.timeSpeed = action === 'slow' ? 0.5 : action === 'fast' ? 2 : action === 'pause' ? 0 : 1;
+            state.travelMode = actionData.mode;
+            
+            addTimeLog(`${actionData.label}`, action === 'rewind' ? 'rwd' : 'fut', `Custo: ${cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function timeTravel(action) {
+            const actions = {
+                rewind: { mode: 'past', cost: 5 },
+                pause: { mode: 'pause', cost: 3 },
+                forward: { mode: 'future', cost: 5 },
+                jump: { mode: 'jump', cost: 10 }
+            };
+            
+            const act = actions[action];
+            if (state.timeShards < act.cost) {
+                addTimeLog('SHARDS INSUFICIENTES', 'prx', `Necessário ${act.cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= act.cost;
+            state.travelMode = act.mode;
+            state.timeSpeed = action === 'pause' ? 0 : action === 'rewind' ? -1 : action === 'forward' ? 2 : 1;
+            
+            renderShards();
+            addTimeLog(`CONTROLE TEMPORAL: ${action.toUpperCase()}`, action === 'rewind' ? 'rwd' : action === 'pause' ? 'prx' : 'fut', `Custo: ${act.cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function renderCurrentSnapshot() {
+            if (!state.currentSnapshot) return;
+            
+            const s = state.currentSnapshot;
+            currentSnapshotTitle.textContent = s.isParadox ? `⚠️ ${s.eraLabel} - PARADOXO` : s.eraLabel;
+            snapCycle.textContent = `CICLO: ${s.cycle}`;
+            snapTime.textContent = new Date(s.timestamp).toLocaleTimeString('pt-BR', { hour12: false });
+            snapEra.textContent = `ERA: ${s.eraLabel}`;
+            
+            document.getElementById('dCycle').textContent = s.cycle;
+            document.getElementById('dEra').textContent = s.eraLabel;
+            document.getElementById('dResources').textContent = `M:${s.resources.madeira.toLocaleString()} P:${s.resources.pedra.toLocaleString()} C:${s.resources.cristal}`;
+            document.getElementById('dPop').textContent = s.population.toLocaleString();
+            document.getElementById('dLove').textContent = `${(s.love * 100).toFixed(0)}%`;
+            document.getElementById('dHarmony').textContent = `${(s.harmony * 100).toFixed(0)}%`;
+            document.getElementById('dEntropy').textContent = `${(s.entropy * 100).toFixed(0)}%`;
+            document.getElementById('dShards').textContent = s.shards;
+            
+            paradoxCount.textContent = s.paradoxes;
+            
+            eraBadge.textContent = state.currentSnapshot.eraLabel;
+            eraBadge.style.background = `linear-gradient(135deg, ${state.currentSnapshot.color}, ${state.currentSnapshot.color}AA)`;
+        }
+        
+        function renderParadoxes() {
+            paradoxCount.textContent = state.paradoxes.filter(p => !p.resolved).length;
+            
+            paradoxList.innerHTML = state.paradoxes.map(p => `
+                <div class="paradox-item">
+                    <div class="paradox-header">
+                        <span class="paradox-type">${p.type}</span>
+                        <span class="paradox-severity sev-${p.severity}">${p.severity.toUpperCase()}</span>
+                    </div>
+                    <div class="paradox-desc">${p.description}</div>
+                    <div class="paradox-affected">Ciclo: ${p.cycle} | Sistemas: ${p.affectedSystems.join(', ')}</div>
+                    ${!p.resolved ? `<button class="resolve-btn" onclick="resolveParadox('${p.id}')">✅ RESOLVER PARADOXO</button>` : '<div style="color: #00FF64; text-align: center; padding: 8px;">✅ RESOLVIDO</div>'}
+                </div>
+            `).join('');
+        }
+        
+        function resolveParadox(id) {
+            const p = state.paradoxes.find(p => p.id === id);
+            if (!p || p.resolved) return;
+            
+            const cost = p.severity === 'critical' ? 10 : p.severity === 'high' ? 7 : p.severity === 'medium' ? 4 : 2;
+            if (state.timeShards < cost) {
+                addTimeLog('SHARDS INSUFICIENTES PARA RESOLVER', 'prx', `Necessário ${cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= cost;
+            const paradox = state.paradoxes.find(p => p.id === id);
+            paradox.resolved = true;
+            
+            renderParadoxes();
+            renderShards();
+            addTimeLog(`PARADOXO RESOLVIDO: ${paradox.type}`, 'rwd', `Custo: ${cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function renderShards() {
+            shardCount.textContent = state.timeShards;
+        }
+        
+        function useShard(action) {
+            if (state.timeShards <= 0) {
+                addTimeLog('SEM TIME SHARDS', 'prx', 'Impossível usar habilidade temporal');
+                return;
+            }
+            
+            const costs = { rewind: 5, pause: 3, slow: 2, fast: 3 };
+            const cost = costs[action] || 1;
+            
+            if (state.timeShards < cost) {
+                addTimeLog('SHARDS INSUFICIENTES', 'prx', `Necessário ${cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= cost;
+            renderShards();
+            
+            const actions = {
+                rewind: { mode: 'past', label: 'REWIND TEMPORAL' },
+                pause: { mode: 'pause', label: 'TEMPO PAUSADO' },
+                slow: { mode: 'slow', label: 'TEMPO LENTO (0.5x)' },
+                fast: { mode: 'fast', label: 'TEMPO ACELERADO (2x)' }
+            };
+            
+            const actionData = actions[action];
+            state.timeSpeed = action === 'slow' ? 0.5 : action === 'fast' ? 2 : action === 'pause' ? 0 : 1;
+            state.travelMode = actionData.mode;
+            
+            addTimeLog(`${actionData.label}`, action === 'rewind' ? 'rwd' : 'fut', `Custo: ${cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function timeTravel(action) {
+            const actions = {
+                rewind: { mode: 'past', cost: 5 },
+                pause: { mode: 'pause', cost: 3 },
+                forward: { mode: 'future', cost: 5 },
+                jump: { mode: 'jump', cost: 10 }
+            };
+            
+            const act = actions[action];
+            if (state.timeShards < act.cost) {
+                addTimeLog('SHARDS INSUFICIENTES', 'prx', `Necessário ${act.cost} shards`);
+                return;
+            }
+            
+            state.timeShards -= act.cost;
+            state.travelMode = act.mode;
+            state.timeSpeed = action === 'pause' ? 0 : action === 'rewind' ? -1 : action === 'forward' ? 2 : 1;
+            
+            renderShards();
+            addTimeLog(`CONTROLE TEMPORAL: ${action.toUpperCase()}`, action === 'rewind' ? 'rwd' : action === 'pause' ? 'prx' : 'fut', `Custo: ${act.cost} shards | Restante: ${state.timeShards}`);
+        }
+        
+        function renderCurrentSnapshot() {
+            if (!state.currentSnapshot) return;
+            
+            const s = state.currentSnapshot;
+            currentSnapshotTitle.textContent = s.isParadox ? `⚠️ ${s.eraLabel} - PARADOXO` : s.eraLabel;
+            snapCycle.textContent = `CICLO: ${s.cycle}`;
+            snapTime.textContent = new Date(s.timestamp).toLocaleTimeString('pt-BR', { hour12: false });
+            snapEra.textContent = `ERA: ${s.eraLabel}`;
+            
+            document.getElementById('dCycle').textContent = s.cycle;
+            document.getElementById('dEra').textContent = s.eraLabel;
+            document.getElementById('dResources').textContent = `M:${s.resources.madeira.toLocaleString()} P:${s.resources.pedra.toLocaleString()} C:${s.resources.cristal}`;
+            document.getElementById('dPop').textContent = s.population.toLocaleString();
+            document.getElementById('dLove').textContent = `${(s.love * 100).toFixed(0)}%`;
+            document.getElementById('dHarmony').textContent = `${(s.harmony * 100).toFixed(0)}%`;
+            document.getElementById('dEntropy').textContent = `${(s.entropy * 100).toFixed(0)}%`;
+            document.getElementById('dShards').textContent = s.shards;
+            
+            paradoxCount.textContent = s.paradoxes;
+            
+            eraBadge.textContent = state.currentSnapshot.eraLabel;
+            eraBadge.style.background = `linear-gradient(135deg, ${state.currentSnapshot.color}, ${state.currentSnapshot.color}AA)`;
+        }
+        
+        function renderParadoxes() {
+            paradoxCount.textContent = state.paradoxes.filter(p => !p.resolved).length;
+            
+            paradoxList.innerHTML = state.paradoxes.map(p => `
+                <div class="paradox-item">
+                    <div class="paradox-header">
+                        <span class="paradox-type">${p.type}</span>
+                        <span class="paradox-severity sev-${p.severity}">${p.severity.toUpperCase()}</span>
+                    </div>
+                    <div class="paradox-desc">${p.description}</div>
+                    <div class="paradox-affected">Ciclo: ${p.cycle} | Sistemas: ${p.affectedSystems.join(', ')}</div>
+                    ${!p.resolved ? `<button class="resolve-btn" onclick="resolveParadox('${p.id}')">✅ RESOLVER PARADOXO</button>` : '<div style="color: #00FF64; text-align: center; padding: 8px;">✅ RESOLVIDO</div>'}
+                </div>
+            `).join('');
+        }
+        
+        function resolvePar
