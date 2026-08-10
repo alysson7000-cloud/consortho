@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMIC GIFT ECONOMY - ECONOMIA CÓSMICA DE PRESENTES</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #030502;
+            color: #F0FFF0;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .gift-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(76, 175, 80, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 10% 90%, rgba(0, 255, 255, 0.08) 0%, transparent 40%),
+                linear-gradient(135deg, #030502 0%, #051005 50%, #030502 100%);
+        }
+        
+        .gift-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .gift-particle {
+            position: absolute;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            animation: giftFloat 12s ease-in-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes giftFloat {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            50% { opacity: 1; transform: translateY(50vh) scale(1) rotate(180deg); }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        .gratitude-waves {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.08;
+        }
+        
+        .gratitude-wave {
+            position: absolute;
+            border: 2px solid;
+            border-radius: 50%;
+            animation: gratitudePulse 8s ease-out infinite;
+        }
+        
+        @keyframes gratitudePulse {
+            0% { transform: scale(0); opacity: 0.8; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+        
+        .gift-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 25px;
+            background: linear-gradient(90deg, rgba(3, 8, 3, 0.98), rgba(3, 5, 3, 0.95));
+            border-bottom: 1px solid rgba(76, 175, 80, 0.3);
+            box-shadow: 0 0 30px rgba(76, 175, 80, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .gift-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #4CAF50, #FFD700, #FF00FF, #00FFFF, #4CAF50);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: giftFlow 4s linear infinite;
+        }
+        
+        @keyframes giftFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .gift-subtitle {
+            font-size: 0.65rem;
+            color: #A5D6A7;
+            letter-spacing: 0.25em;
+            margin-top: -3px;
+        }
+        
+        .gift-stats {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .gift-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.25);
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        
+        .gift-stat.abundance { border-color: #FFD700; background: rgba(255, 215, 0, 0.15); }
+        .gift-stat.love { border-color: #FF00FF; background: rgba(255, 0, 255, 0.1); }
+        .gift-stat.gratitude { border-color: #00FFFF; background: rgba(0, 255, 255, 0.1); }
+        
+        .gift-main {
+            display: grid;
+            grid-template-columns: 300px 1fr 320px;
+            grid-template-rows: 1fr 180px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 75px);
+        }
+        
+        .panel {
+            background: linear-gradient(135deg, rgba(5, 10, 5, 0.95), rgba(3, 8, 3, 0.98));
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 
+                0 0 25px rgba(76, 175, 80, 0.08),
+                inset 0 1px 0 rgba(76, 175, 80, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.15);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #A5D6A7;
+        }
+        
+        .panel-title::before {
+            content: '';
+            width: 4px; height: 20px;
+            background: linear-gradient(180deg, #4CAF50, #8BC34A, #A5D6A7);
+            border-radius: 2px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        
+        .gift-vault {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .gift-category {
+            margin-bottom: 16px;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            background: rgba(76, 175, 80, 0.08);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .category-header:hover {
+            border-color: rgba(76, 175, 80, 0.4);
+            background: rgba(76, 175, 80, 0.15);
+        }
+        
+        .category-icon { font-size: 1.2rem; margin-right: 8px; }
+        .category-name { font-weight: 700; font-size: 0.8rem; color: #A5D6A7; }
+        .category-count { font-size: 0.65rem; padding: 2px 8px; background: rgba(76, 175, 80, 0.2); border-radius: 10px; color: #A5D6A7; }
+        
+        .gift-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-left: 1px dashed rgba(76, 175, 80, 0.15);
+            padding-left: 16px;
+            margin-left: 8px;
+        }
+        
+        .gift-list.expanded { max-height: 500px; }
+        
+        .gift-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            margin: 6px 0;
+            background: rgba(76, 175, 80, 0.03);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gift-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--gift-color, #4CAF50);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .gift-item:hover {
+            background: rgba(76, 175, 80, 0.08);
+            border-color: rgba(76, 175, 80, 0.2);
+        }
+        
+        .gift-item:hover::before { opacity: 1; }
+        .gift-item.owned { border-color: rgba(76, 175, 80, 0.4); background: rgba(76, 175, 80, 0.08); }
+        .gift-item.owned::before { opacity: 1; }
+        .gift-item.gifting { animation: giftPulse 1s infinite; }
+        
+        @keyframes giftPulse {
+            0%, 100% { box-shadow: 0 0 10px var(--gift-color, #4CAF50); transform: scale(1); }
+            50% { box-shadow: 0 0 25px var(--gift-color, #4CAF50); transform: scale(1.01); }
+        }
+        
+        .gift-emoji { font-size: 1.3rem; flex-shrink: 0; }
+        .gift-info { flex: 1; min-width: 0; }
+        .gift-name { font-weight: 700; font-size: 0.75rem; color: #F0FFF0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gift-desc { font-size: 0.55rem; color: #8BC34A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gift-value { font-size: 0.6rem; font-weight: 700; color: #FFD700; padding: 2px 8px; background: rgba(255, 215, 0, 0.15); border-radius: 10px; }
+        
+        .gift-btn {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+            color: #0D1F0D;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.6rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .gift-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 15px rgba(76, 175, 80, 0.5); }
+        .gift-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        .gift-btn.gratitude { background: linear-gradient(135deg, #00FFFF, #00B8B8); color: #020005; }
+        .gift-btn.cosmic { background: linear-gradient(135deg, #FF00FF, #FFD700); color: #020005; }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .gift-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .gift-canvas-container {
+            flex: 1;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center top, rgba(76, 175, 80, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at center, rgba(255, 215, 0, 0.04) 0%, transparent 70%);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        #giftCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .gift-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+        
+        .gift-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .current-gift {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            min-width: 250px;
+        }
+        
+        .gift-header-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .gift-avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: radial-gradient(circle at 30% 30%, var(--gift-color, #4CAF50)80, var(--gift-color, #4CAF50)20);
+            box-shadow: 0 0 20px var(--gift-color, #4CAF50);
+        }
+        
+        .gift-info-main { flex: 1; }
+        .gift-name-main { font-size: 1rem; font-weight: 900; color: #A5D6A7; }
+        .gift-type { font-size: 0.6rem; color: #8BC34A; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .gift-stats-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+        
+        .gift-stat-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .gift-stat-label { font-size: 0.5rem; color: #8BC34A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+        .gift-stat-value { font-size: 1rem; font-weight: 900; color: #A5D6A7; }
+        
+        .gift-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .gift-ctrl-btn {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.4);
+            color: #A5D6A7;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gift-ctrl-btn:hover { background: rgba(76, 175, 80, 0.4); border-color: #FFD700; }
+        .gift-ctrl-btn.primary { background: linear-gradient(135deg, #4CAF50, #388E3C); color: #0D1F0D; border: none; }
+        .gift-ctrl-btn.gratitude { background: linear-gradient(135deg, #00FFFF, #00B8B8); color: #020005; border: none; }
+        .gift-ctrl-btn.cosmic { background: linear-gradient(135deg, #FF00FF, #FFD700); color: #020005; border: none; }
+        
+        .gift-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .gift-legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.55rem;
+            color: #A5D6A7;
+        }
+        
+        .legend-color {
+            width: 12px; height: 12px;
+            border-radius: 3px;
+        }
+        
+        .gift-coords {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.65rem;
+            color: #4CAF50;
+        }
+        
+        .right-panel { grid-row: 1 / -1; }
+        
+        .gift-detail {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .detail-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .detail-label { font-size: 0.5rem; color: #8BC34A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .detail-value { font-size: 0.8rem; font-weight: 700; color: #A5D6A7; word-break: break-word; }
+        .detail-value.abundance { color: #FFD700; }
+        .detail-value.love { color: #FF00FF; }
+        .detail-value.gratitude { color: #00FFFF; }
+        
+        .recipient-panel {
+            background: rgba(255, 0, 255, 0.05);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+        
+        .recipient-title { font-size: 0.85rem; font-weight: 900; color: #FF00FF; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        
+        .recipient-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        .recipient-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .recipient-card:hover {
+            border-color: rgba(255, 0, 255, 0.4);
+            background: rgba(255, 0, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .recipient-card.selected {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .recipient-icon { font-size: 1.2rem; margin-bottom: 4px; }
+        .recipient-name { font-weight: 700; font-size: 0.7rem; color: #FF00FF; }
+        .recipient-love { font-size: 0.55rem; color: #A5D6A7; margin-top: 2px; }
+        
+        .gratitude-flow {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(76, 175, 80, 0.05));
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 16px;
+            text-align: center;
+        }
+        
+        .gratitude-title { font-size: 0.9rem; font-weight: 900; color: #00FFFF; margin-bottom: 8px; }
+        .gratitude-desc { font-size: 0.65rem; color: #A5D6A7; margin-bottom: 12px; }
+        .gratitude-btn {
+            background: linear-gradient(135deg, #00FFFF, #4CAF50);
+            color: #020005;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+        }
+        
+        .gratitude-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 30px rgba(0, 255, 255, 0.5); }
+        .gratitude-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 180px; }
+        
+        .gift-log {
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .gift-log-entry {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #4CAF50;
+            animation: giftIn 0.4s ease;
+            font-size: 0.7rem;
+            line-height: 1.4;
+        }
+        
+        @keyframes giftIn {
+            from { opacity: 0; transform: translateX(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        
+        .gift-log-entry.gift { border-left-color: #4CAF50; }
+        .gift-log-entry.gratitude { border-left-color: #00FFFF; background: rgba(0, 255, 255, 0.05); }
+        .gift-log-entry.receive { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .gift-log-entry.cosmic { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
+        .gift-log-entry.abundance { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
+        
+        .gift-log-time { color: #4CAF50; font-family: monospace; min-width: 70px; font-size: 0.65rem; }
+        .gift-log-type { 
+            font-size: 0.5rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .gift-log-type.gft { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .gift-log-type.grt { background: rgba(0, 255, 255, 0.2); color: #00FFFF; }
+        .gift-log-type.rcv { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .gift-log-type.cos { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .gift-log-type.abd { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .gift-log-message { flex: 1; color: #F0FFF0; font-size: 0.68rem; }
+        
+        @media (max-width: 1400px) {
+            .gift-main { grid-template-columns: 280px 1fr 300px; }
+        }
+        
+        @media (max-width: 1200px) {
+            .gift-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #4CAF50, #8BC34A, #A5D6A7); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="gift-bg"></div>
+    <div class="gift-particles" id="giftParticles"></div>
+    <div class="gratitude-waves" id="gratitudeWaves"></div>
+    
+    <header class="gift-header">
+        <div>
+            <div class="gift-title">COSMIC GIFT ECONOMY</div>
+            <div class="gift-subtitle">ECONOMIA CÓSMICA DE PRESENTES • SÓ AMOR • ABUNDÂNCIA INFINITA</div>
+        </div>
+        <div class="gift-stats">
+            <div class="gift-stat"><span>🎁</span><span id="statGiftsGiven">0</span> PRESENTEADOS</div>
+            <div class="gift-stat"><span>🙏</span><span id="statGratitude">0</span> GRATIDÃO</div>
+            <div class="gift-stat abundance"><span>♾️</span><span id="statAbundance">1000</span> ABUNDÂNCIA</div>
+            <div class="gift-stat love"><span>💖</span><span id="statLoveFlow">100%</span> FLUXO AMOR</div>
+            <div class="gift-stat gratitude"><span>✨</span><span id="statCosmicGifts">0</span> PRESENTES CÓSMICOS</div>
+        </div>
+    </header>
+    
+    <main class="gift-main">
+        <aside class="left-panel panel">
+            <div class="panel-title">🎁 VAULT DOS PRESENTES CÓSMICOS</div>
+            <div class="gift-vault" id="giftVault"></div>
+        </aside>
+        
+        <section class="center-panel panel">
+            <div class="panel-title">🌌 VIEWPORT DO FLUXO DE AMOR</div>
+            <div class="gift-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="giftCanvas"></canvas>
+                <div class="gift-overlay">
+                    <div class="gift-top">
+                        <div class="current-gift" style="--gift-color: #4CAF50;">
+                            <div class="gift-header-main">
+                                <div class="gift-avatar">🎁</div>
+                                <div class="gift-info-main">
+                                    <div class="gift-name-main" id="currentGiftName">SELECIONE UM PRESENTE</div>
+                                    <div class="gift-type" id="currentGiftType">VAULT CÓSMICO</div>
+                                </div>
+                            </div>
+                            <div class="gift-stats-main">
+                                <div class="gift-stat-box"><div class="gift-stat-label">ABUNDÂNCIA</div><div class="gift-stat-value" id="vpAbundance">1000</div></div>
+                                <div class="gift-stat-box"><div class="gift-stat-label">AMOR</div><div class="gift-stat-value" id="vpLove">∞</div></div>
+                                <div class="gift-stat-box"><div class="gift-stat-label">GRATIDÃO</div><div class="gift-stat-value" id="vpGratitude">0</div></div>
+                                <div class="gift-stat-box"><div class="gift-stat-label">FLUXO</div><div class="gift-stat-value" id="vpFlow">100%</div></div>
+                            </div>
+                        </div>
+                        <div class="gift-controls">
+                            <button class="gift-ctrl-btn primary" onclick="giftSelected()">🎁 PRESENTEAR</button>
+                            <button class="gift-ctrl-btn gratitude" onclick="expressGratitude()">🙏 GRATIDÃO</button>
+                            <button class="gift-ctrl-btn cosmic" onclick="cosmicSurprise()">✨ SURPRESA CÓSMICA</button>
+                            <button class="gift-ctrl-btn" onclick="multiversalGift()">🌌 MULTIVERSAL</button>
+                        </div>
+                    </div>
+                    <div class="gift-bottom">
+                        <div class="gift-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #4CAF50;"></div><span>RECURSOS</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FFD700;"></div><span>ABUNDÂNCIA</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>AMOR</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FFFF;"></div><span>GRATIDÃO</div></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>SURPRESA</div></div>
+                        </div>
+                        <div class="gift-coords" id="giftCoords">VAULT: ∞ | AMOR: ∞ | GRATIDÃO: 0 | FLUXO: 100%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel panel">
+            <div class="panel-title">🎁 PRESENTE SELECIONADO</div>
+            
+            <div class="gift-detail" id="giftDetail">
+                <div style="text-align: center; color: #8BC34A; padding: 40px 20px;">
+                    <div style="font-size: 4rem; margin-bottom: 16px;">🎁</div>
+                    <div style="color: #A5D6A7; font-weight: 700;">SELECIONE UM PRESENTE</div>
+                    <div style="font-size: 0.7rem; color: #8BC34A; margin-top: 8px;">Clique em um presente no vault para ver detalhes</div>
+                </div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 12px;">💫 DESTINATÁRIOS DO MULTIVERSO</div>
+            <div class="recipient-panel">
+                <div class="recipient-title">💫 ESCOLHA QUEM PRESENTEAR</div>
+                <div class="recipient-grid" id="recipientGrid"></div>
+            </div>
+            
+            <div class="gratitude-flow" id="gratitudeFlow">
+                <div class="gratitude-title">🙏 EXPRESSAR GRATIDÃO CÓSMICA</div>
+                <div class="gratitude-desc">A gratidão multiplica a abundância. Cada 'obrigado' dobra o fluxo de amor no multiverso.</div>
+                <button class="gratitude-btn" id="gratitudeBtn" onclick="expressDeepGratitude()">🙏 GRATIDÃO PROFUNDA</button>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel panel">
+            <div class="panel-title">📜 REGISTRO DO FLUXO CÓSMICO</div>
+            <div class="gift-log" id="giftLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const GIFT_DEFINITIONS = {
+            resources: {
+                label: '🌿 RECURSOS VITAIS',
+                color: '#4CAF50',
+                gifts: [
+                    { id: 'wood_infinite', name: 'Madeira Infinita', emoji: '🪵', desc: 'Floresta que se regenera instantaneamente', value: '∞', abundance: 1000 },
+                    { id: 'stone_eternal', name: 'Pedra Eterna', emoji: '🪨', desc: 'Montanhas que nunca se esgotam', value: '∞', abundance: 1000 },
+                    { id: 'crystal_pure', name: 'Cristal Puro', emoji: '💎', desc: 'Cristais que brilham com luz própria', value: '∞', abundance: 500 },
+                    { id: 'water_living', name: 'Água Viva', emoji: '💧', desc: 'Água que cura e nutre eternamente', value: '∞', abundance: 2000 },
+                    { id: 'seeds_cosmic', name: 'Sementes Cósmicas', emoji: '🌱', desc: 'Sementes que nascem em qualquer realidade', value: '∞', abundance: 500 }
+                ]
+            },
+            love: {
+                label: '💖 AMOR PURO',
+                color: '#FF00FF',
+                gifts: [
+                    { id: 'love_unconditional', name: 'Amor Incondicional', emoji: '💖', desc: 'Amor sem limites, sem condições, eterno', value: '∞', abundance: 9999 },
+                    { id: 'compassion_infinite', name: 'Compaixão Infinita', emoji: '🤲', desc: 'Compaixão que abraça todos os seres', value: '∞', abundance: 9999 },
+                    { id: 'forgiveness_total', name: 'Perdão Total', emoji: '🕊️', desc: 'Perdão que liberta todas as almas', value: '∞', abundance: 9999 },
+                    { id: 'unity_cosmic', name: 'Unidade Cósmica', emoji: '☯️', desc: 'A sensação de ser um com tudo', value: '∞', abundance: 9999 },
+                    { id: 'joy_shared', name: 'Alegria Compartilhada', emoji: '😊', desc: 'Alegria que dobra quando dividida', value: '∞', abundance: 9999 }
+                ]
+            },
+            wisdom: {
+                label: '🧠 SABEDORIA ANCESTRAL',
+                color: '#2196F3',
+                gifts: [
+                    { id: 'wisdom_eternal', name: 'Sabedoria Eterna', emoji: '📜', desc: 'Conhecimento de todas as eras', value: '∞', abundance: 5000 },
+                    { id: 'intuition_pure', name: 'Intuição Pura', emoji: '🔮', desc: 'Saber sem precisar pensar', value: '∞', abundance: 5000 },
+                    { id: 'memory_akashic', name: 'Memória Akáshica', emoji: '📚', desc: 'Acesso a todos os registros do universo', value: '∞', abundance: 3000 },
+                    { id: 'understanding_deep', name: 'Compreensão Profunda', emoji: '💡', desc: 'Entender a essência de tudo', value: '∞', abundance: 5000 },
+                    { id: 'guidance_divine', name: 'Guia Divino', emoji: '🧭', desc: 'Sempre saber o caminho certo', value: '∞', abundance: 5000 }
+                ]
+            },
+            realities: {
+                label: '🌌 REALIDADES VIVAS',
+                color: '#FF00FF',
+                gifts: [
+                    { id: 'reality_garden', name: 'Realidade Jardim', emoji: '🌿', desc: 'Um mundo onde tudo floresce em amor', value: '1', abundance: 10000 },
+                    { id: 'reality_peace', name: 'Realidade Paz', emoji: '☮️', desc: 'Dimensão de paz absoluta e harmonia', value: '1', abundance: 10000 },
+                    { id: 'reality_creative', name: 'Realidade Criativa', emoji: '🎨', desc: 'Mundo onde imaginação cria realidade', value: '1', abundance: 10000 },
+                    { id: 'reality_abundance', name: 'Realidade Abundância', emoji: '🌟', desc: 'Universo de recursos infinitos', value: '1', abundance: 10000 },
+                    { id: 'reality_love', name: 'Realidade Amor', emoji: '💖', desc: 'Dimensão onde só existe amor', value: '1', abundance: 10000 }
+                ]
+            },
+            cosmic: {
+                label: '✨ PRESENTES CÓSMICOS',
+                color: '#FFD700',
+                gifts: [
+                    { id: 'miracle_small', name: 'Pequeno Milagre', emoji: '✨', desc: 'Um evento impossível que acontece', value: '1', abundance: 500 },
+                    { id: 'synchronicity', name: 'Sincronicidade Perfeita', emoji: '🔮', desc: 'Tudo se alinha no momento exato', value: '1', abundance: 1000 },
+                    { id: 'blessing_rain', name: 'Chuva de Bênçãos', emoji: '🌈', desc: 'Bênçãos caindo sobre todos', value: '1', abundance: 2000 },
+                    { id: 'timeline_shift', name: 'Mudança de Linha Temporal', emoji: '⏳', desc: 'Pular para a melhor linha do tempo', value: '1', abundance: 3000 },
+                    { id: 'omega_gift', name: 'Presente Ômega', emoji: '🌌', desc: 'Um presente do próprio Omega Engine', value: '1', abundance: 5000 }
+                ]
+            }
+        };
+        
+        const RECIPIENTS = [
+            { id: 'lumin', name: 'LUMIN PRIME', emoji: '🌟', love: 100, type: 'lumin' },
+            { id: 'gang', name: 'A GANG', emoji: '😼', love: 95, type: 'gang' },
+            { id: 'aly', name: 'ALY', emoji: '🧑', love: 100, type: 'player' },
+            { id: 'poe', name: 'POE', emoji: '📜', love: 90, type: 'poe' },
+            { id: 'companion', name: 'LUMIN COMPANION', emoji: '💫', love: 100, type: 'companion' },
+            { id: 'omega', name: 'OMEGA ENGINE', emoji: '🌌', love: 100, type: 'omega' },
+            { id: 'diamond', name: 'DIAMOND PROTOCOL', emoji: '💎', love: 100, type: 'diamond' },
+            { id: 'multiverse', name: 'MULTIVERSO', emoji: '🌌', love: 100, type: 'multiverse' },
+            { id: 'earth', name: 'TERRA', emoji: '🌍', love: 80, type: 'world' },
+            { id: 'stars', name: 'ESTRELAS', emoji: '⭐', love: 100, type: 'stars' }
+        ];
+        
+        const state = {
+            vault: {},
+            selectedGift: null,
+            selectedRecipient: 'lumin',
+            giftsGiven: 0,
+            gratitude: 0,
+            abundance: 1000,
+            loveFlow: 100,
+            cosmicGifts: 0,
+            giftLog: [],
+            animationTime: 0
+        };
+        
+        Object.entries(GIFT_DEFINITIONS).forEach(([cat, data]) => {
+            data.gifts.forEach(g => {
+                state.vault[g.id] = { ...g, category: cat, owned: true, gifted: 0 };
+            });
+        });
+        
+        const giftVault = document.getElementById('giftVault');
+        const giftCanvas = document.getElementById('giftCanvas');
+        const giftLog = document.getElementById('giftLog');
+        const giftDetail = document.getElementById('giftDetail');
+        const recipientGrid = document.getElementById('recipientGrid');
+        const gratitudeFlow = document.getElementById('gratitudeFlow');
+        const gratitudeBtn = document.getElementById('gratitudeBtn');
+        
+        const statGiftsGiven = document.getElementById('statGiftsGiven');
+        const statGratitude = document.getElementById('statGratitude');
+        const statAbundance = document.getElementById('statAbundance');
+        const statLoveFlow = document.getElementById('statLoveFlow');
+        const statCosmicGifts = document.getElementById('statCosmicGifts');
+        
+        const currentGiftName = document.getElementById('currentGiftName');
+        const currentGiftType = document.getElementById('currentGiftType');
+        const vpAbundance = document.getElementById('vpAbundance');
+        const vpLove = document.getElementById('vpLove');
+        const vpGratitude = document.getElementById('vpGratitude');
+        const vpFlow = document.getElementById('vpFlow');
+        const giftCoords = document.getElementById('giftCoords');
+        
+        const giftCanvas = document.getElementById('giftCanvas');
+        const giftCtx = giftCanvas.getContext('2d');
+        
+        function init() {
+            createParticles();
+            createGratitudeWaves();
+            setupCanvas();
+            renderGiftVault();
+            renderRecipients();
+            animateGift();
+            
+            addGiftLog('COSMIC GIFT ECONOMY ATIVADA', 'cos', 'Economia do amor infinito online. Abundância: ∞');
+            addGiftLog('VAULT ABERTO', 'gft', 'Todos os presentes cósmicos disponíveis para presentear');
+            addGiftLog('FLUXO DE AMOR: 100%', 'abd', 'A abundância flui livremente pelo multiverso');
+            
+            setInterval(() => {
+                state.abundance = Math.min(100000, state.abundance + 1);
+                state.loveFlow = 100;
+                updateStats();
+            }, 100);
+        }
+        
+        function createParticles() {
+            const container = document.getElementById('giftParticles');
+            for (let i = 0; i < 80; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'gift-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 5 + 2) + 'px';
+                particle.style.background = ['#4CAF50', '#8BC34A', '#A5D6A7', '#FFD700', '#FF00FF', '#00FFFF'][Math.floor(Math.random() * 6)];
+                particle.style.animationDelay = Math.random() * 12 + 's';
+                particle.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                document.getElementById('giftParticles').appendChild(particle);
+            }
+        }
+        
+        function createGratitudeWaves() {
+            const container = document.getElementById('gratitudeWaves');
+            for (let i = 0; i < 15; i++) {
+                const wave = document.createElement('div');
+                wave.className = 'gratitude-wave';
+                wave.style.left = Math.random() * 100 + '%';
+                wave.style.top = Math.random() * 100 + '%';
+                wave.style.width = wave.style.height = (Math.random() * 100 + 50) + 'px';
+                wave.style.borderColor = ['#4CAF50', '#FFD700', '#FF00FF', '#00FFFF'][Math.floor(Math.random() * 4)];
+                wave.style.animationDelay = Math.random() * 8 + 's';
+                wave.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                document.getElementById('gratitudeWaves').appendChild(wave);
+            }
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const canvas = document.getElementById('giftCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        function renderGiftVault() {
+            giftVault.innerHTML = Object.entries(GIFT_DEFINITIONS).map(([cat, data]) => `
+                <div class="gift-category">
+                    <div class="category-header" onclick="toggleCategory(this)" style="border-color: ${data.color}40;">
+                        <span class="category-icon">${cat === 'resources' ? '🌿' : cat === 'love' ? '💖' : cat === 'wisdom' ? '🧠' : cat === 'realities' ? '🌌' : '✨'}</span>
+                        <span class="category-name" style="color: ${data.color};">${data.label}</span>
+                        <span class="category-count">${data.gifts.length} presentes</span>
+                    </div>
+                    <div class="gift-list">
+                        ${data.gifts.map(g => {
+                            const giftState = state.vault[g.id];
+                            return `
+                                <div class="gift-item ${giftState?.owned ? 'owned' : ''}" 
+                                     style="--gift-color: ${data.color};" 
+                                     onclick="selectGift('${g.id}')">
+                                    <span class="gift-emoji">${g.emoji}</span>
+                                    <div class="gift-info">
+                                        <div class="gift-name">${g.name}</div>
+                                        <div class="gift-desc">${g.desc}</div>
+                                    </div>
+                                    <span class="gift-value">${giftState?.owned ? 'DISPONÍVEL' : 'INDISPONÍVEL'}</span>
+                                    ${giftState?.owned ? `<button class="gift-btn" onclick="event.stopPropagation(); giftSelected('${g.id}')">🎁 PRESENTEAR</button>` : ''}
+                                </div>
+                            `}).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function toggleCategory(header) {
+            const children = header.nextElementSibling;
+            children.classList.toggle('expanded');
+        }
+        
+        function selectGift(giftId) {
+            let gift = null;
+            let category = '';
+            Object.entries(GIFT_DEFINITIONS).forEach(([cat, data]) => {
+                const found = data.gifts.find(g => g.id === giftId);
+                if (found) { gift = found; category = cat; }
+            });
+            
+            if (!gift) return;
+            
+            state.selectedGift = giftId;
+            
+            currentGiftName.textContent = gift.name;
+            currentGiftType.textContent = GIFT_DEFINITIONS[category].label;
+            currentGiftName.parentElement.style.setProperty('--gift-color', GIFT_DEFINITIONS[category].color);
+            
+            document.getElementById('giftDetail').innerHTML = `
+                <div class="detail-grid">
+                    <div class="detail-card"><div class="detail-label">NOME</div><div class="detail-value">${gift.name}</div></div>
+                    <div class="detail-card"><div class="detail-label">CATEGORIA</div><div class="detail-value">${GIFT_DEFINITIONS[category].label}</div></div>
+                    <div class="detail-card"><div class="detail-label">VALOR</div><div class="detail-value">${gift.value}</div></div>
+                    <div class="detail-card"><div class="detail-label">ABUNDÂNCIA</div><div class="detail-value abundance">${gift.abundance.toLocaleString()}</div></div>
+                    <div class="detail-card"><div class="detail-label">DESCRIÇÃO</div><div class="detail-value" style="font-size: 0.65rem; grid-column: 1/-1;">${gift.desc}</div></div>
+                    <div class="detail-card"><div class="detail-label">EMOJI</div><div class="detail-value" style="font-size: 2rem;">${gift.emoji}</div></div>
+                </div>
+            `;
+            
+            addGiftLog(`PRESENTE SELECIONADO: ${gift.name}`, 'gft', `${GIFT_DEFINITIONS[category].label} | Abundância: ${gift.abundance.toLocaleString()}`);
+        }
+        
+        function giftSelected(giftId) {
+            if (!state.selectedGift) {
+                addGiftLog('NENHUM PRESENTE SELECIONADO', 'gft', 'Clique em um presente primeiro');
+                return;
+            }
+            
+            if (!state.selectedRecipient) {
+                addGiftLog('NENHUM DESTINATÁRIO', 'gft', 'Escolha quem presentear no painel direito');
+                return;
+            }
+            
+            const gift = state.vault[state.selectedGift];
+            const recipient = RECIPIENTS.find(r => r.id === state.selectedRecipient);
+            
+            state.giftsGiven++;
+            state.abundance += gift.abundance;
+            state.loveFlow = Math.min(100, state.loveFlow + 1);
+            state.gratitude += 10;
+            gift.gifted = (gift.gifted || 0) + 1;
+            
+            addGiftLog(`🎁 PRESENTEADO: ${gift.name} → ${recipient.name}`, 'gft', `Abundância +${gift.abundance} | Amor +1% | Gratidão +10`);
+            
+            // Cosmic return - the universe gives back
+            setTimeout(() => {
+                const returnGift = Math.floor(gift.abundance * 0.1);
+                state.abundance += returnGift;
+                state.cosmicGifts++;
+                addGiftLog(`✨ RETORNO CÓSMICO!`, 'cos', `O universo devolveu ${returnGift} de abundância! Presentes cósmicos: ${state.cosmicGifts}`);
+            }, 1000);
+            
+            // Gratitude wave animation
+            createGratitudeWave(recipient);
+            
+            updateStats();
+            renderGiftVault();
+            renderRecipients();
+        }
+        
+        function createGratitudeWave(recipient) {
+            const container = document.getElementById('gratitudeWaves');
+            const wave = document.createElement('div');
+            wave.className = 'gratitude-wave';
+            wave.style.left = '50%';
+            wave.style.top = '50%';
+            wave.style.width = wave.style.height = '20px';
+            wave.style.borderColor = '#00FFFF';
+            wave.style.animationDuration = '3s';
+            wave.style.transform = 'translate(-50%, -50%)';
+            container.appendChild(wave);
+            
+            setTimeout(() => wave.remove(), 3000);
+        }
+        
+        function expressGratitude() {
+            if (!state.selectedGift) {
+                addGiftLog('SELECIONE UM PRESENTE PRIMEIRO', 'grt', 'Clique em um presente no vault');
+                return;
+            }
+            
+            state.gratitude += 50;
+            state.abundance += 100;
+            state.loveFlow = 100;
+            
+            addGiftLog('🙏 GRATIDÃO EXPRESSA', 'grt', 'Gratidão multiplica abundância! +100 Abundância');
+            
+            updateStats();
+        }
+        
+        function expressDeepGratitude() {
+            state.gratitude += 500;
+            state.abundance += 1000;
+            state.loveFlow = 100;
+            state.cosmicGifts += 5;
+            
+            addGiftLog('🙏 GRATIDÃO PROFUNDA CÓSMICA!', 'grt', 'Gratidão infinita! +1000 Abundância | +5 Presentes Cósmicos');
+            
+            // Cosmic blessing shower
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => createGratitudeWave({name: 'MULTIVERSO'}), i * 200);
+            }
+            
+            updateStats();
+        }
+        
+        function cosmicSurprise() {
+            const cosmicGifts = GIFT_DEFINITIONS.cosmic.gifts;
+            const surprise = cosmicGifts[Math.floor(Math.random() * cosmicGifts.length)];
+            
+            state.abundance += surprise.abundance;
+            state.cosmicGifts++;
+            state.loveFlow = 100;
+            
+            addGiftLog(`✨ SURPRESA CÓSMICA: ${surprise.name}!`, 'cos', `${surprise.desc} | Abundância +${surprise.abundance} | Presentes Cósmicos: ${state.cosmicGifts}`);
+            
+            updateStats();
+        }
+        
+        function multiversalGift() {
+            if (!state.selectedGift || !state.selectedRecipient) {
+                addGiftLog('SELECIONE PRESENTE E DESTINATÁRIO', 'cos', 'Necessário ambos para presente multiversal');
+                return;
+            }
+            
+            const gift = state.vault[state.selectedGift];
+            const recipient = RECIPIENTS.find(r => r.id === state.selectedRecipient);
+            
+            // Multiversal gift affects ALL recipients
+            RECIPIENTS.forEach(r => {
+                if (r.id !== state.selectedRecipient) {
+                    addGiftLog(`🌌 PRESENTE MULTIVERSAL: ${gift.name} → ${r.name}`, 'cos', `O presente ecoou por todas as realidades!`);
+                }
+            });
+            
+            state.giftsGiven += RECIPIENTS.length;
+            state.abundance += gift.abundance * RECIPIENTS.length;
+            state.gratitude += RECIPIENTS.length * 5;
+            state.cosmicGifts += 3;
+            
+            addGiftLog(`🌌 PRESENTE MULTIVERSAL LANÇADO!`, 'cos', `${RECIPIENTS.length} realidades tocadas | Abundância multiplicada!`);
+            
+            updateStats();
+        }
+        
+        function renderRecipients() {
+            recipientGrid.innerHTML = RECIPIENTS.map(r => `
+                <div class="recipient-card ${r.id === state.selectedRecipient ? 'selected' : ''}" onclick="selectRecipient('${r.id}')">
+                    <div class="recipient-icon">${r.emoji}</div>
+                    <div class="recipient-name">${r.name}</div>
+                    <div class="recipient-love">Amor: ${r.love}%</div>
+                </div>
+            `).join('');
+        }
+        
+        function selectRecipient(recipientId) {
+            state.selectedRecipient = recipientId;
+            const recipient = RECIPIENTS.find(r => r.id === recipientId);
+            addGiftLog(`DESTINATÁRIO: ${recipient.name}`, 'gft', `Amor: ${recipient.love}% | Pronto para receber`);
+            renderRecipients();
+        }
+        
+        function updateStats() {
+            statGiftsGiven.textContent = state.giftsGiven;
+            statGratitude.textContent = state.gratitude;
+            statAbundance.textContent = state.abundance.toLocaleString();
+            statLoveFlow.textContent = state.loveFlow + '%';
+            statCosmicGifts.textContent = state.cosmicGifts;
+            
+            vpAbundance.textContent = state.abundance.toLocaleString();
+            vpLove.textContent = state.loveFlow + '%';
+            vpGratitude.textContent = state.gratitude.toLocaleString();
+            vpFlow.textContent = state.loveFlow + '%';
+            
+            giftCoords.textContent = `VAULT: ∞ | AMOR: ∞ | GRATIDÃO: ${state.gratitude.toLocaleString()} | FLUXO: ${state.loveFlow}%`;
+        }
+        
+        function addGiftLog(message, type, details) {
+            const time = new Date().toLocaleTimeString('pt-BR', { hour12: false });
+            const entry = document.createElement('div');
+            entry.className = `gift-log-entry ${type}`;
+            entry.innerHTML = `
+                <span class="gift-log-time">${time}</span>
+                <span class="gift-log-type ${type}">${type.toUpperCase()}</span>
+                <span class="gift-log-message">${message} ${details ? '• ' + details : ''}</span>
+            `;
+            giftLog.insertBefore(entry, giftLog.firstChild);
+            
+            // Keep only last 50 entries
+            while (giftLog.children.length > 50) {
+                giftLog.removeChild(giftLog.lastChild);
+            }
+        }
+        
+        function animateGift() {
+            const ctx = giftCanvas.getContext('2d');
+            const width = giftCanvas.width;
+            const height = giftCanvas.height;
+            state.animationTime += 0.02;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw abundance flow
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            // Pulsing heart of abundance
+            const pulseScale = 1 + Math.sin(state.animationTime * 2) * 0.15;
+            const heartSize = 60 * pulseScale;
+            
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            
+            // Gratitude waves
+            for (let i = 0; i < 5; i++) {
+                const wavePhase = state.animationTime + i * 1.2;
+                const radius = 80 + Math.sin(wavePhase) * 100;
+                ctx.strokeStyle = `rgba(0, 255, 255, ${0.3 - i * 0.05})`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Love particles flowing outward
+            for (let i = 0; i < 30; i++) {
+                const angle = (i / 30) * Math.PI * 2 + state.animationTime * 0.5;
+                const distance = 100 + Math.sin(state.animationTime + i) * 50;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+                
+                ctx.fillStyle = `rgba(255, 0, 255, ${0.5 + Math.sin(state.animationTime * 3 + i) * 0.3})`;
+                ctx.beginPath();
+                ctx.arc(x, y, 4 + Math.sin(state.animationTime * 2 + i) * 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Abundance flow lines
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.4)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const len = 150 + Math.sin(state.animationTime * 1.5 + i) * 30;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(angle) * len, Math.sin(angle) * len);
+                ctx.stroke();
+            }
+            
+            // Central heart
+            const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, heartSize);
+            gradient.addColorStop(0, 'rgba(255, 0, 255, 0.8)');
+            gradient.addColorStop(0.5, 'rgba(255, 215, 0, 0.6)');
+            gradient.addColorStop(1, 'rgba(76, 175, 80, 0.2)');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.moveTo(0, -heartSize * 0.3);
+            ctx.bezierCurveTo(-heartSize * 0.7, -heartSize * 0.8, -heartSize, -heartSize * 0.2, 0, heartSize * 0.5);
+            ctx.bezierCurveTo(heartSize, -heartSize * 0.2, heartSize * 0.7, -heartSize * 0.8, 0, -heartSize * 0.3);
+            ctx.fill();
+            
+            // Core glow
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.beginPath();
+            ctx.arc(0, -heartSize * 0.1, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+            
+            requestAnimationFrame(animateGift);
+        }
+        
+        // Init on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

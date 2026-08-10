@@ -365,7 +365,7 @@
         "eventosMarcantes": []
       },
       "gang": {
-        "afinidade": 77,
+        "afinidade": 80,
         "historico": [
           {
             "ciclo": 1,
@@ -501,11 +501,26 @@
               "ciclo": 14771
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14774,
+            "timestamp": 1786390385419,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 77,
+            "afinidadeDepois": 80,
+            "sentimentoAntes": "amor",
+            "sentimentoDepois": "amor",
+            "contexto": {
+              "ciclo": 14774
+            },
+            "invertido": true
           }
         ],
         "sentimento": "amor",
-        "ultimaInteracao": 1786335075520,
-        "totalInteracoes": 9,
+        "ultimaInteracao": 1786390385419,
+        "totalInteracoes": 10,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803909_3lswxipwr",
@@ -1533,7 +1548,7 @@
         ]
       },
       "radio": {
-        "afinidade": 74,
+        "afinidade": 78,
         "historico": [
           {
             "ciclo": 14711,
@@ -1624,11 +1639,26 @@
               "ciclo": 14761
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14773,
+            "timestamp": 1786390355474,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 74,
+            "afinidadeDepois": 78,
+            "sentimentoAntes": "amor",
+            "sentimentoDepois": "amor",
+            "contexto": {
+              "ciclo": 14773
+            },
+            "invertido": true
           }
         ],
-        "sentimento": "carinho_profundo",
-        "ultimaInteracao": 1786325461654,
-        "totalInteracoes": 6,
+        "sentimento": "amor",
+        "ultimaInteracao": 1786390355474,
+        "totalInteracoes": 7,
         "eventosMarcantes": [
           {
             "id": "evt_1786304952016_iiq1g52oi",
@@ -1682,6 +1712,33 @@
             "dados": {
               "marco": 65,
               "novoSentimento": "carinho_profundo"
+            }
+          },
+          {
+            "id": "evt_1786390355474_w8ouy0cw0",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "radio",
+              "lumin"
+            ],
+            "timestamp": 1786390355474,
+            "dados": {
+              "de": "anterior",
+              "para": "amor",
+              "afinidade": 78
+            }
+          },
+          {
+            "id": "evt_1786390355474_lgy8xzun2",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "radio",
+              "lumin"
+            ],
+            "timestamp": 1786390355474,
+            "dados": {
+              "marco": 75,
+              "novoSentimento": "amor"
             }
           }
         ]
@@ -2667,11 +2724,39 @@
             "contexto": {
               "ciclo": 14772
             }
+          },
+          {
+            "ciclo": 14773,
+            "timestamp": 1786390355388,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14773
+            }
+          },
+          {
+            "ciclo": 14774,
+            "timestamp": 1786390385403,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14774
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786335105517,
-        "totalInteracoes": 30,
+        "ultimaInteracao": 1786390385403,
+        "totalInteracoes": 32,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -3344,11 +3429,41 @@
               "ciclo": 14772
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14773,
+            "timestamp": 1786390355388,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14773
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 14774,
+            "timestamp": 1786390385403,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14774
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786335105517,
-        "totalInteracoes": 30,
+        "ultimaInteracao": 1786390385403,
+        "totalInteracoes": 32,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -3562,7 +3677,7 @@
     },
     "gang": {
       "lumin": {
-        "afinidade": 77,
+        "afinidade": 80,
         "historico": [
           {
             "ciclo": 1,
@@ -3689,11 +3804,25 @@
             "contexto": {
               "ciclo": 14771
             }
+          },
+          {
+            "ciclo": 14774,
+            "timestamp": 1786390385419,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 77,
+            "afinidadeDepois": 80,
+            "sentimentoAntes": "amor",
+            "sentimentoDepois": "amor",
+            "contexto": {
+              "ciclo": 14774
+            }
           }
         ],
         "sentimento": "amor",
-        "ultimaInteracao": 1786335075520,
-        "totalInteracoes": 9,
+        "ultimaInteracao": 1786390385419,
+        "totalInteracoes": 10,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803909_3lswxipwr",
@@ -4978,7 +5107,7 @@
     },
     "radio": {
       "lumin": {
-        "afinidade": 74,
+        "afinidade": 78,
         "historico": [
           {
             "ciclo": 14711,
@@ -5063,11 +5192,25 @@
             "contexto": {
               "ciclo": 14761
             }
+          },
+          {
+            "ciclo": 14773,
+            "timestamp": 1786390355474,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 74,
+            "afinidadeDepois": 78,
+            "sentimentoAntes": "amor",
+            "sentimentoDepois": "amor",
+            "contexto": {
+              "ciclo": 14773
+            }
           }
         ],
-        "sentimento": "carinho_profundo",
-        "ultimaInteracao": 1786325461654,
-        "totalInteracoes": 6,
+        "sentimento": "amor",
+        "ultimaInteracao": 1786390355474,
+        "totalInteracoes": 7,
         "eventosMarcantes": [
           {
             "id": "evt_1786304952016_iiq1g52oi",
@@ -5121,6 +5264,33 @@
             "dados": {
               "marco": 65,
               "novoSentimento": "carinho_profundo"
+            }
+          },
+          {
+            "id": "evt_1786390355474_w8ouy0cw0",
+            "tipo": "mudanca_sentimento",
+            "entidades": [
+              "radio",
+              "lumin"
+            ],
+            "timestamp": 1786390355474,
+            "dados": {
+              "de": "anterior",
+              "para": "amor",
+              "afinidade": 78
+            }
+          },
+          {
+            "id": "evt_1786390355474_lgy8xzun2",
+            "tipo": "marco_afinidade",
+            "entidades": [
+              "radio",
+              "lumin"
+            ],
+            "timestamp": 1786390355474,
+            "dados": {
+              "marco": 75,
+              "novoSentimento": "amor"
             }
           }
         ]
@@ -5726,7 +5896,7 @@
         "eventosMarcantes": []
       },
       "alysson": {
-        "afinidade": 68,
+        "afinidade": 71,
         "historico": [
           {
             "ciclo": 14706,
@@ -5811,11 +5981,25 @@
             "contexto": {
               "ciclo": 14748
             }
+          },
+          {
+            "ciclo": 14773,
+            "timestamp": 1786390355491,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 68,
+            "afinidadeDepois": 71,
+            "sentimentoAntes": "carinho_profundo",
+            "sentimentoDepois": "carinho_profundo",
+            "contexto": {
+              "ciclo": 14773
+            }
           }
         ],
         "sentimento": "carinho_profundo",
-        "ultimaInteracao": 1786315093752,
-        "totalInteracoes": 6,
+        "ultimaInteracao": 1786390355491,
+        "totalInteracoes": 7,
         "eventosMarcantes": [
           {
             "id": "evt_1786303746274_tonroqi6t",
@@ -5956,7 +6140,7 @@
         "eventosMarcantes": []
       },
       "telegram": {
-        "afinidade": 68,
+        "afinidade": 71,
         "historico": [
           {
             "ciclo": 14706,
@@ -6047,11 +6231,26 @@
               "ciclo": 14748
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14773,
+            "timestamp": 1786390355491,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 68,
+            "afinidadeDepois": 71,
+            "sentimentoAntes": "carinho_profundo",
+            "sentimentoDepois": "carinho_profundo",
+            "contexto": {
+              "ciclo": 14773
+            },
+            "invertido": true
           }
         ],
         "sentimento": "carinho_profundo",
-        "ultimaInteracao": 1786315093752,
-        "totalInteracoes": 6,
+        "ultimaInteracao": 1786390355491,
+        "totalInteracoes": 7,
         "eventosMarcantes": [
           {
             "id": "evt_1786303746274_tonroqi6t",
@@ -6225,5 +6424,5 @@
       "sentimento": "alma_gemea"
     }
   ],
-  "atualizadoEm": 1786335105519
+  "atualizadoEm": 1786390385420
 }
