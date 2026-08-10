@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEY LAUNCHER MISSION CONTROL</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #050510;
+            color: #00FFE1;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Cosmic Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(0, 255, 225, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 0, 150, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(100, 100, 255, 0.04) 0%, transparent 60%),
+                #050510;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+        
+        /* Header */
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(90deg, rgba(0, 20, 40, 0.9), rgba(0, 10, 30, 0.95));
+            border-bottom: 2px solid #00FFE1;
+            box-shadow: 0 0 30px rgba(0, 255, 225, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .mission-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #00FFE1, #FF0096, #00FFE1);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s linear infinite;
+            text-shadow: 0 0 20px rgba(0, 255, 225, 0.5);
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        .mission-subtitle {
+            font-size: 0.7rem;
+            color: #88F;
+            letter-spacing: 0.3em;
+            margin-top: -5px;
+        }
+        
+        .status-bar {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0, 255, 225, 0.1);
+            border: 1px solid #00FFE1;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        .status-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .status-dot.active { background: #00FF41; box-shadow: 0 0 10px #00FF41; }
+        .status-dot.warning { background: #FFB800; box-shadow: 0 0 10px #FFB800; }
+        .status-dot.danger { background: #FF0041; box-shadow: 0 0 10px #FF0041; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Main Layout */
+        .mission-control {
+            display: grid;
+            grid-template-columns: 380px 1fr 350px;
+            grid-template-rows: auto 1fr auto;
+            gap: 15px;
+            padding: 15px;
+            height: calc(100vh - 90px);
+        }
+        
+        /* Left Panel - Launch Pads */
+        .left-panel {
+            grid-row: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .panel {
+            background: linear-gradient(135deg, rgba(0, 15, 30, 0.95), rgba(0, 5, 20, 0.98));
+            border: 1px solid rgba(0, 255, 225, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 225, 0.1),
+                inset 0 1px 0 rgba(0, 255, 225, 0.1);
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 255, 225, 0.2);
+            font-size: 1rem;
+            font-weight: 700;
+            color: #00FFE1;
+        }
+        
+        .panel-title::before {
+            content: '';
+            width: 4px; height: 20px;
+            background: linear-gradient(180deg, #00FFE1, #FF0096);
+            border-radius: 2px;
+        }
+        
+        /* Launch Pad Cards */
+        .launch-pads {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .pad-card {
+            background: linear-gradient(135deg, rgba(0, 255, 225, 0.05), rgba(255, 0, 150, 0.03));
+            border: 1px solid rgba(0, 255, 225, 0.15);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pad-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(180deg, #00FFE1, #FF0096);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .pad-card:hover::before { opacity: 1; }
+        .pad-card.active { border-color: #00FFE1; box-shadow: 0 0 20px rgba(0, 255, 225, 0.2); }
+        .pad-card.charging { border-color: #FFB800; box-shadow: 0 0 20px rgba(255, 184, 0, 0.2); }
+        .pad-card.launching { border-color: #FF0041; box-shadow: 0 0 30px rgba(255, 0, 65, 0.4); animation: launchPulse 0.5s infinite; }
+        
+        @keyframes launchPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+        
+        .pad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .pad-name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #00FFE1, #FF0096);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .pad-status {
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .pad-status.ready { background: rgba(0, 255, 65, 0.2); color: #00FF41; border: 1px solid #00FF41; }
+        .pad-status.charging { background: rgba(255, 184, 0, 0.2); color: #FFB800; border: 1px solid #FFB800; }
+        .pad-status.launching { background: rgba(255, 0, 65, 0.2); color: #FF0041; border: 1px solid #FF0041; animation: blink 0.5s infinite; }
+        .pad-status.cooldown { background: rgba(100, 100, 255, 0.2); color: #6464FF; border: 1px solid #6464FF; }
+        
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        .pad-level {
+            font-size: 0.75rem;
+            color: #88F;
+            margin-bottom: 12px;
+        }
+        
+        /* Charge Meter */
+        .charge-meter {
+            height: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 255, 225, 0.2);
+        }
+        
+        .charge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00FFE1, #FF0096, #00FFE1);
+            background-size: 200% 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            animation: chargeFlow 2s linear infinite;
+        }
+        
+        @keyframes chargeFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        .charge-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: #66F;
+            margin-top: 4px;
+        }
+        
+        /* Current BEY */
+        .current-bey {
+            padding: 10px;
+            background: rgba(0, 255, 225, 0.05);
+            border-radius: 8px;
+            border: 1px dashed rgba(0, 255, 225, 0.3);
+            font-size: 0.75rem;
+        }
+        
+        .current-bey-label { color: #66F; margin-bottom: 4px; }
+        .current-bey-name { font-weight: 700; color: #00FFE1; }
+        
+        /* Center Panel - Trajectory Visualization */
+        .center-panel {
+            grid-row: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .trajectory-container {
+            flex: 1;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(0, 255, 225, 0.03), transparent 70%);
+            border: 1px solid rgba(0, 255, 225, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        #trajectoryCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .trajectory-overlay {
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .trajectory-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .info-box {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 255, 225, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 0.6rem;
+            color: #66F;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+        
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #00FFE1, #FF0096);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .trajectory-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            color: #88F;
+        }
+        
+        .legend-color {
+            width: 20px; height: 4px;
+            border-radius: 2px;
+        }
+        
+        /* Right Panel - Fuel & Cosmic Energy */
+        .right-panel {
+            grid-row: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        /* Fuel Meters */
+        .fuel-meters {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .fuel-meter {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 225, 0.1);
+            border-radius: 10px;
+            padding: 16px;
+        }
+        
+        .fuel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .fuel-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        
+        .fuel-icon {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .fuel-value {
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #00FFE1, #FF0096);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .fuel-bar {
+            height: 14px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 7px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 225, 0.2);
+        }
+        
+        .fuel-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.8s ease;
+            position: relative;
+        }
+        
+        .fuel-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Cosmic Energy */
+        .cosmic-energy {
+            background: linear-gradient(135deg, rgba(100, 0, 255, 0.1), rgba(255, 0, 150, 0.1));
+            border: 1px solid rgba(255, 0, 255, 0.3);
+        }
+        
+        .cosmic-meter {
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 0, 255, 0.3);
+        }
+        
+        .cosmic-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF00FF, #00FFE1, #FF00FF);
+            background-size: 200% 100%;
+            border-radius: 9px;
+            animation: cosmicFlow 3s linear infinite;
+            transition: width 0.5s ease;
+        }
+        
+        @keyframes cosmicFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        /* Resonance Waves */
+        .resonance-waves {
+            background: rgba(0, 255, 225, 0.05);
+            border: 1px solid rgba(0, 255, 225, 0.15);
+        }
+        
+        .wave-container {
+            height: 100px;
+            position: relative;
+        }
+        
+        .wave-canvas {
+            width: 100%; height: 100%;
+        }
+        
+        /* Bottom Panel - Mission Log */
+        .bottom-panel {
+            grid-column: 1 / -1;
+            max-height: 200px;
+        }
+        
+        .log-container {
+            max-height: 180px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .log-entry {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 225, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #00FFE1;
+            animation: logEnter 0.3s ease;
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+        
+        @keyframes logEnter {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .log-entry.success { border-left-color: #00FF41; }
+        .log-entry.warning { border-left-color: #FFB800; }
+        .log-entry.danger { border-left-color: #FF0041; }
+        .log-entry.cosmic { border-left-color: #FF00FF; }
+        .log-entry.resonance { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        
+        .log-time { color: #66F; font-family: monospace; min-width: 70px; }
+        .log-type { 
+            font-size: 0.6rem; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .log-type.sys { background: rgba(0, 255, 225, 0.2); color: #00FFE1; }
+        .log-type.bey { background: rgba(255, 0, 150, 0.2); color: #FF0096; }
+        .log-type.res { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .log-type.evo { background: rgba(100, 255, 100, 0.2); color: #64FF64; }
+        .log-message { flex: 1; color: #CCF; }
+        
+        /* Control Buttons */
+        .control-buttons {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .control-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .control-btn.primary {
+            background: linear-gradient(135deg, #00FFE1, #00CCB3);
+            color: #001020;
+            box-shadow: 0 0 20px rgba(0, 255, 225, 0.4);
+        }
+        
+        .control-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 255, 225, 0.6); }
+        .control-btn.primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        
+        .control-btn.danger {
+            background: linear-gradient(135deg, #FF0041, #CC0033);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 0, 65, 0.4);
+        }
+        
+        .control-btn.danger:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255, 0, 65, 0.6); }
+        
+        .control-btn.cosmic {
+            background: linear-gradient(135deg, #FF00FF, #9900FF);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+        }
+        
+        .control-btn.cosmic:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255, 0, 255, 0.6); }
+        
+        .control-btn.secondary {
+            background: rgba(0, 255, 225, 0.1);
+            color: #00FFE1;
+            border: 1px solid rgba(0, 255, 225, 0.3);
+        }
+        
+        .control-btn.secondary:hover { background: rgba(0, 255, 225, 0.2); }
+        
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .mission-control {
+                grid-template-columns: 340px 1fr 300px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .mission-control {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto;
+            }
+            .left-panel, .right-panel {
+                grid-row: auto;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .left-panel .panel, .right-panel .panel {
+                flex: 1; min-width: 300px;
+            }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #00FFE1, #FF0096); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #FF0096, #00FFE1); }
+    </style>
+</head>
+<body>
+    <div class="cosmic-bg"></div>
+    <div class="stars" id="stars"></div>
+    
+    <header class="mission-header">
+        <div>
+            <div class="mission-title">BEY LAUNCHER MISSION CONTROL</div>
+            <div class="mission-subtitle">OPERAÇÕES CÓSMICAS • ALÉM DO INFINITO</div>
+        </div>
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-dot active" id="dotAuto"></div>
+                <span>AUTO-EVOLUTION</span>
+            </div>
+            <div class="status-item">
+                <div class="status-dot active" id="dotStar"></div>
+                <span>STAR PHRASE</span>
+            </div>
+            <div class="status-item">
+                <div class="status-dot active" id="dotOmega"></div>
+                <span>OMEGA ENGINE</span>
+            </div>
+            <div class="status-item">
+                <div class="status-dot active" id="dotBey"></div>
+                <span>BEY LAUNCHER</span>
+            </div>
+            <div class="status-item">
+                <span id="cycleCounter">CICLO: 0</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="mission-control">
+        <!-- LEFT PANEL - LAUNCH PADS -->
+        <aside class="left-panel">
+            <div class="panel">
+                <div class="panel-title">🚀 PLATAFORMAS DE LANÇAMENTO</div>
+                <div class="launch-pads" id="launchPads"></div>
+            </div>
+        </aside>
+        
+        <!-- CENTER PANEL - TRAJECTORY -->
+        <section class="center-panel">
+            <div class="panel" style="flex: 1; display: flex; flex-direction: column;">
+                <div class="panel-title">🌌 TRAJETÓRIA CÓSMICA EM TEMPO REAL</div>
+                <div class="trajectory-container" style="flex: 1; position: relative;">
+                    <canvas id="trajectoryCanvas"></canvas>
+                    <div class="trajectory-overlay">
+                        <div class="trajectory-info">
+                            <div class="info-box">
+                                <div class="info-label">Distância Percorrida</div>
+                                <div class="info-value" id="distValue">0.00 LY</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">Velocidade</div>
+                                <div class="info-value" id="velValue">0 c</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">Estabilidade</div>
+                                <div class="info-value" id="stabValue">100%</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">ETA</div>
+                                <div class="info-value" id="etaValue">--:--:--</div>
+                            </div>
+                        </div>
+                        <div class="trajectory-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #00FFE1;"></div>
+                                <span>Trajetória Ativa</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #FF0096;"></div>
+                                <span>Anomalias</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #FF00FF;"></div>
+                                <span>Milagres</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #FFB800;"></div>
+                                <span>Waypoints</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- RIGHT PANEL - FUEL & COSMIC -->
+        <aside class="right-panel">
+            <div class="panel">
+                <div class="panel-title">⛽ RESERVAS DE COMBUSTÍVEL</div>
+                <div class="fuel-meters" id="fuelMeters"></div>
+            </div>
+            
+            <div class="panel cosmic-energy">
+                <div class="panel-title">🌌 ENERGIA CÓSMICA</div>
+                <div class="cosmic-meter" id="cosmicMeter">
+                    <div class="cosmic-fill" id="cosmicFill" style="width: 0%"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.75rem; color: #88F;">
+                    <span>VAZIO</span>
+                    <span id="cosmicValue">0%</span>
+                    <span>SINGULARIDADE</span>
+                </div>
+            </div>
+            
+            <div class="panel resonance-waves">
+                <div class="panel-title">🌊 RESSONÂNCIAS CÓSMICAS</div>
+                <canvas class="wave-canvas" id="waveCanvas"></canvas>
+            </div>
+        </aside>
+        
+        <!-- BOTTOM PANEL - MISSION LOG -->
+        <section class="bottom-panel panel">
+            <div class="panel-title">📡 LOG DE MISSÃO</div>
+            <div class="log-container" id="missionLog"></div>
+        </section>
+        
+        <!-- CONTROL BUTTONS -->
+        <div class="control-buttons">
+            <button class="control-btn primary" id="btnPrepareLaunch" onclick="prepareLaunch()">
+                🚀 PREPARAR LANÇAMENTO
+            </button>
+            <button class="control-btn cosmic" id="btnForceReveal" onclick="forceStarReveal()">
+                ✨ FORÇAR ESTRELA
+            </button>
+            <button class="control-btn secondary" id="btnTriggerEvolution" onclick="triggerEvolution()">
+                ♾️ CICLO EVOLUTIVO
+            </button>
+            <button class="control-btn danger" id="btnAbort" onclick="abortLaunch()" disabled>
+                ⛔ ABORTAR MISSÃO
+            </button>
+        </div>
+    </main>
+    
+    <script>
+        // ============ STATE ============
+        const state = {
+            cycle: 0,
+            launchPads: [
+                { id: 'pad_alpha', name: 'PAD ALPHA', level: 1, status: 'ready', charge: 1, currentBey: null, maxBeyLevel: 1 },
+                { id: 'pad_omega', name: 'PAD ÔMEGA', level: 2, status: 'ready', charge: 1, currentBey: null, maxBeyLevel: 3 },
+                { id: 'pad_infinite', name: 'PAD INFINITA', level: 3, status: 'ready', charge: 1, currentBey: null, maxBeyLevel: 5 }
+            ],
+            fuels: {
+                ki: { value: 95000, max: 100000, icon: '⚡', color: '#FFD700' },
+                harmony: { value: 0.85, max: 1, icon: '☯️', color: '#00FFE1' },
+                love: { value: 0.92, max: 1, icon: '💖', color: '#FF0096' },
+                stardust: { value: 1250, max: 5000, icon: '✨', color: '#FF00FF' },
+                timeShards: { value: 45, max: 100, icon: '⏳', color: '#00FFFF' }
+            },
+            cosmicEnergy: 0,
+            activeLaunch: null,
+            trajectoryPoints: [],
+            anomalies: [],
+            miracles: [],
+            starPhrase: { revealed: 1, total: 36, phrase: 'O___________________________________' }
+        };
+        
+        // ============ DOM ELEMENTS ============
+        const launchPadsEl = document.getElementById('launchPads');
+        const fuelMetersEl = document.getElementById('fuelMeters');
+        const cosmicFill = document.getElementById('cosmicFill');
+        const cosmicValue = document.getElementById('cosmicValue');
+        const missionLog = document.getElementById('missionLog');
+        const trajectoryCanvas = document.getElementById('trajectoryCanvas');
+        const waveCanvas = document.getElementById('waveCanvas');
+        const distValue = document.getElementById('distValue');
+        const velValue = document.getElementById('velValue');
+        const stabValue = document.getElementById('stabValue');
+        const etaValue = document.getElementById('etaValue');
+        const cosmicValue = document.getElementById('cosmicValue');
+        const cycleCounter = document.getElementById('cycleCounter');
+        
+        // Canvas contexts
+        const trajCtx = trajectoryCanvas.getContext('2d');
+        const waveCtx = waveCanvas.getContext('2d');
+        
+        // Resize canvases
+        function resizeCanvases() {
+            const trajRect = trajectoryCanvas.parentElement.getBoundingClientRect();
+            trajectoryCanvas.width = trajRect.width;
+            trajectoryCanvas.height = trajRect.height;
+            
+            const waveRect = waveCanvas.parentElement.getBoundingClientRect();
+            waveCanvas.width = waveRect.width;
+            waveCanvas.height = waveRect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvases);
+        
+        // ============ STAR FIELD ============
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = star.style.height = (Math.random() * 2 + 0.5) + 'px';
+                star.style.background = ['#00FFE1', '#FF0096', '#FF00FF', '#FFD700', '#FFFFFF'][Math.floor(Math.random() * 5)];
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // ============ RENDER LAUNCH PADS ============
+        function renderLaunchPads() {
+            launchPadsEl.innerHTML = state.launchPads.map(pad => `
+                <div class="pad-card ${pad.status}" data-pad="${pad.id}">
+                    <div class="pad-header">
+                        <span class="pad-name">${pad.name}</span>
+                        <span class="pad-status ${pad.status}">${pad.status.toUpperCase()}</span>
+                    </div>
+                    <div class="pad-level">NÍVEL ${pad.level} • MAX BEY: ${pad.maxBeyLevel}</div>
+                    <div class="charge-meter">
+                        <div class="charge-fill" style="width: ${pad.charge * 100}%"></div>
+                    </div>
+                    <div class="charge-labels">
+                        <span>VAZIO</span>
+                        <span>${Math.round(pad.charge * 100)}%</span>
+                        <span>CARREGADO</span>
+                    </div>
+                    ${pad.currentBey ? `
+                        <div class="current-bey">
+                            <div class="current-bey-label">BEY ATUAL:</div>
+                            <div class="current-bey-name">🚀 ${pad.currentBey.type.toUpperCase()}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // ============ RENDER FUEL METERS ============
+        function renderFuelMeters() {
+            fuelMetersEl.innerHTML = Object.entries(state.fuels).map(([key, fuel]) => `
+                <div class="fuel-meter">
+                    <div class="fuel-header">
+                        <div class="fuel-name">
+                            <div class="fuel-icon" style="background: ${fuel.color}22; color: ${fuel.color};">${fuel.icon}</div>
+                            <span>${key.toUpperCase()}</span>
+                        </div>
+                        <span class="fuel-value">${typeof fuel.value === 'number' && fuel.value > 100 ? fuel.value.toLocaleString() : (fuel.value * 100).toFixed(0) + '%'}</span>
+                    </div>
+                    <div class="fuel-bar">
+                        <div class="fuel-fill" style="width: ${(fuel.value / fuel.max) * 100}%; background: ${fuel.color}"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // ============ TRAJECTORY RENDERING ============
+        let trajectoryAnimationId = null;
+        let trajectoryTime = 0;
+        
+        function drawTrajectory() {
+            const ctx = trajCtx;
+            const width = trajectoryCanvas.width;
+            const height = trajectoryCanvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            // Background grid
+            ctx.strokeStyle = 'rgba(0, 255, 225, 0.03)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < width; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < height; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+            
+            // Center point (origin)
+            const cx = width / 2;
+            const cy = height / 2;
+            
+            // Draw trajectory path
+            if (state.trajectoryPoints.length > 1) {
+                ctx.beginPath();
+                ctx.moveTo(state.trajectoryPoints[0].x, state.trajectoryPoints[0].y);
+                for (let i = 1; i < state.trajectoryPoints.length; i++) {
+                    ctx.lineTo(state.trajectoryPoints[i].x, state.trajectoryPoints[i].y);
+                }
+                ctx.strokeStyle = '#00FFE1';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            
+            // Draw anomalies
+            state.anomalies.forEach(a => {
+                ctx.beginPath();
+                ctx.arc(a.x, a.y, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#FF0096';
+                ctx.fill();
+                ctx.strokeStyle = '#FF0096';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+            
+            // Draw miracles
+            state.miracles.forEach(m => {
+                ctx.beginPath();
+                ctx.arc(m.x, m.y, 10, 0, Math.PI * 2);
+                ctx.fillStyle = '#FF00FF';
+                ctx.fill();
+                ctx.strokeStyle = '#FF00FF';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Glow effect
+                ctx.shadowColor = '#FF00FF';
+                ctx.shadowBlur = 20;
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+            });
+            
+            // Draw current position
+            if (state.trajectoryPoints.length > 0) {
+                const last = state.trajectoryPoints[state.trajectoryPoints.length - 1];
+                ctx.beginPath();
+                ctx.arc(last.x, last.y, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#00FFE1';
+                ctx.fill();
+                
+                // Pulse ring
+                const pulse = (Math.sin(Date.now() / 200) + 1) * 4 + 8;
+                ctx.beginPath();
+                ctx.arc(last.x, last.y, pulse, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(0, 255, 225, ${0.5 - (pulse - 8) / 20})`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            
+            // Origin marker
+            ctx.beginPath();
+            ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+            ctx.fillStyle = '#FF0096';
+            ctx.fill();
+        }
+        
+        function animateTrajectory() {
+            if (!state.activeLaunch) return;
+            
+            drawTrajectory();
+            
+            // Add new point along trajectory
+            if (state.trajectoryPoints.length < 100) {
+                const progress = state.trajectoryPoints.length / 100;
+                const cx = trajectoryCanvas.width / 2;
+                const cy = trajectoryCanvas.height / 2;
+                const radius = Math.min(trajectoryCanvas.width, trajectoryCanvas.height) * 0.35;
+                
+                // Spiral trajectory
+                const angle = progress * Math.PI * 6 + trajectoryTime;
+                const r = radius * progress * 1.2;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+                
+                state.trajectoryPoints.push({ x, y });
+                
+                // Random anomaly
+                if (Math.random() < 0.02) {
+                    state.anomalies.push({ x, y, time: Date.now() });
+                    addLog('ANOMALIA DETECTADA', 'bey', 'warning');
+                }
+                
+                // Random miracle
+                if (Math.random() < 0.01) {
+                    state.miracles.push({ x, y, time: Date.now() });
+                    addLog('MILAGRE COSMICO!', 'bey', 'cosmic');
+                }
+            } else {
+                // Mission complete
+                completeLaunch();
+            }
+            
+            trajectoryTime += 0.02;
+            trajectoryAnimationId = requestAnimationFrame(animateTrajectory);
+        }
+        
+        // ============ WAVE ANIMATION ============
+        let waveTime = 0;
+        function drawWaves() {
+            const ctx = waveCtx;
+            const width = waveCanvas.width;
+            const height = waveCanvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const centerY = height / 2;
+            const numWaves = 5;
+            
+            for (let w = 0; w < numWaves; w++) {
+                const baseFreq = 0.01 + w * 0.005;
+                const amplitude = (height / numWaves) * 0.4;
+                const offset = centerY + (w - numWaves/2) * (height / numWaves * 1.2);
+                
+                ctx.beginPath();
+                ctx.moveTo(0, offset);
+                
+                for (let x = 0; x <= width; x += 2) {
+                    const noise = Math.sin(x * baseFreq + waveTime + w) * 0.5 + 
+                                 Math.sin(x * baseFreq * 2 + waveTime * 1.5 + w * 2) * 0.3;
+                    const y = offset + noise * amplitude;
+                    ctx.lineTo(x, y);
+                }
+                
+                ctx.lineTo(width, height);
+                ctx.lineTo(0, height);
+                ctx.closePath();
+                
+                const colors = ['rgba(0, 255, 225, 0.15)', 'rgba(255, 0, 150, 0.1)', 'rgba(255, 0, 255, 0.15)', 'rgba(255, 184, 0, 0.1)', 'rgba(0, 255, 100, 0.1)'];
+                ctx.fillStyle = colors[w];
+                ctx.fill();
+                
+                // Line on top
+                ctx.beginPath();
+                ctx.moveTo(0, offset);
+                for (let x = 0; x <= width; x += 2) {
+                    const noise = Math.sin(x * baseFreq + waveTime + w) * 0.5 + 
+                                 Math.sin(x * baseFreq * 2 + waveTime * 1.5 + w * 2) * 0.3;
+                    const y = offset + noise * amplitude;
+                    ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = ['rgba(0, 255, 225, 0.4)', 'rgba(255, 0, 150, 0.3)', 'rgba(255, 0, 255, 0.4)', 'rgba(255, 184, 0, 0.3)', 'rgba(0, 255, 100, 0.3)'][w];
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            
+            waveTime += 0.02;
+            requestAnimationFrame(drawWaves);
+        }
+        
+        // ============ LOG SYSTEM ============
+        function addLog(message, type = 'sys', severity = 'info') {
+            const now = new Date();
+            const time = now.toLocaleTimeString('pt-BR', { hour12: false });
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${severity}`;
+            entry.innerHTML = `
+                <span class="log-time">${time}</span>
+                <span class="log-type ${type}">${type}</span>
+                <span class="log-message">${message}</span>
+            `;
+            missionLog.insertBefore(entry, missionLog.firstChild);
+            
+            // Limit log entries
+            while (missionLog.children.length > 50) {
+                missionLog.removeChild(missionLog.lastChild);
+            }
+        }
+        
+        // ============ API CALLS ============
+        async function fetchStatus() {
+            try {
+                const [evoRes, starRes, beyRes] = await Promise.all([
+                    fetch('/api/evolution/status'),
+                    fetch('/api/star-phrase/status'),
+                    fetch('/api/bey/launchpads')
+                ]);
+                
+                const evo = await evoRes.json();
+                const star = await starRes.json();
+                const bey = await beyRes.json();
+                
+                // Update state
+                state.cycle = evo.currentCycle || 0;
+                state.launchPads = bey || state.launchPads;
+                state.cosmicEnergy = star.cosmicEnergy || 0;
+                state.starPhrase = star;
+                
+                // Update UI
+                cycleCounter.textContent = `CICLO: ${state.cycle}`;
+                cosmicFill.style.width = `${state.cosmicEnergy}%`;
+                cosmicValue.textContent = `${state.cosmicEnergy.toFixed(1)}%`;
+                
+                renderLaunchPads();
+                
+            } catch (e) {
+                console.error('Fetch error:', e);
+            }
+        }
+        
+        // ============ CONTROL FUNCTIONS ============
+        async function prepareLaunch() {
+            const btn = document.getElementById('btnPrepareLaunch');
+            btn.disabled = true;
+            btn.textContent = '🚀 PREPARANDO...';
+            
+            try {
+                // Select first ready pad
+                const readyPad = state.launchPads.find(p => p.status === 'ready');
+                if (!readyPad) {
+                    addLog('NENHUMA PLATAFORMA PRONTA', 'bey', 'warning');
+                    return;
+                }
+                
+                addLog(`PREPARANDO LANÇAMENTO: ${readyPad.name}`, 'bey', 'info');
+                
+                const res = await fetch('/api/bey/prepare', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        playerId: 'aly',
+                        beyType: 'evolution',
+                        launchPadId: readyPad.id
+                    })
+                });
+                
+                const data = await res.json();
+                
+                if (data.error) {
+                    addLog(`ERRO: ${data.error}`, 'bey', 'danger');
+                } else {
+                    addLog(`LANÇAMENTO PREPARADO: ${data.id}`, 'bey', 'success');
+                    addLog(`TIPO: ${data.beyType} • PLATAFORMA: ${data.launchPadId}`, 'bey', 'info');
+                    
+                    // Update pad status locally
+                    const pad = state.launchPads.find(p => p.id === readyPad.id);
+                    if (pad) {
+                        pad.status = 'charging';
+                        pad.currentBey = data.id;
+                        pad.charge = 0;
+                    }
+                    renderLaunchPads();
+                    
+                    // Start trajectory animation
+                    startLaunchAnimation(data);
+                }
+            } catch (e) {
+                addLog(`ERRO DE CONEXÃO: ${e.message}`, 'bey', 'danger');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🚀 PREPARAR LANÇAMENTO';
+            }
+        }
+        
+        function startLaunchAnimation(launchData) {
+            state.activeLaunch = launchData;
+            state.trajectoryPoints = [];
+            state.anomalies = [];
+            state.miracles = [];
+            trajectoryTime = 0;
+            
+            // Update pad status
+            const pad = state.launchPads.find(p => p.id === launchData.launchPadId);
+            if (pad) {
+                pad.status = 'launching';
+                renderLaunchPads();
+            }
+            
+            document.getElementById('btnAbort').disabled = false;
+            animateTrajectory();
+            
+            // Simulate progress updates
+            const pad = state.launchPads.find(p => p.id === launchData.launchPadId);
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 5 + 2;
+                if (pad) {
+                    pad.charge = Math.min(1, progress / 100);
+                    renderLaunchPads();
+                }
+                if (progress >= 100) clearInterval(progressInterval);
+            }, 500);
+        }
+        
+        function completeLaunch() {
+            if (trajectoryAnimationId) {
+                cancelAnimationFrame(trajectoryAnimationId);
+                trajectoryAnimationId = null;
+            }
+            
+            state.activeLaunch = null;
+            addLog('LANÇAMENTO CONCLUÍDO COM SUCESSO!', 'bey', 'success');
+            addLog(`Estrelas: ${state.miracles.length} milagres • ${state.anomalies.length} anomalias`, 'bey', 'info');
+            
+            // Reset pad
+            state.launchPads.forEach(p => {
+                if (p.status === 'launching') {
+                    p.status = 'ready';
+                    p.charge = 1;
+                    p.currentBey = null;
+                }
+            });
+            renderLaunchPads();
+            
+            document.getElementById('btnAbort').disabled = true;
+        }
+        
+        function abortLaunch() {
+            if (trajectoryAnimationId) {
+                cancelAnimationFrame(trajectoryAnimationId);
+                trajectoryAnimationId = null;
+            }
+            state.activeLaunch = null;
+            state.launchPads.forEach(p => {
+                if (p.status === 'launching' || p.status === 'charging') {
+                    p.status = 'ready';
+                    p.charge = 1;
+                    p.currentBey = null;
+                }
+            });
+            renderLaunchPads();
+            document.getElementById('btnAbort').disabled = true;
+            addLog('MISSÃO ABORTADA PELO OPERADOR', 'bey', 'danger');
+        }
+        
+        async function forceStarReveal() {
+            try {
+                const res = await fetch('/api/star-phrase/force-reveal', { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    addLog('ESTRELA FORÇADA REVELADA!', 'res', 'cosmic');
+                    fetchStatus();
+                }
+            } catch (e) {
+                addLog(`ERRO: ${e.message}`, 'res', 'danger');
+            }
+        }
+        
+        async function triggerEvolution() {
+            try {
+                const res = await fetch('/api/evolution/trigger', { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    addLog('CICLO EVOLUTIVO FORÇADO INICIADO', 'evo', 'success');
+                    fetchStatus();
+                }
+            } catch (e) {
+                addLog(`ERRO: ${e.message}`, 'evo', 'danger');
+            }
+        }
+        
+        // ============ UI UPDATES ============
+        function updateTrajectoryInfo() {
+            if (!state.activeLaunch) {
+                distValue.textContent = '0.00 LY';
+                velValue.textContent = '0 c';
+                stabValue.textContent = '100%';
+                etaValue.textContent = '--:--:--';
+                return;
+            }
+            
+            const progress = state.trajectoryPoints.length / 100;
+            const dist = (progress * 42.5).toFixed(2);
+            const vel = (0.1 + progress * 0.9).toFixed(2);
+            const stab = Math.max(60, 100 - state.anomalies.length * 5);
+            const etaSec = Math.max(0, Math.round((1 - progress) * 30));
+            
+            distValue.textContent = `${dist} LY`;
+            velValue.textContent = `${vel} c`;
+            stabValue.textContent = `${stab}%`;
+            etaValue.textContent = `${Math.floor(etaSec/60)}:${(etaSec%60).toString().padStart(2,'0')}`;
+        }
+        
+        // ============ MAIN LOOP ============
+        let lastFetch = 0;
+        function mainLoop() {
+            const now = Date.now();
+            if (now - lastFetch > 3000) {
+                fetchStatus();
+                lastFetch = now;
+            }
+            
+            updateTrajectoryInfo();
+            
+            // Animate cosmic energy
+            state.cosmicEnergy = Math.min(100, state.cosmicEnergy + 0.01);
+            cosmicFill.style.width = `${state.cosmicEnergy}%`;
+            cosmicValue.textContent = `${state.cosmicEnergy.toFixed(1)}%`;
+            
+            // Update trajectory info periodically
+            if (state.activeLaunch && Math.random() < 0.1) {
+                // Trail particle effect handled in drawTrajectory
+            }
+            
+            requestAnimationFrame(mainLoop);
+        }
+        
+        // ============ INIT ============
+        function init() {
+            createStars();
+            resizeCanvases();
+            renderLaunchPads();
+            renderFuelMeters();
+            fetchStatus();
+            drawWaves();
+            mainLoop();
+            
+            // Initial logs
+            addLog('MISSION CONTROL ONLINE', 'sys', 'success');
+            addLog('SISTEMAS CONECTADOS: 18/18', 'sys', 'info');
+            addLog('AUTO-EVOLUTION LOOP: ATIVO', 'evo', 'success');
+            addLog('STAR PHRASE REVEAL: REVELANDO', 'res', 'cosmic');
+            addLog('BEY LAUNCHER: 3 PADS PRONTOS', 'bey', 'success');
+            addLog('OMEGA ENGINE: EVOLUÇÃO INFINITA', 'evo', 'success');
+        }
+        
+        // Start
+        init();
+    </script>
+</body>
+</html>

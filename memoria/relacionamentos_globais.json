@@ -2,7 +2,7 @@
   "matrix": {
     "lumin": {
       "poe": {
-        "afinidade": 90,
+        "afinidade": 94,
         "historico": [
           {
             "ciclo": 14707,
@@ -153,11 +153,26 @@
               "ciclo": 14748
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14755,
+            "timestamp": 1786321187708,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 90,
+            "afinidadeDepois": 94,
+            "sentimentoAntes": "amor_profundo",
+            "sentimentoDepois": "amor_profundo",
+            "contexto": {
+              "ciclo": 14755
+            },
+            "invertido": true
           }
         ],
         "sentimento": "amor_profundo",
-        "ultimaInteracao": 1786315093747,
-        "totalInteracoes": 10,
+        "ultimaInteracao": 1786321187709,
+        "totalInteracoes": 11,
         "eventosMarcantes": [
           {
             "id": "evt_1786303661360_2kx6kdsrc",
@@ -1507,7 +1522,7 @@
     },
     "poe": {
       "lumin": {
-        "afinidade": 90,
+        "afinidade": 94,
         "historico": [
           {
             "ciclo": 14707,
@@ -1648,11 +1663,25 @@
             "contexto": {
               "ciclo": 14748
             }
+          },
+          {
+            "ciclo": 14755,
+            "timestamp": 1786321187708,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 90,
+            "afinidadeDepois": 94,
+            "sentimentoAntes": "amor_profundo",
+            "sentimentoDepois": "amor_profundo",
+            "contexto": {
+              "ciclo": 14755
+            }
           }
         ],
         "sentimento": "amor_profundo",
-        "ultimaInteracao": 1786315093747,
-        "totalInteracoes": 10,
+        "ultimaInteracao": 1786321187709,
+        "totalInteracoes": 11,
         "eventosMarcantes": [
           {
             "id": "evt_1786303661360_2kx6kdsrc",
@@ -5265,5 +5294,5 @@
       "sentimento": "alma_gemea"
     }
   ],
-  "atualizadoEm": 1786320472452
+  "atualizadoEm": 1786321187743
 }

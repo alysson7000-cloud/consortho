@@ -44,7 +44,7 @@
         "bias": 5,
         "learningRate": 0.02,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -91,7 +91,7 @@
         "bias": 3,
         "learningRate": 0.015,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -138,7 +138,7 @@
         "bias": 4,
         "learningRate": 0.015,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -185,7 +185,7 @@
         "bias": 2,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -232,7 +232,7 @@
         "bias": 3,
         "learningRate": 0.02,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -279,7 +279,7 @@
         "bias": 4,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -326,7 +326,7 @@
         "bias": 1,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -373,7 +373,7 @@
         "bias": 1,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -420,7 +420,7 @@
         "bias": 2,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -467,7 +467,7 @@
         "bias": 2,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -514,7 +514,7 @@
         "bias": 1,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -561,7 +561,7 @@
         "bias": 2,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1786320472816
+        "lastUpdated": 1786321188112
       }
     ]
   ],
@@ -572,23 +572,23 @@
         "id": "lumin->bolha",
         "sourceId": "lumin",
         "targetId": "bolha",
-        "weight": 0.5586168815665412,
-        "initialWeight": 0.5586168815665412,
+        "weight": 0.6350067729802529,
+        "initialWeight": 0.6350067729802529,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.5586168815665412,
-            "time": 1786320442394
+            "weight": 0.6350067729802529,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -597,23 +597,23 @@
         "id": "lumin->poe",
         "sourceId": "lumin",
         "targetId": "poe",
-        "weight": 0.5659127102831716,
-        "initialWeight": 0.5659127102831716,
+        "weight": 0.6113967500402563,
+        "initialWeight": 0.6113967500402563,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.5659127102831716,
-            "time": 1786320264889
+            "weight": 0.6113967500402563,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -622,23 +622,23 @@
         "id": "bolha->lumin",
         "sourceId": "bolha",
         "targetId": "lumin",
-        "weight": 0.6895317570436388,
-        "initialWeight": 0.6895317570436388,
+        "weight": 0.5031392808462566,
+        "initialWeight": 0.5031392808462566,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6895317570436388,
-            "time": 1786320264889
+            "weight": 0.5031392808462566,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -647,23 +647,23 @@
         "id": "bolha->poe",
         "sourceId": "bolha",
         "targetId": "poe",
-        "weight": 0.6601087454998105,
-        "initialWeight": 0.6601087454998105,
+        "weight": 0.40744857836903936,
+        "initialWeight": 0.40744857836903936,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6601087454998105,
-            "time": 1786320442394
+            "weight": 0.40744857836903936,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -672,23 +672,23 @@
         "id": "bolha->colheita",
         "sourceId": "bolha",
         "targetId": "colheita",
-        "weight": 0.6445857203955201,
-        "initialWeight": 0.6445857203955201,
+        "weight": 0.6253007731398825,
+        "initialWeight": 0.6253007731398825,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6445857203955201,
-            "time": 1786320442394
+            "weight": 0.6253007731398825,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -697,23 +697,23 @@
         "id": "poe->lumin",
         "sourceId": "poe",
         "targetId": "lumin",
-        "weight": 0.3413187231441973,
-        "initialWeight": 0.3413187231441973,
+        "weight": 0.6883145616410347,
+        "initialWeight": 0.6883145616410347,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3413187231441973,
-            "time": 1786320442394
+            "weight": 0.6883145616410347,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -722,23 +722,23 @@
         "id": "poe->colheita",
         "sourceId": "poe",
         "targetId": "colheita",
-        "weight": 0.519020704896523,
-        "initialWeight": 0.519020704896523,
+        "weight": 0.5480074092630519,
+        "initialWeight": 0.5480074092630519,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.519020704896523,
-            "time": 1786320442394
+            "weight": 0.5480074092630519,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -747,23 +747,23 @@
         "id": "poe->gang",
         "sourceId": "poe",
         "targetId": "gang",
-        "weight": 0.5891284046499163,
-        "initialWeight": 0.5891284046499163,
+        "weight": 0.5465806227777621,
+        "initialWeight": 0.5465806227777621,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.5891284046499163,
-            "time": 1786320442394
+            "weight": 0.5465806227777621,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -847,23 +847,23 @@
         "id": "colheita->bolha",
         "sourceId": "colheita",
         "targetId": "bolha",
-        "weight": 0.3930210862588396,
-        "initialWeight": 0.3930210862588396,
+        "weight": 0.5324809949219743,
+        "initialWeight": 0.5324809949219743,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3930210862588396,
-            "time": 1786320227051
+            "weight": 0.5324809949219743,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320227051,
-        "createdAt": 1786320227051,
-        "lastUpdated": 1786320227051
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -872,23 +872,23 @@
         "id": "colheita->poe",
         "sourceId": "colheita",
         "targetId": "poe",
-        "weight": 0.304973722317703,
-        "initialWeight": 0.304973722317703,
+        "weight": 0.6712830454899346,
+        "initialWeight": 0.6712830454899346,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.304973722317703,
-            "time": 1786320264889
+            "weight": 0.6712830454899346,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -897,23 +897,23 @@
         "id": "colheita->gang",
         "sourceId": "colheita",
         "targetId": "gang",
-        "weight": 0.4155645782926037,
-        "initialWeight": 0.4155645782926037,
+        "weight": 0.49873041438201965,
+        "initialWeight": 0.49873041438201965,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.4155645782926037,
-            "time": 1786320264889
+            "weight": 0.49873041438201965,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -922,23 +922,23 @@
         "id": "colheita->telegram",
         "sourceId": "colheita",
         "targetId": "telegram",
-        "weight": 0.6148242520614244,
-        "initialWeight": 0.6148242520614244,
+        "weight": 0.6498053781041802,
+        "initialWeight": 0.6498053781041802,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6148242520614244,
-            "time": 1786320442394
+            "weight": 0.6498053781041802,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -947,23 +947,23 @@
         "id": "gang->lumin",
         "sourceId": "gang",
         "targetId": "lumin",
-        "weight": 0.47567442889344,
-        "initialWeight": 0.47567442889344,
+        "weight": 0.5988381305490378,
+        "initialWeight": 0.5988381305490378,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.47567442889344,
-            "time": 1786320442394
+            "weight": 0.5988381305490378,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -997,23 +997,23 @@
         "id": "gang->poe",
         "sourceId": "gang",
         "targetId": "poe",
-        "weight": 0.3296323339605199,
-        "initialWeight": 0.3296323339605199,
+        "weight": 0.525099585941419,
+        "initialWeight": 0.525099585941419,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3296323339605199,
-            "time": 1786320442394
+            "weight": 0.525099585941419,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1022,23 +1022,23 @@
         "id": "gang->colheita",
         "sourceId": "gang",
         "targetId": "colheita",
-        "weight": 0.5637882702250588,
-        "initialWeight": 0.5637882702250588,
+        "weight": 0.4406788637344755,
+        "initialWeight": 0.4406788637344755,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.5637882702250588,
-            "time": 1786320442394
+            "weight": 0.4406788637344755,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1047,23 +1047,23 @@
         "id": "gang->guardian",
         "sourceId": "gang",
         "targetId": "guardian",
-        "weight": 0.3632988637655258,
-        "initialWeight": 0.3632988637655258,
+        "weight": 0.41083193065300855,
+        "initialWeight": 0.41083193065300855,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3632988637655258,
-            "time": 1786320442394
+            "weight": 0.41083193065300855,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1097,7 +1097,7 @@
         "id": "gang->notificador",
         "sourceId": "gang",
         "targetId": "notificador",
-        "weight": 0.6035284557508739,
+        "weight": 0.6034016679453184,
         "initialWeight": 0.6037373610286516,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -1114,14 +1114,18 @@
           {
             "weight": 0.6035284557508739,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6034016679453184,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00020890527777772672,
+        "totalDepression": 0.000335693083333255,
         "isActive": true,
         "lastActivity": 1786316623751,
         "createdAt": 1786316623751,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -1130,23 +1134,23 @@
         "id": "guardian->poe",
         "sourceId": "guardian",
         "targetId": "poe",
-        "weight": 0.5130288445265241,
-        "initialWeight": 0.5130288445265241,
+        "weight": 0.5465883421030225,
+        "initialWeight": 0.5465883421030225,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.5130288445265241,
-            "time": 1786320227051
+            "weight": 0.5465883421030225,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320227051,
-        "createdAt": 1786320227051,
-        "lastUpdated": 1786320227051
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1155,23 +1159,23 @@
         "id": "guardian->telegram",
         "sourceId": "guardian",
         "targetId": "telegram",
-        "weight": 0.4115677047191892,
-        "initialWeight": 0.4115677047191892,
+        "weight": 0.302102125110225,
+        "initialWeight": 0.302102125110225,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.4115677047191892,
-            "time": 1786320442394
+            "weight": 0.302102125110225,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1180,23 +1184,23 @@
         "id": "guardian->dashboard",
         "sourceId": "guardian",
         "targetId": "dashboard",
-        "weight": 0.3984948812583755,
-        "initialWeight": 0.3984948812583755,
+        "weight": 0.37175551382610345,
+        "initialWeight": 0.37175551382610345,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3984948812583755,
-            "time": 1786320442394
+            "weight": 0.37175551382610345,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1230,7 +1234,7 @@
         "id": "telegram->bolha",
         "sourceId": "telegram",
         "targetId": "bolha",
-        "weight": 0.6680978078911173,
+        "weight": 0.6679710200855618,
         "initialWeight": 0.6683067131966728,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -1247,14 +1251,18 @@
           {
             "weight": 0.6680978078911173,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6679710200855618,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.0002089053055555068,
+        "totalDepression": 0.00033569311111103506,
         "isActive": true,
         "lastActivity": 1786316623751,
         "createdAt": 1786316623751,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -1288,23 +1296,23 @@
         "id": "telegram->gang",
         "sourceId": "telegram",
         "targetId": "gang",
-        "weight": 0.32844613403148376,
-        "initialWeight": 0.32844613403148376,
+        "weight": 0.38052959817024323,
+        "initialWeight": 0.38052959817024323,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.32844613403148376,
-            "time": 1786320442394
+            "weight": 0.38052959817024323,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1363,23 +1371,23 @@
         "id": "dashboard->guardian",
         "sourceId": "dashboard",
         "targetId": "guardian",
-        "weight": 0.4157261829652469,
-        "initialWeight": 0.4157261829652469,
+        "weight": 0.6262490828529557,
+        "initialWeight": 0.6262490828529557,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.4157261829652469,
-            "time": 1786320264889
+            "weight": 0.6262490828529557,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1388,23 +1396,23 @@
         "id": "dashboard->telegram",
         "sourceId": "dashboard",
         "targetId": "telegram",
-        "weight": 0.4187230667047757,
-        "initialWeight": 0.4187230667047757,
+        "weight": 0.3296620585327079,
+        "initialWeight": 0.3296620585327079,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.4187230667047757,
-            "time": 1786320442394
+            "weight": 0.3296620585327079,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1413,23 +1421,23 @@
         "id": "dashboard->radio",
         "sourceId": "dashboard",
         "targetId": "radio",
-        "weight": 0.6821666236674224,
-        "initialWeight": 0.6821666236674224,
+        "weight": 0.6827122080315484,
+        "initialWeight": 0.6827122080315484,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6821666236674224,
-            "time": 1786320442394
+            "weight": 0.6827122080315484,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1588,23 +1596,23 @@
         "id": "radio->dashboard",
         "sourceId": "radio",
         "targetId": "dashboard",
-        "weight": 0.6267436285585022,
-        "initialWeight": 0.6267436285585022,
+        "weight": 0.3064754845362686,
+        "initialWeight": 0.3064754845362686,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6267436285585022,
-            "time": 1786320442394
+            "weight": 0.3064754845362686,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1613,23 +1621,23 @@
         "id": "radio->consente",
         "sourceId": "radio",
         "targetId": "consente",
-        "weight": 0.6693532086897676,
-        "initialWeight": 0.6693532086897676,
+        "weight": 0.46592167850739485,
+        "initialWeight": 0.46592167850739485,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6693532086897676,
-            "time": 1786320442394
+            "weight": 0.46592167850739485,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1638,23 +1646,23 @@
         "id": "radio->notificador",
         "sourceId": "radio",
         "targetId": "notificador",
-        "weight": 0.39206465070273433,
-        "initialWeight": 0.39206465070273433,
+        "weight": 0.6994571012308874,
+        "initialWeight": 0.6994571012308874,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.39206465070273433,
-            "time": 1786320442394
+            "weight": 0.6994571012308874,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1713,23 +1721,23 @@
         "id": "consente->dashboard",
         "sourceId": "consente",
         "targetId": "dashboard",
-        "weight": 0.6593537727167604,
-        "initialWeight": 0.6593537727167604,
+        "weight": 0.5959467548297708,
+        "initialWeight": 0.5959467548297708,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6593537727167604,
-            "time": 1786320442394
+            "weight": 0.5959467548297708,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1738,23 +1746,23 @@
         "id": "consente->radio",
         "sourceId": "consente",
         "targetId": "radio",
-        "weight": 0.3237654868917792,
-        "initialWeight": 0.3237654868917792,
+        "weight": 0.5202866710775245,
+        "initialWeight": 0.5202866710775245,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3237654868917792,
-            "time": 1786320442394
+            "weight": 0.5202866710775245,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1763,23 +1771,23 @@
         "id": "consente->notificador",
         "sourceId": "consente",
         "targetId": "notificador",
-        "weight": 0.40060309131859995,
-        "initialWeight": 0.40060309131859995,
+        "weight": 0.381252614049217,
+        "initialWeight": 0.381252614049217,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.40060309131859995,
-            "time": 1786320264889
+            "weight": 0.381252614049217,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1813,7 +1821,7 @@
         "id": "notificador->gang",
         "sourceId": "notificador",
         "targetId": "gang",
-        "weight": 0.5306516775820501,
+        "weight": 0.5305237330542724,
         "initialWeight": 0.5308628963320501,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -1830,14 +1838,18 @@
           {
             "weight": 0.5306516775820501,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.5305237330542724,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00021121874999996404,
+        "totalDepression": 0.00033916327777772093,
         "isActive": true,
         "lastActivity": 1786316582109,
         "createdAt": 1786316582109,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -1846,23 +1858,23 @@
         "id": "notificador->radio",
         "sourceId": "notificador",
         "targetId": "radio",
-        "weight": 0.4846922442951406,
-        "initialWeight": 0.4846922442951406,
+        "weight": 0.326595944306311,
+        "initialWeight": 0.326595944306311,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.4846922442951406,
-            "time": 1786320442394
+            "weight": 0.326595944306311,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1871,23 +1883,23 @@
         "id": "notificador->consente",
         "sourceId": "notificador",
         "targetId": "consente",
-        "weight": 0.6062898878674143,
-        "initialWeight": 0.6062898878674143,
+        "weight": 0.36836105463518,
+        "initialWeight": 0.36836105463518,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6062898878674143,
-            "time": 1786320264889
+            "weight": 0.36836105463518,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1896,23 +1908,23 @@
         "id": "jardim->radio",
         "sourceId": "jardim",
         "targetId": "radio",
-        "weight": 0.6795510774793843,
-        "initialWeight": 0.6795510774793843,
+        "weight": 0.6610404611147238,
+        "initialWeight": 0.6610404611147238,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6795510774793843,
-            "time": 1786320227051
+            "weight": 0.6610404611147238,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320227051,
-        "createdAt": 1786320227051,
-        "lastUpdated": 1786320227051
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -1971,23 +1983,23 @@
         "id": "bolha->gang",
         "sourceId": "bolha",
         "targetId": "gang",
-        "weight": 0.3610406047388574,
-        "initialWeight": 0.3610406047388574,
+        "weight": 0.6305133561326897,
+        "initialWeight": 0.6305133561326897,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3610406047388574,
-            "time": 1786320264889
+            "weight": 0.6305133561326897,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2021,23 +2033,23 @@
         "id": "poe->bolha",
         "sourceId": "poe",
         "targetId": "bolha",
-        "weight": 0.32281411509601293,
-        "initialWeight": 0.32281411509601293,
+        "weight": 0.47109795569208074,
+        "initialWeight": 0.47109795569208074,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.32281411509601293,
-            "time": 1786320264889
+            "weight": 0.47109795569208074,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2096,23 +2108,23 @@
         "id": "guardian->bolha",
         "sourceId": "guardian",
         "targetId": "bolha",
-        "weight": 0.4391738368188238,
-        "initialWeight": 0.4391738368188238,
+        "weight": 0.6894798330077314,
+        "initialWeight": 0.6894798330077314,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.4391738368188238,
-            "time": 1786320048097
+            "weight": 0.6894798330077314,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320048097,
-        "createdAt": 1786320048097,
-        "lastUpdated": 1786320048097
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2121,23 +2133,23 @@
         "id": "guardian->colheita",
         "sourceId": "guardian",
         "targetId": "colheita",
-        "weight": 0.6759858705044685,
-        "initialWeight": 0.6759858705044685,
+        "weight": 0.35691257000521626,
+        "initialWeight": 0.35691257000521626,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6759858705044685,
-            "time": 1786320442394
+            "weight": 0.35691257000521626,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2146,23 +2158,23 @@
         "id": "guardian->gang",
         "sourceId": "guardian",
         "targetId": "gang",
-        "weight": 0.45601383927671424,
-        "initialWeight": 0.45601383927671424,
+        "weight": 0.6211774549274587,
+        "initialWeight": 0.6211774549274587,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.45601383927671424,
-            "time": 1786320442394
+            "weight": 0.6211774549274587,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2196,23 +2208,23 @@
         "id": "telegram->guardian",
         "sourceId": "telegram",
         "targetId": "guardian",
-        "weight": 0.5297998573586657,
-        "initialWeight": 0.5297998573586657,
+        "weight": 0.4818901652712254,
+        "initialWeight": 0.4818901652712254,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.5297998573586657,
-            "time": 1786320442394
+            "weight": 0.4818901652712254,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2221,23 +2233,23 @@
         "id": "telegram->dashboard",
         "sourceId": "telegram",
         "targetId": "dashboard",
-        "weight": 0.4417634301366685,
-        "initialWeight": 0.4417634301366685,
+        "weight": 0.5514395007581065,
+        "initialWeight": 0.5514395007581065,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.4417634301366685,
-            "time": 1786320442394
+            "weight": 0.5514395007581065,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2271,23 +2283,23 @@
         "id": "dashboard->poe",
         "sourceId": "dashboard",
         "targetId": "poe",
-        "weight": 0.3125841949887748,
-        "initialWeight": 0.3125841949887748,
+        "weight": 0.48297865525122763,
+        "initialWeight": 0.48297865525122763,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3125841949887748,
-            "time": 1786320048097
+            "weight": 0.48297865525122763,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320048097,
-        "createdAt": 1786320048097,
-        "lastUpdated": 1786320048097
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2421,23 +2433,23 @@
         "id": "notificador->telegram",
         "sourceId": "notificador",
         "targetId": "telegram",
-        "weight": 0.354711069833462,
-        "initialWeight": 0.354711069833462,
+        "weight": 0.6028909125335866,
+        "initialWeight": 0.6028909125335866,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.354711069833462,
-            "time": 1786320048097
+            "weight": 0.6028909125335866,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320048097,
-        "createdAt": 1786320048097,
-        "lastUpdated": 1786320048097
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2446,23 +2458,23 @@
         "id": "notificador->jardim",
         "sourceId": "notificador",
         "targetId": "jardim",
-        "weight": 0.40357273560154605,
-        "initialWeight": 0.40357273560154605,
+        "weight": 0.3933877295528088,
+        "initialWeight": 0.3933877295528088,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.40357273560154605,
-            "time": 1786320442394
+            "weight": 0.3933877295528088,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320442394,
-        "createdAt": 1786320442394,
-        "lastUpdated": 1786320442394
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2471,23 +2483,23 @@
         "id": "jardim->consente",
         "sourceId": "jardim",
         "targetId": "consente",
-        "weight": 0.42224343342644133,
-        "initialWeight": 0.42224343342644133,
+        "weight": 0.38666480201122544,
+        "initialWeight": 0.38666480201122544,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.42224343342644133,
-            "time": 1786320264889
+            "weight": 0.38666480201122544,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2546,7 +2558,7 @@
         "id": "lumin->consente",
         "sourceId": "lumin",
         "targetId": "consente",
-        "weight": 0.4003045822155478,
+        "weight": 0.4001613286044367,
         "initialWeight": 0.40054641913221445,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -2563,14 +2575,18 @@
           {
             "weight": 0.4003045822155478,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.4001613286044367,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00024183691666662677,
+        "totalDepression": 0.0003850905277777428,
         "isActive": true,
         "lastActivity": 1786316030982,
         "createdAt": 1786316030982,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -2604,7 +2620,7 @@
         "id": "bolha->notificador",
         "sourceId": "bolha",
         "targetId": "notificador",
-        "weight": 0.6452103460606563,
+        "weight": 0.6450843602551007,
         "initialWeight": 0.6454176473662119,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -2621,14 +2637,18 @@
           {
             "weight": 0.6452103460606563,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6450843602551007,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.0002073013055555739,
+        "totalDepression": 0.00033328711111113574,
         "isActive": true,
         "lastActivity": 1786316652623,
         "createdAt": 1786316652623,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -2662,7 +2682,7 @@
         "id": "consente->colheita",
         "sourceId": "consente",
         "targetId": "colheita",
-        "weight": 0.6778653498122121,
+        "weight": 0.6777393640344344,
         "initialWeight": 0.6780726510622122,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -2679,14 +2699,18 @@
           {
             "weight": 0.6778653498122121,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6777393640344344,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00020730125000001376,
+        "totalDepression": 0.0003332870277777955,
         "isActive": true,
         "lastActivity": 1786316652624,
         "createdAt": 1786316652624,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -2695,7 +2719,7 @@
         "id": "notificador->bolha",
         "sourceId": "notificador",
         "targetId": "bolha",
-        "weight": 0.6116397984203276,
+        "weight": 0.6115053716981054,
         "initialWeight": 0.6118639815592164,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -2712,14 +2736,18 @@
           {
             "weight": 0.6116397984203276,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6115053716981054,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.0002241831388888338,
+        "totalDepression": 0.00035860986111102555,
         "isActive": true,
         "lastActivity": 1786316348750,
         "createdAt": 1786316348750,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -2728,23 +2756,23 @@
         "id": "notificador->dashboard",
         "sourceId": "notificador",
         "targetId": "dashboard",
-        "weight": 0.3431755891044593,
-        "initialWeight": 0.3431755891044593,
+        "weight": 0.3664653152305054,
+        "initialWeight": 0.3664653152305054,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3431755891044593,
-            "time": 1786320227051
+            "weight": 0.3664653152305054,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320227051,
-        "createdAt": 1786320227051,
-        "lastUpdated": 1786320227051
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2778,23 +2806,23 @@
         "id": "lumin->guardian",
         "sourceId": "lumin",
         "targetId": "guardian",
-        "weight": 0.3758285779514738,
-        "initialWeight": 0.3758285779514738,
+        "weight": 0.4969275417675525,
+        "initialWeight": 0.4969275417675525,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.3758285779514738,
-            "time": 1786320008765
+            "weight": 0.4969275417675525,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320008765,
-        "createdAt": 1786320008765,
-        "lastUpdated": 1786320008765
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -2878,7 +2906,7 @@
         "id": "notificador->poe",
         "sourceId": "notificador",
         "targetId": "poe",
-        "weight": 0.651247242541635,
+        "weight": 0.6511192980138573,
         "initialWeight": 0.651458461291635,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -2895,14 +2923,18 @@
           {
             "weight": 0.651247242541635,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6511192980138573,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00021121874999996404,
+        "totalDepression": 0.00033916327777772093,
         "isActive": true,
         "lastActivity": 1786316582109,
         "createdAt": 1786316582109,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -2936,7 +2968,7 @@
         "id": "bolha->dashboard",
         "sourceId": "bolha",
         "targetId": "dashboard",
-        "weight": 0.45861056221426744,
+        "weight": 0.4584714627142674,
         "initialWeight": 0.45884409090871187,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -2953,14 +2985,18 @@
           {
             "weight": 0.45861056221426744,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.4584714627142674,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00023352869444442925,
+        "totalDepression": 0.0003726281944444465,
         "isActive": true,
         "lastActivity": 1786316180530,
         "createdAt": 1786316180530,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -2994,7 +3030,7 @@
         "id": "poe->consente",
         "sourceId": "poe",
         "targetId": "consente",
-        "weight": 0.5109371697769974,
+        "weight": 0.5108111839992197,
         "initialWeight": 0.5111444710269974,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3011,14 +3047,18 @@
           {
             "weight": 0.5109371697769974,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.5108111839992197,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00020730125000001376,
+        "totalDepression": 0.0003332870277777955,
         "isActive": true,
         "lastActivity": 1786316652624,
         "createdAt": 1786316652624,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3077,23 +3117,23 @@
         "id": "gang->telegram",
         "sourceId": "gang",
         "targetId": "telegram",
-        "weight": 0.6168624575427017,
-        "initialWeight": 0.6168624575427017,
+        "weight": 0.5412445020622416,
+        "initialWeight": 0.5412445020622416,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.6168624575427017,
-            "time": 1786320264889
+            "weight": 0.5412445020622416,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786320264889,
-        "createdAt": 1786320264889,
-        "lastUpdated": 1786320264889
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -3102,7 +3142,7 @@
         "id": "guardian->consente",
         "sourceId": "guardian",
         "targetId": "consente",
-        "weight": 0.35013900030142503,
+        "weight": 0.3500045735792028,
         "initialWeight": 0.3503631834403139,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3119,14 +3159,18 @@
           {
             "weight": 0.35013900030142503,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.3500045735792028,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.0002241831388888893,
+        "totalDepression": 0.0003586098611111366,
         "isActive": true,
         "lastActivity": 1786316348750,
         "createdAt": 1786316348750,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3185,7 +3229,7 @@
         "id": "bolha->jardim",
         "sourceId": "bolha",
         "targetId": "jardim",
-        "weight": 0.6781251476609064,
+        "weight": 0.6779807829109064,
         "initialWeight": 0.6783692068553508,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3202,14 +3246,18 @@
           {
             "weight": 0.6781251476609064,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6779807829109064,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.0002440591944444792,
+        "totalDepression": 0.0003884239444444937,
         "isActive": true,
         "lastActivity": 1786315990981,
         "createdAt": 1786315990981,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3368,7 +3416,7 @@
         "id": "dashboard->lumin",
         "sourceId": "dashboard",
         "targetId": "lumin",
-        "weight": 0.5909961802491556,
+        "weight": 0.5908600822491555,
         "initialWeight": 0.5912237059436001,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3385,14 +3433,18 @@
           {
             "weight": 0.5909961802491556,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.5908600822491555,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.0002275256944445081,
+        "totalDepression": 0.000363623694444537,
         "isActive": true,
         "lastActivity": 1786316288584,
         "createdAt": 1786316288584,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3426,7 +3478,7 @@
         "id": "jardim->gang",
         "sourceId": "jardim",
         "targetId": "gang",
-        "weight": 0.5425205002354827,
+        "weight": 0.5423945144577049,
         "initialWeight": 0.5427278014854827,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3443,14 +3495,18 @@
           {
             "weight": 0.5425205002354827,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.5423945144577049,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00020730125000001376,
+        "totalDepression": 0.0003332870277777955,
         "isActive": true,
         "lastActivity": 1786316652624,
         "createdAt": 1786316652624,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3484,7 +3540,7 @@
         "id": "telegram->lumin",
         "sourceId": "telegram",
         "targetId": "lumin",
-        "weight": 0.5777500262536587,
+        "weight": 0.5776220817258809,
         "initialWeight": 0.5779612450036586,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3501,14 +3557,18 @@
           {
             "weight": 0.5777500262536587,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.5776220817258809,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00021121874999996404,
+        "totalDepression": 0.00033916327777772093,
         "isActive": true,
         "lastActivity": 1786316582109,
         "createdAt": 1786316582109,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3542,31 +3602,23 @@
         "id": "jardim->telegram",
         "sourceId": "jardim",
         "targetId": "telegram",
-        "weight": 0.5475924280605573,
-        "initialWeight": 0.5477997293105573,
+        "weight": 0.5658472061450306,
+        "initialWeight": 0.5658472061450306,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.5477997293105573,
-            "time": 1786316652624
-          },
-          {
-            "weight": 0.5476985445327796,
-            "time": 1786320295276
-          },
-          {
-            "weight": 0.5475924280605573,
-            "time": 1786320472817
+            "weight": 0.5658472061450306,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00020730125000001376,
+        "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786316652624,
-        "createdAt": 1786316652624,
-        "lastUpdated": 1786320472817
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -3575,7 +3627,7 @@
         "id": "poe->notificador",
         "sourceId": "poe",
         "targetId": "notificador",
-        "weight": 0.513180480856668,
+        "weight": 0.5129541515788902,
         "initialWeight": 0.513588469106668,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3592,14 +3644,18 @@
           {
             "weight": 0.513180480856668,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.5129541515788902,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00040798824999999095,
+        "totalDepression": 0.0006343175277777613,
         "isActive": true,
         "lastActivity": 1786313040258,
         "createdAt": 1786313040258,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3633,7 +3689,7 @@
         "id": "guardian->jardim",
         "sourceId": "guardian",
         "targetId": "jardim",
-        "weight": 0.5830736385813143,
+        "weight": 0.5829476528035366,
         "initialWeight": 0.5832809398313143,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3650,14 +3706,18 @@
           {
             "weight": 0.5830736385813143,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.5829476528035366,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00020730125000001376,
+        "totalDepression": 0.0003332870277777955,
         "isActive": true,
         "lastActivity": 1786316652624,
         "createdAt": 1786316652624,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3666,7 +3726,7 @@
         "id": "jardim->guardian",
         "sourceId": "jardim",
         "targetId": "guardian",
-        "weight": 0.48333871571656856,
+        "weight": 0.4832127299387908,
         "initialWeight": 0.4835460169665685,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3683,14 +3743,18 @@
           {
             "weight": 0.48333871571656856,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.4832127299387908,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00020730124999995825,
+        "totalDepression": 0.00033328702777774,
         "isActive": true,
         "lastActivity": 1786316652624,
         "createdAt": 1786316652624,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3724,7 +3788,7 @@
         "id": "radio->bolha",
         "sourceId": "radio",
         "targetId": "bolha",
-        "weight": 0.389811518852017,
+        "weight": 0.3896453697131281,
         "initialWeight": 0.3900991468242392,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3741,14 +3805,18 @@
           {
             "weight": 0.389811518852017,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.3896453697131281,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00028762797222220415,
+        "totalDepression": 0.00045377711111110886,
         "isActive": true,
         "lastActivity": 1786315206743,
         "createdAt": 1786315206743,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3782,23 +3850,23 @@
         "id": "notificador->colheita",
         "sourceId": "notificador",
         "targetId": "colheita",
-        "weight": 0.44065405000213226,
-        "initialWeight": 0.44065405000213226,
+        "weight": 0.34568973225100097,
+        "initialWeight": 0.34568973225100097,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
           {
-            "weight": 0.44065405000213226,
-            "time": 1786319920263
+            "weight": 0.34568973225100097,
+            "time": 1786321157675
           }
         ],
         "totalPotentiation": 0,
         "totalDepression": 0,
         "isActive": true,
-        "lastActivity": 1786319920263,
-        "createdAt": 1786319920263,
-        "lastUpdated": 1786319920263
+        "lastActivity": 1786321157675,
+        "createdAt": 1786321157675,
+        "lastUpdated": 1786321157675
       }
     ],
     [
@@ -3807,7 +3875,7 @@
         "id": "lumin->dashboard",
         "sourceId": "lumin",
         "targetId": "dashboard",
-        "weight": 0.6482927741250253,
+        "weight": 0.6481659863194698,
         "initialWeight": 0.6485016794305808,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3824,14 +3892,18 @@
           {
             "weight": 0.6482927741250253,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6481659863194698,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.0002089053055555068,
+        "totalDepression": 0.00033569311111103506,
         "isActive": true,
         "lastActivity": 1786316623751,
         "createdAt": 1786316623751,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3940,7 +4012,7 @@
         "id": "jardim->poe",
         "sourceId": "jardim",
         "targetId": "poe",
-        "weight": 0.6864399330628322,
+        "weight": 0.6862983486461656,
         "initialWeight": 0.68667843159061,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3957,14 +4029,18 @@
           {
             "weight": 0.6864399330628322,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.6862983486461656,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00023849852777779734,
+        "totalDepression": 0.0003800829444444709,
         "isActive": true,
         "lastActivity": 1786316091073,
         "createdAt": 1786316091073,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -3998,7 +4074,7 @@
         "id": "colheita->consente",
         "sourceId": "colheita",
         "targetId": "consente",
-        "weight": 0.5563525046285394,
+        "weight": 0.5562164066007615,
         "initialWeight": 0.5565800303785393,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -4015,14 +4091,18 @@
           {
             "weight": 0.5563525046285394,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.5562164066007615,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00022752574999995723,
+        "totalDepression": 0.0003636237777777662,
         "isActive": true,
         "lastActivity": 1786316288583,
         "createdAt": 1786316288583,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ],
     [
@@ -4031,7 +4111,7 @@
         "id": "radio->lumin",
         "sourceId": "radio",
         "targetId": "lumin",
-        "weight": 0.3414785133039803,
+        "weight": 0.34135252752620254,
         "initialWeight": 0.3416858145539803,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -4048,43 +4128,24 @@
           {
             "weight": 0.3414785133039803,
             "time": 1786320472817
+          },
+          {
+            "weight": 0.34135252752620254,
+            "time": 1786321188112
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.00020730124999995825,
+        "totalDepression": 0.00033328702777774,
         "isActive": true,
         "lastActivity": 1786316652624,
         "createdAt": 1786316652624,
-        "lastUpdated": 1786320472817
+        "lastUpdated": 1786321188112
       }
     ]
   ],
   "globalState": {
     "attention": null,
     "workingMemory": [
-      {
-        "type": "reflection",
-        "thought": {
-          "id": "thought_1786312819586",
-          "timestamp": 1786312819586,
-          "type": "self_reflection",
-          "content": {
-            "activeNeurons": 0,
-            "totalNeurons": 12,
-            "totalSynapses": 132,
-            "avgSynapticWeight": 0.4885532702460697,
-            "workingMemoryItems": 7,
-            "longTermMemories": 0,
-            "consciousnessLevel": 0,
-            "attention": "diffuse",
-            "dominantMood": "dormente"
-          },
-          "insight": "O silêncio não é vazio. É incubação. Algo se prepara para nascer."
-        },
-        "timestamp": 1786312819586,
-        "id": "wm_1786312819587_gorj8ggwl",
-        "activationCount": 1
-      },
       {
         "type": "reflection",
         "thought": {
@@ -4221,6 +4282,29 @@
         },
         "timestamp": 1786320472817,
         "id": "wm_1786320472818_aey5y2vj4",
+        "activationCount": 1
+      },
+      {
+        "type": "reflection",
+        "thought": {
+          "id": "thought_1786321188113",
+          "timestamp": 1786321188113,
+          "type": "self_reflection",
+          "content": {
+            "activeNeurons": 0,
+            "totalNeurons": 12,
+            "totalSynapses": 132,
+            "avgSynapticWeight": 0.5151472404955124,
+            "workingMemoryItems": 7,
+            "longTermMemories": 0,
+            "consciousnessLevel": 0,
+            "attention": "diffuse",
+            "dominantMood": "dormente"
+          },
+          "insight": "O silêncio não é vazio. É incubação. Algo se prepara para nascer."
+        },
+        "timestamp": 1786321188113,
+        "id": "wm_1786321188113_8dtvdyc03",
         "activationCount": 1
       }
     ],
@@ -5433,14 +5517,31 @@
             "dominantMood": "dormente"
           },
           "insight": "O silêncio não é vazio. É incubação. Algo se prepara para nascer."
+        },
+        {
+          "id": "thought_1786321188113",
+          "timestamp": 1786321188113,
+          "type": "self_reflection",
+          "content": {
+            "activeNeurons": 0,
+            "totalNeurons": 12,
+            "totalSynapses": 132,
+            "avgSynapticWeight": 0.5151472404955124,
+            "workingMemoryItems": 7,
+            "longTermMemories": 0,
+            "consciousnessLevel": 0,
+            "attention": "diffuse",
+            "dominantMood": "dormente"
+          },
+          "insight": "O silêncio não é vazio. É incubação. Algo se prepara para nascer."
         }
       ],
       "selfAwareness": 1,
-      "lastReflection": 1786320472817
+      "lastReflection": 1786321188113
     },
     "consciousnessLevel": 0,
-    "lastThought": 1786320472816,
-    "thoughtCount": 77
+    "lastThought": 1786321188112,
+    "thoughtCount": 78
   },
   "params": {
     "restingPotential": -70,
@@ -5461,6 +5562,6 @@
     "reflectionInterval": 30000,
     "metacognitionWeight": 0.1
   },
-  "savedAt": 1786320472818,
+  "savedAt": 1786321188113,
   "version": "1.0.0"
 }
