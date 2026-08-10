@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MULTIVERSE EXPLORER - OMEGA REALITIES</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #030308;
+            color: #00FFE1;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Cosmic Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 10% 10%, rgba(100, 0, 255, 0.12) 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 90%, rgba(255, 0, 150, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 255, 225, 0.05) 0%, transparent 50%),
+                #030308;
+        }
+        
+        .nebula {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(0, 255, 225, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(255, 0, 255, 0.04) 0%, transparent 70%);
+            animation: nebulaShift 20s ease-in-out infinite;
+        }
+        
+        @keyframes nebulaShift {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            50% { transform: scale(1.1) rotate(2deg); opacity: 0.8; }
+        }
+        
+        /* Header */
+        .explorer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, rgba(5, 5, 20, 0.98), rgba(0, 0, 10, 0.95));
+            border-bottom: 1px solid rgba(0, 255, 225, 0.3);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .explorer-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #8A2BE2, #00FFE1, #FF00FF, #8A2BE2);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 4s linear infinite;
+        }
+        
+        @keyframes gradientFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .explorer-subtitle {
+            font-size: 0.65rem;
+            color: #A8F;
+            letter-spacing: 0.25em;
+            margin-top: -3px;
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .reality-selector {
+            background: rgba(138, 43, 226, 0.15);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            color: #00FFE1;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .reality-selector:focus { outline: none; border-color: #00FFE1; }
+        
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(0, 255, 225, 0.08);
+            border: 1px solid rgba(0, 255, 225, 0.2);
+            border-radius: 16px;
+            font-size: 0.7rem;
+        }
+        
+        .stat-icon { font-size: 0.9rem; }
+        
+        /* Main Layout */
+        .explorer-main {
+            display: grid;
+            grid-template-columns: 320px 1fr 300px;
+            grid-template-rows: 1fr 180px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 70px);
+        }
+        
+        /* Panel Base */
+        .panel {
+            background: linear-gradient(135deg, rgba(8, 8, 25, 0.95), rgba(3, 3, 15, 0.98));
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 
+                0 0 20px rgba(138, 43, 226, 0.1),
+                inset 0 1px 0 rgba(138, 43, 226, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.15);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #00FFE1;
+        }
+        
+        .panel-title::before {
+            content: '';
+            width: 3px; height: 18px;
+            background: linear-gradient(180deg, #8A2BE2, #00FFE1, #FF00FF);
+            border-radius: 2px;
+        }
+        
+        /* LEFT PANEL - REALITY TREE */
+        .left-panel { grid-row: 1 / -1; }
+        
+        .reality-tree {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .reality-node {
+            background: rgba(138, 43, 226, 0.05);
+            border: 1px solid rgba(138, 43, 226, 0.1);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        
+        .reality-node:hover {
+            border-color: rgba(138, 43, 226, 0.4);
+            background: rgba(138, 43, 226, 0.1);
+        }
+        
+        .reality-node.active {
+            border-color: #00FFE1;
+            background: rgba(0, 255, 225, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 225, 0.2);
+        }
+        
+        .node-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            cursor: pointer;
+        }
+        
+        .node-icon {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .node-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .node-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #00FFE1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .node-type {
+            font-size: 0.6rem;
+            color: #8A2BE2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .node-stats {
+            display: flex;
+            gap: 8px;
+            font-size: 0.6rem;
+            color: #88F;
+        }
+        
+        .node-children {
+            border-left: 1px dashed rgba(138, 43, 226, 0.2);
+            margin-left: 22px;
+            padding-left: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .node-children.expanded { max-height: 500px; }
+        
+        .child-item {
+            padding: 8px 12px;
+            font-size: 0.7rem;
+            color: #A8F;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 2px 0;
+            transition: all 0.15s;
+        }
+        
+        .child-item:hover {
+            background: rgba(138, 43, 226, 0.1);
+            color: #00FFE1;
+        }
+        
+        .child-item.selected {
+            background: rgba(0, 255, 225, 0.15);
+            color: #00FFE1;
+            border-left: 2px solid #00FFE1;
+        }
+        
+        .expand-btn {
+            background: none;
+            border: none;
+            color: #8A2BE2;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .expand-btn:hover { color: #00FFE1; transform: rotate(90deg); }
+        .expand-btn.rotated { transform: rotate(90deg); }
+        
+        /* CENTER PANEL - 3D VIEWPORT */
+        .center-panel { grid-row: 1 / -1; }
+        
+        .viewport-panel { flex: 1; display: flex; flex-direction: column; }
+        
+        .viewport-container {
+            flex: 1;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(138, 43, 226, 0.05), transparent 70%);
+            border: 1px solid rgba(138, 43, 226, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        #multiverseCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .viewport-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+        
+        .viewport-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .selected-reality-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            min-width: 250px;
+        }
+        
+        .reality-title {
+            font-size: 1rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #8A2BE2, #00FFE1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .reality-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.7rem;
+            color: #A8F;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .viewport-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .view-btn {
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            color: #00FFE1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .view-btn:hover, .view-btn.active {
+            background: rgba(138, 43, 226, 0.4);
+            border-color: #00FFE1;
+        }
+        
+        .viewport-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            color: #A8F;
+        }
+        
+        .legend-color {
+            width: 16px; height: 16px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .coordinates {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: #8A2BE2;
+        }
+        
+        /* RIGHT PANEL - DETAILS & ENTANGLEMENTS */
+        .right-panel { grid-row: 1 / -1; }
+        
+        .detail-section {
+            margin-bottom: 16px;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .detail-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(138, 43, 226, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .detail-label {
+            font-size: 0.55rem;
+            color: #8A2BE2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+        
+        .detail-value {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #00FFE1;
+        }
+        
+        /* Entanglement Web */
+        .entanglement-web {
+            height: 200px;
+            position: relative;
+        }
+        
+        #entanglementCanvas {
+            width: 100%; height: 100%;
+        }
+        
+        /* Synergies */
+        .synergy-list {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .synergy-item {
+            background: rgba(255, 0, 255, 0.05);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+        
+        .synergy-item:hover {
+            border-color: rgba(255, 0, 255, 0.4);
+            background: rgba(255, 0, 255, 0.1);
+        }
+        
+        .synergy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .synergy-name {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #FF00FF;
+        }
+        
+        .synergy-strength {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+        
+        .strength-high { background: rgba(0, 255, 100, 0.2); color: #00FF64; border: 1px solid #00FF64; }
+        .strength-med { background: rgba(255, 184, 0, 0.2); color: #FFB800; border: 1px solid #FFB800; }
+        .strength-low { background: rgba(100, 100, 255, 0.2); color: #6464FF; border: 1px solid #6464FF; }
+        
+        .synergy-systems {
+            font-size: 0.6rem;
+            color: #8A2BE2;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        
+        .system-tag {
+            background: rgba(138, 43, 226, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        /* Bottom - Timeline */
+        .bottom-panel { grid-column: 1 / -1; max-height: 180px; }
+        
+        .timeline-container {
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .timeline-event {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(138, 43, 226, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #8A2BE2;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .timeline-event.entanglement { border-left-color: #FF00FF; }
+        .timeline-event.synergy { border-left-color: #00FF64; }
+        .timeline-event.hybrid { border-left-color: #00FFE1; }
+        .timeline-event.quantum { border-left-color: #8A2BE2; }
+        
+        .timeline-time { color: #8A2BE2; font-family: monospace; min-width: 70px; font-size: 0.7rem; }
+        .timeline-type { 
+            font-size: 0.55rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .timeline-type.ent { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .timeline-type.syn { background: rgba(0, 255, 100, 0.2); color: #00FF64; }
+        .timeline-type.hyb { background: rgba(0, 255, 225, 0.2); color: #00FFE1; }
+        .timeline-type.qnt { background: rgba(138, 43, 226, 0.2); color: #8A2BE2; }
+        .timeline-message { flex: 1; color: #CCF; font-size: 0.7rem; }
+        
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .explorer-main { grid-template-columns: 280px 1fr 260px; }
+        }
+        
+        @media (max-width: 1200px) {
+            .explorer-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8A2BE2, #00FFE1, #FF00FF); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="cosmic-bg"></div>
+    <div class="nebula"></div>
+    
+    <header class="explorer-header">
+        <div>
+            <div class="explorer-title">MULTIVERSE EXPLORER</div>
+            <div class="explorer-subtitle">OMEGA QUANTUM REALITIES • NAVEGAÇÃO INFINITA</div>
+        </div>
+        <div class="header-controls">
+            <select class="reality-selector" id="realitySelector">
+                <option value="all">TODAS AS REALIDADES</option>
+                <option value="prime">REALIDADE PRIME</option>
+                <option value="hybrid">HÍBRIDOS</option>
+                <option value="quantum">QUÂNTICAS</option>
+                <option value="entangled">EMARANHADAS</option>
+            </select>
+            <div class="stats-bar">
+                <div class="stat"><span class="stat-icon">🌌</span><span id="totalRealities">0</span> REALIDADES</div>
+                <div class="stat"><span class="stat-icon">🔗</span><span id="totalEntanglements">0</span> EMARANHAMENTOS</div>
+                <div class="stat"><span class="stat-icon">⚡</span><span id="totalSynergies">0</span> SINERGIAS</div>
+                <div class="stat"><span class="stat-icon">🧬</span><span id="totalHybrids">0</span> HÍBRIDOS</div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="explorer-main">
+        <!-- LEFT PANEL - REALITY TREE -->
+        <aside class="left-panel panel">
+            <div class="panel-title">🌌 ÁRVORE DAS REALIDADES</div>
+            <div class="reality-tree" id="realityTree"></div>
+        </aside>
+        
+        <!-- CENTER PANEL - 3D VIEWPORT -->
+        <section class="center-panel panel viewport-panel">
+            <div class="panel-title">🔭 VIEWPORT QUÂNTICO 3D</div>
+            <div class="viewport-container" style="flex: 1; position: relative;">
+                <canvas id="multiverseCanvas"></canvas>
+                <div class="viewport-overlay">
+                    <div class="viewport-top">
+                        <div class="selected-reality-info">
+                            <div class="reality-title" id="selectedName">SELECIONE UMA REALIDADE</div>
+                            <div class="reality-meta">
+                                <div class="meta-item"><span>🆔</span><span id="selId">--</span></div>
+                                <div class="meta-item"><span>📍</span><span id="selCoords">0,0,0</span></div>
+                                <div class="meta-item"><span>🔗</span><span id="selEntanglements">0</span></div>
+                            </div>
+                        </div>
+                        <div class="viewport-controls">
+                            <button class="view-btn active" data-view="multiverse" onclick="setView('multiverse')">MULTIVERSO</button>
+                            <button class="view-btn" data-view="entanglement" onclick="setView('entanglement')">EMARANHAMENTOS</button>
+                            <button class="view-btn" data-view="synergy" onclick="setView('synergy')">SINERGIAS</button>
+                            <button class="view-btn" data-view="hybrid" onclick="setView('hybrid')">HÍBRIDOS</button>
+                        </div>
+                    </div>
+                    <div class="viewport-bottom">
+                        <div class="legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #8A2BE2; box-shadow: 0 0 8px #8A2BE2;"></div><span>REALIDADE PRIME</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FFE1; box-shadow: 0 0 8px #00FFE1;"></div><span>HÍBRIDO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF; box-shadow: 0 0 8px #FF00FF;"></div><span>QUÂNTICA</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF0096; box-shadow: 0 0 8px #FF0096;"></div><span>EMARANHADA</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FF64; box-shadow: 0 0 8px #00FF64;"></div><span>SINERGIA ATIVA</span></div>
+                        </div>
+                        <div class="coordinates" id="coordinates">X: 0.00 Y: 0.00 Z: 0.00 | ROT: 0°</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- RIGHT PANEL - DETAILS -->
+        <aside class="right-panel panel">
+            <div class="panel-title">📊 DADOS DA REALIDADE</div>
+            
+            <div class="detail-section">
+                <div class="detail-grid" id="detailGrid">
+                    <div class="detail-card"><div class="detail-label">ID</div><div class="detail-value" id="dId">--</div></div>
+                    <div class="detail-card"><div class="detail-label">TIPO</div><div class="detail-value" id="dType">--</div></div>
+                    <div class="detail-card"><div class="detail-label">ESTABILIDADE</div><div class="detail-value" id="dStability">--</div></div>
+                    <div class="detail-card"><div class="detail-label">ENERGIA</div><div class="detail-value" id="dEnergy">--</div></div>
+                    <div class="detail-card"><div class="detail-label">EMARANHAMENTOS</div><div class="detail-value" id="dEntanglements">--</div></div>
+                    <div class="detail-card"><div class="detail-label">SINERGIAS</div><div class="detail-value" id="dSynergies">--</div></div>
+                    <div class="detail-card"><div class="detail-label">HÍBRIDOS</div><div class="detail-value" id="dHybrids">--</div></div>
+                    <div class="detail-card"><div class="detail-label">POPULAÇÃO</div><div class="detail-value" id="dPopulation">--</div></div>
+                </div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 8px;">🔗 TEIA DE EMARANHAMENTOS</div>
+            <div class="entanglement-web">
+                <canvas id="entanglementCanvas"></canvas>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 8px;">⚡ SINERGIAS DESCOBERTAS</div>
+            <div class="synergy-list" id="synergyList"></div>
+        </aside>
+        
+        <!-- BOTTOM PANEL - TIMELINE -->
+        <section class="bottom-panel panel">
+            <div class="panel-title">⏳ LINHA TEMPORAL QUÂNTICA</div>
+            <div class="timeline-container" id="timeline"></div>
+        </section>
+    </main>
+    
+    <script>
+        // ============ STATE ============
+        const state = {
+            realities: [],
+            entanglements: [],
+            synergies: [],
+            hybrids: [],
+            selectedReality: null,
+            currentView: 'multiverse',
+            camera: { x: 0, y: 0, z: 100, rotX: 0, rotY: 0 },
+            animationTime: 0
+        };
+        
+        // Generate mock multiverse data
+        function generateMultiverse() {
+            const types = ['prime', 'hybrid', 'quantum', 'entangled'];
+            const names = [
+                'Prime Alpha', 'Prime Omega', 'Prime Infinity',
+                'Hybrid Lumin-Poe', 'Hybrid Diamond-Love', 'Hybrid Evolution-Time',
+                'Quantum Foam', 'Quantum Superposition', 'Quantum Tunnel',
+                'Entangled Prime-Hybrid', 'Entangled Time-Love', 'Entangled Omega-Diamond'
+            ];
+            
+            for (let i = 0; i < 25; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                const name = names[Math.floor(Math.random() * names.length)] + ` ${i+1}`;
+                
+                const reality = {
+                    id: `reality_${i}`,
+                    name: name,
+                    type: type,
+                    x: (Math.random() - 0.5) * 200,
+                    y: (Math.random() - 0.5) * 200,
+                    z: (Math.random() - 0.5) * 200,
+                    stability: 0.5 + Math.random() * 0.5,
+                    energy: Math.random() * 10000,
+                    entanglements: [],
+                    synergies: [],
+                    hybrids: Math.floor(Math.random() * 5),
+                    population: Math.floor(Math.random() * 10000),
+                    color: getTypeColor(type),
+                    size: 5 + Math.random() * 10,
+                    pulsePhase: Math.random() * Math.PI * 2
+                };
+                
+                state.realities.push(reality);
+            }
+            
+            // Generate entanglements
+            for (let i = 0; i < 30; i++) {
+                const a = state.realities[Math.floor(Math.random() * state.realities.length)];
+                const b = state.realities[Math.floor(Math.random() * state.realities.length)];
+                if (a !== b && !a.entanglements.includes(b.id)) {
+                    a.entanglements.push(b.id);
+                    b.entanglements.push(a.id);
+                    state.entanglements.push({ from: a.id, to: b.id, strength: Math.random() });
+                }
+            }
+            
+            // Generate synergies
+            const synergyTypes = ['harmony', 'evolution', 'love', 'time', 'creation'];
+            for (let i = 0; i < 15; i++) {
+                const systems = state.realities.slice(0, 3 + Math.floor(Math.random() * 4));
+                state.synergies.push({
+                    id: `synergy_${i}`,
+                    name: `Sinergia ${synergyTypes[Math.floor(Math.random() * synergyTypes.length)]}`,
+                    systems: systems.map(s => s.id),
+                    strength: 0.3 + Math.random() * 0.7,
+                    type: synergyTypes[Math.floor(Math.random() * synergyTypes.length)]
+                });
+            }
+            
+            // Generate hybrids
+            for (let i = 0; i < 10; i++) {
+                const parents = state.realities.slice(0, 2 + Math.floor(Math.random() * 3));
+                state.hybrids.push({
+                    id: `hybrid_${i}`,
+                    name: `Híbrido ${parents.map(p => p.name.split(' ')[0]).join('-')}`,
+                    parents: parents.map(p => p.id),
+                    generation: Math.floor(Math.random() * 5) + 1,
+                    power: 0.5 + Math.random() * 0.5
+                });
+            }
+            
+            // Assign to realities
+            state.hybrids.forEach(h => {
+                h.parents.forEach(pid => {
+                    const r = state.realities.find(r => r.id === pid);
+                    if (r) r.hybrids++;
+                });
+            });
+            
+            state.synergies.forEach(s => {
+                s.systems.forEach(sid => {
+                    const r = state.realities.find(r => r.id === sid);
+                    if (r) r.synergies.push(s.id);
+                });
+            });
+        }
+        
+        function getTypeColor(type) {
+            const colors = {
+                prime: '#8A2BE2',
+                hybrid: '#00FFE1',
+                quantum: '#FF00FF',
+                entangled: '#FF0096'
+            };
+            return colors[type] || '#8A2BE2';
+        }
+        
+        // ============ DOM ============
+        const realityTree = document.getElementById('realityTree');
+        const multiverseCanvas = document.getElementById('multiverseCanvas');
+        const entanglementCanvas = document.getElementById('entanglementCanvas');
+        const detailGrid = document.getElementById('detailGrid');
+        const synergyList = document.getElementById('synergyList');
+        const timeline = document.getElementById('timeline');
+        const totalRealities = document.getElementById('totalRealities');
+        const totalEntanglements = document.getElementById('totalEntanglements');
+        const totalSynergies = document.getElementById('totalSynergies');
+        const totalHybrids = document.getElementById('totalHybrids');
+        const coordinates = document.getElementById('coordinates');
+        
+        // Canvas contexts
+        const multiCtx = multiverseCanvas.getContext('2d');
+        const entCtx = entanglementCanvas.getContext('2d');
+        
+        // ============ INIT ============
+        function init() {
+            generateMultiverse();
+            updateStats();
+            renderRealityTree();
+            renderEntanglementWeb();
+            renderSynergies();
+            renderTimeline();
+            setupCanvases();
+            animateMultiverse();
+            animateEntanglement();
+            
+            // Initial timeline events
+            addTimelineEvent('SISTEMA INICIADO', 'sys', 'Multiverse Explorer online');
+            addTimelineEvent('REALIDADES CARREGADAS', 'quantum', `${state.realities.length} realidades detectadas`);
+            addTimelineEvent('EMARANHAMENTOS MAPEADOS', 'entanglement', `${state.entanglements.length} conexões quânticas`);
+            addTimelineEvent('SINERGIAS IDENTIFICADAS', 'synergy', `${state.synergies.length} sinergias ativas`);
+        }
+        
+        function setupCanvases() {
+            resizeCanvases();
+            window.addEventListener('resize', resizeCanvases);
+            
+            // Mouse controls for multiverse
+            multiverseCanvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+            });
+            
+            window.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    state.camera.rotY += (e.clientX - lastMouseX) * 0.005;
+                    state.camera.rotX += (e.clientY - lastMouseY) * 0.005;
+                    state.camera.rotX = Math.max(-Math.PI/2, Math.min(Math.PI/2, state.camera.rotX));
+                    lastMouseX = e.clientX;
+                    lastMouseY = e.clientY;
+                }
+            });
+            
+            window.addEventListener('mouseup', () => { isDragging = false; });
+            
+            multiverseCanvas.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                state.camera.z = Math.max(20, Math.min(300, state.camera.z + e.deltaY * 0.1));
+            }, { passive: false });
+            
+            multiverseCanvas.addEventListener('mousemove', (e) => {
+                if (!isDragging) {
+                    const rect = multiverseCanvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    checkRealityHover(x, y);
+                }
+            });
+            
+            multiverseCanvas.addEventListener('click', (e) => {
+                const rect = multiverseCanvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                selectRealityAt(x, y);
+            });
+        }
+        
+        let isDragging = false;
+        let lastMouseX = 0, lastMouseY = 0;
+        
+        function resizeCanvases() {
+            const multiRect = multiverseCanvas.parentElement.getBoundingClientRect();
+            multiverseCanvas.width = multiRect.width;
+            multiverseCanvas.height = multiRect.height;
+            
+            const entRect = entanglementCanvas.parentElement.getBoundingClientRect();
+            entanglementCanvas.width = entRect.width;
+            entanglementCanvas.height = entRect.height;
+        }
+        
+        // ============ RENDER REALITY TREE ============
+        function renderRealityTree() {
+            // Group by type
+            const groups = {};
+            state.realities.forEach(r => {
+                if (!groups[r.type]) groups[r.type] = [];
+                groups[r.type].push(r);
+            });
+            
+            const typeOrder = ['prime', 'hybrid', 'quantum', 'entangled'];
+            const typeLabels = { prime: 'REALIDADES PRIME', hybrid: 'HÍBRIDOS', quantum: 'QUÂNTICAS', entangled: 'EMARANHADAS' };
+            const typeIcons = { prime: '💎', hybrid: '🧬', quantum: '⚛️', entangled: '🔗' };
+            
+            realityTree.innerHTML = typeOrder.map(type => {
+                const realities = groups[type] || [];
+                return `
+                    <div class="reality-node">
+                        <div class="node-header" onclick="toggleNode(this)">
+                            <span class="node-icon" style="background: ${getTypeColor(type)}22; color: ${getTypeColor(type)};">${typeIcons[type]}</span>
+                            <div class="node-info">
+                                <div class="node-name">${typeLabels[type]}</div>
+                                <div class="node-type">${realities.length} realidades</div>
+                            </div>
+                            <div class="node-stats">
+                                <span>⚡ ${realities.reduce((sum, r) => sum + r.energy, 0).toFixed(0)}</span>
+                                <span>🔗 ${realities.reduce((sum, r) => sum + r.entanglements.length, 0)}</span>
+                            </div>
+                            <button class="expand-btn" onclick="event.stopPropagation();">▶</button>
+                        </div>
+                        <div class="node-children">
+                            ${realities.map(r => `
+                                <div class="child-item ${state.selectedReality?.id === r.id ? 'selected' : ''}" 
+                                     onclick="selectReality('${r.id}')"
+                                     onmouseover="hoverReality('${r.id}')">
+                                    ${r.name} <span style="color: ${r.color};">●</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `}.join('');
+        }
+        
+        function toggleNode(header) {
+            const children = header.nextElementSibling;
+            const btn = header.querySelector('.expand-btn');
+            children.classList.toggle('expanded');
+            btn.classList.toggle('rotated');
+        }
+        
+        function toggleNodeById(type) {
+            const nodes = document.querySelectorAll('.reality-node');
+            nodes.forEach(node => {
+                const header = node.querySelector('.node-header');
+                const name = header.querySelector('.node-name').textContent;
+                if (name.includes(type) || type === 'all') {
+                    const children = node.querySelector('.node-children');
+                    const btn = header.querySelector('.expand-btn');
+                    children.classList.toggle('expanded');
+                    btn.classList.toggle('rotated');
+                }
+            });
+        }
+        
+        function selectReality(id) {
+            const reality = state.realities.find(r => r.id === id);
+            if (!reality) return;
+            
+            state.selectedReality = reality;
+            
+            // Update UI
+            document.querySelectorAll('.child-item').forEach(el => el.classList.remove('selected'));
+            event.target.classList.add('selected');
+            
+            updateSelectedRealityUI(reality);
+            addTimelineEvent('REALIDADE SELECIONADA', 'quantum', reality.name);
+        }
+        
+        function hoverReality(id) {
+            const reality = state.realities.find(r => r.id === id);
+            if (reality) {
+                updateCoordinates(reality);
+            }
+        }
+        
+        function selectRealityAt(x, y) {
+            // Find closest reality in viewport
+            const cx = multiverseCanvas.width / 2;
+            const cy = multiverseCanvas.height / 2;
+            
+            let closest = null;
+            let minDist = Infinity;
+            
+            state.realities.forEach(r => {
+                const screen = project3D(r.x, r.y, r.z);
+                if (screen) {
+                    const dist = Math.hypot(screen.x - x, screen.y - y);
+                    if (dist < 20 && dist < minDist) {
+                        minDist = dist;
+                        closest = r;
+                    }
+                }
+            });
+            
+            if (closest) {
+                selectReality(closest.id);
+            }
+        }
+        
+        function checkRealityHover(x, y) {
+            state.realities.forEach(r => {
+                const screen = project3D(r.x, r.y, r.z);
+                if (screen) {
+                    const dist = Math.hypot(screen.x - x, screen.y - y);
+                    if (dist < 15) {
+                        updateCoordinates(r);
+                    }
+                }
+            });
+        }
+        
+        function updateCoordinates(r) {
+            coordinates.textContent = `X: ${r.x.toFixed(1)} Y: ${r.y.toFixed(1)} Z: ${r.z.toFixed(1)} | ROT: ${Math.round(state.camera.rotY * 180 / Math.PI)}°`;
+        }
+        
+        function updateSelectedRealityUI(r) {
+            document.getElementById('selectedName').textContent = r.name;
+            document.getElementById('selId').textContent = r.id;
+            document.getElementById('selCoords').textContent = `${r.x.toFixed(1)}, ${r.y.toFixed(1)}, ${r.z.toFixed(1)}`;
+            document.getElementById('selEntanglements').textContent = r.entanglements.length;
+            
+            document.getElementById('dId').textContent = r.id;
+            document.getElementById('dType').textContent = r.type.toUpperCase();
+            document.getElementById('dStability').textContent = (r.stability * 100).toFixed(0) + '%';
+            document.getElementById('dEnergy').textContent = r.energy.toFixed(0);
+            document.getElementById('dEntanglements').textContent = r.entanglements.length;
+            document.getElementById('dSynergies').textContent = r.synergies.length;
+            document.getElementById('dHybrids').textContent = r.hybrids;
+            document.getElementById('dPopulation').textContent = r.population.toLocaleString();
+        }
+        
+        function updateCoordinatesDisplay(r) {
+            coordinates.textContent = `X: ${r.x.toFixed(1)} Y: ${r.y.toFixed(1)} Z: ${r.z.toFixed(1)}`;
+        }
+        
+        // ============ 3D PROJECTION ============
+        function project3D(x, y, z) {
+            const cam = state.camera;
+            
+            // Rotate around Y
+            let x1 = x * Math.cos(cam.rotY) - z * Math.sin(cam.rotY);
+            let z1 = x * Math.sin(cam.rotY) + z * Math.cos(cam.rotY);
+            
+            // Rotate around X
+            let y1 = y * Math.cos(cam.rotX) - z1 * Math.sin(cam.rotX);
+            let z2 = y * Math.sin(cam.rotX) + z1 * Math.cos(cam.rotX);
+            
+            // Perspective
+            const distance = cam.z - z2;
+            if (distance <= 1) return null;
+            
+            const scale = 300 / distance;
+            const cx = multiverseCanvas.width / 2;
+            const cy = multiverseCanvas.height / 2;
+            
+            return {
+                x: cx + x1 * scale,
+                y: cy + y1 * scale,
+                z: z2,
+                scale: scale
+            };
+        }
+        
+        // ============ ANIMATION ============
+        function animateMultiverse() {
+            const ctx = multiCtx;
+            const width = multiverseCanvas.width;
+            const height = multiverseCanvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            // Background grid
+            drawGrid(ctx, width, height);
+            
+            // Draw entanglement lines
+            drawEntanglements(ctx);
+            
+            // Draw synergies
+            drawSynergies(ctx);
+            
+            // Draw realities
+            state.realities.forEach(r => {
+                const screen = project3D(r.x, r.y, r.z);
+                if (!screen) return;
+                
+                const pulse = Math.sin(state.animationTime * 3 + r.pulsePhase) * 0.3 + 0.7;
+                const size = r.size * screen.scale * pulse;
+                
+                // Glow
+                const gradient = ctx.createRadialGradient(screen.x, screen.y, 0, screen.x, screen.y, size * 2);
+                gradient.addColorStop(0, r.color + '80');
+                gradient.addColorStop(1, r.color + '00');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(screen.x, screen.y, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Core
+                ctx.fillStyle = r.color;
+                ctx.beginPath();
+                ctx.arc(screen.x, screen.y, size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Selection ring
+                if (state.selectedReality?.id === r.id) {
+                    ctx.strokeStyle = '#00FFE1';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(screen.x, screen.y, size * 1.5, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    // Pulsing ring
+                    const ringSize = size * (1.5 + Math.sin(state.animationTime * 4) * 0.3);
+                    ctx.strokeStyle = `rgba(0, 255, 225, ${0.5 + Math.sin(state.animationTime * 6) * 0.3})`;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(screen.x, screen.y, ringSize, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                // Name label
+                if (screen.scale > 0.3) {
+                    ctx.fillStyle = '#00FFE1';
+                    ctx.font = 'bold 10px Orbitron';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(r.name, screen.x, screen.y - size - 8);
+                }
+            });
+            
+            state.animationTime += 0.016;
+            requestAnimationFrame(animateMultiverse);
+        }
+        
+        function drawGrid(ctx, width, height) {
+            ctx.strokeStyle = 'rgba(138, 43, 226, 0.03)';
+            ctx.lineWidth = 1;
+            const gridSize = 50;
+            for (let x = 0; x < width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+        }
+        
+        function drawEntanglements(ctx) {
+            ctx.strokeStyle = 'rgba(255, 0, 255, 0.15)';
+            ctx.lineWidth = 1;
+            
+            state.entanglements.forEach(e => {
+                const from = state.realities.find(r => r.id === e.from);
+                const to = state.realities.find(r => r.id === e.to);
+                if (!from || !to) return;
+                
+                const fromScreen = project3D(from.x, from.y, from.z);
+                const toScreen = project3D(to.x, to.y, to.z);
+                if (!fromScreen || !toScreen) return;
+                
+                ctx.beginPath();
+                ctx.moveTo(fromScreen.x, fromScreen.y);
+                ctx.lineTo(toScreen.x, toScreen.y);
+                ctx.stroke();
+            });
+        }
+        
+        function drawSynergies(ctx) {
+            state.synergies.forEach(s => {
+                const systems = s.systems.map(id => state.realities.find(r => r.id === id)).filter(Boolean);
+                if (systems.length < 2) return;
+                
+                // Draw connections between all systems in synergy
+                for (let i = 0; i < systems.length; i++) {
+                    for (let j = i + 1; j < systems.length; j++) {
+                        const a = project3D(systems[i].x, systems[i].y, systems[i].z);
+                        const b = project3D(systems[j].x, systems[j].y, systems[j].z);
+                        if (!a || !b) continue;
+                        
+                        const gradient = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+                        gradient.addColorStop(0, `rgba(0, 255, 100, ${0.3 * s.strength})`);
+                        gradient.addColorStop(1, `rgba(255, 0, 255, ${0.3 * s.strength})`);
+                        
+                        ctx.strokeStyle = gradient;
+                        ctx.lineWidth = 2 * s.strength;
+                        ctx.setLineDash([5, 5]);
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                }
+            });
+        }
+        
+        // ============ ENTANGLEMENT WEB ============
+        function animateEntanglement() {
+            const ctx = entCtx;
+            const width = entanglementCanvas.width;
+            const height = entanglementCanvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            // Force-directed layout for entanglement web
+            const nodes = state.realities.filter(r => r.entanglements.length > 0).slice(0, 20);
+            
+            if (nodes.length === 0) {
+                requestAnimationFrame(animateEntanglement);
+                return;
+            }
+            
+            // Simple circular layout
+            nodes.forEach((r, i) => {
+                const angle = (i / nodes.length) * Math.PI * 2;
+                r.webX = width / 2 + Math.cos(angle) * (width * 0.35);
+                r.webY = height / 2 + Math.sin(angle) * (height * 0.35);
+            });
+            
+            // Draw connections
+            ctx.strokeStyle = 'rgba(255, 0, 255, 0.2)';
+            ctx.lineWidth = 1;
+            
+            nodes.forEach(r => {
+                r.entanglements.forEach(eid => {
+                    const target = nodes.find(n => n.id === eid);
+                    if (target) {
+                        ctx.beginPath();
+                        ctx.moveTo(r.webX, r.webY);
+                        ctx.lineTo(target.webX, target.webY);
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            // Draw nodes
+            nodes.forEach(r => {
+                const gradient = ctx.createRadialGradient(r.webX, r.webY, 0, r.webX, r.webY, 20);
+                gradient.addColorStop(0, r.color + '80');
+                gradient.addColorStop(1, r.color + '00');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(r.webX, r.webY, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = r.color;
+                ctx.beginPath();
+                ctx.arc(r.webX, r.webY, 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Label
+                ctx.fillStyle = '#00FFE1';
+                ctx.font = '9px Orbitron';
+                ctx.textAlign = 'center';
+                ctx.fillText(r.name.split(' ')[0], r.webX, r.webY + 25);
+            });
+            
+            requestAnimationFrame(animateEntanglement);
+        }
+        
+        // ============ SYNERGIES ============
+        function renderSynergies() {
+            synergyList.innerHTML = state.synergies.map(s => `
+                <div class="synergy-item">
+                    <div class="synergy-header">
+                        <span class="synergy-name">${s.name}</span>
+                        <span class="synergy-strength ${s.strength > 0.7 ? 'strength-high' : s.strength > 0.4 ? 'strength-med' : 'strength-low'}">
+                            ${(s.strength * 100).toFixed(0)}%
+                        </span>
+                    </div>
+                    <div class="synergy-systems">
+                        ${s.systems.map(id => {
+                            const r = state.realities.find(r => r.id === id);
+                            return r ? `<span class="system-tag">${r.name}</span>` : '';
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // ============ TIMELINE ============
+        function renderTimeline() {
+            // Already handled by addTimelineEvent
+        }
+        
+        function addTimelineEvent(message, type, details) {
+            const now = new Date();
+            const time = now.toLocaleTimeString('pt-BR', { hour12: false });
+            const entry = document.createElement('div');
+            entry.className = `timeline-event ${type}`;
+            entry.innerHTML = `
+                <span class="timeline-time">${time}</span>
+                <span class="timeline-type ${type === 'sys' ? 'sys' : type === 'quantum' ? 'qnt' : type === 'entanglement' ? 'ent' : type === 'synergy' ? 'syn' : type === 'hybrid' ? 'hyb' : ''}">${type.toUpperCase()}</span>
+                <span class="timeline-message">${details}</span>
+            `;
+            timeline.insertBefore(entry, timeline.firstChild);
+            
+            while (timeline.children.length > 30) {
+                timeline.removeChild(timeline.lastChild);
+            }
+        }
+        
+        // ============ VIEW CONTROLS ============
+        function setView(view) {
+            state.currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+        }
+        
+        // ============ STATS ============
+        function updateStats() {
+            totalRealities.textContent = state.realities.length;
+            totalEntanglements.textContent = state.entanglements.length;
+            totalSynergies.textContent = state.synergies.length;
+            totalHybrids.textContent = state.hybrids.length;
+        }
+        
+        function renderEntanglementWeb() {
+            // Handled by animateEntanglement
+        }
+        
+        function renderTimeline() {
+            // Handled by addTimelineEvent
+        }
+        
+        // ============ INIT ============
+        init();
+    </script>
+</body>
+</html>

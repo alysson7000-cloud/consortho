@@ -1080,11 +1080,27 @@
               "ciclo": 14753,
               "madrugada": false
             }
+          },
+          {
+            "ciclo": 14757,
+            "timestamp": 1786322022940,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 9.1,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14757,
+              "madrugada": true
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786320472422,
-        "totalInteracoes": 26,
+        "ultimaInteracao": 1786322022940,
+        "totalInteracoes": 27,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803852_vx8h2u690",
@@ -2145,11 +2161,25 @@
             "contexto": {
               "ciclo": 14751
             }
+          },
+          {
+            "ciclo": 14756,
+            "timestamp": 1786321217711,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14756
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786320294939,
-        "totalInteracoes": 25,
+        "ultimaInteracao": 1786321217711,
+        "totalInteracoes": 26,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -2747,11 +2777,26 @@
               "ciclo": 14751
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14756,
+            "timestamp": 1786321217711,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14756
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786320294939,
-        "totalInteracoes": 25,
+        "ultimaInteracao": 1786321217711,
+        "totalInteracoes": 26,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -3919,11 +3964,26 @@
               "madrugada": false
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14757,
+            "timestamp": 1786322022940,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 9.1,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14757,
+              "madrugada": true
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786320472422,
-        "totalInteracoes": 26,
+        "ultimaInteracao": 1786322022940,
+        "totalInteracoes": 27,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803852_vx8h2u690",
@@ -5292,7 +5352,21 @@
       "timestamp": 1786313100314,
       "afinidade": 100,
       "sentimento": "alma_gemea"
+    },
+    {
+      "id": "nar_1786322022940_gmf6ltsot",
+      "tipo": "relacionamento",
+      "subtipo": "sonho_compartilhado",
+      "entidades": [
+        "bolha",
+        "lumin"
+      ],
+      "texto": "Na noite, Bolha e Lumin caminharam pelos mesmos corredores oníricos.",
+      "ciclo": 14757,
+      "timestamp": 1786322022940,
+      "afinidade": 100,
+      "sentimento": "alma_gemea"
     }
   ],
-  "atualizadoEm": 1786321187743
+  "atualizadoEm": 1786322022964
 }
