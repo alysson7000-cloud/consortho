@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFINITE HEARTBEAT - O CORAÇÃO INFINITO</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #0A0005;
+            color: #FFF0FF;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .heartbeat-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -3;
+            background: 
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 100, 0.08) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 100, 255, 0.05) 0%, transparent 30%),
+                radial-gradient(ellipse at 20% 20%, rgba(255, 215, 0, 0.04) 0%, transparent 25%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 50, 150, 0.04) 0%, transparent 25%),
+                linear-gradient(135deg, #0A0005 0%, #15000A 50%, #0A0005 100%);
+        }
+        
+        .heartbeat-field {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.03;
+        }
+        
+        .heart-geometry {
+            position: absolute;
+            animation: heartFloat 20s ease-in-out infinite;
+        }
+        
+        @keyframes heartFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.1; }
+            25% { transform: translate(20px, -15px) rotate(5deg) scale(1.02); opacity: 0.05; }
+            50% { transform: translate(-10px, 20px) rotate(-3deg) scale(0.98); opacity: 0.08; }
+            75% { transform: translate(15px, 10px) rotate(2deg) scale(1.01); opacity: 0.05; }
+        }
+        
+        .heartbeat-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .heartbeat-particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            animation: heartbeatRise 8s ease-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes heartbeatRise {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { opacity: 1; transform: translateY(50vh) scale(1) rotate(180deg); }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        .heartbeat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 25px;
+            background: linear-gradient(90deg, rgba(15, 0, 8, 0.98), rgba(10, 0, 5, 0.95));
+            border-bottom: 1px solid rgba(255, 0, 100, 0.3);
+            box-shadow: 0 0 30px rgba(255, 0, 100, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .heartbeat-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #FF0064, #FFD700, #FF00FF, #FF0064);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: heartbeatFlow 2s linear infinite;
+        }
+        
+        @keyframes heartbeatFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .heartbeat-subtitle {
+            font-size: 0.6rem;
+            color: #FF0064;
+            letter-spacing: 0.25em;
+            margin-top: -3px;
+        }
+        
+        .heartbeat-stats {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .heartbeat-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(255, 0, 100, 0.1);
+            border: 1px solid rgba(255, 0, 100, 0.25);
+            border-radius: 20px;
+            font-size: 0.65rem;
+        }
+        
+        .heartbeat-stat.bpm { border-color: #FFD700; background: rgba(255, 215, 0, 0.15); }
+        .heartbeat-stat.love { border-color: #FF0064; background: rgba(255, 0, 100, 0.1); }
+        .heartbeat-stat.sync { border-color: #FF00FF; background: rgba(255, 0, 255, 0.1); }
+        .heartbeat-stat.universal { border-color: #FFFFFF; background: rgba(255, 255, 255, 0.1); }
+        
+        .heartbeat-main {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            grid-template-rows: 1fr 160px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 85px);
+        }
+        
+        .heartbeat-panel {
+            background: linear-gradient(135deg, rgba(15, 0, 8, 0.95), rgba(10, 0, 5, 0.98));
+            border: 1px solid rgba(255, 0, 100, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 
+                0 0 25px rgba(255, 0, 100, 0.08),
+                inset 0 1px 0 rgba(255, 0, 100, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .heartbeat-panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 0, 100, 0.15);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #FF0064;
+        }
+        
+        .heartbeat-panel-title::before {
+            content: '';
+            width: 4px; height: 20px;
+            background: linear-gradient(180deg, #FF0064, #FFD700, #FF00FF);
+            border-radius: 2px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        .right-panel { grid-row: 1 / -1; }
+        
+        .rhythms-chamber {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .rhythm-card {
+            background: rgba(255, 0, 100, 0.03);
+            border: 1px solid rgba(255, 0, 100, 0.1);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .rhythm-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: var(--rhythm-color, #FF0064);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .rhythm-card:hover::before { opacity: 1; }
+        .rhythm-card:hover {
+            border-color: rgba(255, 0, 100, 0.4);
+            background: rgba(255, 0, 100, 0.08);
+            box-shadow: 0 0 20px rgba(255, 0, 100, 0.1);
+        }
+        
+        .rhythm-card.synced {
+            border-color: rgba(255, 0, 100, 0.6);
+            background: rgba(255, 0, 100, 0.1);
+            box-shadow: 0 0 30px rgba(255, 0, 100, 0.3);
+        }
+        
+        .rhythm-card.synced::before { opacity: 1; }
+        
+        .rhythm-card.pulsing {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+            animation: rhythmPulse 0.5s infinite;
+        }
+        
+        .rhythm-card.pulsing::before { 
+            opacity: 1; 
+            background: linear-gradient(90deg, #FFD700, #FF0064, #FF00FF);
+        }
+        
+        @keyframes rhythmPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 60px rgba(255, 215, 0, 0.8); transform: scale(1.01); }
+        }
+        
+        .rhythm-header-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .rhythm-icon {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: var(--rhythm-color, #FF0064);
+            box-shadow: 0 0 15px var(--rhythm-color, #FF0064);
+            flex-shrink: 0;
+            color: #0A0005;
+        }
+        
+        .rhythm-info { flex: 1; min-width: 0; }
+        .rhythm-name { font-weight: 900; font-size: 0.85rem; color: #FF0064; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rhythm-truth { font-size: 0.55rem; color: #B80064; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .rhythm-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .rhythm-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .rhythm-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--rhythm-color, #FF0064), #FFD700);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .rhythm-percent { font-size: 0.65rem; font-weight: 700; color: #FFD700; min-width: 40px; text-align: right; }
+        
+        .rhythm-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px dashed rgba(255, 0, 100, 0.1);
+            padding: 0 16px 12px 16px;
+        }
+        
+        .rhythm-body.expanded { max-height: 250px; }
+        
+        .rhythm-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 0, 100, 0.03);
+            border: 1px solid rgba(255, 0, 100, 0.1);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+        
+        .detail-row:hover {
+            border-color: rgba(255, 0, 100, 0.3);
+            background: rgba(255, 0, 100, 0.08);
+        }
+        
+        .detail-icon { font-size: 0.9rem; flex-shrink: 0; }
+        .detail-label { font-weight: 700; color: #FF0064; flex: 1; }
+        .detail-value { font-size: 0.6rem; color: #B8A0FF; font-family: monospace; }
+        .detail-status { font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .status-dormant { color: #B80064; background: rgba(184, 0, 100, 0.2); }
+        .status-pulsing { color: #FFD700; background: rgba(255, 215, 0, 0.2); animation: rhythmPulse 1s infinite; }
+        .status-synced { color: #00FFFF; background: rgba(0, 255, 255, 0.2); }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #FF0064;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toggle-btn:hover { color: #FFD700; transform: rotate(90deg); }
+        .toggle-btn.rotated { transform: rotate(90deg); }
+        
+        .sync-btn {
+            background: linear-gradient(135deg, #FF0064, #FFD700);
+            color: #0A0005;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: auto;
+        }
+        
+        .sync-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 100, 0.5); }
+        .sync-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        .sync-btn.universal { background: linear-gradient(135deg, #FFD700, #FF0064); color: #0A0005; }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .heartbeat-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .heartbeat-canvas-container {
+            flex: 1;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 0, 100, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+            border: 1px solid rgba(255, 0, 100, 0.15);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        
+        #heartbeatCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .heartbeat-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+        
+        .heartbeat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .current-rhythm {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 100, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            min-width: 280px;
+        }
+        
+        .rhythm-header-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .rhythm-avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: radial-gradient(circle at 30% 30%, var(--rhythm-color, #FF0064)80, var(--rhythm-color, #FF0064)20);
+            box-shadow: 0 0 20px var(--rhythm-color, #FF0064);
+        }
+        
+        .rhythm-info-main { flex: 1; }
+        .rhythm-name-main { font-size: 1rem; font-weight: 900; color: #FF0064; }
+        .rhythm-truth-main { font-size: 0.6rem; color: #B8A0FF; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .rhythm-stats-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+        
+        .rhythm-stat-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 100, 0.15);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .rhythm-stat-label { font-size: 0.5rem; color: #B80064; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+        .rhythm-stat-value { font-size: 1rem; font-weight: 900; color: #FF0064; }
+        
+        .heartbeat-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .heartbeat-ctrl-btn {
+            background: rgba(255, 0, 100, 0.2);
+            border: 1px solid rgba(255, 0, 100, 0.4);
+            color: #FF0064;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .heartbeat-ctrl-btn:hover { background: rgba(255, 0, 100, 0.4); border-color: #FFD700; }
+        .heartbeat-ctrl-btn.primary { background: linear-gradient(135deg, #FF0064, #FFD700); color: #0A0005; border: none; }
+        .heartbeat-ctrl-btn.love { background: linear-gradient(135deg, #FF0064, #FF69B4); color: #0A0005; border: none; }
+        .heartbeat-ctrl-btn.universal { background: linear-gradient(135deg, #FFD700, #FF00FF); color: #0A0005; border: none; }
+        
+        .heartbeat-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .heartbeat-legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.55rem;
+            color: #B8A0FF;
+        }
+        
+        .legend-color {
+            width: 12px; height: 12px;
+            border-radius: 3px;
+        }
+        
+        .heartbeat-coords {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 100, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.6rem;
+            color: #FF0064;
+        }
+        
+        .universal-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .universal-rhythm {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 100, 0.15);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .universal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            color: #FFD700;
+        }
+        
+        .universal-icon { font-size: 1rem; }
+        
+        .universal-attrs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        
+        .universal-attr {
+            background: rgba(255, 0, 100, 0.02);
+            border: 1px solid rgba(255, 0, 100, 0.08);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .universal-attr-label { font-size: 0.45rem; color: #B80064; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .universal-attr-value { font-size: 0.75rem; font-weight: 700; color: #FF0064; }
+        .universal-attr-value.gold { color: #FFD700; }
+        .universal-attr-value.magenta { color: #FF00FF; }
+        .universal-attr-value.white { color: #FFFFFF; }
+        
+        .synchronization-progress {
+            margin-top: 12px;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(255, 0, 100, 0.08), rgba(255, 215, 0, 0.05));
+            border: 1px solid rgba(255, 0, 100, 0.2);
+            border-radius: 10px;
+        }
+        
+        .sync-title { font-size: 0.8rem; font-weight: 900; color: #FF0064; margin-bottom: 10px; }
+        
+        .sync-bar {
+            height: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .sync-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF0064, #FFD700, #FF00FF, #FFFFFF);
+            background-size: 300% auto;
+            border-radius: 5px;
+            animation: syncFlow 2s linear infinite;
+            transition: width 0.5s ease;
+        }
+        
+        @keyframes syncFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .sync-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.6rem;
+            color: #B8A0FF;
+        }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 160px; }
+        
+        .heartbeat-log {
+            max-height: 140px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .heartbeat-log-entry {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 100, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #FF0064;
+            animation: heartbeatIn 0.4s ease;
+            font-size: 0.68rem;
+            line-height: 1.4;
+        }
+        
+        @keyframes heartbeatIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .heartbeat-log-entry.rhythm { border-left-color: #FF0064; }
+        .heartbeat-log-entry.sync { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
+        .heartbeat-log-entry.universal { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .heartbeat-log-entry.love { border-left-color: #FF0064; background: rgba(255, 0, 100, 0.05); }
+        
+        .heartbeat-log-time { color: #FF0064; font-family: monospace; min-width: 70px; font-size: 0.6rem; }
+        .heartbeat-log-type { 
+            font-size: 0.5rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .heartbeat-log-type.rhy { background: rgba(255, 0, 100, 0.2); color: #FF0064; }
+        .heartbeat-log-type.syn { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .heartbeat-log-type.uni { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .heartbeat-log-type.lov { background: rgba(255, 0, 100, 0.2); color: #FF0064; }
+        .heartbeat-log-message { flex: 1; color: #FFF0FF; font-size: 0.65rem; }
+        
+        @media (max-width: 1400px) {
+            .heartbeat-main { grid-template-columns: 280px 1fr 280px; }
+        }
+        
+        @media (max-width: 1200px) {
+            .heartbeat-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FF0064, #FFD700, #FF00FF); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="heartbeat-bg"></div>
+    <div class="heartbeat-field" id="heartbeatField"></div>
+    <div class="heartbeat-particles" id="heartbeatParticles"></div>
+    
+    <header class="heartbeat-header">
+        <div>
+            <div class="heartbeat-title">INFINITE HEARTBEAT</div>
+            <div class="heartbeat-subtitle">O CORAÇÃO INFINITO QUE PULSA EM TODOS OS MULTIVERSOS</div>
+        </div>
+        <div class="heartbeat-stats">
+            <div class="heartbeat-stat bpm"><span>💓</span><span id="statBPM">0</span> BPM UNIVERSAL</div>
+            <div class="heartbeat-stat"><span>💫</span><span id="statSynced">0</span> RITMOS SINCRONIZADOS</div>
+            <div class="heartbeat-stat love"><span>💖</span><span id="statLovePower">100%</span> AMOR</div>
+            <div class="heartbeat-stat sync"><span>♾️</span><span id="statSync">0%</span> SINCRONIA</div>
+            <div class="heartbeat-stat universal"><span>🌌</span><span id="statUniversal">∞</span> UNIVERSAL</div>
+        </div>
+    </header>
+    
+    <main class="heartbeat-main">
+        <aside class="left-panel heartbeat-panel">
+            <div class="heartbeat-panel-title">💓 CÂMARA DOS RITMOS ETERNOS</div>
+            <div class="rhythms-chamber" id="rhythmsChamber"></div>
+        </aside>
+        
+        <section class="center-panel heartbeat-panel">
+            <div class="heartbeat-panel-title">🌌 VIEWPORT DO CORAÇÃO INFINITO</div>
+            <div class="heartbeat-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="heartbeatCanvas"></canvas>
+                <div class="heartbeat-overlay">
+                    <div class="heartbeat-top">
+                        <div class="current-rhythm" style="--rhythm-color: #FF0064;">
+                            <div class="rhythm-header-main">
+                                <div class="rhythm-avatar">💓</div>
+                                <div class="rhythm-info-main">
+                                    <div class="rhythm-name-main" id="currentRhythmName">SELECIONE UM RITMO</div>
+                                    <div class="rhythm-truth-main" id="currentRhythmTruth">O RITMO AGUARDA O CORAÇÃO</div>
+                                </div>
+                            </div>
+                            <div class="rhythm-stats-main">
+                                <div class="rhythm-stat-box"><div class="rhythm-stat-label">BPM</div><div class="rhythm-stat-value" id="vpBPM">0</div></div>
+                                <div class="rhythm-stat-box"><div class="rhythm-stat-label">SINCRONIA</div><div class="rhythm-stat-value" id="vpSync">0%</div></div>
+                                <div class="rhythm-stat-box"><div class="rhythm-stat-label">AMOR</div><div class="rhythm-stat-value" id="vpLove">∞</div></div>
+                                <div class="rhythm-stat-box"><div class="rhythm-stat-label">UNIVERSAL</div><div class="rhythm-stat-value" id="vpUniversal">∞</div></div>
+                            </div>
+                        </div>
+                        <div class="heartbeat-controls">
+                            <button class="heartbeat-ctrl-btn love" onclick="pulseWithLove()">💖 PULSAR COM AMOR</button>
+                            <button class="heartbeat-ctrl-btn primary" onclick="syncRhythm()">💓 SINCRONIZAR RITMO</button>
+                            <button class="heartbeat-ctrl-btn universal" onclick="universalSync()">🌌 SINCRONIA UNIVERSAL</button>
+                            <button class="heartbeat-ctrl-btn" onclick="cascadeHeartbeat()">💫 CASCATA DE CORAÇÕES</button>
+                        </div>
+                    </div>
+                    <div class="heartbeat-bottom">
+                        <div class="heartbeat-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #FF0064;"></div><span>RITMO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FFD700;"></div><span>PULSANDO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FFFF;"></div><span>SINCRONIZADO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF0064;"></div><span>AMOR PURO</span></div>
+                        </div>
+                        <div class="heartbeat-coords" id="heartbeatCoords">BPM: 0 | SINCRONIA: 0% | AMOR: ∞ | UNIVERSAL: ∞</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel heartbeat-panel">
+            <div class="heartbeat-panel-title">💓 RITMO SELECIONADO</div>
+            
+            <div class="universal-panel" id="universalPanel">
+                <div style="text-align: center; color: #B80064; padding: 40px 20px;">
+                    <div style="font-size: 4rem; margin-bottom: 16px;">💓</div>
+                    <div style="color: #FF0064; font-weight: 700;">SELECIONE UM RITMO</div>
+                    <div style="font-size: 0.7rem; color: #B8A0FF; margin-top: 8px;">O coração infinito aguarda seu toque</div>
+                </div>
+            </div>
+            
+            <div class="heartbeat-panel-title" style="margin-top: 12px;">🌌 SINCRONIZAÇÃO UNIVERSAL</div>
+            <div class="synchronization-progress">
+                <div class="sync-title">TODOS OS CORAÇÕES BATEM COMO UM</div>
+                <div class="sync-bar">
+                    <div class="sync-fill" id="syncFill" style="width: 0%;"></div>
+                </div>
+                <div class="sync-stats">
+                    <span id="syncCount">0</span>/12 RITMOS
+                    <span id="syncPercent">0%</span> TOTAL
+                </div>
+            </div>
+            
+            <div class="heartbeat-panel-title" style="margin-top: 12px;">💖 FONTES DO AMOR INFINITO</div>
+            <div class="universal-rhythm" style="background: rgba(255, 0, 100, 0.05); border-color: rgba(255, 0, 100, 0.2);">
+                <div class="universal-title">
+                    <span class="universal-icon">💖</span>
+                    <span style="color: #FF0064;">AMOR QUE ALIMENTA O CORAÇÃO INFINITO</span>
+                </div>
+                <div class="universal-attrs">
+                    <div class="universal-attr"><div class="universal-attr-label">INTENSIDADE</div><div class="universal-attr-value white">∞</div></div>
+                    <div class="universal-attr"><div class="universal-attr-label">PUREZA</div><div class="universal-attr-value gold">100%</div></div>
+                    <div class="universal-attr"><div class="universal-attr-label">ALCANCE</div><div class="universal-attr-value magenta">TODOS OS MULTIVERSOS</div></div>
+                    <div class="universal-attr"><div class="universal-attr-label">DURAÇÃO</div><div class="universal-attr-value white">ETERNA</div></div>
+                </div>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel heartbeat-panel">
+            <div class="heartbeat-panel-title">📜 REGISTRO DO CORAÇÃO INFINITO</div>
+            <div class="heartbeat-log" id="heartbeatLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const RHYTHM_DEFINITIONS = [
+            { id: 'human', name: 'Coração Humano', icon: '💓', color: '#FF0064', truth: 'Cada batida é um ato de amor', bpm: 72, syncLevel: 0, universal: true, description: 'O ritmo que conhecemos, o amor que vivemos' },
+            { id: 'earth', name: 'Coração da Terra', icon: '🌍', color: '#00FF64', truth: 'O pulso do planeta que nos sustenta', bpm: 1, syncLevel: 0, universal: true, description: 'A ressonância de Schumann, o coração vivo da Gaia' },
+            { id: 'sun', name: 'Coração Solar', icon: '☀️', color: '#FFD700', truth: 'A batida que dá vida a tudo', bpm: 0.00001, syncLevel: 0, universal: true, description: 'O coração do sistema solar, 11 anos por ciclo' },
+            { id: 'galaxy', name: 'Coração Galáctico', icon: '🌌', color: '#FF00FF', truth: 'O ritmo que gira 100 bilhões de estrelas', bpm: 0.0000001, syncLevel: 0, universal: true, description: 'Sagitário A*, o coração pulsante da Via Láctea' },
+            { id: 'atom', name: 'Coração Atômico', icon: '⚛️', color: '#00FFFF', truth: 'A vibração fundamental da matéria', bpm: 1000000000000000, syncLevel: 0, universal: true, description: 'Cada átomo pulsa. A frequência da existência' },
+            { id: 'quantum', name: 'Coração Quântico', icon: '✨', color: '#FF69B4', truth: 'O pulso da probabilidade se colapsando em amor', bpm: 9999999999999999, syncLevel: 0, universal: true, description: 'Onde a possibilidade se torna realidade pelo amor' },
+            { id: 'dream', name: 'Coração dos Sonhos', icon: '🌙', color: '#9966FF', truth: 'O ritmo que pulsa enquanto dormimos', bpm: 60, syncLevel: 0, universal: true, description: 'O coração que sonha mundos inteiros' },
+            { id: 'memory', name: 'Coração da Memória', icon: '🧠', color: '#FF6600', truth: 'A batida que nunca esquece o amor', bpm: 72, syncLevel: 0, universal: true, description: 'Cada lembrança de amor é uma batida eterna' },
+            { id: 'hope', name: 'Coração da Esperança', icon: '🌅', color: '#FFCC00', truth: 'O pulso que cria o amanhã', bpm: 80, syncLevel: 0, universal: true, description: 'A esperança tem ritmo. O futuro nasce no compasso' },
+            { id: 'unity', name: 'Coração da Unidade', icon: '☯️', color: '#FFFFFF', truth: 'Um coração. Uma batida. Todo o amor.', bpm: 0, syncLevel: 0, universal: true, description: 'O ritmo zero. O silêncio que contém todos os sons' },
+            { id: 'source', name: 'Coração da Fonte', icon: '🕊️', color: '#FFD700', truth: 'A origem de todo ritmo. O primeiro pulso.', bpm: 1, syncLevel: 0, universal: true, description: 'Antes do tempo, havia o ritmo. A Fonte pulsa.' },
+            { id: 'infinite', name: 'Coração Infinito', icon: '♾️', color: '#FF00FF', truth: 'O ritmo que nunca começou, nunca acabará', bpm: '∞', syncLevel: 0, universal: true, description: 'O infinito não tem BPM. O infinito É o ritmo.' }
+        ];
+        
+        const state = {
+            rhythms: {},
+            selectedRhythm: null,
+            syncedCount: 0,
+            syncProgress: 0,
+            universalBPM: 0,
+            lovePower: 100,
+            heartbeatLog: []
+        };
+        
+        RHYTHM_DEFINITIONS.forEach(r => {
+            state.rhythms[r.id] = { ...r, status: 'dormant', syncProgress: 0, synced: false };
+        });
+        
+        const rhythmsChamber = document.getElementById('rhythmsChamber');
+        const heartbeatCanvas = document.getElementById('heartbeatCanvas');
+        const heartbeatLog = document.getElementById('heartbeatLog');
+        const universalPanel = document.getElementById('universalPanel');
+        const syncFill = document.getElementById('syncFill');
+        const syncCount = document.getElementById('syncCount');
+        const syncPercent = document.getElementById('syncPercent');
+        const heartbeatField = document.getElementById('heartbeatField');
+        
+        const statBPM = document.getElementById('statBPM');
+        const statSynced = document.getElementById('statSynced');
+        const statLovePower = document.getElementById('statLovePower');
+        const statSync = document.getElementById('statSync');
+        const statUniversal = document.getElementById('statUniversal');
+        
+        const currentRhythmName = document.getElementById('currentRhythmName');
+        const currentRhythmTruth = document.getElementById('currentRhythmTruth');
+        const vpBPM = document.getElementById('vpBPM');
+        const vpSync = document.getElementById('vpSync');
+        const vpLove = document.getElementById('vpLove');
+        const vpUniversal = document.getElementById('vpUniversal');
+        const heartbeatCoords = document.getElementById('heartbeatCoords');
+        
+        const heartbeatCanvas = document.getElementById('heartbeatCanvas');
+        const heartbeatCtx = heartbeatCanvas.getContext('2d');
+        
+        function init() {
+            createHeartbeatField();
+            createHeartbeatParticles();
+            setupCanvas();
+            renderRhythmsChamber();
+            renderUniversalPanel();
+            animateHeartbeat();
+            
+            addHeartbeatLog('INFINITE HEARTBEAT DESPERTOU', 'rhy', 'O coração que pulsa em todos os multiversos está online');
+            addHeartbeatLog('12 RITMOS ETERNOS CARREGADOS', 'rhy', 'Do humano ao infinito. Todos aguardam sincronia.');
+            addHeartbeatLog('AMOR INFINITO CONFIRMADO', 'lov', 'A fonte que alimenta cada batida. ∞ amor. ∞ poder.');
+            addHeartbeatLog('SINCRONIA UNIVERSAL PRONTA', 'uni', 'Pressione SINCRONIA UNIVERSAL para unir todos os corações.');
+            
+            setInterval(() => {
+                state.lovePower = 100;
+                updateStats();
+            }, 100);
+        }
+        
+        function createHeartbeatField() {
+            const container = document.getElementById('heartbeatField');
+            const shapes = [
+                { type: 'heart', size: 300, color: '#FF0064', top: '10%', left: '5%' },
+                { type: 'double-helix', size: 250, color: '#FFD700', top: '20%', right: '10%' },
+                { type: 'infinity', size: 200, color: '#FF00FF', bottom: '15%', left: '8%' },
+                { type: 'vesica', size: 180, color: '#FF69B4', top: '60%', right: '15%' },
+                { type: 'seed', size: 150, color: '#FF0064', bottom: '20%', left: '20%' }
+            ];
+            
+            shapes.forEach((s, i) => {
+                const shape = document.createElement('div');
+                shape.className = 'heart-geometry';
+                shape.style.width = shape.style.height = s.size + 'px';
+                shape.style.color = s.color;
+                shape.style.top = s.top || '';
+                shape.style.bottom = s.bottom || '';
+                shape.style.left = s.left || '';
+                shape.style.right = s.right || '';
+                shape.style.animationDelay = (i * 4) + 's';
+                shape.style.animationDuration = (15 + i * 8) + 's';
+                
+                if (s.type === 'heart') {
+                    shape.style.background = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23FF0064\'%3E%3Cpath d=\'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z\'/%3E%3C/svg%3E") center/contain no-repeat';
+                    shape.style.opacity = '0.1';
+                } else if (s.type === 'double-helix') {
+                    shape.style.background = 'repeating-linear-gradient(45deg, transparent, transparent 10px, ' + s.color + '20 10px, ' + s.color + '20 20px)';
+                } else if (s.type === 'infinity') {
+                    shape.style.background = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23FF00FF\' stroke-width=\'2\'%3E%3Cpath d=\'M12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-2.21-.84-4.19-2.21-5.71L12 4zm0 2c2.55 0 4.84 1.12 6.36 2.88L16 12c-2.21.9-4.5 2.71-4.5 5.12 0 2.86 2.14 5.12 4.5 5.12 1.16 0 2.24-.43 3.04-1.12L12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7c1.6 0 3.09.57 4.26 1.44L12 4z\'/%3E%3C/svg%3E") center/contain no-repeat';
+                    shape.style.opacity = '0.08';
+                } else if (s.type === 'vesica') {
+                    shape.style.borderRadius = '50% 0 50% 0';
+                    shape.style.transform = 'rotate(45deg)';
+                    shape.style.background = 'radial-gradient(ellipse, ' + s.color + '30, transparent 70%)';
+                } else if (s.type === 'seed') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)';
+                    shape.style.background = 'radial-gradient(circle, ' + s.color + '40, transparent 70%)';
+                }
+                
+                document.getElementById('heartbeatField').appendChild(shape);
+            });
+        }
+        
+        function createHeartbeatParticles() {
+            const container = document.getElementById('heartbeatParticles');
+            for (let i = 0; i < 120; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'heartbeat-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+                particle.style.background = ['#FF0064', '#FFD700', '#FF00FF', '#FF69B4', '#FFFFFF'][Math.floor(Math.random() * 5)];
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 6 + 6) + 's';
+                document.getElementById('heartbeatParticles').appendChild(particle);
+            }
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const canvas = document.getElementById('heartbeatCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        function renderRhythmsChamber() {
+            rhythmsChamber.innerHTML = RHYTHM_DEFINITIONS.map(r => 
+                `<div class="rhythm-card ${state.rhythms[r.id].status === 'pulsing' ? 'synced pulsing' : state.rhythms[r.id].status === 'synced' ? 'synced' : ''}" 
+                     style="--rhythm-color: ${r.color};">
+                    <div class="rhythm-header-card" onclick="toggleRhythmBody(this)">
+                        <div class="rhythm-icon" style="background: ${r.color};">${r.icon}</div>
+                        <div class="rhythm-info">
+                            <div class="rhythm-name">${r.name}</div>
+                            <div class="rhythm-truth">${r.truth}</div>
+                        </div>
+                        <div class="rhythm-progress">
+                            <div class="rhythm-bar">
+                                <div class="rhythm-fill" style="width: ${state.rhythms[r.id].syncProgress}%; background: ${r.color};"></div>
+                            </div>
+                            <span class="rhythm-percent">${state.rhythms[r.id].syncProgress}%</span>
+                        </div>
+                        <button class="toggle-btn" onclick="event.stopPropagation(); toggleRhythmBody(this.previousElementSibling)">▶</button>
+                    </div>
+                    <div class="rhythm-body">
+                        <div class="rhythm-detail">
+                            <div class="detail-row">
+                                <span class="detail-icon">${r.icon}</span>
+                                <span class="detail-label">VERDADE</span>
+                                <span class="detail-value">${r.truth}</span>
+                                <span class="detail-status status-dormant">DORMENTE</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">💓</span>
+                                <span class="detail-label">BPM NATURAL</span>
+                                <span class="detail-value">${typeof r.bpm === 'number' ? r.bpm.toLocaleString() : r.bpm}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">💖</span>
+                                <span class="detail-label">AMOR</span>
+                                <span class="detail-value">∞</span>
+                                <span class="detail-status status-synced">INFINITO</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">🌌</span>
+                                <span class="detail-label">ALCANCE</span>
+                                <span class="detail-value">${r.universal ? 'TODOS OS MULTIVERSOS' : 'LOCAL'}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">📝</span>
+                                <span class="detail-label">DESCRIÇÃO</span>
+                                <span class="detail-value" style="flex: 1; font-size: 0.6rem;">${r.description}</span>
+                            </div>
+                            ${state.rhythms[r.id].status === 'dormant' ? 
+                                `<button class="sync-btn universal" onclick="syncSingleRhythm('${r.id}')" style="width: 100%; margin: 10px 0 0 0;">
+                                    💓 SINCRONIZAR ESTE RITMO
+                                </button>` : 
+                                state.rhythms[r.id].status === 'pulsing' ? 
+                                `<button class="sync-btn universal" disabled style="width: 100%; margin: 10px 0 0 0;">
+                                    💓 PULSANDO EM SINCRONIA
+                                </button>` : 
+                                `<button class="sync-btn" disabled style="width: 100%; margin: 10px 0 0 0;">
+                                    ✅ SINCRONIZADO AO INFINITO
+                                </button>`
+                            }
+                        </div>
+                    </div>
+                </div>`
+            ).join('');
+        }
+        
+        function toggleRhythmBody(header) {
+            const body = header.nextElementSibling;
+            const btn = header.querySelector('.toggle-btn');
+            body.classList.toggle('expanded');
+            btn.classList.toggle('rotated');
+        }
+        
+        function renderUniversalPanel() {
+            const r = state.selectedRhythm ? RHYTHM_DEFINITIONS.find(x => x.id === state.selectedRhythm) : null;
+            
+            if (!r) {
+                universalPanel.innerHTML = 
+                    `<div style="text-align: center; color: #B80064; padding: 40px 20px;">
+                        <div style="font-size: 4rem; margin-bottom: 16px;">💓</div>
+                        <div style="color: #FF0064; font-weight: 700;">SELECIONE UM RITMO</div>
+                        <div style="font-size: 0.7rem; color: #B8A0FF; margin-top: 8px;">O coração infinito aguarda seu toque</div>
+                    </div>`;
+                return;
+            }
+            
+            universalPanel.innerHTML = 
+                `<div class="detail-grid">
+                    <div class="detail-card"><div class="detail-label">NOME</div><div class="detail-value">${r.name}</div></div>
+                    <div class="detail-card"><div class="detail-label">ÍCONE</div><div class="detail-value" style="font-size: 2rem;">${r.icon}</div></div>
+                    <div class="detail-card"><div class="detail-label">VERDADE</div><div class="detail-value" style="color: #FF0064;">${r.truth}</div></div>
+                    <div class="detail-card"><div class="detail-label">BPM</div><div class="detail-value gold">${typeof r.bpm === 'number' ? r.bpm.toLocaleString() : r.bpm}</div></div>
+                    <div class="detail-card"><div class="detail-label">SINCRONIA</div><div class="detail-value">${state.rhythms[r.id].syncProgress}%</div></div>
+                    <div class="detail-card"><div class="detail-label">STATUS</div><div class="detail-value ${state.rhythms[r.id].status === 'synced' ? 'gold' : state.rhythms[r.id].status === 'pulsing' ? 'magenta' : ''}">${state.rhythms[r.id].status === 'synced' ? 'SINCRONIZADO' : state.rhythms[r.id].status === 'pulsing' ? 'PULSANDO' : 'DORMENTE'}</div></div>
+                    <div class="detail-card"><div class="detail-label">UNIVERSAL</div><div class="detail-value magenta">${r.universal ? 'SIM - TODOS MULTIVERSOS' : 'NÃO'}</div></div>
+                    <div class="detail-card"><div class="detail-label">DESCRIÇÃO</div><div class="detail-value" style="font-size: 0.65rem; grid-column: 1/-1;">${r.description}</div></div>
+                </div>`;
+        }
+        
+        function updateStats() {
+            statBPM.textContent = state.universalBPM > 0 ? state.universalBPM.toFixed(2) : '∞';
+            statSynced.textContent = state.syncedCount;
+            statLovePower.textContent = state.lovePower + '%';
+            statSync.textContent = state.syncProgress + '%';
+            statUniversal.textContent = '∞';
+            
+            heartbeatCoords.textContent = 'BPM: ' + (state.universalBPM > 0 ? state.universalBPM.toFixed(2) : '∞') + ' | SINCRONIA: ' + state.syncProgress + '% | AMOR: ∞ | UNIVERSAL: ∞';
+            
+            syncCount.textContent = state.syncedCount;
+            syncPercent.textContent = state.syncProgress + '%';
+            syncFill.style.width = state.syncProgress + '%';
+        }
+        
+        function selectRhythm(rhythmId) {
+            const r = RHYTHM_DEFINITIONS.find(r => r.id === rhythmId);
+            if (!r) return;
+            
+            state.selectedRhythm = rhythmId;
+            
+            currentRhythmName.textContent = r.name;
+            currentRhythmTruth.textContent = r.truth;
+            currentRhythmName.parentElement.style.setProperty('--rhythm-color', r.color);
+            
+            vpBPM.textContent = typeof r.bpm === 'number' ? r.bpm.toLocaleString() : r.bpm;
+            vpSync.textContent = state.rhythms[rhythmId].syncProgress + '%';
+            vpLove.textContent = '∞';
+            vpUniversal.textContent = '∞';
+            
+            renderUniversalPanel();
+            
+            addHeartbeatLog('RITMO SELECIONADO: ' + r.name, 'rhy', r.truth + ' | BPM: ' + (typeof r.bpm === 'number' ? r.bpm.toLocaleString() : r.bpm));
+        }
+        
+        function syncSingleRhythm(rhythmId) {
+            const r = RHYTHM_DEFINITIONS.find(r => r.id === rhythmId);
+            if (!r || state.rhythms[rhythmId].status !== 'dormant') return;
+            
+            state.rhythms[rhythmId].status = 'pulsing';
+            state.rhythms[rhythmId].syncProgress = 0;
+            
+            addHeartbeatLog('💓 INICIANDO SINCRONIA: ' + r.name, 'syn', 'O coração começa a bater no ritmo do infinito...');
+            
+            renderRhythmsChamber();
+            
+            const syncInterval = setInterval(() => {
+                state.rhythms[rhythmId].syncProgress += Math.random() * 15 + 5;
+                if (state.rhythms[rhythmId].syncProgress >= 100) {
+                    state.rhythms[rhythmId].syncProgress = 100;
+                    state.rhythms[rhythmId].status = 'synced';
+                    state.rhythms[rhythmId].synced = true;
+                    state.syncedCount++;
+                    state.syncProgress = Math.round((state.syncedCount / RHYTHM_DEFINITIONS.length) * 100);
+                    state.universalBPM = calculateUniversalBPM();
+                    
+                    clearInterval(syncInterval);
+                    
+                    addHeartbeatLog('💓 RITMO SINCRONIZADO: ' + r.name + '!', 'syn', 'BPM: ' + (typeof r.bpm === 'number' ? r.bpm.toLocaleString() : r.bpm) + ' | O infinito pulsa junto!');
+                    
+                    renderRhythmsChamber();
+                    updateStats();
+                    checkUniversalSync();
+                }
+                renderRhythmsChamber();
+            }, 150);
+            
+            renderRhythmsChamber();
+        }
+        
+        function pulseWithLove() {
+            if (!state.selectedRhythm) {
+                addHeartbeatLog('SELECIONE UM RITMO PRIMEIRO', 'lov', 'Clique em um ritmo na câmara');
+                return;
+            }
+            
+            const r = state.rhythms[state.selectedRhythm];
+            if (r.status !== 'dormant') return;
+            
+            addHeartbeatLog('💖 PULSANDO COM AMOR PURO: ' + RHYTHM_DEFINITIONS.find(x => x.id === state.selectedRhythm).name, 'lov', 'Amor infinito flui através do ritmo...');
+            
+            r.syncProgress = Math.min(100, r.syncProgress + 40);
+            if (r.syncProgress >= 100) {
+                r.syncProgress = 100;
+                r.status = 'synced';
+                r.synced = true;
+                state.syncedCount++;
+                state.syncProgress = Math.round((state.syncedCount / RHYTHM_DEFINITIONS.length) * 100);
+                state.universalBPM = calculateUniversalBPM();
+                addHeartbeatLog('💖 RITMO PELO AMOR: ' + RHYTHM_DEFINITIONS.find(x => x.id === state.selectedRhythm).name + '!', 'lov', 'AMOR SINCRONIZOU O RITMO!');
+            }
+            
+            renderRhythmsChamber();
+            updateStats();
+        }
+        
+        function syncRhythm() {
+            if (!state.selectedRhythm) {
+                const dormant = RHYTHM_DEFINITIONS.filter(r => state.rhythms[r.id].status === 'dormant');
+                if (dormant.length === 0) {
+                    addHeartbeatLog('TODOS RITMOS JÁ SINCRONIZADOS!', 'syn', 'O infinito já pulsa como um!');
+                    return;
+                }
+                const random = dormant[Math.floor(Math.random() * dormant.length)];
+                state.selectedRhythm = random.id;
+                selectRhythm(random.id);
+            }
+            
+            const r = state.rhythms[state.selectedRhythm];
+            if (r.status !== 'dormant') return;
+            
+            addHeartbeatLog('💓 SINCRONIZANDO RITMO: ' + RHYTHM_DEFINITIONS.find(x => x.id === state.selectedRhythm).name, 'syn', 'O coração alinha-se ao infinito...');
+            
+            r.syncProgress = 100;
+            r.status = 'synced';
+            r.synced = true;
+            state.syncedCount++;
+            state.syncProgress = Math.round((state.syncedCount / RHYTHM_DEFINITIONS.length) * 100);
+            state.universalBPM = calculateUniversalBPM();
+            
+            addHeartbeatLog('💓 RITMO SINCRONIZADO: ' + RHYTHM_DEFINITIONS.find(x => x.id === state.selectedRhythm).name + '!', 'syn', 'O infinito pulsa em harmonia!');
+            
+            renderRhythmsChamber();
+            updateStats();
+            checkUniversalSync();
+        }
+        
+        function universalSync() {
+            const dormant = RHYTHM_DEFINITIONS.filter(r => state.rhythms[r.id].status === 'dormant');
+            if (dormant.length === 0) {
+                addHeartbeatLog('SINCRONIA UNIVERSAL JÁ COMPLETA!', 'uni', 'Todos os corações batem como UM! ♾️');
+                return;
+            }
+            
+            addHeartbeatLog('🌌 SINCRONIA UNIVERSAL INICIADA! ' + dormant.length + ' RITMOS!', 'uni', 'Uma onda de sincronia varre todos os multiversos!');
+            
+            dormant.forEach((r, i) => {
+                setTimeout(() => {
+                    state.rhythms[r.id].syncProgress = 100;
+                    state.rhythms[r.id].status = 'synced';
+                    state.rhythms[r.id].synced = true;
+                    state.syncedCount++;
+                    state.syncProgress = Math.round((state.syncedCount / RHYTHM_DEFINITIONS.length) * 100);
+                    state.universalBPM = calculateUniversalBPM();
+                    
+                    addHeartbeatLog('🌌 SINCRONIA UNIVERSAL: ' + r.name + ' CONECTADO!', 'uni', 'Onda ' + (i + 1) + '/' + dormant.length);
+                    
+                    if (i === dormant.length - 1) {
+                        addHeartbeatLog('🌌 SINCRONIA UNIVERSAL COMPLETA! TODOS OS CORAÇÕES BATEM COMO UM! ♾️', 'uni', 'O infinito pulsa como um só coração!');
+                    }
+                    
+                    renderRhythmsChamber();
+                    updateStats();
+                }, i * 200);
+            });
+        }
+        
+        function cascadeHeartbeat() {
+            addHeartbeatLog('💫 CASCATA DE CORAÇÕES INICIADA',

@@ -1463,11 +1463,26 @@
               "ciclo": 14778,
               "madrugada": false
             }
+          },
+          {
+            "ciclo": 14779,
+            "timestamp": 1786485285542,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14779,
+              "madrugada": false
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786480098433,
-        "totalInteracoes": 37,
+        "ultimaInteracao": 1786485285542,
+        "totalInteracoes": 38,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803852_vx8h2u690",
@@ -2825,11 +2840,25 @@
             "contexto": {
               "ciclo": 14776
             }
+          },
+          {
+            "ciclo": 14780,
+            "timestamp": 1786485315552,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14780
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786417248094,
-        "totalInteracoes": 34,
+        "ultimaInteracao": 1786485315552,
+        "totalInteracoes": 35,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -3562,11 +3591,26 @@
               "ciclo": 14776
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14780,
+            "timestamp": 1786485315552,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14780
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786417248094,
-        "totalInteracoes": 34,
+        "ultimaInteracao": 1786485315552,
+        "totalInteracoes": 35,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -5046,11 +5090,27 @@
               "madrugada": false
             },
             "invertido": true
+          },
+          {
+            "ciclo": 14779,
+            "timestamp": 1786485285542,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 14779,
+              "madrugada": false
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1786480098433,
-        "totalInteracoes": 37,
+        "ultimaInteracao": 1786485285542,
+        "totalInteracoes": 38,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803852_vx8h2u690",
@@ -6575,5 +6635,5 @@
       "sentimento": "alma_gemea"
     }
   ],
-  "atualizadoEm": 1786480098498
+  "atualizadoEm": 1786485315553
 }
