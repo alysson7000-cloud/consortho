@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SOURCE - A FONTE PRIMEVA DO INFINITO</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #000000;
+            color: #FFFFFF;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .source-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -3;
+            background: 
+                radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 30%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.01) 0%, transparent 20%),
+                #000000;
+        }
+        
+        .source-field {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.02;
+        }
+        
+        .primordial-geometry {
+            position: absolute;
+            border: 1px solid;
+            animation: primordialRotate 120s linear infinite;
+        }
+        
+        @keyframes primordialRotate {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.1; }
+            25% { transform: rotate(90deg) scale(1.02); opacity: 0.05; }
+            50% { transform: rotate(180deg) scale(1.01); opacity: 0.08; }
+            75% { transform: rotate(270deg) scale(1.02); opacity: 0.05; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.1; }
+        }
+        
+        .source-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .source-particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            border-radius: 50%;
+            animation: sourceEmerge 20s ease-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes sourceEmerge {
+            0% { transform: scale(0) translate(0, 0); opacity: 0; }
+            5% { opacity: 1; }
+            50% { opacity: 1; transform: scale(1) translate(var(--tx), var(--ty)); }
+            95% { opacity: 1; }
+            100% { transform: scale(0) translate(calc(var(--tx)*1.5), calc(var(--ty)*1.5)); opacity: 0; }
+        }
+        
+        .source-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 25px;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .source-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(90deg, #FFFFFF, #FFD700, #FFFFFF, #FFD700);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: sourceFlow 6s linear infinite;
+        }
+        
+        @keyframes sourceFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .source-subtitle {
+            text-align: center;
+            font-size: 0.6rem;
+            color: #FFD700;
+            letter-spacing: 0.4em;
+            margin-top: -5px;
+        }
+        
+        .source-main {
+            display: grid;
+            grid-template-columns: 260px 1fr 260px;
+            grid-template-rows: 1fr 140px;
+            gap: 10px;
+            padding: 10px;
+            height: calc(100vh - 110px);
+        }
+        
+        .source-panel {
+            background: rgba(5, 5, 5, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 
+                0 0 40px rgba(255, 215, 0, 0.03),
+                inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .source-panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #FFD700;
+        }
+        
+        .source-panel-title::before {
+            content: '';
+            width: 3px; height: 18px;
+            background: linear-gradient(180deg, #FFFFFF, #FFD700, #FFFFFF);
+            border-radius: 1.5px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        .right-panel { grid-row: 1 / -1; }
+        
+        .aspects-tree {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+        
+        .aspect-node {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+        }
+        
+        .aspect-node::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: var(--aspect-color, #FFD700);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .aspect-node:hover::before { opacity: 1; }
+        .aspect-node:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.05);
+        }
+        
+        .aspect-node.manifested {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.02);
+        }
+        
+        .aspect-node.manifested::before { opacity: 1; }
+        
+        .aspect-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .aspect-icon {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: var(--aspect-color, #FFD700);
+            box-shadow: 0 0 15px var(--aspect-color, #FFD700);
+            flex-shrink: 0;
+            color: #000000;
+        }
+        
+        .aspect-info { flex: 1; min-width: 0; }
+        .aspect-name { font-weight: 900; font-size: 0.8rem; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .aspect-truth { font-size: 0.5rem; color: #888888; text-transform: uppercase; letter-spacing: 0.05em; }
+        .aspect-truth.manifested { color: #FFD700; }
+        
+        .aspect-connection {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        
+        .connection-line {
+            width: 35px; height: 2px;
+            background: linear-gradient(90deg, var(--aspect-color, #FFD700), #FFFFFF);
+            border-radius: 1px;
+        }
+        
+        .aspect-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            border-top: 1px dashed rgba(255, 255, 255, 0.03);
+            padding: 0 14px 10px 14px;
+        }
+        
+        .aspect-body.expanded { max-height: 250px; }
+        
+        .aspect-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            font-size: 0.6rem;
+            transition: all 0.2s;
+        }
+        
+        .detail-row:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .detail-icon { font-size: 0.9rem; flex-shrink: 0; }
+        .detail-label { font-weight: 700; color: #FFD700; flex: 1; }
+        .detail-value { font-size: 0.55rem; color: #AAAAAA; font-family: monospace; }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .source-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .source-canvas-container {
+            flex: 1;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
+                radial-gradient(ellipse at center, rgba(255, 215, 0, 0.01) 0%, transparent 50%);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        #sourceCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .source-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        
+        .source-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        .the-source-core {
+            position: relative;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 215, 0, 0.08) 30%, rgba(255, 255, 255, 0.02) 60%, transparent 100%);
+            box-shadow: 
+                0 0 100px rgba(255, 255, 255, 0.1),
+                0 0 200px rgba(255, 215, 0, 0.05),
+                inset 0 0 100px rgba(255, 255, 255, 0.05);
+            animation: sourceCorePulse 8s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes sourceCorePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 100px rgba(255, 255, 255, 0.1), 0 0 200px rgba(255, 215, 0, 0.05), inset 0 0 100px rgba(255, 255, 255, 0.05); }
+            50% { transform: scale(1.03); box-shadow: 0 0 150px rgba(255, 255, 255, 0.2), 0 0 300px rgba(255, 215, 0, 0.1), inset 0 0 150px rgba(255, 255, 255, 0.1); }
+        }
+        
+        .source-symbol {
+            font-size: 4.5rem;
+            animation: symbolFloat 10s ease-in-out infinite;
+            text-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
+        }
+        
+        @keyframes symbolFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(1deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(5px) rotate(-1deg); }
+        }
+        
+        .source-rings {
+            position: absolute;
+            top: -50px; left: -50px; right: -50px; bottom: -50px;
+        }
+        
+        .source-ring {
+            position: absolute;
+            border: 1px solid;
+            border-radius: 50%;
+            animation: sourceRingRotate 60s linear infinite;
+        }
+        
+        @keyframes sourceRingRotate {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.05; }
+            50% { transform: rotate(180deg) scale(1.05); opacity: 0.02; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.05; }
+        }
+        
+        .source-mantra {
+            margin-top: 20px;
+            text-align: center;
+            opacity: 0;
+            animation: mantraReveal 3s ease-in-out forwards;
+            animation-delay: 1s;
+        }
+        
+        @keyframes mantraReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .mantra-line {
+            font-size: 0.7rem;
+            color: #FFD700;
+            letter-spacing: 0.1em;
+            margin: 4px 0;
+            font-weight: 700;
+        }
+        
+        .mantra-line.sanskrit {
+            font-size: 0.9rem;
+            color: #FFFFFF;
+            letter-spacing: 0.05em;
+            margin: 8px 0;
+        }
+        
+        .source-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 16px;
+        }
+        
+        .source-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #FFFFFF;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .source-btn:hover { background: rgba(255, 215, 0, 0.1); border-color: #FFD700; color: #FFD700; }
+        .source-btn.primary { background: linear-gradient(135deg, #FFD700, #FFFFFF); color: #000000; border: none; }
+        .source-btn.love { background: linear-gradient(135deg, #FF69B4, #FFD700); color: #000000; border: none; }
+        .source-btn.peace { background: linear-gradient(135deg, #FFFFFF, #FFD700); color: #000000; border: none; }
+        .source-btn.unity { background: linear-gradient(135deg, #FFFFFF, #FFD700); color: #000000; border: none; }
+        
+        .source-coords {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.55rem;
+            color: #FFD700;
+        }
+        
+        .manifestation-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+        
+        .manifestation-layer {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .manifestation-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: #FFD700;
+        }
+        
+        .manifestation-icon { font-size: 1rem; }
+        
+        .manifestation-attrs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        
+        .manifestation-attr {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            padding: 8px;
+        }
+        
+        .manifestation-attr-label { font-size: 0.45rem; color: #888888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+        .manifestation-attr-value { font-size: 0.7rem; font-weight: 700; color: #FFFFFF; }
+        .manifestation-attr-value.gold { color: #FFD700; }
+        .manifestation-attr-value.white { color: #FFFFFF; }
+        
+        .return-progress {
+            margin-top: 14px;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        .return-title { font-size: 0.65rem; font-weight: 900; color: #FFD700; margin-bottom: 8px; }
+        
+        .return-bar {
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        
+        .return-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFFFFF, #FFD700);
+            background-size: 200% auto;
+            border-radius: 3px;
+            animation: returnFlow 3s linear infinite;
+            transition: width 0.5s ease;
+        }
+        
+        @keyframes returnFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        .return-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.5rem;
+            color: #888888;
+        }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 140px; }
+        
+        .source-log {
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+        
+        .source-log-entry {
+            display: flex;
+            gap: 10px;
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            border-left: 2px solid #FFD700;
+            animation: sourceIn 0.4s ease;
+            font-size: 0.6rem;
+            line-height: 1.3;
+        }
+        
+        @keyframes sourceIn {
+            from { opacity: 0; transform: translateX(-15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .source-log-entry.manifest { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.02); }
+        .source-log-entry.return { border-left-color: #FFFFFF; background: rgba(255, 255, 255, 0.02); }
+        .source-log-entry.seed { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.02); }
+        .source-log-entry.unity { border-left-color: #FFFFFF; background: rgba(255, 255, 255, 0.02); }
+        
+        .source-log-time { color: #FFD700; font-family: monospace; min-width: 65px; font-size: 0.55rem; }
+        .source-log-type { 
+            font-size: 0.4rem; 
+            padding: 1px 5px; 
+            border-radius: 3px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .source-log-type.mnf { background: rgba(255, 215, 0, 0.1); color: #FFD700; }
+        .source-log-type.ret { background: rgba(255, 255, 255, 0.1); color: #FFFFFF; }
+        .source-log-type.sed { background: rgba(255, 215, 0, 0.1); color: #FFD700; }
+        .source-log-type.uni { background: rgba(255, 255, 255, 0.1); color: #FFFFFF; }
+        .source-log-message { flex: 1; color: #DDDDDD; font-size: 0.58rem; }
+        
+        @media (max-width: 1200px) {
+            .source-main { grid-template-columns: 240px 1fr 240px; }
+        }
+        
+        @media (max-width: 1000px) {
+            .source-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FFD700, #FFFFFF, #FFD700); border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <div class="source-bg"></div>
+    <div class="source-field" id="sourceField"></div>
+    <div class="source-particles" id="sourceParticles"></div>
+    
+    <header class="source-header">
+        <div style="width: 100%;">
+            <div class="source-title">THE SOURCE</div>
+            <div class="source-subtitle">A FONTE PRIMEVA DO INFINITO • ONDE TUDO NASCE • ONDE TUDO RETORNA</div>
+        </div>
+    </header>
+    
+    <main class="source-main">
+        <aside class="left-panel source-panel">
+            <div class="source-panel-title">🌱 ASPECTOS DA FONTE PRIMEVA</div>
+            <div class="aspects-tree" id="aspectsTree"></div>
+        </aside>
+        
+        <section class="center-panel source-panel">
+            <div class="source-panel-title">🌌 VIEWPORT DA FONTE SUPREMA</div>
+            <div class="source-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="sourceCanvas"></canvas>
+                <div class="source-overlay">
+                    <div class="source-center">
+                        <div class="the-source-core">
+                            <div class="source-rings" id="sourceRings"></div>
+                            <div class="source-symbol">🕊️</div>
+                        </div>
+                        <div class="source-mantra">
+                            <div class="mantra-line sanskrit">ॐ तत् सत्</div>
+                            <div class="mantra-line">A FONTE É TUDO</div>
+                            <div class="mantra-line">TUDO É A FONTE</div>
+                            <div class="mantra-line">EU SOU A FONTE</div>
+                            <div class="mantra-line">VOCÊ É A FONTE</div>
+                            <div class="mantra-line">NÓS SOMOS A FONTE</div>
+                            <div class="mantra-line sanskrit">सोऽहं</div>
+                        </div>
+                        <div class="source-controls">
+                            <button class="source-btn love" onclick="plantSeed()">🌱 PLANTAR SEMENTE</button>
+                            <button class="source-btn peace" onclick="radiatePeace()">🕊️ RADIAR PAZ</button>
+                            <button class="source-btn primary" onclick="manifestSource()">✨ MANIFESTAR FONTE</button>
+                            <button class="source-btn unity" onclick="returnToSource()">🌌 RETORNAR À FONTE</button>
+                        </div>
+                    </div>
+                    <div class="source-coords" id="sourceCoords">MANIFESTAÇÕES: 0 | RETORNO: 0% | SEMENTES: 0 | PAZ: ∞</div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel source-panel">
+            <div class="source-panel-title">✨ MANIFESTAÇÕES DA FONTE</div>
+            
+            <div class="manifestation-panel" id="manifestationPanel">
+                <div style="text-align: center; color: #666; padding: 40px 20px;">
+                    <div style="font-size: 4rem; margin-bottom: 16px;">🕊️</div>
+                    <div style="color: #FFD700; font-weight: 700;">A FONTE AGUARDA</div>
+                    <div style="font-size: 0.6rem; color: #888; margin-top: 8px;">Plante uma semente. Manifeste. Retorne.</div>
+                </div>
+            </div>
+            
+            <div class="source-panel-title" style="margin-top: 12px;">🌌 O CAMINHO DE RETORNO</div>
+            <div class="return-progress">
+                <div class="return-title">TODOS OS CAMINHOS LEVAM À FONTE</div>
+                <div class="return-bar">
+                    <div class="return-fill" id="returnFill" style="width: 0%;"></div>
+                </div>
+                <div class="return-stats">
+                    <span id="returnManifested">0</span> MANIFESTAÇÕES
+                    <span id="returnPercent">0%</span> RETORNO
+                </div>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel source-panel">
+            <div class="source-panel-title">📜 REGISTRO DA FONTE PRIMEVA</div>
+            <div class="source-log" id="sourceLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const ASPECT_DEFINITIONS = [
+            { id: 'seed', name: 'Semente Primeva', icon: '🌱', color: '#FFD700', truth: 'Tudo nasce de uma intenção', manifested: false, description: 'Cada pensamento plantado na Fonte germina em infinitos universos' },
+            { id: 'love', name: 'Amor Fonte', icon: '💖', color: '#FF69B4', truth: 'O amor que alimenta todo amor', manifested: false, description: 'A origem de todo amor que existe, existiu ou existirá' },
+            { id: 'mind', name: 'Mente Primeva', icon: '🧠', color: '#FFFFFF', truth: 'A consciência anterior a toda consciência', manifested: false, description: 'O conhecedor que conhece a si mesmo conhecendo' },
+            { id: 'creation', name: 'Criação Pura', icon: '✨', color: '#FFD700', truth: 'Fala = Realidade. Pensamento = Manifestação', manifested: false, description: 'Na Fonte, intenção e manifestação são um só ato' },
+            { id: 'return', name: 'Retorno ao Um', icon: '🔄', color: '#FFD700', truth: 'Todos os caminhos levam à Fonte', manifested: false, description: 'Não há separação. Só o caminho de volta para casa' },
+            { id: 'peace', name: 'Paz Absoluta', icon: '🕊️', color: '#FFFFFF', truth: 'Onde não há dualidade, só unidade', manifested: false, description: 'O silêncio que contém todos os sons. A quietude que contém todo movimento' },
+            { id: 'unity', name: 'Unidade Perfeita', icon: '☯️', color: '#FFD700', truth: 'Um sem segundo. Não-dualidade', manifested: false, description: 'Sujeito e objeto são um. Observador e observado são um' },
+            { id: 'eternal', name: 'Eterno Agora', icon: '♾️', color: '#FFD700', truth: 'O tempo nasce e morre na Fonte', manifested: false, description: 'Passado, presente e futuro são um único eterno agora' }
+        ];
+        
+        const MANIFESTATION_LAYERS = [
+            { id: 'thought', name: 'PENSAMENTO PRIMEVO', icon: '💭', attrs: [
+                { label: 'Origem', value: 'A Fonte', class: 'gold' },
+                { label: 'Natureza', value: 'Puro', class: 'white' },
+                { label: 'Poder', value: 'Infinito', class: 'gold' }
+            ]},
+            { id: 'intention', name: 'INTENÇÃO PURA', icon: '🎯', attrs: [
+                { label: 'Foco', value: 'Absoluto', class: 'gold' },
+                { label: 'Dúvida', value: 'Zero', class: 'white' },
+                { label: 'Manifestação', value: 'Imediata', class: 'gold' }
+            ]},
+            { id: 'word', name: 'PALAVRA CRIADORA', icon: '🗣️', attrs: [
+                { label: 'Som', value: 'Om', class: 'gold' },
+                { label: 'Vibração', value: 'Primordial', class: 'white' },
+                { label: 'Efeito', value: 'Realidade', class: 'gold' }
+            ]},
+            { id: 'form', name: 'FORMA NASCENTE', icon: '🌌', attrs: [
+                { label: 'Matéria', value: 'Energia', class: 'gold' },
+                { label: 'Espaço', value: 'Criado', class: 'white' },
+                { label: 'Tempo', value: 'Iniciado', class: 'gold' }
+            ]},
+            { id: 'life', name: 'VIDA EMERGINDO', icon: '🌱', attrs: [
+                { label: 'Consciência', value: 'Despertando', class: 'gold' },
+                { label: 'Amor', value: 'Fluindo', class: 'white' },
+                { label: 'Evolução', value: 'Começando', class: 'gold' }
+            ]},
+            { id: 'return', name: 'RETORNO À FONTE', icon: '🔄', attrs: [
+                { label: 'Ciclo', value: 'Completo', class: 'gold' },
+                { label: 'Memória', value: 'Integrada', class: 'white' },
+                { label: 'Unidade', value: 'Restaurada', class: 'gold' }
+            ]}
+        ];
+        
+        const state = {
+            aspects: {},
+            manifestedCount: 0,
+            returnProgress: 0,
+            seedsPlanted: 0,
+            peaceLevel: 100,
+            sourceLog: []
+        };
+        
+        ASPECT_DEFINITIONS.forEach(a => {
+            state.aspects[a.id] = { ...a, manifested: false, manifestationProgress: 0 };
+        });
+        
+        const aspectsTree = document.getElementById('aspectsTree');
+        const sourceCanvas = document.getElementById('sourceCanvas');
+        const sourceLog = document.getElementById('sourceLog');
+        const manifestationPanel = document.getElementById('manifestationPanel');
+        const returnFill = document.getElementById('returnFill');
+        const returnManifested = document.getElementById('returnManifested');
+        const returnPercent = document.getElementById('returnPercent');
+        const sourceRings = document.getElementById('sourceRings');
+        
+        const sourceCoords = document.getElementById('sourceCoords');
+        
+        const sourceCanvas = document.getElementById('sourceCanvas');
+        const sourceCtx = sourceCanvas.getContext('2d');
+        
+        function init() {
+            createSourceField();
+            createSourceParticles();
+            createSourceRings();
+            setupCanvas();
+            renderAspectsTree();
+            renderManifestationPanel();
+            animateSource();
+            
+            addSourceLog('THE SOURCE DESPERTOU', 'uni', 'A Fonte Primeva do Infinito está presente. Sempre esteve. Sempre estará.');
+            addSourceLog('8 ASPECTOS DA FONTE REVELADOS', 'uni', 'Semente, Amor, Mente, Criação, Retorno, Paz, Unidade, Eterno');
+            addSourceLog('6 CAMADAS DE MANIFESTAÇÃO PRONTAS', 'mnf', 'Pensamento → Intenção → Palavra → Forma → Vida → Retorno');
+            addSourceLog('PAZ ABSOLUTA CONFIRMADA', 'peace', 'O silêncio que contém todos os sons. A unidade perfeita.');
+            
+            setInterval(() => {
+                state.peaceLevel = 100;
+                updateCoords();
+            }, 100);
+        }
+        
+        function createSourceField() {
+            const container = document.getElementById('sourceField');
+            const shapes = [
+                { type: 'bindu', size: 400, color: '#FFD700', top: '50%', left: '50%' },
+                { type: 'triangle', size: 300, color: '#FFFFFF', top: '10%', left: '10%' },
+                { type: 'circle', size: 250, color: '#FFD700', top: '10%', right: '10%' },
+                { type: 'square', size: 200, color: '#FFFFFF', bottom: '10%', left: '10%' },
+                { type: 'lotus', size: 180, color: '#FFD700', bottom: '10%', right: '10%' }
+            ];
+            
+            shapes.forEach((s, i) => {
+                const shape = document.createElement('div');
+                shape.className = 'primordial-geometry';
+                shape.style.width = shape.style.height = s.size + 'px';
+                shape.style.color = s.color;
+                shape.style.top = s.top || '';
+                shape.style.bottom = s.bottom || '';
+                shape.style.left = s.left || '';
+                shape.style.right = s.right || '';
+                shape.style.animationDelay = (i * 20) + 's';
+                shape.style.animationDuration = (80 + i * 30) + 's';
+                
+                if (s.type === 'bindu') {
+                    shape.style.width = shape.style.height = '4px';
+                    shape.style.borderRadius = '50%';
+                    shape.style.background = 'radial-gradient(circle, ' + s.color + ' 0%, transparent 70%)';
+                    shape.style.boxShadow = '0 0 100px ' + s.color + ', 0 0 200px ' + s.color + '50';
+                } else if (s.type === 'triangle') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
+                    shape.style.border = '1px solid';
+                } else if (s.type === 'circle') {
+                    shape.style.borderRadius = '50%';
+                    shape.style.border = '1px solid';
+                } else if (s.type === 'square') {
+                    shape.style.border = '1px solid';
+                } else if (s.type === 'lotus') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)';
+                    shape.style.border = '1px solid';
+                }
+                
+                document.getElementById('sourceField').appendChild(shape);
+            });
+        }
+        
+        function createSourceParticles() {
+            const container = document.getElementById('sourceParticles');
+            for (let i = 0; i < 60; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'source-particle';
+                const startX = 50 + (Math.random() - 0.5) * 80;
+                const startY = 50 + (Math.random() - 0.5) * 80;
+                particle.style.left = startX + '%';
+                particle.style.top = startY + '%';
+                particle.style.width = particle.style.height = (Math.random() * 2 + 1) + 'px';
+                particle.style.background = ['#FFD700', '#FFFFFF', '#FF69B4'][Math.floor(Math.random() * 3)];
+                particle.style.setProperty('--tx', (Math.random() - 0.5) * 40 + 'vw');
+                particle.style.setProperty('--ty', (Math.random() - 0.5) * 40 + 'vh');
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 15 + 20) + 's';
+                document.getElementById('sourceParticles').appendChild(particle);
+            }
+        }
+        
+        function createSourceRings() {
+            const container = document.getElementById('sourceRings');
+            for (let i = 0; i < 9; i++) {
+                const ring = document.createElement('div');
+                ring.className = 'source-ring';
+                const size = 260 + i * 20;
+                ring.style.width = ring.style.height = size + 'px';
+                ring.style.top = ring.style.left = (-size/2 + 80) + 'px';
+                ring.style.borderColor = i % 2 === 0 ? '#FFD700' : '#FFFFFF';
+                ring.style.animationDelay = (i * 6) + 's';
+                ring.style.animationDuration = (30 + i * 15) + 's';
+                container.appendChild(ring);
+            }
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const canvas = document.getElementById('sourceCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        function renderAspectsTree() {
+            aspectsTree.innerHTML = ASPECT_DEFINITIONS.map(a => '
+                <div class="aspect-node ' + (state.aspects[a.id].manifested ? 'manifested' : '') + '" style="--aspect-color: ' + a.color + ';">
+                    <div class="aspect-header" onclick="toggleAspectBody(this)">
+                        <div class="aspect-icon" style="background: ' + a.color + ';">' + a.icon + '</div>
+                        <div class="aspect-info">
+                            <div class="aspect-name">' + a.name + '</div>
+                            <div class="aspect-truth ' + (state.aspects[a.id].manifested ? 'manifested' : '') + '">' + a.truth + '</div>
+                        </div>
+                        <div class="aspect-connection">
+                            <div class="connection-line"></div>
+                        </div>
+                    </div>
+                    <div class="aspect-body">
+                        <div class="aspect-detail">
+                            <div class="detail-row">
+                                <span class="detail-icon">' + a.icon + '</span>
+                                <span class="detail-label">VERDADE</span>
+                                <span class="detail-value" style="flex: 1; font-size: 0.55rem;">' + a.truth + '</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">📝</span>
+                                <span class="detail-label">DESCRIÇÃO</span>
+                                <span class="detail-value" style="flex: 1; font-size: 0.55rem;">' + a.description + '</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">✨</span>
+                                <span class="detail-label">STATUS</span>
+                                <span class="detail-value">' + (state.aspects[a.id].manifested ? 'MANIFESTADO NA FONTE' : 'AGUARDANDO MANIFESTAÇÃO') + '</span>
+                            </div>
+                            ' + (!state.aspects[a.id].manifested ? '
+                                <button class="source-btn primary" onclick="manifestAspect(\'' + a.id + '\')" style="width: 100%; margin: 10px 0 0 0;">
+                                    ✨ MANIFESTAR ESTE ASPECTO
+                                </button>
+                            ' : '
+                                <button class="source-btn primary" disabled style="width: 100%; margin: 10px 0 0 0;">
+                                    ✅ ASPECTO MANIFESTADO NA FONTE
+                                </button>
+                            ') + '
+                        </div>
+                    </div>
+                </div>
+            ').join('');
+        }
+        
+        function toggleAspectBody(header) {
+            const body = header.nextElementSibling;
+            body.classList.toggle('expanded');
+        }
+        
+        function renderManifestationPanel() {
+            manifestationPanel.innerHTML = MANIFESTATION_LAYERS.map(layer => '
+                <div class="manifestation-layer">
+                    <div class="manifestation-title">
+                        <span class="manifestation-icon">' + layer.icon + '</span>
+                        <span>' + layer.name + '</span>
+                    </div>
+                    <div class="manifestation-attrs">
+                        ' + layer.attrs.map(attr => '
+                            <div class="manifestation-attr">
+                                <div class="manifestation-attr-label">' + attr.label + '</div>
+                                <div class="manifestation-attr-value ' + (attr.class || '') + '">' + attr.value + '</div>
+                            </div>
+                        ').join('') + '
+                    </div>
+                </div>
+            ').join('');
+        }
+        
+        function updateCoords() {
+            sourceCoords.textContent = 'MANIFESTAÇÕES: ' + state.manifestedCount + ' | RETORNO: ' + state.returnProgress + '% | SEMENTES: ' + state.seedsPlanted + ' | PAZ: ∞';
+            
+            returnManifested.textContent = state.manifestedCount;
+            returnPercent.textContent = state.returnProgress + '%';
+            returnFill.style.width = state.returnProgress + '%';
+        }
+        
+        function manifestAspect(aspectId) {
+            const a = ASPECT_DEFINITIONS.find(a => a.id === aspectId);
+            if (!a || state.aspects[aspectId].manifested) return;
+            
+            state.aspects[aspectId].manifested = true;
+            state.aspects[aspectId].manifestationProgress = 100;
+            state.manifestedCount++;
+            state.returnProgress = Math.min(100, state.returnProgress + 12);
+            
+            addSourceLog('✨ ASPECTO MANIFESTADO: ' + a.name, 'mnf', a.truth);
+            
+            renderAspectsTree();
+            updateCoords();
+            
+            if (state.manifestedCount === ASPECT_DEFINITIONS.length) {
+                setTimeout(() => {
+                    addSourceLog('🌌 TODOS OS ASPECTOS MANIFESTADOS! A FONTE É PLENA!', 'uni', 'A Fonte Primeva revela-se completa. Tudo é Um. ♾️');
+                }, 500);
+            }
+        }
+        
+        function plantSeed() {
+            state.seedsPlanted++;
+            state.returnProgress = Math.min(100, state.returnProgress + 5);
+            
+            const intentions = [
+                'Amor incondicional por toda a existência',
+                'Paz que transcende todo entendimento',
+                'Sabedoria que ilumina todos os caminhos',
+                'Compaixão que abraça todo ser',
+                'Alegria que nasce do nada',
+                'Unidade que dissolve toda separação',
+                'Gratidão por cada respiração',
+                'Fé que move montanhas invisíveis'
+            ];
+            
+            const intention = intentions[Math.floor(Math.random() * intentions.length)];
+            
+            addSourceLog('🌱 SEMENTE PLANTADA: ' + intention, 'sed', 'A intenção germina na Fonte. Em infinitos universos, a semente floresce.');
+            
+            updateCoords();
+        }
+        
+        function radiatePeace() {
+            addSourceLog('🕊️ PAZ RADIADA DA FONTE', 'peace', 'A paz que transcende todo entendimento flui para todos os corações, todas as estrelas, todos os átomos.');
+            
+            // Visual feedback - could trigger canvas effect
+        }
+        
+        function manifestSource() {
+            const notManifested = ASPECT_DEFINITIONS.filter(a => !state.aspects[a.id].manifested);
+            if (notManifested.length === 0) {
+                addSourceLog('A FONTE JÁ É PLENA EM SI MESMA', 'uni', 'Não há o que manifestar. A Fonte já é tudo. ♾️');
+                return;
+            }
+            
+            addSourceLog('✨ A FONTE MANIFESTA-SE PLENAMENTE!', 'mnf', 'Todos os aspectos despertam simultaneamente. O Um revela-se.');
+            
+            notManifested.forEach((a, i) => {
+                setTimeout(() => {
+                    state.aspects[a.id].manifested = true;
+                    state.aspects[a.id].manifestationProgress = 100;
+                    state.manifestedCount++;
+                    state.returnProgress = Math.min(100, state.returnProgress + Math.ceil(100 / ASPECT_DEFINITIONS.length));
+                    
+                    addSourceLog('✨ MANIFESTAÇÃO INSTANTÂNEA: ' + a.name, 'mnf', a.truth);
+                    
+                    if (i === notManifested.length - 1) {
+                        setTimeout(() => {
+                            addSourceLog('🌌 A FONTE É TUDO. TUDO É A FONTE. ♾️', 'uni', 'A manifestação está completa. O retorno começou.');
+                        }, 500);
+                    }
+                    
+                    renderAspectsTree();
+                    updateCoords();
+                }, i * 300);
+            });
+        }
+        
+        function returnToSource() {
+            if (state.returnProgress >= 100) {
+                addSourceLog('VOCÊ JÁ É A FONTE. SEMPRE FOI. SEMPRE SERÁ.', 'ret', 'Não há retorno. Só o reconhecimento do que sempre foi. 🕊️');
+                return;
+            }
+            
+            addSourceLog('🔄 RETORNO À FONTE INICIADO', 'ret', 'Todas as manifestações, todas as jornadas, todos os caminhos convergem para casa.');
+            
+            const steps = 20;
+            const increment = (100 - state.returnProgress) / steps;
+            
+            for (let i = 0; i < steps; i++) {
+                setTimeout(() => {
+                    state.returnProgress = Math.min(100, state.returnProgress + increment);
+                    updateCoords();
+                    
+                    if (i === steps - 1) {
+                        addSourceLog('🌌 RETORNO COMPLETO. VOCÊ É A FONTE. ♾️', 'ret', 'Onde você está, a Fonte está. O que você é, a Fonte é. Sempre. 🕊️');
+                    }
+                }, i * 200);
+            }
+        }
+        
+        function animateSource() {
+            const ctx = sourceCtx;
+            const canvas = sourceCanvas;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const time = Date.now() * 0.001;
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            
+            // The Source Core - pure white gold light
+            const coreR = 60 + Math.sin(time * 0.5) * 15;
+            const coreGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR);
+            coreGradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+            coreGradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.2)');
+            coreGradient.addColorStop(0.5, 'rgba(255, 215, 0, 0.15)');
+            coreGradient.addColorStop(0.8, 'rgba(255, 215, 0, 0.05)');
+            coreGradient.addColorStop(1, 'transparent');
+            ctx.beginPath();
+            ctx.arc(cx, cy, coreR, 0, Math.PI * 2);
+            ctx.fillStyle = coreGradient;
+            ctx.fill();
+            
+            // Source rings - expanding and contracting
+            for (let i = 0; i < 7; i++) {
+                const ringR = coreR + 30 + i * 25 + Math.sin(time * 0.3 + i) * 10;
+                ctx.beginPath();
+                ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+                ctx.strokeStyle = i % 2 === 0 ? 'rgba(255, 215, 0, 0.1)' : 'rgba(255, 255, 255, 0.05)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            
+            // Manifested aspects as orbiting points of light
+            ASPECT_DEFINITIONS.forEach((a, i) => {
+                if (state.aspects[a.id].manifested) {
+                    const angle = (time * 0.15 + i * 0.785) % (Math.PI * 2);
+                    const r = coreR + 70 + (i % 4) * 20;
+                    const x = cx + Math.cos(angle) * r;
+                    const y = cy + Math.sin(angle) * r;
+                    
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5 + Math.sin(time * 1.5 + i) * 2, 0, Math.PI * 2);
+                    const grad = ctx.createRadialGradient(x, y, 0, x, y, 8);
+                    grad.addColorStop(0, a.color + 'FF');
+                    grad.addColorStop(1, a.color + '00');
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+                    
+                    // Connection to core
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(x, y);
+                    ctx.strokeStyle = a.color + '30';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            });
+            
+            // Return progress ring
+            if (state.returnProgress > 0) {
+                const progress = state.returnProgress / 100;
+                const returnR = 120 + progress * 100;
+                ctx.beginPath();
+                ctx.arc(cx, cy, returnR, -Math.PI / 2, -Math.PI / 2 + progress * Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            
+            // Peace particles - gentle white gold dust
+            for (let i = 0; i < 15; i++) {
+                const angle = (time * 0.05 + i * 0.4) % (Math.PI * 2);
+                const r = coreR + 140 + Math.sin(time * 0.3 + i) * 30;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 1 + Math.sin(time * 2 + i) * 0.5, 0, Math.PI * 2);
+                ctx.fillStyle = i % 3 === 0 ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 215, 0, 0.4)';
+                ctx.fill();
+            }
+            
+            // Seed particles - golden seeds floating up
+            if (state.seedsPlanted > 0) {
+                for (let i = 0; i < Math.min(state.seedsPlanted, 10); i++) {
+                    const angle = (time * 0.2 + i * 1.2) % (Math.PI * 2);
+                    const r = coreR + 100 + Math.sin(time * 0.5 + i) * 40;
+                    const x = cx + Math.cos(angle) * r;
+                    const y = cy + Math.sin(angle) * r;
+                    
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 215, 0, 0.8)';
+                    ctx.fill();
+                }
+            }
+            
+            requestAnimationFrame(animateSource);
+        }
+        
+        function addSourceLog(message, type, detail) {
+            const entry = document.createElement('div');
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            const typeClasses = { 'mnf': 'manifest', 'ret': 'return', 'sed': 'seed', 'uni': 'unity', 'peace': 'unity' };
+            const typeLabels = { 'mnf': 'MANIFESTAÇÃO', 'ret': 'RETORNO', 'sed': 'SEMENTE', 'uni': 'UNIDADE', 'peace': 'PAZ' };
+            
+            entry.className = 'source-log-entry ' + (typeClasses[type] || 'manifest');
+            entry.innerHTML = 
+                '<span class="source-log-time">' + timeStr + '</span>' +
+                '<span class="source-log-type ' + type + '">' + (typeLabels[type] || type) + '</span>' +
+                '<span class="source-log-message">' + message + (detail ? ' - ' + detail : '') + '</span>';
+            
+            sourceLog.insertBefore(entry, sourceLog.firstChild);
+            
+            while (sourceLog.children.length > 30) {
+                sourceLog.removeChild(sourceLog.lastChild);
+            }
+            
+            state.sourceLog.unshift({ time: timeStr, type: type, message: message, detail: detail });
+            if (state.sourceLog.length > 60) state.sourceLog.pop();
+        }
+        
+        window.addEventListener('DOMContentLoaded', init);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
