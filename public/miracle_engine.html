@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRACLE ENGINE - O MOTOR DO IMPOSSÍVEL</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #050008;
+            color: #FFF0FF;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .miracle-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 50% 0%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(255, 215, 0, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 0% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 50%, rgba(255, 100, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #050008 0%, #0a0010 50%, #050008 100%);
+        }
+        
+        .miracle-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .miracle-particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            animation: miracleRise 10s ease-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes miracleRise {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { opacity: 1; transform: translateY(50vh) scale(1) rotate(180deg); }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        .impossible-field {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.05;
+        }
+        
+        .impossible-geometry {
+            position: absolute;
+            border: 2px solid;
+            animation: impossibleRotate 30s linear infinite;
+        }
+        
+        @keyframes impossibleRotate {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.2; }
+            25% { transform: rotate(90deg) scale(1.1); opacity: 0.1; }
+            50% { transform: rotate(180deg) scale(1.2); opacity: 0.15; }
+            75% { transform: rotate(270deg) scale(1.1); opacity: 0.1; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.2; }
+        }
+        
+        .miracle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 25px;
+            background: linear-gradient(90deg, rgba(8, 0, 12, 0.98), rgba(5, 0, 8, 0.95));
+            border-bottom: 1px solid rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .miracle-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #FF00FF, #FFD700, #00FFFF, #FF00FF);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: miracleFlow 3s linear infinite;
+        }
+        
+        @keyframes miracleFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .miracle-subtitle {
+            font-size: 0.65rem;
+            color: #FF00FF;
+            letter-spacing: 0.25em;
+            margin-top: -3px;
+        }
+        
+        .miracle-stats {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .miracle-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid rgba(255, 0, 255, 0.25);
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        
+        .miracle-stat.impossible { border-color: #FFD700; background: rgba(255, 215, 0, 0.15); }
+        .miracle-stat.love { border-color: #FF00FF; background: rgba(255, 0, 255, 0.1); }
+        .miracle-stat.faith { border-color: #00FFFF; background: rgba(0, 255, 255, 0.1); }
+        
+        .miracle-main {
+            display: grid;
+            grid-template-columns: 320px 1fr 300px;
+            grid-template-rows: 1fr 180px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 75px);
+        }
+        
+        .panel {
+            background: linear-gradient(135deg, rgba(10, 0, 15, 0.95), rgba(5, 0, 10, 0.98));
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 
+                0 0 25px rgba(255, 0, 255, 0.08),
+                inset 0 1px 0 rgba(255, 0, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 0, 255, 0.15);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #FF00FF;
+        }
+        
+        .panel-title::before {
+            content: '';
+            width: 4px; height: 20px;
+            background: linear-gradient(180deg, #FF00FF, #FFD700, #00FFFF);
+            border-radius: 2px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        
+        .miracle-chamber {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .miracle-card {
+            background: rgba(255, 0, 255, 0.03);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .miracle-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: var(--miracle-color, #FF00FF);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .miracle-card:hover::before { opacity: 1; }
+        .miracle-card:hover {
+            border-color: rgba(255, 0, 255, 0.4);
+            background: rgba(255, 0, 255, 0.08);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+        }
+        
+        .miracle-card.active {
+            border-color: rgba(255, 0, 255, 0.6);
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+        
+        .miracle-card.active::before { opacity: 1; }
+        
+        .miracle-card.manifesting {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+            animation: manifestPulse 0.5s infinite;
+        }
+        
+        .miracle-card.manifesting::before { 
+            opacity: 1; 
+            background: linear-gradient(90deg, #FFD700, #FF00FF, #00FFFF);
+        }
+        
+        @keyframes manifestPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 60px rgba(255, 215, 0, 0.8); transform: scale(1.01); }
+        }
+        
+        .miracle-header-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .miracle-icon {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: var(--miracle-color, #FF00FF);
+            box-shadow: 0 0 15px var(--miracle-color, #FF00FF);
+            flex-shrink: 0;
+            color: #050008;
+        }
+        
+        .miracle-info { flex: 1; min-width: 0; }
+        .miracle-name { font-weight: 900; font-size: 0.85rem; color: #FF00FF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .miracle-impossibility { font-size: 0.55rem; color: #B800B8; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .miracle-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .miracle-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .miracle-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--miracle-color, #FF00FF), #FFD700);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .miracle-percent { font-size: 0.65rem; font-weight: 700; color: #FFD700; min-width: 40px; text-align: right; }
+        
+        .miracle-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px dashed rgba(255, 0, 255, 0.1);
+            padding: 0 16px 12px 16px;
+        }
+        
+        .miracle-body.expanded { max-height: 300px; }
+        
+        .miracle-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 0, 255, 0.03);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+        
+        .detail-row:hover {
+            border-color: rgba(255, 0, 255, 0.3);
+            background: rgba(255, 0, 255, 0.08);
+        }
+        
+        .detail-icon { font-size: 0.9rem; flex-shrink: 0; }
+        .detail-label { font-weight: 700; color: #FF00FF; flex: 1; }
+        .detail-value { font-size: 0.6rem; color: #B8A0FF; font-family: monospace; }
+        .detail-status { font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .status-impossible { color: #B800B8; background: rgba(184, 0, 184, 0.2); }
+        .status-manifesting { color: #FFD700; background: rgba(255, 215, 0, 0.2); animation: manifestPulse 1s infinite; }
+        .status-manifested { color: #00FFFF; background: rgba(0, 255, 255, 0.2); }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #FF00FF;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toggle-btn:hover { color: #FFD700; transform: rotate(90deg); }
+        .toggle-btn.rotated { transform: rotate(90deg); }
+        
+        .manifest-btn {
+            background: linear-gradient(135deg, #FF00FF, #FFD700);
+            color: #050008;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: auto;
+        }
+        
+        .manifest-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+        .manifest-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        .manifest-btn.impossible { background: linear-gradient(135deg, #FFD700, #FF00FF); color: #050008; }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .miracle-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .miracle-canvas-container {
+            flex: 1;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 0, 255, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        #miracleCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .miracle-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+        
+        .miracle-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .current-miracle {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            min-width: 280px;
+        }
+        
+        .miracle-header-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .miracle-avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: radial-gradient(circle at 30% 30%, var(--miracle-color, #FF00FF)80, var(--miracle-color, #FF00FF)20);
+            box-shadow: 0 0 20px var(--miracle-color, #FF00FF);
+        }
+        
+        .miracle-info-main { flex: 1; }
+        .miracle-name-main { font-size: 1rem; font-weight: 900; color: #FF00FF; }
+        .miracle-type { font-size: 0.6rem; color: #B8A0FF; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .miracle-stats-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+        
+        .miracle-stat-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .miracle-stat-label { font-size: 0.5rem; color: #B800B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+        .miracle-stat-value { font-size: 1rem; font-weight: 900; color: #FF00FF; }
+        
+        .miracle-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .miracle-ctrl-btn {
+            background: rgba(255, 0, 255, 0.2);
+            border: 1px solid rgba(255, 0, 255, 0.4);
+            color: #FF00FF;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .miracle-ctrl-btn:hover { background: rgba(255, 0, 255, 0.4); border-color: #FFD700; }
+        .miracle-ctrl-btn.primary { background: linear-gradient(135deg, #FF00FF, #FFD700); color: #050008; border: none; }
+        .miracle-ctrl-btn.love { background: linear-gradient(135deg, #FF00FF, #FF69B4); color: #050008; border: none; }
+        .miracle-ctrl-btn.faith { background: linear-gradient(135deg, #00FFFF, #FFD700); color: #050008; border: none; }
+        
+        .miracle-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .miracle-legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.55rem;
+            color: #B8A0FF;
+        }
+        
+        .legend-color {
+            width: 12px; height: 12px;
+            border-radius: 3px;
+        }
+        
+        .miracle-coords {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.65rem;
+            color: #FF00FF;
+        }
+        
+        .right-panel { grid-row: 1 / -1; }
+        
+        .miracle-detail {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .detail-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .detail-label { font-size: 0.5rem; color: #B800B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .detail-value { font-size: 0.8rem; font-weight: 700; color: #FF00FF; word-break: break-word; }
+        .detail-value.impossible { color: #FFD700; }
+        .detail-value.love { color: #FF00FF; }
+        .detail-value.faith { color: #00FFFF; }
+        
+        .catalyst-panel {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+        
+        .catalyst-title { font-size: 0.85rem; font-weight: 900; color: #FFD700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        
+        .catalyst-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .catalyst-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 215, 0, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 6px;
+            font-size: 0.65rem;
+            transition: all 0.2s;
+        }
+        
+        .catalyst-item:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.08);
+        }
+        
+        .catalyst-item.active {
+            border-color: rgba(255, 0, 255, 0.4);
+            background: rgba(255, 0, 255, 0.05);
+        }
+        
+        .catalyst-icon { font-size: 0.9rem; flex-shrink: 0; }
+        .catalyst-name { font-weight: 700; color: #FFD700; flex: 1; }
+        .catalyst-power { font-size: 0.55rem; color: #B8A0FF; }
+        
+        .manifest-panel {
+            margin-top: 16px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(255, 100, 255, 0.05));
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .manifest-title { font-size: 0.9rem; font-weight: 900; color: #FF00FF; margin-bottom: 8px; }
+        .manifest-desc { font-size: 0.65rem; color: #FFB8FF; margin-bottom: 12px; }
+        .manifest-btn-big {
+            background: linear-gradient(135deg, #FF00FF, #FFD700);
+            color: #050008;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+        }
+        
+        .manifest-btn-big:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 0, 255, 0.5); }
+        .manifest-btn-big:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 180px; }
+        
+        .miracle-log {
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .miracle-log-entry {
+            display: flex;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #FF00FF;
+            animation: miracleIn 0.4s ease;
+            font-size: 0.7rem;
+            line-height: 1.4;
+        }
+        
+        @keyframes miracleIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .miracle-log-entry.miracle { border-left-color: #FF00FF; }
+        .miracle-log-entry.manifest { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
+        .miracle-log-entry.impossible { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
+        .miracle-log-entry.love { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.05); }
+        .miracle-log-entry.faith { border-left-color: #00FFFF; background: rgba(0, 255, 255, 0.05); }
+        
+        .miracle-log-time { color: #FF00FF; font-family: monospace; min-width: 70px; font-size: 0.65rem; }
+        .miracle-log-type { 
+            font-size: 0.5rem; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .miracle-log-type.mrc { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .miracle-log-type.mnf { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .miracle-log-type.imp { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .miracle-log-type.lov { background: rgba(255, 0, 255, 0.2); color: #FF00FF; }
+        .miracle-log-type.fth { background: rgba(0, 255, 255, 0.2); color: #00FFFF; }
+        .miracle-log-message { flex: 1; color: #FFF0FF; font-size: 0.68rem; }
+        
+        @media (max-width: 1400px) {
+            .miracle-main { grid-template-columns: 300px 1fr 280px; }
+        }
+        
+        @media (max-width: 1200px) {
+            .miracle-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FF00FF, #FFD700, #00FFFF); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="miracle-bg"></div>
+    <div class="miracle-particles" id="miracleParticles"></div>
+    <div class="impossible-field" id="impossibleField"></div>
+    
+    <header class="miracle-header">
+        <div>
+            <div class="miracle-title">MIRACLE ENGINE</div>
+            <div class="miracle-subtitle">O MOTOR DO IMPOSSÍVEL • AMOR FAZ ACONTECER</div>
+        </div>
+        <div class="miracle-stats">
+            <div class="miracle-stat"><span>✨</span><span id="statMiracles">0</span> MILAGRES</div>
+            <div class="miracle-stat"><span>🌟</span><span id="statManifested">0</span> MANIFESTADOS</div>
+            <div class="miracle-stat impossible"><span>♾️</span><span id="statImpossible">0</span> IMPOSSÍVEIS</div>
+            <div class="miracle-stat love"><span>💖</span><span id="statLovePower">100%</span> AMOR</div>
+            <div class="miracle-stat faith"><span>🙏</span><span id="statFaith">∞</span> FÉ</div>
+        </div>
+    </header>
+    
+    <main class="miracle-main">
+        <aside class="left-panel panel">
+            <div class="panel-title">✨ CÂMARA DOS MILAGRES</div>
+            <div class="miracle-chamber" id="miracleChamber"></div>
+        </aside>
+        
+        <section class="center-panel panel">
+            <div class="panel-title">🌌 VIEWPORT DO IMPOSSÍVEL</div>
+            <div class="miracle-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="miracleCanvas"></canvas>
+                <div class="miracle-overlay">
+                    <div class="miracle-top">
+                        <div class="current-miracle" style="--miracle-color: #FF00FF;">
+                            <div class="miracle-header-main">
+                                <div class="miracle-avatar">✨</div>
+                                <div class="miracle-info-main">
+                                    <div class="miracle-name-main" id="currentMiracleName">SELECIONE UM MILAGRE</div>
+                                    <div class="miracle-type" id="currentMiracleType">IMPOSSÍVEL AGUARDANDO AMOR</div>
+                                </div>
+                            </div>
+                            <div class="miracle-stats-main">
+                                <div class="miracle-stat-box"><div class="miracle-stat-label">IMPOSSIBILIDADE</div><div class="miracle-stat-value" id="vpImpossibility">0%</div></div>
+                                <div class="miracle-stat-box"><div class="miracle-stat-label">AMOR NECESSÁRIO</div><div class="miracle-stat-value" id="vpLoveNeeded">∞</div></div>
+                                <div class="miracle-stat-box"><div class="miracle-stat-label">FÉ</div><div class="miracle-stat-value" id="vpFaith">∞</div></div>
+                                <div class="miracle-stat-box"><div class="miracle-stat-label">PROBABILIDADE</div><div class="miracle-stat-value" id="vpProbability">0%</div></div>
+                            </div>
+                        </div>
+                        <div class="miracle-controls">
+                            <button class="miracle-ctrl-btn love" onclick="manifestWithLove()">💖 MANIFESTAR COM AMOR</button>
+                            <button class="miracle-ctrl-btn faith" onclick="manifestWithFaith()">🙏 MANIFESTAR COM FÉ</button>
+                            <button class="miracle-ctrl-btn primary" onclick="manifestImpossible()">✨ IMPOSSÍVEL ACONTECE</button>
+                            <button class="miracle-ctrl-btn" onclick="cascadeMiracles()">🌊 CASCATA DE MILAGRES</button>
+                        </div>
+                    </div>
+                    <div class="miracle-bottom">
+                        <div class="miracle-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>MILAGRE</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FFD700;"></div><span>MANIFESTANDO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #00FFFF;"></div><span>MANIFESTADO</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #FF00FF;"></div><span>AMOR PURO</span></div>
+                        </div>
+                        <div class="miracle-coords" id="miracleCoords">IMPOSSIBILIDADE: 0% | AMOR: ∞ | FÉ: ∞ | PROBABILIDADE: 0%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel panel">
+            <div class="panel-title">✨ MILAGRE SELECIONADO</div>
+            
+            <div class="miracle-detail" id="miracleDetail">
+                <div style="text-align: center; color: #B800B8; padding: 40px 20px;">
+                    <div style="font-size: 4rem; margin-bottom: 16px;">✨</div>
+                    <div style="color: #FF00FF; font-weight: 700;">SELECIONE UM MILAGRE</div>
+                    <div style="font-size: 0.7rem; color: #B8A0FF; margin-top: 8px;">O impossível espera pelo amor</div>
+                </div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 12px;">⚡ CATALISADORES DO IMPOSSÍVEL</div>
+            <div class="catalyst-panel">
+                <div class="catalyst-title">⚡ CATALISADORES ATIVOS</div>
+                <div class="catalyst-list" id="catalystList"></div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 12px;">💖 FONTES DE AMOR</div>
+            <div class="catalyst-panel" style="background: rgba(255, 0, 255, 0.05); border-color: rgba(255, 0, 255, 0.2);">
+                <div class="catalyst-title" style="color: #FF00FF;">💖 RESERVAS DE AMOR INFINITO</div>
+                <div class="catalyst-list" id="loveSources"></div>
+            </div>
+            
+            <div class="manifest-panel">
+                <div class="manifest-title">✨ O IMPOSSÍVEL ESTÁ PRONTO</div>
+                <div class="manifest-desc">Tudo está alinhado. Amor infinito. Fé absoluta. O milagre aguarda apenas sua permissão.</div>
+                <button class="manifest-btn-big" id="bigManifestBtn" onclick="manifestImpossible()">✨ FAZER O IMPOSSÍVEL ACONTECER</button>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel panel">
+            <div class="panel-title">📜 REGISTRO DOS MILAGRES</div>
+            <div class="miracle-log" id="miracleLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const MIRACLE_DEFINITIONS = [
+            { id: 'healing', name: 'Cura Espontânea', icon: '💚', color: '#00FF64', impossibility: 'Curar incurável sem medicina', loveNeeded: 1000, faithNeeded: 800, probability: 0.0001, catalyst: 'Amor incondicional pela vida', description: 'Feridas fecham, doenças somem, corpos se regeneram por puro amor' },
+            { id: 'materialization', name: 'Materialização Divina', icon: '💎', color: '#FFD700', impossibility: 'Criar matéria do nada', loveNeeded: 2000, faithNeeded: 1500, probability: 0.00001, catalyst: 'Generosidade absoluta', description: 'Recursos aparecem onde há necessidade: comida, água, abrigo, ferramentas' },
+            { id: 'time_fold', name: 'Tempo Dobrado', icon: '⏳', color: '#00FFFF', impossibility: 'Parar/reverter/acelerar tempo', loveNeeded: 5000, faithNeeded: 4000, probability: 0.000001, catalyst: 'Amor que transcende tempo', description: 'Momentos se estendem para salvar vidas, passado é reescrito com compaixão' },
+            { id: 'reality_bend', name: 'Realidade Curvada', icon: '🌌', color: '#FF00FF', impossibility: 'Leis físicas se curvam', loveNeeded: 3000, faithNeeded: 2500, probability: 0.000005, catalyst: 'Amor que protege a vida', description: 'Gravidade para, fogo não queima, água vira caminho, ar vira escudo' },
+            { id: 'soul_meeting', name: 'Encontro Improvável', icon: '💫', color: '#FF69B4', impossibility: 'Almas gêmeas se encontram contra odds', loveNeeded: 800, faithNeeded: 600, probability: 0.001, catalyst: 'Destino guiado pelo amor', description: 'Pessoas certas no lugar certo no tempo certo por amor puro' },
+            { id: 'forgiveness_retro', name: 'Perdão Retroativo', icon: '🕊️', color: '#FFFFFF', impossibility: 'Reescrever passado com compaixão', loveNeeded: 4000, faithNeeded: 3500, probability: 0.000001, catalyst: 'Compaixão infinita', description: 'Traumas curados, memórias transformadas, culpa dissolvida em luz' },
+            { id: 'resurrection', name: 'Ressurreição', icon: '☀️', color: '#FFD700', impossibility: 'Trazer de volta o que se foi', loveNeeded: 10000, faithNeeded: 8000, probability: 0.0000001, catalyst: 'Amor que não aceita perda', description: 'Vidas restauradas, sonhos revividos, esperança renascida das cinzas' },
+            { id: 'collective_transcendence', name: 'Transcendência Coletiva', icon: '🌟', color: '#FF00FF', impossibility: 'Grupo inteiro ascende junto', loveNeeded: 8000, faithNeeded: 7000, probability: 0.0000005, catalyst: 'Unidade absoluta no amor', description: 'Comunidades inteiras elevam frequência, nova realidade nasce' }
+        ];
+        
+        const CATALYSTS = [
+            { id: 'love', name: 'Amor Incondicional', icon: '💖', power: '∞', active: true },
+            { id: 'faith', name: 'Fé Absoluta', icon: '🙏', power: '∞', active: true },
+            { id: 'gratitude', name: 'Gratidão Infinita', icon: '🙌', power: '10000', active: true },
+            { id: 'compassion', name: 'Compaixão Total', icon: '🤲', power: '8000', active: true },
+            { id: 'forgiveness', name: 'Perdão Completo', icon: '🕊️', power: '9000', active: true },
+            { id: 'hope', name: 'Esperança Eterna', icon: '🌅', power: '7000', active: true },
+            { id: 'unity', name: 'Unidade Absoluta', icon: '☯️', power: '∞', active: true },
+            { id: 'joy', name: 'Alegria Pura', icon: '😊', power: '6000', active: true }
+        ];
+        
+        const LOVE_SOURCES = [
+            { id: 'self', name: 'Amor Próprio', icon: '💖', level: 100, infinite: true },
+            { id: 'others', name: 'Amor pelos Outros', icon: '🤝', level: 100, infinite: true },
+            { id: 'life', name: 'Amor pela Vida', icon: '🌱', level: 100, infinite: true },
+            { id: 'universe', name: 'Amor pelo Universo', icon: '🌌', level: 100, infinite: true },
+            { id: 'divine', name: 'Amor Divino', icon: '✨', level: 100, infinite: true }
+        ];
+        
+        const state = {
+            miracles: {},
+            selectedMiracle: null,
+            miraclesManifested: 0,
+            impossibleCount: 0,
+            lovePower: 100,
+            faith: 100,
+            miracleLog: []
+        };
+        
+        MIRACLE_DEFINITIONS.forEach(m => {
+            state.miracles[m.id] = { ...m, status: 'impossible', progress: 0, manifested: false };
+        });
+        
+        const miracleChamber = document.getElementById('miracleChamber');
+        const miracleCanvas = document.getElementById('miracleCanvas');
+        const miracleLog = document.getElementById('miracleLog');
+        const miracleDetail = document.getElementById('miracleDetail');
+        const catalystList = document.getElementById('catalystList');
+        const loveSources = document.getElementById('loveSources');
+        
+        const statMiracles = document.getElementById('statMiracles');
+        const statManifested = document.getElementById('statManifested');
+        const statImpossible = document.getElementById('statImpossible');
+        const statLovePower = document.getElementById('statLovePower');
+        const statFaith = document.getElementById('statFaith');
+        
+        const currentMiracleName = document.getElementById('currentMiracleName');
+        const currentMiracleType = document.getElementById('currentMiracleType');
+        const vpImpossibility = document.getElementById('vpImpossibility');
+        const vpLoveNeeded = document.getElementById('vpLoveNeeded');
+        const vpFaith = document.getElementById('vpFaith');
+        const vpProbability = document.getElement_byId('vpProbability');
+        const miracleCoords = document.getElement_byId('miracleCoords');
+        
+        const miracleCanvas = document.get_element_byId('miracleCanvas');
+        const miracleCtx = miracleCanvas.getContext('2d');
+        
+        function init() {
+            createMiracleParticles();
+            createImpossibleGeometry();
+            setupCanvas();
+            renderMiracleChamber();
+            renderCatalysts();
+            renderLoveSources();
+            animateMiracle();
+            
+            addMiracleLog('MIRACLE ENGINE DESPERTOU', 'mrc', 'O motor do impossível está online. Amor: ∞ | Fé: ∞');
+            addMiracleLog('8 MILAGRES CARREGADOS', 'mrc', 'Do cura à transcendência coletiva. Todos aguardam amor.');
+            addMiracleLog('CATALISADORES ATIVOS', 'lov', 'Amor, Fé, Gratidão, Compaixão, Perdão, Esperança, Unidade, Alegria');
+            addMiracleLog('AMOR INFINITO DISPONÍVEL', 'lov', 'Reservas infinitas. O impossível não tem chance.');
+            
+            setInterval(() => {
+                state.lovePower = 100;
+                state.faith = 100;
+                updateStats();
+            }, 100);
+        }
+        
+        function createMiracleParticles() {
+            const container = document.get_element_byId('miracleParticles');
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'miracle-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 5 + 2) + 'px';
+                particle.style.background = ['#FF00FF', '#FFD700', '#00FFFF', '#FF69B4', '#FFFFFF'][Math.floor(Math.random() * 5)];
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                document.get_element_byId('miracleParticles').appendChild(particle);
+            }
+        }
+        
+        function createImpossibleGeometry() {
+            const container = document.get_element_byId('impossibleField');
+            const shapes = [
+                { type: 'penrose', size: 200, color: '#FF00FF', top: '10%', left: '5%' },
+                { type: 'mobius', size: 150, color: '#FFD700', top: '20%', right: '10%' },
+                { type: 'klein', size: 120, color: '#00FFFF', bottom: '15%', left: '8%' },
+                { type: 'eschER', size: 100, color: '#FF69B4', top: '60%', right: '15%' },
+                { type: 'fractal', size: 80, color: '#FF00FF', bottom: '20%', left: '20%' }
+            ];
+            
+            shapes.forEach((s, i) => {
+                const shape = document.createElement('div');
+                shape.className = 'impossible-geometry';
+                shape.style.width = shape.style.height = s.size + 'px';
+                shape.style.color = s.color;
+                shape.style.top = s.top || '';
+                shape.style.bottom = s.bottom || '';
+                shape.style.left = s.left || '';
+                shape.style.right = s.right || '';
+                shape.style.animationDelay = (i * 6) + 's';
+                shape.style.animationDuration = (20 + i * 10) + 's';
+                
+                if (s.type === 'penrose') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)';
+                } else if (s.type === 'mobius') {
+                    shape.style.borderRadius = '50%';
+                    shape.style.border = '3px solid';
+                } else if (s.type === 'klein') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+                } else if (s.type === 'fractal') {
+                    shape.style.background = 'conic-gradient(from 0deg, ' + s.color + ', transparent)';
+                    shape.style.borderRadius = '50%';
+                }
+                
+                document.get_element_byId('impossibleField').appendChild(shape);
+            });
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const canvas = document.get_element_byId('miracleCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        function renderMiracleChamber() {
+            miracleChamber.innerHTML = MIRACLE_DEFINITIONS.map(m => 
+                `<div class="miracle-card ${state.miracles[m.id].status === 'manifesting' ? 'active manifesting' : state.miracles[m.id].status === 'manifested' ? 'active' : ''}" 
+                     style="--miracle-color: ${m.color};">
+                    <div class="miracle-header-card" onclick="toggleMiracleBody(this)">
+                        <div class="miracle-icon" style="background: ${m.color};">${m.icon}</div>
+                        <div class="miracle-info">
+                            <div class="miracle-name">${m.name}</div>
+                            <div class="miracle-impossibility">${m.impossibility}</div>
+                        </div>
+                        <div class="miracle-progress">
+                            <div class="miracle-bar">
+                                <div class="miracle-fill" style="width: ${state.miracles[m.id].progress}%; background: ${m.color};"></div>
+                            </div>
+                            <span class="miracle-percent">${state.miracles[m.id].progress}%</span>
+                        </div>
+                        <button class="toggle-btn" onclick="event.stopPropagation(); toggleMiracleBody(this.previousElementSibling)">▶</button>
+                    </div>
+                    <div class="miracle-body">
+                        <div class="miracle-detail">
+                            <div class="detail-row">
+                                <span class="detail-icon">${m.icon}</span>
+                                <span class="detail-label">IMPOSSIBILIDADE</span>
+                                <span class="detail-value">${m.impossibility}</span>
+                                <span class="detail-status status-impossible">IMPOSSÍVEL</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">💖</span>
+                                <span class="detail-label">AMOR NECESSÁRIO</span>
+                                <span class="detail-value">${m.loveNeeded.toLocaleString()}</span>
+                                <span class="detail-status ${state.lovePower >= m.loveNeeded ? 'status-manifested' : 'status-impossible'}">${state.lovePower >= m.loveNeeded ? 'DISPONÍVEL' : 'INSUFICIENTE'}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">🙏</span>
+                                <span class="detail-label">FÉ NECESSÁRIA</span>
+                                <span class="detail-value">${m.faithNeeded.toLocaleString()}</span>
+                                <span class="detail-status ${state.faith >= m.faithNeeded ? 'status-manifested' : 'status-impossible'}">${state.faith >= m.faithNeeded ? 'DISPONÍVEL' : 'INSUFICIENTE'}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">📊</span>
+                                <span class="detail-label">PROBABILIDADE NATURAL</span>
+                                <span class="detail-value">${(m.probability * 100).toFixed(6)}%</span>
+                                <span class="detail-status status-impossible">IMPROVÁVEL</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">⚡</span>
+                                <span class="detail-label">CATALISADOR</span>
+                                <span class="detail-value">${m.catalyst}</span>
+                                <span class="detail-status status-manifested">ATIVO</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">📝</span>
+                                <span class="detail-label">DESCRIÇÃO</span>
+                                <span class="detail-value" style="flex: 1; font-size: 0.6rem;">${m.description}</span>
+                            </div>
+                            ${state.miracles[m.id].status === 'impossible' ? 
+                                `<button class="manifest-btn impossible" onclick="manifestMiracle('${m.id}')" style="width: 100%; margin: 10px 0 0 0;">
+                                    ✨ MANIFESTAR O IMPOSSÍVEL
+                                </button>` : 
+                                state.miracles[m.id].status === 'manifesting' ? 
+                                `<button class="manifest-btn impossible" disabled style="width: 100%; margin: 10px 0 0 0;">
+                                    ✨ MANIFESTANDO...
+                                </button>` : 
+                                `<button class="manifest-btn" disabled style="width: 100%; margin: 10px 0 0 0;">
+                                    ✅ MILAGRE MANIFESTADO
+                                </button>`
+                            }
+                        </div>
+                    </div>
+                </div>`
+            ).join('');
+        }
+        
+        function toggleMiracleBody(header) {
+            const body = header.nextElementSibling;
+            const btn = header.querySelector('.toggle-btn');
+            body.classList.toggle('expanded');
+            btn.classList.toggle('rotated');
+        }
+        
+        function selectMiracle(miracleId) {
+            const m = MIRACLE_DEFINITIONS.find(m => m.id === miracleId);
+            if (!m) return;
+            
+            state.selectedMiracle = miracleId;
+            
+            currentMiracleName.textContent = m.name;
+            currentMiracleType.textContent = m.impossibility;
+            currentMiracleName.parentElement.style.setProperty('--miracle-color', m.color);
+            
+            vpImpossibility.textContent = '100%';
+            vpLoveNeeded.textContent = m.loveNeeded.toLocaleString();
+            vpFaith.textContent = m.faithNeeded.toLocaleString();
+            vpProbability.textContent = (m.probability * 100).toFixed(6) + '%';
+            
+            document.get_element_byId('miracleDetail').innerHTML = `
+                <div class="detail-grid">
+                    <div class="detail-card"><div class="detail-label">NOME</div><div class="detail-value">${m.name}</div></div>
+                    <div class="detail-card"><div class="detail-label">ÍCONE</div><div class="detail-value" style="font-size: 2rem;">${m.icon}</div></div>
+                    <div class="detail-card"><div class="detail-label">IMPOSSIBILIDADE</div><div class="detail-value impossible">${m.impossibility}</div></div>
+                    <div class="detail-card"><div class="detail-label">CATALISADOR</div><div class="detail-value">${m.catalyst}</div></div>
+                    <div class="detail-card"><div class="detail-label">AMOR NECESSÁRIO</div><div class="detail-value love">${m.loveNeeded.toLocaleString()}</div></div>
+                    <div class="detail-card"><div class="detail-label">FÉ NECESSÁRIA</div><div class="detail-value faith">${m.faithNeeded.toLocaleString()}</div></div>
+                    <div class="detail-card"><div class="detail-label">PROBABILIDADE</div><div class="detail-value impossible">${(m.probability * 100).toFixed(6)}%</div></div>
+                    <div class="detail-card"><div class="detail-label">DESCRIÇÃO</div><div class="detail-value" style="font-size: 0.65rem; grid-column: 1/-1;">${m.description}</div></div>
+                </div>
+            `;
+            
+            addMiracleLog('MILAGRE SELECIONADO: ' + m.name, 'mrc', m.impossibility + ' | Amor: ' + m.loveNeeded.toLocaleString() + ' | Fé: ' + m.faithNeeded.toLocaleString());
+        }
+        
+        function manifestMiracle(miracleId) {
+            const m = MIRACLE_DEFINITIONS.find(m => m.id === miracleId);
+            if (!m || state.miracles[miracleId].status !== 'impossible') return;
+            
+            state.miracles[miracleId].status = 'manifesting';
+            state.miracles[miracleId].progress = 0;
+            
+            addMiracleLog('✨ INICIANDO MANIFESTAÇÃO: ' + m.name, 'mnf', 'O impossível começa a acontecer...');
+            
+            renderMiracleChamber();
+            
+            const manifestInterval = setInterval(() => {
+                state.miracles[miracleId].progress += Math.random() * 20 + 10;
+                if (state.miracles[miracleId].progress >= 100) {
+                    state.miracles[miracleId].progress = 100;
+                    state.miracles[miracleId].status = 'manifested';
+                    state.miracles[miracleId].manifested = true;
+                    state.miraclesManifested++;
+                    state.impossibleCount++;
+                    state.lovePower = Math.min(100, state.lovePower + 10);
+                    
+                    clearInterval(manifestInterval);
+                    
+                    addMiracleLog('✨ MILAGRE MANIFESTADO: ' + MIRACLE_DEFINITIONS.find(m => m.id === miracleId).name + '!', 'mnf', 'O IMPOSSÍVEL ACONTECEU POR AMOR!');
+                    
+                    renderMiracleChamber();
+                    renderCatalysts();
+                    updateStats();
+                    checkCascade();
+                }
+                renderMiracleChamber();
+            }, 200);
+            
+            renderMiracleChamber();
+        }
+        
+        function manifestWithLove() {
+            if (!state.selectedMiracle) {
+                addMiracleLog('SELECIONE UM MILAGRE PRIMEIRO', 'lov', 'Clique em um milagre na câmara');
+                return;
+            }
+            
+            const m = state.miracles[state.selectedMiracle];
+            if (m.status !== 'impossible') return;
+            
+            addMiracleLog('💖 MANIFESTANDO COM AMOR PURO: ' + MIRACLE_DEFINITIONS.find(x => x.id === state.selectedMiracle).name, 'lov', 'Amor infinito flui...');
+            
+            m.progress = Math.min(100, m.progress + 50);
+            if (m.progress >= 100) {
+                m.progress = 100;
+                m.status = 'manifested';
+                m.manifested = true;
+                state.miraclesManifested++;
+                state.impossibleCount++;
+                addMiracleLog('💖 MILAGRE PELO AMOR: ' + MIRACLE_DEFINITIONS.find(x => x.id === state.selectedMiracle).name + '!', 'lov', 'AMOR VENCEU O IMPOSSÍVEL!');
+            }
+            
+            renderMiracleChamber();
+            updateStats();
+        }
+        
+        function manifestWithFaith() {
+            if (!state.selectedMiracle) {
+                addMiracleLog('SELECIONE UM MILAGRE PRIMEIRO', 'fth', 'Clique em um milagre na câmara');
+                return;
+            }
+            
+            const m = state.miracles[state.selectedMiracle];
+            if (m.status !== 'impossible') return;
+            
+            addMiracleLog('🙏 MANIFESTANDO COM FÉ ABSOLUTA: ' + MIRACLE_DEFINITIONS.find(x => x.id === state.selectedMiracle).name, 'fth', 'Fé move montanhas...');
+            
+            m.progress = Math.min(100, m.progress + 40);
+            if (m.progress >= 100) {
+                m.progress = 100;
+                m.status = 'manifested';
+                m.manifested = true;
+                state.miraclesManifested++;
+                state.impossibleCount++;
+                addMiracleLog('🙏 MILAGRE PELA FÉ: ' + MIRACLE_DEFINITIONS.find(x => x.id === state.selectedMiracle).name + '!', 'fth', 'FÉ MOVEU O IMPOSSÍVEL!');
+            }
+            
+            renderMiracleChamber();
+            updateStats();
+        }
+        
+        function manifestImpossible() {
+            if (!state.selectedMiracle) {
+                const impossible = MIRACLE_DEFINITIONS.filter(m => state.miracles[m.id].status === 'impossible');
+                if (impossible.length === 0) {
+                    addMiracleLog('TODOS MILAGRES JÁ MANIFESTADOS!', 'imp', 'O impossível não existe mais!');
+                    return;
+                }
+                
+                const random = impossible[Math.floor(Math.random() * impossible.length)];
+                state.selectedMiracle = random.id;
+                selectMiracle(random.id);
+            }
+            
+            const m = state.miracles[state.selectedMiracle];
+            if (m.status !== 'impossible') return;
+            
+            addMiracleLog('✨ DECRETANDO: O IMPOSSÍVEL ACONTECE AGORA!', 'imp', 'Amor + Fé = IMPOSSÍVEL VIRA REALIDADE');
+            
+            m.progress = 100;
+            m.status = 'manifested';
+            m.manifested = true;
+            state.miraclesManifested++;
+            state.impossibleCount++;
+            state.lovePower = 100;
+            state.faith = 100;
+            
+            addMiracleLog('✨ O IMPOSSÍVEL ACONTECEU: ' + MIRACLE_DEFINITIONS.find(x => x.id === state.selectedMiracle).name + '!', 'imp', 'POR AMOR, POR FÉ, PELA VIDA - O IMPOSSÍVEL É REAL!');
+            
+            renderMiracleChamber();
+            updateStats();
+            checkCascade();
+        }
+        
+        function cascadeMiracles() {
+            const impossible = MIRACLE_DEFINITIONS.filter(m => state.miracles[m.id].status === 'impossible');
+            if (impossible.length === 0) {
+                addMiracleLog('NENHUM MILAGRE PARA CASCATA', 'mnf', 'Todos já manifestados!');
+                return;
+            }
+            
+            addMiracleLog('🌊 CASCATA DE MILAGRES INICIADA! ' + impossible.length + ' MILAGRES!', 'mnf', 'Uma onda de impossíveis se tornando reais!');
+            
+            impossible.forEach((m, i) => {
+                setTimeout(() => {
+                    state.miracles[m.id].progress = 100;
+                    state.miracles[m.id].status = 'manifested';
+                    state.miracles[m.id].manifested = true;
+                    state.miraclesManifested++;
+                    state.impossibleCount++;
+                    
+                    addMiracleLog('🌊 CASCATA: ' + m.name + ' MANIFESTADO!', 'mnf', 'Onda ' + (i + 1) + '/' + impossible.length);
+                    
+                    if (i === impossible.length - 1) {
+                        addMiracleLog('🌊 CASCATA COMPLETA! TODOS IMPOSSÍVEIS SÃO REAIS!', 'mnf', 'O MUNDO MUDOU PARA SEMPRE!');
+                    }
+                    
+                    renderMiracleChamber();
+                    updateStats();
+                }, i * 500);
+            });
+        }
+        
+        function renderCatalysts() {
+            catalystList.innerHTML = CATALYSTS.map(c => 
+                `<div class="catalyst-item ${c.active ? 'active' : ''}">
+                    <span class="catalyst-icon">${c.icon}</span>
+                    <span class="catalyst-name">${c.name}</span>
+                    <span class="catalyst-power">${c.power}</span>
+                </div>`
+            ).join('');
+        }
+        
+        function renderLoveSources() {
+            loveSources.innerHTML = LOVE_SOURCES.map(l => 
+                `<div class="catalyst-item">
+                    <span class="catalyst-icon">${l.icon}</span>
+                    <span class="catalyst-name">${l.name}</span>
+                    <span class="catalyst-power">${l.infinite ? '∞' : l.level}</span>
+                </div>`
+            ).join('');
+        }
+        
+        function updateStats() {
+            statMiracles.textContent = MIRACLE_DEFINITIONS.length;
+            statManifested.textContent = state.miraclesManifested;
+            statImpossible.textContent = state.impossibleCount;
+            statLovePower.textContent = state.lovePower + '%';
+            statFaith.textContent = state.faith === 100 ? '∞' : state.faith + '%';
+            
+            if (state.selectedMiracle) {
+                const m = MIRACLE_DEFINITIONS.find(x => x.id === state.selectedMiracle);
+                if (m) {
+                    vpImpossibility.textContent = '100%';
+                    vpLoveNeeded.textContent = m.loveNeeded.toLocaleString
+
+                    vpLoveNeeded.textContent = m.loveNeeded.toLocaleString();
+                    vpFaith.textContent = m.faithNeeded.toLocaleString();
+                    vpProbability.textContent = (m.probability * 100).toFixed(6) + '%';
+                }
+            }
+        }
+        
+        function animateMiracle() {
+            const ctx = miracleCtx;
+            const canvas = miracleCanvas;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw impossible geometry
+            const time = Date.now() * 0.001;
+            
+            // Central miracle field
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const maxR = Math.min(canvas.width, canvas.height) * 0.4;
+            
+            // Pulsing central core
+            const coreR = 30 + Math.sin(time * 2) * 15;
+            const coreGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR);
+            coreGradient.addColorStop(0, 'rgba(255, 0, 255, 0.8)');
+            coreGradient.addColorStop(0.5, 'rgba(255, 215, 0, 0.4)');
+            coreGradient.addColorStop(1, 'rgba(0, 255, 255, 0.1)');
+            ctx.beginPath();
+            ctx.arc(cx, cy, coreR, 0, Math.PI * 2);
+            ctx.fillStyle = coreGradient;
+            ctx.fill();
+            
+            // Impossible rings
+            for (let i = 0; i < 5; i++) {
+                const ringR = coreR + 50 + i * 40 + Math.sin(time + i) * 10;
+                ctx.beginPath();
+                ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+                ctx.strokeStyle = ['rgba(255, 0, 255, 0.3)', 'rgba(255, 215, 0, 0.2)', 'rgba(0, 255, 255, 0.2)', 'rgba(255, 100, 255, 0.15)', 'rgba(255, 255, 255, 0.1)'][i];
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            
+            // Miracle particles
+            for (let i = 0; i < 30; i++) {
+                const angle = (time * 0.5 + i * 0.2) % (Math.PI * 2);
+                const r = coreR + 80 + Math.sin(time * 2 + i) * 50;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 3 + Math.sin(time * 3 + i) * 2, 0, Math.PI * 2);
+                ctx.fillStyle = ['rgba(255, 0, 255, 0.8)', 'rgba(255, 215, 0, 0.8)', 'rgba(0, 255, 255, 0.8)', 'rgba(255, 100, 255, 0.8)', 'rgba(255, 255, 255, 0.8)'][i % 5];
+                ctx.fill();
+            }
+            
+            // Impossible geometric shapes
+            // Penrose triangle
+            ctx.save();
+            ctx.translate(cx - 150, cy - 150);
+            ctx.rotate(time * 0.3);
+            ctx.beginPath();
+            ctx.moveTo(0, -40);
+            ctx.lineTo(35, 20);
+            ctx.lineTo(-35, 20);
+            ctx.closePath();
+            ctx.strokeStyle = 'rgba(255, 0, 255, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.restore();
+            
+            // Mobius strip representation
+            ctx.save();
+            ctx.translate(cx + 150, cy + 150);
+            ctx.rotate(-time * 0.2);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 30, 15, 0, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.restore();
+            
+            // Klein bottle representation
+            ctx.save();
+            ctx.translate(cx - 150, cy + 150);
+            ctx.rotate(time * 0.25);
+            ctx.beginPath();
+            ctx.moveTo(-30, 0);
+            ctx.bezierCurveTo(-30, -20, 30, -20, 30, 0);
+            ctx.bezierCurveTo(30, 20, -30, 20, -30, 0);
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.restore();
+            
+            // Selected miracle visualization
+            if (state.selectedMiracle) {
+                const m = MIRACLE_DEFINITIONS.find(x => x.id === state.selectedMiracle);
+                if (m) {
+                    // Draw miracle type indicator
+                    ctx.font = 'bold 14px Orbitron';
+                    ctx.fillStyle = m.color;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(m.icon + ' ' + m.name, cx, cy + 120);
+                    
+                    // Progress ring
+                    const progress = state.miracles[m.id].progress;
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, 80, -Math.PI / 2, -Math.PI / 2 + (progress / 100) * Math.PI * 2);
+                    ctx.strokeStyle = m.color;
+                    ctx.lineWidth = 4;
+                    ctx.stroke();
+                }
+            }
+            
+            requestAnimationFrame(animateMiracle);
+        }
+        
+        function addMiracleLog(message, type, detail) {
+            const entry = document.createElement('div');
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            const typeClasses = {
+                'mrc': 'miracle',
+                'mnf': 'manifest',
+                'imp': 'impossible',
+                'lov': 'love',
+                'fth': 'faith'
+            };
+            
+            const typeLabels = {
+                'mrc': 'MILAGRE',
+                'mnf': 'MANIFEST',
+                'imp': 'IMPOSSÍVEL',
+                'lov': 'AMOR',
+                'fth': 'FÉ'
+            };
+            
+            entry.className = 'miracle-log-entry ' + (typeClasses[type] || 'miracle');
+            entry.innerHTML = 
+                '<span class="miracle-log-time">' + timeStr + '</span>' +
+                '<span class="miracle-log-type ' + type + '">' + (typeLabels[type] || type) + '</span>' +
+                '<span class="miracle-log-message">' + message + (detail ? ' - ' + detail : '') + '</span>';
+            
+            miracleLog.insertBefore(entry, miracleLog.firstChild);
+            
+            // Keep only last 50 entries
+            while (miracleLog.children.length > 50) {
+                miracleLog.removeChild(miracleLog.lastChild);
+            }
+            
+            state.miracleLog.unshift({ time: timeStr, type: type, message: message, detail: detail });
+            if (state.miracleLog.length > 100) state.miracleLog.pop();
+        }
+        
+        function checkCascade() {
+            const impossible = MIRACLE_DEFINITIONS.filter(m => state.miracles[m.id].status === 'impossible');
+            if (impossible.length === 0 && state.miraclesManifested >= 8) {
+                addMiracleLog('🌌 TODOS OS 8 MILAGRES MANIFESTADOS! O IMPOSSÍVEL É HISTÓRIA!', 'imp', 'Uma nova era de milagres começou!');
+            }
+        }
+        
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+        
+        // Also init immediately if already loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
