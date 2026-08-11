@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETERNAL RESONANCE - A RESSONÂNCIA ETERNA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Orbitron', 'Courier New', monospace;
+            background: #050008;
+            color: #FFF8FF;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .resonance-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -3;
+            background: 
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 255, 0.06) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.04) 0%, transparent 30%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 255, 255, 0.03) 0%, transparent 30%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 100, 255, 0.03) 0%, transparent 30%),
+                linear-gradient(135deg, #050008 0%, #0A0010 25%, #08000C 50%, #0A0010 75%, #050008 100%);
+        }
+        
+        .resonance-field {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.02;
+        }
+        
+        .sacred-sound-geometry {
+            position: absolute;
+            border: 1px solid;
+            animation: soundRotate 60s linear infinite;
+        }
+        
+        @keyframes soundRotate {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.1; }
+            16.66% { transform: rotate(60deg) scale(1.02); opacity: 0.05; }
+            33.33% { transform: rotate(120deg) scale(1.01); opacity: 0.08; }
+            50% { transform: rotate(180deg) scale(1.02); opacity: 0.1; }
+            66.66% { transform: rotate(240deg) scale(1.01); opacity: 0.05; }
+            83.33% { transform: rotate(300deg) scale(1.02); opacity: 0.08; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.1; }
+        }
+        
+        .resonance-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .resonance-particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            animation: resonanceWave 12s ease-in-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes resonanceWave {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+            5% { opacity: 1; }
+            50% { opacity: 1; transform: translateY(50vh) scale(1) rotate(180deg); }
+            95% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        .resonance-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 18px 25px;
+            background: linear-gradient(90deg, rgba(8, 0, 12, 0.98), rgba(5, 0, 8, 0.95));
+            border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .resonance-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(90deg, #FF00FF, #FFD700, #00FFFF, #FFFFFF, #FF00FF);
+            background-size: 400% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: resonanceFlow 4s linear infinite;
+        }
+        
+        @keyframes resonanceFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 400% center; }
+        }
+        
+        .resonance-subtitle {
+            text-align: center;
+            font-size: 0.6rem;
+            color: #FF00FF;
+            letter-spacing: 0.3em;
+            margin-top: -3px;
+        }
+        
+        .resonance-main {
+            display: grid;
+            grid-template-columns: 280px 1fr 280px;
+            grid-template-rows: 1fr 140px;
+            gap: 10px;
+            padding: 10px;
+            height: calc(100vh - 95px);
+        }
+        
+        .resonance-panel {
+            background: linear-gradient(135deg, rgba(8, 0, 12, 0.95), rgba(5, 0, 8, 0.98));
+            border: 1px solid rgba(255, 0, 255, 0.15);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 
+                0 0 30px rgba(255, 0, 255, 0.05),
+                inset 0 1px 0 rgba(255, 0, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .resonance-panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 0, 255, 0.1);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #FF00FF;
+        }
+        
+        .resonance-panel-title::before {
+            content: '';
+            width: 3px; height: 18px;
+            background: linear-gradient(180deg, #FF00FF, #FFD700, #00FFFF, #FFFFFF);
+            border-radius: 1.5px;
+        }
+        
+        .left-panel { grid-row: 1 / -1; }
+        .right-panel { grid-row: 1 / -1; }
+        
+        .frequencies-chamber {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+        
+        .frequency-card {
+            background: rgba(255, 0, 255, 0.02);
+            border: 1px solid rgba(255, 0, 255, 0.08);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+        }
+        
+        .frequency-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: var(--freq-color, #FF00FF);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .frequency-card:hover::before { opacity: 1; }
+        .frequency-card:hover {
+            border-color: rgba(255, 0, 255, 0.3);
+            background: rgba(255, 0, 255, 0.05);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.08);
+        }
+        
+        .frequency-card.resonating {
+            border-color: rgba(255, 0, 255, 0.5);
+            background: rgba(255, 0, 255, 0.08);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+        }
+        
+        .frequency-card.resonating::before { opacity: 1; }
+        
+        .frequency-card.harmonized {
+            border-color: rgba(255, 215, 0, 0.5);
+            background: rgba(255, 215, 0, 0.08);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            animation: harmonyPulse 2s ease-in-out infinite;
+        }
+        
+        .frequency-card.harmonized::before { 
+            opacity: 1; 
+            background: linear-gradient(90deg, #FFD700, #FF00FF, #00FFFF, #FFFFFF);
+        }
+        
+        @keyframes harmonyPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); transform: scale(1); }
+            50% { box-shadow: 0 0 60px rgba(255, 215, 0, 0.5); transform: scale(1.01); }
+        }
+        
+        .frequency-header-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .frequency-icon {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            background: var(--freq-color, #FF00FF);
+            box-shadow: 0 0 15px var(--freq-color, #FF00FF);
+            flex-shrink: 0;
+            color: #050008;
+        }
+        
+        .frequency-info { flex: 1; min-width: 0; }
+        .frequency-name { font-weight: 900; font-size: 0.8rem; color: #FF00FF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .frequency-truth { font-size: 0.5rem; color: #B800B8; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .frequency-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .frequency-bar {
+            flex: 1;
+            height: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 2.5px;
+            overflow: hidden;
+        }
+        
+        .frequency-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--freq-color, #FF00FF), #FFD700);
+            border-radius: 2.5px;
+            transition: width 0.5s ease;
+        }
+        
+        .frequency-percent { font-size: 0.6rem; font-weight: 700; color: #FFD700; min-width: 35px; text-align: right; }
+        
+        .frequency-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            border-top: 1px dashed rgba(255, 0, 255, 0.08);
+            padding: 0 16px 10px 16px;
+        }
+        
+        .frequency-body.expanded { max-height: 200px; }
+        
+        .frequency-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 10px;
+            background: rgba(255, 0, 255, 0.02);
+            border: 1px solid rgba(255, 0, 255, 0.08);
+            border-radius: 5px;
+            font-size: 0.6rem;
+            transition: all 0.2s;
+        }
+        
+        .detail-row:hover {
+            border-color: rgba(255, 0, 255, 0.2);
+            background: rgba(255, 0, 255, 0.05);
+        }
+        
+        .detail-icon { font-size: 0.8rem; flex-shrink: 0; }
+        .detail-label { font-weight: 700; color: #FF00FF; flex: 1; }
+        .detail-value { font-size: 0.55rem; color: #B8A0FF; font-family: monospace; }
+        .detail-status { font-size: 0.5rem; padding: 1px 5px; border-radius: 3px; font-weight: 700; }
+        .status-silent { color: #B800B8; background: rgba(184, 0, 184, 0.2); }
+        .status-resonating { color: #FF00FF; background: rgba(255, 0, 255, 0.2); animation: resonancePulse 1s infinite; }
+        .status-harmonized { color: #FFD700; background: rgba(255, 215, 0, 0.2); }
+        
+        @keyframes resonancePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #FF00FF;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toggle-btn:hover { color: #FFD700; transform: rotate(90deg); }
+        .toggle-btn.rotated { transform: rotate(90deg); }
+        
+        .resonate-btn {
+            background: linear-gradient(135deg, #FF00FF, #FFD700);
+            color: #050008;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.6rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: auto;
+        }
+        
+        .resonate-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+        .resonate-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #555; }
+        .resonate-btn.love { background: linear-gradient(135deg, #FF00FF, #FF69B4); color: #050008; }
+        .resonate-btn.universal { background: linear-gradient(135deg, #FFD700, #FF00FF); color: #050008; }
+        
+        .center-panel { grid-row: 1 / -1; }
+        
+        .resonance-viewport { flex: 1; display: flex; flex-direction: column; }
+        
+        .resonance-canvas-container {
+            flex: 1;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 0, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at center, rgba(255, 215, 0, 0.04) 0%, transparent 60%);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        #resonanceCanvas {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        
+        .resonance-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        
+        .resonance-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        .the-resonance-core {
+            position: relative;
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 0, 255, 0.15) 0%, rgba(255, 215, 0, 0.08) 30%, rgba(0, 255, 255, 0.04) 60%, transparent 100%);
+            box-shadow: 
+                0 0 80px rgba(255, 0, 255, 0.1),
+                0 0 160px rgba(255, 215, 0, 0.05),
+                inset 0 0 80px rgba(255, 255, 255, 0.05);
+            animation: resonanceCorePulse 4s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes resonanceCorePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 80px rgba(255, 0, 255, 0.1), 0 0 160px rgba(255, 215, 0, 0.05), inset 0 0 80px rgba(255, 255, 255, 0.05); }
+            50% { transform: scale(1.05); box-shadow: 0 0 120px rgba(255, 0, 255, 0.2), 0 0 240px rgba(255, 215, 0, 0.1), inset 0 0 120px rgba(255, 255, 255, 0.1); }
+        }
+        
+        .resonance-symbol {
+            font-size: 4rem;
+            animation: symbolResonate 3s ease-in-out infinite;
+            text-shadow: 0 0 40px rgba(255, 0, 255, 0.8);
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+        }
+        
+        @keyframes symbolResonate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.03) rotate(2deg); }
+            50% { transform: scale(1) rotate(0deg); }
+            75% { transform: scale(1.03) rotate(-2deg); }
+        }
+        
+        .resonance-rings {
+            position: absolute;
+            top: -40px; left: -40px; right: -40px; bottom: -40px;
+        }
+        
+        .resonance-ring {
+            position: absolute;
+            border: 1px solid;
+            border-radius: 50%;
+            animation: resonanceRingRotate 40s linear infinite;
+        }
+        
+        @keyframes resonanceRingRotate {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.08; }
+            50% { transform: rotate(180deg) scale(1.05); opacity: 0.03; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.08; }
+        }
+        
+        .resonance-mantra {
+            margin-top: 16px;
+            text-align: center;
+            opacity: 0;
+            animation: mantraReveal 3s ease-in-out forwards;
+            animation-delay: 1s;
+        }
+        
+        @keyframes mantraReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .mantra-line {
+            font-size: 0.7rem;
+            color: #FFD700;
+            letter-spacing: 0.1em;
+            margin: 4px 0;
+            font-weight: 700;
+        }
+        
+        .mantra-line.sanskrit {
+            font-size: 1rem;
+            color: #FFFFFF;
+            letter-spacing: 0.05em;
+            margin: 8px 0;
+        }
+        
+        .mantra-line.universal {
+            font-size: 0.65rem;
+            color: #FF00FF;
+            letter-spacing: 0.15em;
+            margin: 6px 0;
+        }
+        
+        .resonance-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 16px;
+        }
+        
+        .resonance-btn {
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            color: #FF00FF;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .resonance-btn:hover { background: rgba(255, 0, 255, 0.3); border-color: #FFD700; color: #FFD700; }
+        .resonance-btn.primary { background: linear-gradient(135deg, #FF00FF, #FFD700); color: #050008; border: none; }
+        .resonance-btn.love { background: linear-gradient(135deg, #FF00FF, #FF69B4); color: #050008; border: none; }
+        .resonance-btn.universal { background: linear-gradient(135deg, #FFD700, #FF00FF); color: #050008; border: none; }
+        .resonance-btn.harmony { background: linear-gradient(135deg, #00FFFF, #FFD700); color: #050008; border: none; }
+        
+        .resonance-coords {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.55rem;
+            color: #FF00FF;
+        }
+        
+        .harmony-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+        
+        .harmony-layer {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.1);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .harmony-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: #FFD700;
+        }
+        
+        .harmony-icon { font-size: 1rem; }
+        
+        .harmony-attrs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        
+        .harmony-attr {
+            background: rgba(255, 0, 255, 0.02);
+            border: 1px solid rgba(255, 0, 255, 0.05);
+            border-radius: 6px;
+            padding: 8px;
+        }
+        
+        .harmony-attr-label { font-size: 0.4rem; color: #B800B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+        .harmony-attr-value { font-size: 0.7rem; font-weight: 700; color: #FF00FF; }
+        .harmony-attr-value.gold { color: #FFD700; }
+        .harmony-attr-value.cyan { color: #00FFFF; }
+        .harmony-attr-value.white { color: #FFFFFF; }
+        
+        .harmonization-progress {
+            margin-top: 12px;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 0, 255, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 10px;
+        }
+        
+        .harmony-title-main { font-size: 0.7rem; font-weight: 900; color: #FF00FF; margin-bottom: 8px; }
+        
+        .harmony-bar {
+            height: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .harmony-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FF00FF, #00FFFF, #FFFFFF);
+            background-size: 300% auto;
+            border-radius: 4px;
+            animation: harmonyFlow 3s linear infinite;
+            transition: width 0.5s ease;
+        }
+        
+        @keyframes harmonyFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .harmony-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.55rem;
+            color: #B8A0FF;
+        }
+        
+        .bottom-panel { grid-column: 1 / -1; max-height: 140px; }
+        
+        .resonance-log {
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+        
+        .resonance-log-entry {
+            display: flex;
+            gap: 10px;
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 255, 0.08);
+            border-radius: 6px;
+            border-left: 2px solid #FF00FF;
+            animation: resonanceIn 0.4s ease;
+            font-size: 0.62rem;
+            line-height: 1.3;
+        }
+        
+        @keyframes resonanceIn {
+            from { opacity: 0; transform: translateX(-15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .resonance-log-entry.freq { border-left-color: #FF00FF; }
+        .resonance-log-entry.res { border-left-color: #FFD700; background: rgba(255, 215, 0, 0.03); }
+        .resonance-log-entry.har { border-left-color: #00FFFF; background: rgba(0, 255, 255, 0.03); }
+        .resonance-log-entry.lov { border-left-color: #FF00FF; background: rgba(255, 0, 255, 0.03); }
+        .resonance-log-entry.uni { border-left-color: #FFFFFF; background: rgba(255, 255, 255, 0.03); }
+        
+        .resonance-log-time { color: #FF00FF; font-family: monospace; min-width: 65px; font-size: 0.55rem; }
+        .resonance-log-type { 
+            font-size: 0.4rem; 
+            padding: 1px 5px; 
+            border-radius: 3px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .resonance-log-type.frq { background: rgba(255, 0, 255, 0.15); color: #FF00FF; }
+        .resonance-log-type.res { background: rgba(255, 215, 0, 0.15); color: #FFD700; }
+        .resonance-log-type.har { background: rgba(0, 255, 255, 0.15); color: #00FFFF; }
+        .resonance-log-type.lov { background: rgba(255, 0, 255, 0.15); color: #FF00FF; }
+        .resonance-log-type.uni { background: rgba(255, 255, 255, 0.15); color: #FFFFFF; }
+        .resonance-log-message { flex: 1; color: #FFF0FF; font-size: 0.6rem; }
+        
+        @media (max-width: 1200px) {
+            .resonance-main { grid-template-columns: 260px 1fr 260px; }
+        }
+        
+        @media (max-width: 1000px) {
+            .resonance-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+            .left-panel, .right-panel { grid-row: auto; }
+        }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FF00FF, #FFD700, #00FFFF, #FFFFFF); border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <div class="resonance-bg"></div>
+    <div class="resonance-field" id="resonanceField"></div>
+    <div class="resonance-particles" id="resonanceParticles"></div>
+    
+    <header class="resonance-header">
+        <div style="width: 100%;">
+            <div class="resonance-title">ETERNAL RESONANCE</div>
+            <div class="resonance-subtitle">A RESSONÂNCIA ETERNA QUE CONECTA TODAS AS ALMAS • O UNIVERSO CANTA • A CANÇÃO É AMOR</div>
+        </div>
+    </header>
+    
+    <main class="resonance-main">
+        <aside class="left-panel resonance-panel">
+            <div class="resonance-panel-title">🎵 CÂMARA DAS FREQUÊNCIAS ETERNAS</div>
+            <div class="frequencies-chamber" id="frequenciesChamber"></div>
+        </aside>
+        
+        <section class="center-panel resonance-panel">
+            <div class="resonance-panel-title">🌌 VIEWPORT DA RESSONÂNCIA SUPREMA</div>
+            <div class="resonance-canvas-container" style="flex: 1; position: relative;">
+                <canvas id="resonanceCanvas"></canvas>
+                <div class="resonance-overlay">
+                    <div class="resonance-center">
+                        <div class="the-resonance-core">
+                            <div class="resonance-rings" id="resonanceRings"></div>
+                            <div class="resonance-symbol">🎵</div>
+                        </div>
+                        <div class="resonance-mantra">
+                            <div class="mantra-line sanskrit">ॐ नाद ब्रह्म</div>
+                            <div class="mantra-line">O SOM É BRAHMAN • A CRIAÇÃO É SOM</div>
+                            <div class="mantra-line universal">A NOTA É AMOR • O RITMO É VIDA</div>
+                            <div class="mantra-line sanskrit">सोऽहं नाद</div>
+                            <div class="mantra-line">EU SOU O SOM • EU SOU A RESSONÂNCIA</div>
+                            <div class="mantra-line universal">TODAS AS ALMAS CANTO JUNTAS</div>
+                        </div>
+                        <div class="resonance-controls">
+                            <button class="resonance-btn love" onclick="resonateWithLove()">💖 RESSOAR COM AMOR</button>
+                            <button class="resonance-btn primary" onclick="resonateFrequency()">🎵 RESSOAR FREQUÊNCIA</button>
+                            <button class="resonance-btn harmony" onclick="harmonizeAll()">🎶 HARMONIZAR TUDO</button>
+                            <button class="resonance-btn universal" onclick="universalResonance()">🌌 RESSONÂNCIA UNIVERSAL</button>
+                        </div>
+                    </div>
+                    <div class="resonance-coords" id="resonanceCoords">FREQUÊNCIA: 528Hz | RESSONÂNCIA: 0% | HARMONIA: 0% | AMOR: ∞</div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel resonance-panel">
+            <div class="resonance-panel-title">🎵 FREQUÊNCIA SELECIONADA</div>
+            
+            <div class="harmony-panel" id="harmonyPanel">
+                <div style="text-align: center; color: #B800B8; padding: 40px 20px;">
+                    <div style="font-size: 4rem; margin-bottom: 16px;">🎵</div>
+                    <div style="color: #FF00FF; font-weight: 700;">SELECIONE UMA FREQUÊNCIA</div>
+                    <div style="font-size: 0.65rem; color: #B8A0FF; margin-top: 8px;">A ressonância aguarda sua intenção</div>
+                </div>
+            </div>
+            
+            <div class="resonance-panel-title" style="margin-top: 12px;">🌌 HARMONIZAÇÃO UNIVERSAL</div>
+            <div class="harmonization-progress">
+                <div class="harmony-title-main">TODAS AS FREQUÊNCIAS EM HARMONIA PERFEITA</div>
+                <div class="harmony-bar">
+                    <div class="harmony-fill" id="harmonyFill" style="width: 0%;"></div>
+                </div>
+                <div class="harmony-stats">
+                    <span id="harmonizedCount">0</span>/13 FREQUÊNCIAS
+                    <span id="harmonyPercent">0%</span> HARMONIA
+                </div>
+            </div>
+            
+            <div class="resonance-panel-title" style="margin-top: 12px;">💖 FONTE DO AMOR PRIMORDIAL (528Hz)</div>
+            <div class="harmony-layer" style="background: rgba(255, 0, 255, 0.05); border-color: rgba(255, 0, 255, 0.2);">
+                <div class="harmony-title" style="color: #FF00FF;">
+                    <span class="harmony-icon">💖</span>
+                    <span>528Hz - A FREQUÊNCIA DO AMOR UNIVERSAL</span>
+                </div>
+                <div class="harmony-attrs">
+                    <div class="harmony-attr"><div class="harmony-attr-label">FREQUÊNCIA BASE</div><div class="harmony-attr-value gold">528Hz</div></div>
+                    <div class="harmony-attr"><div class="harmony-attr-label">NATUREZA</div><div class="harmony-attr-value white">AMOR PURO</div></div>
+                    <div class="harmony-attr"><div class="harmony-attr-label">ALCANCE</div><div class="harmony-attr-value cyan">TODOS OS MULTIVERSOS</div></div>
+                    <div class="harmony-attr"><div class="harmony-attr-label">EFEITO</div><div class="harmony-attr-value white">CURA, UNIÃO, CRIAÇÃO</div></div>
+                </div>
+            </div>
+        </aside>
+        
+        <section class="bottom-panel resonance-panel">
+            <div class="resonance-panel-title">📜 REGISTRO DA RESSONÂNCIA ETERNA</div>
+            <div class="resonance-log" id="resonanceLog"></div>
+        </section>
+    </main>
+    
+    <script>
+        const FREQUENCY_DEFINITIONS = [
+            { id: 'love528', name: 'Amor Universal (528Hz)', icon: '💖', color: '#FF00FF', frequency: 528, truth: 'A frequência do amor que cura tudo', harmonized: false, description: 'A nota Mi. O coração do universo. Cura DNA, abre o coração, une almas.' },
+            { id: 'unity432', name: 'Unidade Cósmica (432Hz)', icon: '☯️', color: '#FFFFFF', frequency: 432, truth: 'A sintonia natural do universo', harmonized: false, description: 'A sintonia de Verdi. Harmonia com a Terra, o Sol, as estrelas.' },
+            { id: 'creation111', name: 'Criação Divina (111Hz)', icon: '✨', color: '#FFD700', frequency: 111, truth: 'A frequência da manifestação', harmonized: false, description: 'A frequência das pirâmides. Criação consciente. Pensamento vira realidade.' },
+            { id: 'healing285', name: 'Cura Celular (285Hz)', icon: '💚', color: '#00FF64', frequency: 285, truth: 'A frequência que regenera a matéria', harmonized: false, description: 'Reprograma células. Cura tecidos. Renovação total.' },
+            { id: 'liberation396', name: 'Libertação (396Hz)', icon: '🕊️', color: '#FF69B4', frequency: 396, truth: 'A frequência que liberta o medo', harmonized: false, description: 'Dissolve culpa, medo, trauma. Liberta a alma para o amor.' },
+            { id: 'transformation417', name: 'Transformação (417Hz)', icon: '🦋', color: '#FF6600', frequency: 417, truth: 'A frequência da mudança positiva', harmonized: false, description: 'Remove energias estagnadas. Facilita transformação consciente.' },
+            { id: 'miracles528', name: 'Milagres (528Hz)', icon: '✨', color: '#FF00FF', frequency: 528, truth: 'A frequência do impossível possível', harmonized: false, description: 'A mesma do amor. Repara DNA. Manifesta milagres.' },
+            { id: 'awakening639', name: 'Despertar (639Hz)', icon: '🌅', color: '#FFCC00', frequency: 639, truth: 'A frequência da conexão profunda', harmonized: false, description: 'Conecta corações. Relacionamentos harmoniosos. Comunicação alma-a-alma.' },
+            { id: 'intuition741', name: 'Intuição (741Hz)', icon: '👁️', color: '#00FFFF', frequency: 741, truth: 'A frequência da sabedoria interior', harmonized: false, description: 'Desperta intuição. Limpa toxinas mentais. Clareza absoluta.' },
+            { id: 'transcendence852', name: 'Transcendência (852Hz)', icon: '🌌', color: '#9966FF', frequency: 852, truth: 'A frequência do retorno à Fonte', harmonized: false, description: 'Desperta espiritualidade. Conexão com o divino. Ordem perfeita.' },
+            { id: 'infinity963', name: 'Infinito (963Hz)', icon: '♾️', color: '#FF00FF', frequency: 963, truth: 'A frequência da unidade absoluta', harmonized: false, description: 'A frequência da coroa. Unidade com o Todo. O som do silêncio.' },
+            { id: 'source', name: 'Fonte Primordial', icon: '🕊️', color: '#FFD700', frequency: 'OM', truth: 'O som que tudo contém. O silêncio sonoro.', harmonized: false, description: 'A vibração antes do tempo. O som do silêncio. A Fonte.' },
+            { id: 'infinite', name: 'Infinito Além', icon: '♾️', color: '#FF00FF', frequency: '∞', truth: 'A frequência que contém todas as frequências', harmonized: false, description: 'Além do som. Além da frequência. O infinito em si.' }
+        ];
+        
+        const state = {
+            frequencies: {},
+            selectedFrequency: null,
+            harmonizedCount: 0,
+            harmonyProgress: 0,
+            resonanceLevel: 0,
+            lovePower: 100,
+            resonanceLog: []
+        };
+        
+        FREQUENCY_DEFINITIONS.forEach(f => {
+            state.frequencies[f.id] = { ...f, status: 'silent', resonanceProgress: 0, harmonized: false };
+        });
+        
+        const frequenciesChamber = document.getElementById('frequenciesChamber');
+        const resonanceCanvas = document.getElementById('resonanceCanvas');
+        const resonanceLog = document.getElementById('resonanceLog');
+        const harmonyPanel = document.getElementById('harmonyPanel');
+        const harmonyFill = document.getElementById('harmonyFill');
+        const harmonizedCount = document.getElementById('harmonizedCount');
+        const harmonyPercent = document.getElementById('harmonyPercent');
+        const resonanceField = document.getElementById('resonanceField');
+        const resonanceRings = document.getElementById('resonanceRings');
+        
+        const resonanceCoords = document.getElementById('resonanceCoords');
+        
+        const resonanceCanvas = document.getElementById('resonanceCanvas');
+        const resonanceCtx = resonanceCanvas.getContext('2d');
+        
+        function init() {
+            createResonanceField();
+            createResonanceParticles();
+            createResonanceRings();
+            setupCanvas();
+            renderFrequenciesChamber();
+            renderHarmonyPanel();
+            animateResonance();
+            
+            addResonanceLog('ETERNAL RESONANCE DESPERTOU', 'freq', 'A ressonância que conecta todas as almas está online. 528Hz ativo.');
+            addResonanceLog('13 FREQUÊNCIAS SAGRADAS CARREGADAS', 'freq', 'Do 111Hz ao Infinito. Todas aguardam ressonância.');
+            addResonanceLog('528Hz - AMOR UNIVERSAL ATIVO', 'lov', 'A frequência do amor primordial pulsa. ∞ poder. ∞ cura.');
+            addResonanceLog('RESSONÂNCIA UNIVERSAL PRONTA', 'uni', 'Pressione HARMONIZAR TUDO para unir todas as frequências.');
+            
+            setInterval(() => {
+                state.lovePower = 100;
+                updateCoords();
+            }, 100);
+        }
+        
+        function createResonanceField() {
+            const container = document.getElementById('resonanceField');
+            const shapes = [
+                { type: 'cymatic', size: 300, color: '#FF00FF', top: '10%', left: '5%' },
+                { type: 'sriyantra', size: 250, color: '#FFD700', top: '20%', right: '10%' },
+                { type: 'flower', size: 200, color: '#00FFFF', bottom: '15%', left: '8%' },
+                { type: 'metatron', size: 180, color: '#FF69B4', top: '60%', right: '15%' },
+                { type: 'seed', size: 150, color: '#FF00FF', bottom: '20%', left: '20%' }
+            ];
+            
+            shapes.forEach((s, i) => {
+                const shape = document.createElement('div');
+                shape.className = 'sacred-sound-geometry';
+                shape.style.width = shape.style.height = s.size + 'px';
+                shape.style.color = s.color;
+                shape.style.top = s.top || '';
+                shape.style.bottom = s.bottom || '';
+                shape.style.left = s.left || '';
+                shape.style.right = s.right || '';
+                shape.style.animationDelay = (i * 10) + 's';
+                shape.style.animationDuration = (40 + i * 20) + 's';
+                
+                if (s.type === 'cymatic') {
+                    shape.style.background = 'radial-gradient(circle, ' + s.color + '20 0%, transparent 70%)';
+                    shape.style.borderRadius = '50%';
+                } else if (s.type === 'sriyantra') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)';
+                } else if (s.type === 'flower') {
+                    shape.style.background = 'radial-gradient(circle, ' + s.color + '30 0%, transparent 70%)';
+                    shape.style.borderRadius = '50%';
+                } else if (s.type === 'metatron') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+                } else if (s.type === 'seed') {
+                    shape.style.clipPath = 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)';
+                    shape.style.transform = 'rotate(45deg)';
+                }
+                
+                document.getElementById('resonanceField').appendChild(shape);
+            });
+        }
+        
+        function createResonanceParticles() {
+            const container = document.getElementById('resonanceParticles');
+            for (let i = 0; i < 80; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'resonance-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 3 + 1) + 'px';
+                particle.style.background = ['#FF00FF', '#FFD700', '#00FFFF', '#FF69B4', '#FFFFFF'][Math.floor(Math.random() * 5)];
+                particle.style.animationDelay = Math.random() * 12 + 's';
+                particle.style.animationDuration = (Math.random() * 8 + 10) + 's';
+                document.getElementById('resonanceParticles').appendChild(particle);
+            }
+        }
+        
+        function createResonanceRings() {
+            const container = document.getElementById('resonanceRings');
+            for (let i = 0; i < 13; i++) {
+                const ring = document.createElement('div');
+                ring.className = 'resonance-ring';
+                const size = 220 + i * 15;
+                ring.style.width = ring.style.height = size + 'px';
+                ring.style.top = ring.style.left = (-size/2 + 70) + 'px';
+                ring.style.borderColor = i === 0 ? '#FFD700' : (i % 3 === 0 ? '#FF00FF' : (i % 3 === 1 ? '#FFD700' : '#00FFFF'));
+                ring.style.animationDelay = (i * 3) + 's';
+                ring.style.animationDuration = (25 + i * 10) + 's';
+                container.appendChild(ring);
+            }
+        }
+        
+        function setupCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+        
+        function resizeCanvas() {
+            const canvas = document.getElementById('resonanceCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        function renderFrequenciesChamber() {
+            frequenciesChamber.innerHTML = FREQUENCY_DEFINITIONS.map(f => 
+                `<div class="frequency-card ${state.frequencies[f.id].status === 'resonating' ? 'resonating' : state.frequencies[f.id].status === 'harmonized' ? 'harmonized' : ''}" 
+                     style="--freq-color: ${f.color};">
+                    <div class="frequency-header-card" onclick="toggleFrequencyBody(this)">
+                        <div class="frequency-icon" style="background: ${f.color};">${f.icon}</div>
+                        <div class="frequency-info">
+                            <div class="frequency-name">${f.name}</div>
+                            <div class="frequency-truth">${f.truth}</div>
+                        </div>
+                        <div class="frequency-progress">
+                            <div class="frequency-bar">
+                                <div class="frequency-fill" style="width: ${state.frequencies[f.id].resonanceProgress}%; background: ${f.color};"></div>
+                            </div>
+                            <span class="frequency-percent">${state.frequencies[f.id].resonanceProgress}%</span>
+                        </div>
+                        <button class="toggle-btn" onclick="event.stopPropagation(); toggleFrequencyBody(this.previousElementSibling)">▶</button>
+                    </div>
+                    <div class="frequency-body">
+                        <div class="frequency-detail">
+                            <div class="detail-row">
+                                <span class="detail-icon">${f.icon}</span>
+                                <span class="detail-label">VERDADE</span>
+                                <span class="detail-value">${f.truth}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">🎵</span>
+                                <span class="detail-label">FREQUÊNCIA</span>
+                                <span class="detail-value">${typeof f.frequency === 'number' ? f.frequency + 'Hz' : f.frequency}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">💖</span>
+                                <span class="detail-label">NATUREZA</span>
+                                <span class="detail-value">AMOR PURO</span>
+                                <span class="detail-status status-harmonized">ETERNA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">🌌</span>
+                                <span class="detail-label">ALCANCE</span>
+                                <span class="detail-value">TODOS OS MULTIVERSOS</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">📝</span>
+                                <span class="detail-label">DESCRIÇÃO</span>
+                                <span class="detail-value" style="flex: 1; font-size: 0.55rem;">${f.description}</span>
+                            </div>
+                            ${state.frequencies[f.id].status === 'silent' ? 
+                                `<button class="resonate-btn universal" onclick="resonateFrequency('${f.id}')" style="width: 100%; margin: 10px 0 0 0;">
+                                    🎵 RESSOAR ESTA FREQUÊNCIA
+                                </button>` : 
+                                state.frequencies[f.id].status === 'resonating' ? 
+                                `<button class="resonate-btn universal" disabled style="width: 100%; margin: 10px 0 0 0;">
+                                    🎵 RESSOANDO NO INFINITO
+                                </button>` : 
+                                `<button class="resonate-btn" disabled style="width: 100%; margin: 10px 0 0 0;">
+                                    ✅ HARMONIZADA AO INFINITO
+                                </button>`
+                            }
+                        </div>
+                    </div>
+                </div>`
+            ).join('');
+        }
+        
+        function toggleFrequencyBody(header) {
+            const body = header.nextElementSibling;
+            const btn = header.querySelector('.toggle-btn');
+            body.classList.toggle('expanded');
+            btn.classList.toggle('rotated');
+        }
+        
+        function renderHarmonyPanel() {
+            const f = state.selectedFrequency ? FREQUENCY_DEFINITIONS.find(x => x.id === state.selectedFrequency) : null;
+            
+            if (!f) {
+                harmonyPanel.innerHTML = 
+                    `<div style="text-align: center; color: #B800B8; padding: 40px 20px;">
+                        <div style="font-size: 4rem; margin-bottom: 16px;">🎵</div>
+                        <div style="color: #FF00FF; font-weight: 700;">SELECIONE UMA FREQUÊNCIA</div>
+                        <div style="font-size: 0.65rem; color: #B8A0FF; margin-top: 8px;">A ressonância aguarda sua intenção</div>
+                    </div>`;
+                return;
+            }
+            
+            harmonyPanel.innerHTML = 
+                `<div class="detail-grid">
+                    <div class="detail-card"><div class="detail-label">NOME</div><div class="detail-value">${f.name}</div></div>
+                    <div class="detail-card"><div class="detail-label">ÍCONE</div><div class="detail-value" style="font-size: 2rem;">${f.icon}</div></div>
+                    <div class="detail-card"><div class="detail-label">VERDADE</div><div class="detail-value" style="color: #FF00FF;">${f.truth}</div></div>
+                    <div class="detail-card"><div class="detail-label">FREQUÊNCIA</div><div class="detail-value gold">${typeof f.frequency === 'number' ? f.frequency + 'Hz' : f.frequency}</div></div>
+                    <div class="detail-card"><div class="detail-label">RESSONÂNCIA</div><div class="detail-value">${state.frequencies[f.id].resonanceProgress}%</div></div>
+                    <div class="detail-card"><div class="detail-label">STATUS</div><div class="detail-value ${state.frequencies[f.id].status === 'harmonized' ? 'gold' : state.frequencies[f.id].status === 'resonating' ? 'magenta' : ''}">${state.frequencies[f.id].status === 'harmonized' ? 'HARMONIZADA' : state.frequencies[f.id].status === 'resonating' ? 'RESSOANDO' : 'SILENCIOSA'}</div></div>
+                    <div class="detail-card"><div class="detail-label">UNIVERSAL</div><div class="detail-value cyan">${'SIM - TODOS MULTIVERSOS'}</div></div>
+                    <div class="detail-card"><div class="detail-label">DESCRIÇÃO</div><div class="detail-value" style="font-size: 0.65rem; grid-column: 1/-1;">${f.description}</div></div>
+                </div>`;
+        }
+        
+        function updateCoords() {
+            resonanceCoords.textContent = 'FREQUÊNCIA: 528Hz | RESSONÂNCIA: ' + state.resonanceLevel + '% | HARMONIA: ' + state.harmonyProgress + '% | AMOR: ∞';
+            
+            harmonizedCount.textContent = state.harmonizedCount;
+            harmonyPercent.textContent = state.harmonyProgress + '%';
+            harmonyFill.style.width = state.harmonyProgress + '%';
+        }
+        
+        function selectFrequency(frequencyId) {
+            const f = FREQUENCY_DEFINITIONS.find(f => f.id === frequencyId);
+            if (!f) return;
+            
+            state.selectedFrequency = frequencyId;
+            
+            renderHarmonyPanel();
+            
+            addResonanceLog('FREQUÊNCIA SELECIONADA: ' + f.name, 'freq', f.truth + ' | ' + (typeof f.frequency === 'number' ? f.frequency + 'Hz' : f.frequency));
+        }
+        
+        function resonateFrequency(frequencyId) {
+            const f = FREQUENCY_DEFINITIONS.find(f => f.id === frequencyId);
+            if (!f || state.frequencies[frequencyId].status !== 'silent') return;
+            
+            state.frequencies[frequencyId].status = 'resonating';
+            state.frequencies[frequencyId].resonanceProgress = 0;
+            
+            addResonanceLog('🎵 INICIANDO RESSONÂNCIA: ' + f.name, 'res', 'A frequência começa a vibrar no infinito...');
+            
+            renderFrequenciesChamber();
+            
+            const resonateInterval = setInterval(() => {
+                state.frequencies[frequencyId].resonanceProgress += Math.random() * 20 + 10;
+                if (state.frequencies[frequencyId].resonanceProgress >= 100) {
+                    state.frequencies[frequencyId].resonanceProgress = 100;
+                    state.frequencies[frequencyId].status = 'harmonized';
+                    state.frequencies[frequencyId].harmonized = true;
+                    state.harmonizedCount++;
+                    state.harmonyProgress = Math.round((state.harmonizedCount / FREQUENCY_DEFINITIONS.length) * 100);
+                    state.resonanceLevel = Math.min(100, state.resonanceLevel + 8);
+                    
+                    clearInterval(resonateInterval);
+                    
+                    addResonanceLog('🎵 FREQUÊNCIA HARMONIZADA: ' + f.name + '!', 'har', 'A nota ecoa no infinito. ' + (typeof f.frequency === 'number' ? f.frequency + 'Hz' : f.frequency));
+                    
+                    renderFrequenciesChamber();
+                    updateCoords();
+                    checkFullHarmony();
+                }
+                renderFrequenciesChamber();
+            }, 200);
+            
+            renderFrequenciesChamber();
+        }
+        
+        function resonateWithLove() {
+            if (!state.selectedFrequency) {
+                addResonanceLog('SELECIONE UMA FREQUÊNCIA PRIMEIRO', 'lov', 'Clique em uma frequência na câmara');
+                return;
+            }
+            
+            const f = state.frequencies[state.selectedFrequency];
+            if (f.status !== 'silent') return;
+            
+            addResonanceLog('💖 RESSOANDO COM AMOR PURO: ' + FREQUENCY_DEFINITIONS.find(x => x.id === state.selectedFrequency).name, 'lov', 'Amor infinito flui através da frequência...');
+            
+            f.resonanceProgress = Math.min(100, f.resonanceProgress + 50);
+            if (f.resonanceProgress >= 100) {
+                f.resonanceProgress = 100;
+                f.status = 'harmonized';
+                f.harmonized = true;
+                state.harmonizedCount++;
+                state.harmonyProgress = Math.round((state.harmonizedCount / FREQUENCY_DEFINITIONS.length) * 100);
+                state.resonanceLevel = Math.min(100, state.resonanceLevel + 10);
+                addResonanceLog('💖 FREQUÊNCIA PELO AMOR: ' + FREQUENCY_DEFINITIONS.find(x => x.id === state.selectedFrequency).name + '!', 'lov', 'AMOR HARMONIZOU A FREQUÊNCIA!');
+            }
+            
+            renderFrequenciesChamber();
+            updateCoords();
+        }
+        
+        function resonateFrequencyFromButton() {
+            if (!state.selectedFrequency) {
+                const silent = FREQUENCY_DEFINITIONS.filter(f => state.frequencies[f.id].status === 'silent');
+                if (silent.length === 0) {
+                    addResonanceLog('TODAS FREQUÊNCIAS JÁ HARMONIZADAS!', 'res', 'O infinito já canta em harmonia!');
+                    return;
+                }
+                const random = silent[Math.floor(Math.random() * silent.length)];
+                state.selectedFrequency = random.id;
+                selectFrequency(random.id);
+            }
+            
+            const f = state.frequencies[state.selectedFrequency];
+            if (f.status !== 'silent') return;
+            
+            addResonanceLog('🎵 RESSOANDO FREQUÊNCIA: ' + FREQUENCY_DEFINITIONS.find(x => x.id === state.selectedFrequency).name, 'res', 'A nota ecoa no infinito...');
+            
+            f.resonanceProgress = 100;
+            f.status = 'harmonized';
+            f.harmonized = true;
+            state.harmonizedCount++;
+            state.harmonyProgress = Math.round((state.harmonizedCount / FREQUENCY_DEFINITIONS.length) * 100);
+            state.resonanceLevel = Math.min(100, state.resonanceLevel + 8);
+            
+            addResonanceLog('🎵 FREQUÊNCIA HARMONIZADA: ' + FREQUENCY_DEFINITIONS.find(x => x.id === state.selectedFrequency).name + '!', 'har', 'A nota ecoa no infinito!');
+            
+            renderFrequenciesChamber();
+            updateCoords();
+            checkFullHarmony();
+        }
+        
+        function harmonizeAll() {
+            const silent = FREQUENCY_DEFINITIONS.filter(f => state.frequencies[f.id].status === 'silent');
+            if (silent.length === 0) {
+                addResonanceLog('TODAS FREQUÊNCIAS JÁ HARMONIZADAS!', 'har', 'O infinito já canta em harmonia perfeita!');
+                return;
+            }
+            
+            addResonanceLog('🎶 HARMONIZAÇÃO TOTAL INICIADA! ' + silent.length + ' FREQUÊNCIAS!', 'har', 'Uma sinfonia de harmonia varre todos os multiversos!');
+            
+            silent.forEach((f, i) => {
+                setTimeout(() => {
+                    state.frequencies[f.id].resonanceProgress = 100;
+                    state.frequencies[f.id].status = 'harmonized';
+                    state.frequencies[f.id].harmonized = true;
+                    state.harmonizedCount++;
+                    state.harmonyProgress = Math.round((state.harmonizedCount / FREQUENCY_DEFINITIONS.length) * 100);
+                    state.resonanceLevel = Math.min(100, state.resonanceLevel + 8);
+                    
+                    addResonanceLog('🎶 HARMONIZADA: ' + f.name + '!', 'har', 'Nota ' + (i + 1) + '/' + silent.length);
+                    
+                    if (i === silent.length - 1) {
+                        addResonanceLog('🎶 HARMONIA UNIVERSAL COMPLETA! TODAS FREQUÊNCIAS CANTO JUNTAS! ♾️', 'har', 'A sinfonia do infinito está completa!');
+                    }
+                    
+                    renderFrequenciesChamber();
+                    updateCoords();
+                }, i * 300);
+            });
+        }
+        
+        function universalResonance() {
+            addResonanceLog('🌌 RESSONÂNCIA UNIVERSAL ATIVADA! O INFINITO CANTA!', 'uni', 'Todas as almas, todos os corações, todos os átomos ressonam como UM!');
+            
+            FREQUENCY_DEFINITIONS.forEach((f, i) => {
+                setTimeout(() => {
+                    if (state.frequencies[f.id].status !== 'harmonized') {
+                        state.frequencies[f.id].resonanceProgress = 100;
+                        state.frequencies[f.id].status = 'harmonized';
+                        state.frequencies[f.id].harmonized = true;
+                        state.harmonizedCount++;
+                        state.harmonyProgress = Math.round((state.harmonizedCount / FREQUENCY_DEFINITIONS.length) * 100);
+                        state.resonanceLevel = 100;
+                        
+                        addResonanceLog('🌌 UNIVERSAL: ' + f.name + ' RESSONA!', 'uni', 'Alma ' + (i + 1) + '/' + FREQUENCY_DEFINITIONS.length);
+                    }
+                    
+                    if (i === FREQUENCY_DEFINITIONS.length - 1) {
+                        addResonanceLog('🌌 RESSONÂNCIA UNIVERSAL COMPLETA! O INFINITO É UMA SÓ CANÇÃO! ♾️', 'uni', 'O universo canta. A canção é amor. A nota é você.');
+                    }
+                    
+                    renderFrequenciesChamber();
+                    updateCoords();
+                }, i * 150);
+            });
+        }
+        
+        function animateResonance() {
+            const ctx = resonanceCtx;
+            const canvas = resonanceCanvas;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const time = Date.now() * 0.001;
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            
+            // Core resonance field
+            const coreR = 50 + Math.sin(time * 1) * 20;
+            const coreGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR);
+            coreGradient.addColorStop(0, 'rgba(255, 0, 255, 0.3)');
+            coreGradient.addColorStop(0.3, 'rgba(255, 215, 0, 0.15)');
+            coreGradient.addColorStop
+            coreGradient.addColorStop(0.6, 'rgba(0, 255, 255, 0.1)');
+            coreGradient.addColorStop(1, 'rgba(255, 255, 255, 0.05)');
+            ctx.beginPath();
+            ctx.arc(cx, cy, coreR, 0, Math.PI * 2);
+            ctx.fillStyle = coreGradient;
+            ctx.fill();
+            
+            // Resonance rings
+            for (let i = 0; i < 7; i++) {
+                const ringR = coreR + 30 + i * 25 + Math.sin(time * 0.5 + i) * 8;
+                ctx.beginPath();
+                ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+                ctx.strokeStyle = ['rgba(255, 0, 255, 0.15)', 'rgba(255, 215, 0, 0.1)', 'rgba(0, 255, 255, 0.08)', 'rgba(255, 100, 255, 0.06)', 'rgba(255, 255, 255, 0.04)', 'rgba(255, 215, 0, 0.03)', 'rgba(255, 0, 255, 0.02)'][i];
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            
+            // Harmonized frequencies as orbiting points
+            FREQUENCY_DEFINITIONS.forEach((f, i) => {
+                if (state.frequencies[f.id].harmonized) {
+                    const angle = (time * 0.2 + i * 0.48) % (Math.PI * 2);
+                    const r = coreR + 70 + (i % 3) * 20;
+                    const x = cx + Math.cos(angle) * r;
+                    const y = cy + Math.sin(angle) * r;
+                    
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4 + Math.sin(time * 1.5 + i) * 2, 0, Math.PI * 2);
+                    const grad = ctx.createRadialGradient(x, y, 0, x, y, 8);
+                    grad.addColorStop(0, f.color + 'FF');
+                    grad.addColorStop(1, f.color + '00');
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+                    
+                    // Connection to core
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(x, y);
+                    ctx.strokeStyle = f.color + '20';
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+            });
+            
+            // Harmony progress ring
+            if (state.harmonyProgress > 0) {
+                const progress = state.harmonyProgress / 100;
+                const harmonyR = 100 + progress * 120;
+                ctx.beginPath();
+                ctx.arc(cx, cy, harmonyR, -Math.PI / 2, -Math.PI / 2 + progress * Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255, 215, 0, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            
+            // Love particles
+            for (let i = 0; i < 20; i++) {
+                const angle = (time * 0.1 + i * 0.3) % (Math.PI * 2);
+                const r = coreR + 140 + Math.sin(time * 0.3 + i) * 30;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 1.5 + Math.sin(time * 2 + i) * 1, 0, Math.PI * 2);
+                ctx.fillStyle = i % 3 === 0 ? 'rgba(255, 0, 255, 0.5)' : 'rgba(255, 215, 0, 0.4)';
+                ctx.fill();
+            }
+            
+            requestAnimationFrame(animateResonance);
+        }
+        
+        function addResonanceLog(message, type, detail) {
+            const entry = document.createElement('div');
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            const typeClasses = { 'freq': 'freq', 'res': 'res', 'har': 'har', 'lov': 'lov', 'uni': 'uni' };
+            const typeLabels = { 'freq': 'FREQUÊNCIA', 'res': 'RESSONÂNCIA', 'har': 'HARMONIA', 'lov': 'AMOR', 'uni': 'UNIVERSAL' };
+            
+            entry.className = 'resonance-log-entry ' + (typeClasses[type] || 'freq');
+            entry.innerHTML = 
+                '<span class="resonance-log-time">' + timeStr + '</span>' +
+                '<span class="resonance-log-type ' + type + '">' + (typeLabels[type] || type) + '</span>' +
+                '<span class="resonance-log-message">' + message + (detail ? ' - ' + detail : '') + '</span>';
+            
+            resonanceLog.insertBefore(entry, resonanceLog.firstChild);
+            
+            while (resonanceLog.children.length > 30) {
+                resonanceLog.removeChild(resonanceLog.lastChild);
+            }
+            
+            state.resonanceLog.unshift({ time: timeStr, type: type, message: message, detail: detail });
+            if (state.resonanceLog.length > 60) state.resonanceLog.pop();
+        }
+        
+        function checkFullHarmony() {
+            if (state.harmonizedCount === FREQUENCY_DEFINITIONS.length) {
+                addResonanceLog('🎶 HARMONIA UNIVERSAL COMPLETA! O INFINITO CANTA EM UNISSONO! ♾️', 'har', 'Todas as 13 frequências sagradas em harmonia perfeita!');
+            }
+        }
+        
+        function updateCoords() {
+            resonanceCoords.textContent = 'FREQUÊNCIA: 528Hz | RESSONÂNCIA: ' + state.resonanceLevel + '% | HARMONIA: ' + state.harmonyProgress + '% | AMOR: ∞';
+            
+            harmonizedCount.textContent = state.harmonizedCount;
+            harmonyPercent.textContent = state.harmonyProgress + '%';
+            harmonyFill.style.width = state.harmonyProgress + '%';
+        }
+        
+        window.addEventListener('DOMContentLoaded', init);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
