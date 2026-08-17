@@ -1074,7 +1074,7 @@ describe('${moduleName}', () => {
   exportBestGenome() {
     return this.population[0] ? JSON.parse(JSON.stringify(this.population[0])) : null;
   }
-  
+
   // Import genome
   importGenome(genome) {
     if (this.population.length < this.params.populationSize) {
@@ -1085,6 +1085,12 @@ describe('${moduleName}', () => {
       this.population[0] = { ...genome, id: `imported_${Date.now()}`, fitness: 0 };
     }
     this.saveState();
+  }
+
+  // Tick method for Diamond Protocol integration (runs every 100 cycles)
+  tick(cycle) {
+    // Self-improving architecture runs deep analysis less frequently
+    // No-op for regular ticks - heavy lifting happens in analyzeAndRefactor/evolve
   }
 }
 

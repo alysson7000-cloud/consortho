@@ -653,11 +653,11 @@ class DynamicWorldEvents extends EventEmitter {
     for (const [eventKey, template] of allTemplates) {
       if (this.activeEvents.has(eventKey)) continue;
       if (this.scheduledEvents.has(eventKey)) continue;
-      
-      if (this.canTriggerEvent(template)) {
+
+      if (this.canTriggerEvent(eventKey, template)) {
         const rarityRoll = Math.random();
         const rarityThresholds = { common: 0.3, rare: 0.1, epic: 0.03, legendary: 0.005, mythic: 0.0005 };
-        
+
         if (rarityRoll < (rarityThresholds[template.rarity] || 0.1)) {
           this.triggerEvent(eventKey, template);
         }
@@ -665,7 +665,7 @@ class DynamicWorldEvents extends EventEmitter {
     }
   }
 
-  canTriggerEvent(template) {
+  canTriggerEvent(eventKey, template) {
     // Check all conditions
     if (template.minHarmony && this.worldState.harmony < template.minHarmony) return false;
     if (template.maxHarmony && this.worldState.harmony > template.maxHarmony) return false;
@@ -679,7 +679,7 @@ class DynamicWorldEvents extends EventEmitter {
     if (template.minLuminLevel && this.server.state?.lumin?.level < template.minLuminLevel) return false;
     if (template.minDiamondCoherence && this.worldState.diamondCoherence < template.minDiamondCoherence) return false;
     if (template.minPlayers && this.server.getPlayerCount?.() < template.minPlayers) return false;
-    
+
     // Cooldown check
     const lastTriggered = this.eventHistory
       .filter(e => e.eventKey === eventKey)
@@ -687,7 +687,7 @@ class DynamicWorldEvents extends EventEmitter {
     if (lastTriggered && Date.now() - lastTriggered.timestamp < (template.cooldown || 300000)) {
       return false;
     }
-    
+
     return true;
   }
 

@@ -1067,13 +1067,14 @@ class OmegaSynthesisEngine extends EventEmitter {
         bestGenome: simulation.bestGenome,
         bestFitness: simulation.bestFitness,
         generations: simulation.history.length,
-        patterns: this.extractPatterns(simulation.bestGenome),
+        patterns: simulation.bestGenome ? this.extractPatterns(simulation.bestGenome) : [],
         timestamp: Date.now()
       }
     );
   }
 
   extractPatterns(genome) {
+    if (!genome || !genome.dna) return [];
     const patterns = [];
     for (const gene of genome.dna.values()) {
       if (gene.fitnessContribution > 0.7 && gene.expressionLevel > 0.8) {
@@ -1433,10 +1434,37 @@ class OmegaSynthesisEngine extends EventEmitter {
     this.intervals.set('optimize', setInterval(() => this.runOptimizationCycle(), this.config.optimizationInterval));
     this.intervals.set('simulation', setInterval(() => this.runEvolutionSimulation(20), this.config.simulationInterval));
     this.intervals.set('recursion', setInterval(() => this.recurse(0), this.config.recursionInterval));
-    
+
     this.isRunning = true;
     console.log('🌌 OMEGA SYNTHESIS ENGINE INICIADO - A EVOLUÇÃO COMEÇA AGORA!');
     this.emit('omega:started');
+  }
+
+  async generateHybrids() {
+    if (!this.isRunning) return;
+    
+    const systems = Array.from(this.systemRegistry.keys()).filter(s => 
+      this.systemRegistry.get(s)?.status === 'active'
+    );
+    
+    if (systems.length < 2) return;
+    
+    // Pick two random systems to hybridize
+    const systemA = systems[Math.floor(Math.random() * systems.length)];
+    let systemB = systems[Math.floor(Math.random() * systems.length)];
+    
+    while (systemB === systemA && systems.length > 1) {
+      systemB = systems[Math.floor(Math.random() * systems.length)];
+    }
+    
+    try {
+      const hybrid = await this.hybridFactory.createHybrid(systemA, systemB);
+      await this.deployHybrid(hybrid.id);
+      this.metrics.hybridsCreated++;
+      console.log(`🧬 Híbrido gerado: ${hybrid.id} (${systemA} + ${systemB})`);
+    } catch (e) {
+      console.warn('Erro ao gerar híbrido:', e.message);
+    }
   }
 
   async stop() {
@@ -1724,12 +1752,13 @@ class HybridFactory {
   
   createHybridInterface(sysA, sysB, options) {
     // Create combined interface
+    const factory = this; // capture reference to mergeMetrics
     return {
       capabilities: { ...sysA.interface.capabilities, ...sysB.interface.capabilities },
       async getMetrics() {
         const metricsA = await sysA.interface.getMetrics?.() || {};
         const metricsB = await sysB.interface.getMetrics?.() || {};
-        return this.mergeMetrics(metricsA, metricsB);
+        return factory.mergeMetrics(metricsA, metricsB);
       },
       async execute(command, data) {
         // Try both systems
@@ -1737,7 +1766,7 @@ class HybridFactory {
           sysA.interface.execute?.(command, data),
           sysB.interface.execute?.(command, data)
         ]);
-        return this.mergeResults(results);
+        return factory.mergeResults(results);
       }
     };
   }

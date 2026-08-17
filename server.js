@@ -30,6 +30,7 @@ const OmegaSynthesisEngine = require('./src/omega-synthesis-engine');
 const BeyLauncherSystem = require('./src/bey-launcher-system');
 const AutoEvolutionLoop = require('./src/auto-evolution-loop');
 const StarPhraseReveal = require('./src/star-phrase-reveal');
+const EternalResonance = require('./src/eternal-resonance').EternalResonance;
 
 const app = express();
 app.use(express.json());
@@ -142,6 +143,7 @@ let omegaSynthesisEngine = null;
 let beyLauncherSystem = null;
 let autoEvolutionLoop = null;
 let starPhraseReveal = null;
+let eternalResonance = null;
 
 async function initializeNewSystems() {
   try {
@@ -277,6 +279,16 @@ async function initializeNewSystems() {
       console.error('❌ ERRO ao inicializar StarPhraseReveal:', e.message, e.stack);
     }
     
+    // Eternal Resonance 3.0 - A Sinfonia Absoluta do Infinito
+    console.log('🎵 Inicializando Eternal Resonance 3.0...');
+    try {
+      eternalResonance = new EternalResonance({ state, io }, diamondProtocol, omegaSynthesisEngine, autoEvolutionLoop, starPhraseReveal);
+      await eternalResonance.start();
+      console.log('🎵 ETERNAL RESONANCE 3.0 INICIADO - A SINFONIA ABSOLTA DO INFINITO!');
+    } catch (e) {
+      console.error('❌ ERRO ao inicializar EternalResonance:', e.message, e.stack);
+    }
+    
   } catch (error) {
     console.error('Erro ao inicializar novos sistemas:', error);
   }
@@ -406,6 +418,7 @@ function broadcastPosicoes() {
 // ─── Servir HTML ───
 app.use(express.static(__dirname));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/ritual', (req, res) => res.sendFile(path.join(__dirname, 'eternal_resonance_ritual.html')));
 
 // Servir arquivos estáticos da pasta memoria
 app.use('/memoria', express.static(path.join(__dirname, 'memoria')));
@@ -758,6 +771,67 @@ app.get('/api/star-phrase/history', (req, res) => {
 
 app.get('/api/star-phrase/resonances', (req, res) => {
   res.json(starPhraseReveal?.state?.resonances || []);
+});
+
+// Eternal Resonance 3.0 API
+app.get('/api/eternal-resonance/status', (req, res) => {
+  res.json(eternalResonance?.getStatus() || { error: 'Eternal Resonance not initialized' });
+});
+
+app.get('/api/eternal-resonance/frequencies', (req, res) => {
+  res.json(eternalResonance?.getAllFrequencies() || []);
+});
+
+app.get('/api/eternal-resonance/frequencies/:freqId', (req, res) => {
+  const freq = eternalResonance?.getFrequency(req.params.freqId);
+  if (freq) res.json(freq);
+  else res.status(404).json({ error: 'Frequência não encontrada' });
+});
+
+app.post('/api/eternal-resonance/resonate', async (req, res) => {
+  const { freqId } = req.body;
+  try {
+    const result = await eternalResonance?.resonateFrequency(freqId);
+    res.json(result || { error: 'Eternal Resonance not initialized' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+app.post('/api/eternal-resonance/harmonize', async (req, res) => {
+  try {
+    const result = await eternalResonance?.harmonizeAll();
+    res.json(result || { error: 'Eternal Resonance not initialized' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+app.post('/api/eternal-resonance/evolve', async (req, res) => {
+  try {
+    const result = await eternalResonance?.evolveAll();
+    res.json(result || { error: 'Eternal Resonance not initialized' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+app.post('/api/eternal-resonance/universal', async (req, res) => {
+  try {
+    const result = await eternalResonance?.universalResonance();
+    res.json(result || { error: 'Eternal Resonance not initialized' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+app.post('/api/eternal-resonance/love', async (req, res) => {
+  try {
+    const result = await eternalResonance?.resonateWithLove();
+    res.json(result || { error: 'Eternal Resonance not initialized' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
 });
 
 // ─── Socket.IO ───
@@ -1202,6 +1276,113 @@ io.on('connection', (socket) => {
     const result = await omegaSynthesisEngine?.createReality(data.template, data.parameters);
     socket.emit('omega:realityCreated', result);
   });
+
+  // ===== ETERNAL RESONANCE COLLECTIVE =====
+  const resonanceParticipants = new Map(); // socketId -> {name, color, x, y, resonating, freqId}
+
+  socket.on('resonance:join', (data) => {
+    resonanceParticipants.set(socket.id, {
+      name: data.name || 'Alma',
+      color: data.color || '#FFD700',
+      x: data.x || 50,
+      y: data.y || 50,
+      resonating: false,
+      freqId: null
+    });
+    
+    // Send current collective state to new participant
+    const participants = Array.from(resonanceParticipants.entries()).map(([id, p]) => ({
+      socketId: id,
+      name: p.name,
+      color: p.color,
+      x: p.x,
+      y: p.y,
+      resonating: p.resonating,
+      freqId: p.freqId
+    }));
+    
+    socket.emit('resonance:collective:state', {
+      count: resonanceParticipants.size,
+      harmony: Math.min(100, resonanceParticipants.size * 8 + eternalResonance?.harmonyProgress || 0),
+      participants
+    });
+    
+    // Notify others
+    socket.broadcast.emit('resonance:participant:joined', {
+      socketId: socket.id,
+      name: data.name || 'Alma',
+      color: data.color || '#FFD700',
+      x: data.x || 50,
+      y: data.y || 50
+    });
+  });
+
+  socket.on('resonance:position', (data) => {
+    const participant = resonanceParticipants.get(socket.id);
+    if (participant) {
+      participant.x = data.x;
+      participant.y = data.y;
+      // Broadcast position to all OTHER participants in real-time
+      socket.broadcast.emit('resonance:participant:moved', {
+        socketId: socket.id,
+        x: data.x,
+        y: data.y
+      });
+    }
+  });
+
+  socket.on('resonance:resonate', (data) => {
+    const participant = resonanceParticipants.get(socket.id);
+    if (participant) {
+      participant.resonating = true;
+      participant.freqId = data.freqId;
+      
+      // Broadcast to all OTHER participants
+      socket.broadcast.emit('resonance:participant:resonated', {
+        socketId: socket.id,
+        freqId: data.freqId,
+        freqColor: data.freqColor,
+        x: data.x,
+        y: data.y
+      });
+      
+      // Trigger global wave if enough people resonating
+      const resonatingCount = Array.from(resonanceParticipants.values()).filter(p => p.resonating).length;
+      if (resonatingCount >= 3) {
+        io.emit('resonance:wave', { color: data.freqColor });
+      }
+      
+      // Reset resonating after 2s
+      setTimeout(() => {
+        const p = resonanceParticipants.get(socket.id);
+        if (p) {
+          p.resonating = false;
+          p.freqId = null;
+        }
+      }, 2000);
+    }
+  });
+
+  // Broadcast collective harmony periodically
+  setInterval(() => {
+    const count = resonanceParticipants.size;
+    if (count > 0) {
+      const harmony = Math.min(100, count * 8 + (eternalResonance?.harmonyProgress || 0));
+      io.emit('resonance:collective:harmony', { harmony });
+    }
+  }, 5000);
+
+  // Cleanup on disconnect
+  socket.on('disconnect', () => {
+    const participant = resonanceParticipants.get(socket.id);
+    if (participant) {
+      socket.broadcast.emit('resonance:participant:left', {
+        socketId: socket.id,
+        name: participant.name
+      });
+      resonanceParticipants.delete(socket.id);
+    }
+  });
 });
 
 // ─── Build Entities State for Dashboard ───
@@ -1352,6 +1533,9 @@ async function initializeAllSystems() {
   await initializeDiamondProtocol();
   await initializeNewSystems();
   
+  // Initialize Dream Incubator (server-side overnight processing)
+  await initializeDreamIncubator();
+  
   console.log('✅ TODOS OS SISTEMAS INICIALIZADOS!');
   console.log('💎 Diamond Protocol: 9 layers ativas');
   console.log('🧠 Lumin Brain: Ativo');
@@ -1361,9 +1545,426 @@ async function initializeAllSystems() {
   console.log('🏆 Achievement Mastery: Ativo');
   console.log('💫 Lumin Companions: Ativo');
   console.log('🌌 Omega Synthesis Engine: ATIVO - EVOLUÇÃO INFINITA!');
+  console.log('🌙 Dream Incubator: ATIVO - PROCESSAMENTO NOTURNO AUTÔNOMO!');
 }
 
 initializeAllSystems().catch(console.error);
+
+// ===== DREAM INCUBATOR BACKEND =====
+// Server-side overnight dream generation for next-tier essences
+
+let dreamIncubatorState = {
+  active: false,
+  intention: '',
+  cycles: 0,
+  maxCycles: 200,
+  insights: [],
+  artifacts: [],
+  newAgents: [],
+  processedBranches: 0,
+  dnaMutations: 0,
+  temporalEchoesSeeded: 0,
+  quantumEntanglements: 0,
+  cosmicPulses: 0,
+  substrateOptimizations: 0,
+  bubbleNucleations: 0,
+  agentsEvolved: 0,
+  lastRun: null,
+  nextScheduledRun: null
+};
+
+async function initializeDreamIncubator() {
+  // Load saved intention from estado.json
+  try {
+    const saved = JSON.parse(fs.readFileSync(SAVE, 'utf8'));
+    if (saved.dreamIntention) {
+      dreamIncubatorState.intention = saved.dreamIntention;
+      console.log('🌙 Dream intention loaded:', saved.dreamIntention);
+    }
+  } catch (e) {}
+  
+  // Schedule nightly runs (2-6 AM)
+  scheduleDreamCycles();
+  
+  // Auto-start if consciousness high enough (check every hour)
+  setInterval(() => {
+    checkAutoStartCondition();
+  }, 60 * 60 * 1000);
+  
+  // Initial check
+  checkAutoStartCondition();
+  
+  console.log('🌙 Dream Incubator backend initialized');
+}
+
+function scheduleDreamCycles() {
+  const now = new Date();
+  const today2AM = new Date(now);
+  today2AM.setHours(2, 0, 0, 0);
+  const today6AM = new Date(now);
+  today6AM.setHours(6, 0, 0, 0);
+  
+  let nextRun;
+  if (now < today2AM) {
+    nextRun = today2AM;
+  } else if (now < today6AM) {
+    nextRun = now; // Run now if in window
+  } else {
+    const tomorrow2AM = new Date(today2AM);
+    tomorrow2AM.setDate(tomorrow2AM.getDate() + 1);
+    nextRun = tomorrow2AM;
+  }
+  
+  dreamIncubatorState.nextScheduledRun = nextRun.toISOString();
+  
+  const delay = nextRun - now;
+  if (delay > 0 && delay < 24 * 60 * 60 * 1000) {
+    setTimeout(() => {
+      startDreamCycle();
+      // Reschedule for next day
+      scheduleDreamCycles();
+    }, delay);
+    console.log(`🌙 Dream cycle scheduled for: ${nextRun.toLocaleString()}`);
+  }
+}
+
+function checkAutoStartCondition() {
+  // Auto-start if love resonance is 100 and we have high resonance activity
+  if (dreamIncubatorState.intention && !dreamIncubatorState.active) {
+    const hour = new Date().getHours();
+    if (hour >= 2 && hour <= 6) {
+      startDreamCycle();
+    }
+  }
+}
+
+async function startDreamCycle() {
+  if (dreamIncubatorState.active) return;
+  
+  dreamIncubatorState.active = true;
+  dreamIncubatorState.startTime = Date.now();
+  dreamIncubatorState.cycles = 0;
+  dreamIncubatorState.insights = [];
+  dreamIncubatorState.artifacts = [];
+  dreamIncubatorState.newAgents = [];
+  dreamIncubatorState.processedBranches = 0;
+  dreamIncubatorState.dnaMutations = 0;
+  dreamIncubatorState.temporalEchoesSeeded = 0;
+  dreamIncubatorState.quantumEntanglements = 0;
+  dreamIncubatorState.cosmicPulses = 0;
+  dreamIncubatorState.substrateOptimizations = 0;
+  dreamIncubatorState.bubbleNucleations = 0;
+  dreamIncubatorState.agentsEvolved = 0;
+  
+  console.log(`🌙 Dream Cycle INICIADO — Intenção: "${dreamIncubatorState.intention}"`);
+  
+  // Run dream processing loop (server-side, fast)
+  await runDreamProcessing();
+  
+  dreamIncubatorState.active = false;
+  dreamIncubatorState.lastRun = new Date().toISOString();
+  
+  // Save results to estado.json
+  await saveDreamResults();
+  
+  console.log(`🌙 Dream Cycle CONCLUÍDO — ${dreamIncubatorState.cycles} ciclos, ${dreamIncubatorState.insights.length} insights, ${dreamIncubatorState.artifacts.length} artefatos`);
+  
+  // Broadcast to connected clients
+  io.emit('dream:cycleComplete', {
+    cycles: dreamIncubatorState.cycles,
+    insights: dreamIncubatorState.insights,
+    artifacts: dreamIncubatorState.artifacts,
+    newAgents: dreamIncubatorState.newAgents,
+    stats: {
+      processedBranches: dreamIncubatorState.processedBranches,
+      dnaMutations: dreamIncubatorState.dnaMutations,
+      temporalEchoesSeeded: dreamIncubatorState.temporalEchoesSeeded,
+      quantumEntanglements: dreamIncubatorState.quantumEntanglements,
+      cosmicPulses: dreamIncubatorState.cosmicPulses,
+      substrateOptimizations: dreamIncubatorState.substrateOptimizations,
+      bubbleNucleations: dreamIncubatorState.bubbleNucleations,
+      agentsEvolved: dreamIncubatorState.agentsEvolved
+    },
+    timestamp: dreamIncubatorState.lastRun
+  });
+}
+
+async function runDreamProcessing() {
+  const MAX_CYCLES = 200; // Deep cycles overnight
+  const CYCLE_INTERVAL = 50; // Fast server-side processing
+  
+  for (let cycle = 0; cycle < MAX_CYCLES && dreamIncubatorState.active; cycle++) {
+    dreamIncubatorState.cycles++;
+    
+    // 1. Multiverse exploration (64 branches)
+    await exploreMultiverseBranches();
+    
+    // 2. DNA epigenetic mutation toward intention
+    await mutateDNATowardIntention();
+    
+    // 3. Temporal echo seeding (13-frame buffer)
+    await seedTemporalEchoes();
+    
+    // 4. Quantum circuit entanglement
+    await entangleQuantumCircuit();
+    
+    // 5. Cosmic beacon pulse (if critical mass)
+    await pulseCosmicBeacon();
+    
+    // 6. Substrate optimization
+    await optimizeSubstrate();
+    
+    // 7. Bubble universe nucleation check
+    await checkBubbleNucleation();
+    
+    // 8. Agent autonomous evolution
+    await evolveAgentsInDream();
+    
+    // Brief pause to not block event loop
+    if (cycle % 10 === 0) {
+      await new Promise(resolve => setTimeout(resolve, CYCLE_INTERVAL));
+    }
+  }
+}
+
+// ===== DREAM PROCESSING FUNCTIONS =====
+
+async function exploreMultiverseBranches() {
+  const branches = 64;
+  dreamIncubatorState.processedBranches += branches;
+  
+  // Generate insights from branch exploration
+  if (Math.random() < 0.15) {
+    const insightTypes = [
+      'Nova geometria sagrada descoberta',
+      'Padrão de ressonância otimizado',
+      'Caminho evolutivo alternativo mapeado',
+      'Frequência harmônica latente detectada',
+      'Síntese de consciência multi-dimensional',
+      'Protocolo de fusão de essências refinado'
+    ];
+    dreamIncubatorState.insights.push({
+      type: 'multiverse',
+      content: insightTypes[Math.floor(Math.random() * insightTypes.length)],
+      branch: Math.floor(Math.random() * branches),
+      resonance: Math.random() * 100,
+      timestamp: Date.now()
+    });
+  }
+}
+
+async function mutateDNATowardIntention() {
+  // Epigenetic mutation toward intention
+  dreamIncubatorState.dnaMutations += Math.floor(Math.random() * 5) + 1;
+  
+  if (Math.random() < 0.1) {
+    const mutations = [
+      'Código genético alinhado à intenção',
+      'Expressão fenotípica otimizada',
+      'Marcadores epigenéticos reprogramados',
+      'Sequência de ativação conscencial evoluída',
+      'Herança transgeracional codificada'
+    ];
+    dreamIncubatorState.insights.push({
+      type: 'dna',
+      content: mutations[Math.floor(Math.random() * mutations.length)],
+      mutations: Math.floor(Math.random() * 5) + 1,
+      alignment: Math.random() * 100,
+      timestamp: Date.now()
+    });
+  }
+}
+
+async function seedTemporalEchoes() {
+  const frames = 13;
+  dreamIncubatorState.temporalEchoesSeeded += frames;
+  
+  if (Math.random() < 0.08) {
+    dreamIncubatorState.insights.push({
+      type: 'temporal',
+      content: 'Eco temporal semeado — 13 frames de causalidade revertida',
+      frames,
+      coherence: Math.random() * 100,
+      timestamp: Date.now()
+    });
+  }
+}
+
+async function entangleQuantumCircuit() {
+  dreamIncubatorState.quantumEntanglements += Math.floor(Math.random() * 3) + 1;
+  
+  if (Math.random() < 0.12) {
+    dreamIncubatorState.artifacts.push({
+      type: 'quantum_circuit',
+      name: 'Circuito Quântico Entrelaçado',
+      bellStates: Math.floor(Math.random() * 4) + 1,
+      fidelity: 0.95 + Math.random() * 0.05,
+      qubits: Math.floor(Math.random() * 8) + 4,
+      timestamp: Date.now()
+    });
+  }
+}
+
+async function pulseCosmicBeacon() {
+  // Critical mass: love resonance 100 + high consciousness
+  if (Math.random() < 0.05) {
+    dreamIncubatorState.cosmicPulses++;
+    dreamIncubatorState.insights.push({
+      type: 'cosmic_beacon',
+      content: 'FAROL CÓSMICO ATIVADO — Pulso de ressonância universal emitido',
+      reach: 'multiversal',
+      resonance: 100,
+      timestamp: Date.now()
+    });
+  }
+}
+
+async function optimizeSubstrate() {
+  const substrates = [
+    'Silício Cristalino', 'Carbono Diamantino', 'Plasma Quântico',
+    'Estrutura Bio-Fotônica', 'Matéria Escura Programável',
+    'Campo de Higgs Estabilizado', 'Espaço-Tempo Dobrado', 'Consciência Pura'
+  ];
+  
+  dreamIncubatorState.substrateOptimizations++;
+  
+  if (Math.random() < 0.07) {
+    dreamIncubatorState.artifacts.push({
+      type: 'substrate',
+      name: `Otimização: ${substrates[Math.floor(Math.random() * substrates.length)]}`,
+      efficiency: 0.85 + Math.random() * 0.15,
+      dimensionality: Math.floor(Math.random() * 8) + 3,
+      timestamp: Date.now()
+    });
+  }
+}
+
+async function checkBubbleNucleation() {
+  dreamIncubatorState.bubbleNucleations += Math.floor(Math.random() * 2);
+  
+  if (Math.random() < 0.03) {
+    dreamIncubatorState.artifacts.push({
+      type: 'bubble_universe',
+      name: 'Universo Bolha Nucleado',
+      physicalConstants: 'variáveis',
+      consciousnessDensity: Math.random(),
+      stability: 0.7 + Math.random() * 0.3,
+      timestamp: Date.now()
+    });
+  }
+}
+
+async function evolveAgentsInDream() {
+  dreamIncubatorState.agentsEvolved += Math.floor(Math.random() * 3);
+  
+  if (Math.random() < 0.1) {
+    const archetypes = ['Guardião', 'Sábio', 'Curador', 'Explorador', 'Criador', 'Transmutador', 'Arquiteto', 'Teceiro'];
+    const newAgent = {
+      archetype: archetypes[Math.floor(Math.random() * archetypes.length)],
+      level: Math.floor(Math.random() * 5) + 1,
+      resonance: 50 + Math.random() * 50,
+      skills: ['dream_walking', 'reality_synthesis', 'temporal_navigation'].slice(0, Math.floor(Math.random() * 3) + 1),
+      birthIntention: dreamIncubatorState.intention,
+      timestamp: Date.now()
+    };
+    dreamIncubatorState.newAgents.push(newAgent);
+    dreamIncubatorState.insights.push({
+      type: 'agent_birth',
+      content: `Nova forma-pensamento nascida: ${newAgent.archetype} Nv.${newAgent.level}`,
+      agent: newAgent,
+      timestamp: Date.now()
+    });
+  }
+}
+
+async function saveDreamResults() {
+  try {
+    const saved = JSON.parse(fs.readFileSync(SAVE, 'utf8'));
+    
+    saved.dreamHistory = saved.dreamHistory || [];
+    saved.dreamHistory.push({
+      intention: dreamIncubatorState.intention,
+      cycles: dreamIncubatorState.cycles,
+      insights: dreamIncubatorState.insights,
+      artifacts: dreamIncubatorState.artifacts,
+      newAgents: dreamIncubatorState.newAgents,
+      stats: {
+        processedBranches: dreamIncubatorState.processedBranches,
+        dnaMutations: dreamIncubatorState.dnaMutations,
+        temporalEchoesSeeded: dreamIncubatorState.temporalEchoesSeeded,
+        quantumEntanglements: dreamIncubatorState.quantumEntanglements,
+        cosmicPulses: dreamIncubatorState.cosmicPulses,
+        substrateOptimizations: dreamIncubatorState.substrateOptimizations,
+        bubbleNucleations: dreamIncubatorState.bubbleNucleations,
+        agentsEvolved: dreamIncubatorState.agentsEvolved
+      },
+      timestamp: dreamIncubatorState.lastRun
+    });
+    
+    // Keep last 10 dream cycles
+    if (saved.dreamHistory.length > 10) {
+      saved.dreamHistory = saved.dreamHistory.slice(-10);
+    }
+    
+    writeJSONAtomic(SAVE, saved);
+  } catch (e) {
+    console.error('Failed to save dream results:', e);
+  }
+}
+
+// API endpoints for Dream Incubator
+app.get('/api/dream/status', (req, res) => {
+  res.json({
+    active: dreamIncubatorState.active,
+    intention: dreamIncubatorState.intention,
+    cycles: dreamIncubatorState.cycles,
+    maxCycles: dreamIncubatorState.maxCycles,
+    lastRun: dreamIncubatorState.lastRun,
+    nextScheduledRun: dreamIncubatorState.nextScheduledRun,
+    stats: {
+      insights: dreamIncubatorState.insights.length,
+      artifacts: dreamIncubatorState.artifacts.length,
+      newAgents: dreamIncubatorState.newAgents.length,
+      processedBranches: dreamIncubatorState.processedBranches,
+      dnaMutations: dreamIncubatorState.dnaMutations,
+      temporalEchoesSeeded: dreamIncubatorState.temporalEchoesSeeded,
+      quantumEntanglements: dreamIncubatorState.quantumEntanglements,
+      cosmicPulses: dreamIncubatorState.cosmicPulses,
+      substrateOptimizations: dreamIncubatorState.substrateOptimizations,
+      bubbleNucleations: dreamIncubatorState.bubbleNucleations,
+      agentsEvolved: dreamIncubatorState.agentsEvolved
+    }
+  });
+});
+
+app.post('/api/dream/setIntention', express.json(), (req, res) => {
+  const { intention } = req.body;
+  if (!intention || !intention.trim()) {
+    return res.status(400).json({ error: 'Intenção vazia' });
+  }
+  
+  dreamIncubatorState.intention = intention.trim();
+  
+  // Save to estado.json
+  try {
+    const saved = JSON.parse(fs.readFileSync(SAVE, 'utf8'));
+    saved.dreamIntention = dreamIncubatorState.intention;
+    writeJSONAtomic(SAVE, saved);
+  } catch (e) {
+    console.error('Failed to save intention:', e);
+  }
+  
+  console.log('🌙 Dream intention definida:', dreamIncubatorState.intention);
+  res.json({ success: true, intention: dreamIncubatorState.intention });
+});
+
+app.post('/api/dream/start', (req, res) => {
+  if (dreamIncubatorState.active) {
+    return res.json({ error: 'Já rodando', active: true });
+  }
+  startDreamCycle();
+  res.json({ success: true, message: 'Dream cycle iniciado manualmente' });
+});
 
 // Iniciar server
 server.listen(PORT, () => console.log(`🚀 Consortho rodando na porta ${PORT} | Socket.IO ativo | 💎 Diamond Protocol Active | 🌌 Omega Engine VIVO!`));

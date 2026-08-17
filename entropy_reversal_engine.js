@@ -971,8 +971,10 @@ class EntropyReversalEngine extends EventEmitter {
     
     // Sort by value descending
     sorted.sort((a, b) => b.value - a.value);
-    
-    return { sorted: sorted.map(s => s.particle), discarded, totalValue: sorted.reduce((s, p) => s + p.value, 0) };
+
+    const highValue = sorted.filter(s => s.value > this.maxwellDemon.params.gateThreshold * 2);
+
+    return { sorted: sorted.map(s => s.particle), discarded, highValue, totalValue: sorted.reduce((s, p) => s + p.value, 0) };
   }
   
   extractWork(sorted) {

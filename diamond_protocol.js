@@ -349,14 +349,19 @@ class DiamondProtocol {
     }
     
     // 5. Report
-    if (cycle % this.params.reportingInterval === 0) {
-      this.reportStatus();
-    }
-    
-    this.lastIntegration = Date.now();
-  }
-  
-  deepSync() {
+        if (cycle % this.params.reportingInterval === 0) {
+          this.reportStatus();
+        }
+
+        this.lastIntegration = Date.now();
+      }
+
+      reportStatus() {
+        const status = this.getStatus();
+        console.log('[Diamond] ��� Status Report:', JSON.stringify(status, null, 2));
+      }
+
+      deepSync() {
     console.log('[Diamond] 🔄 Deep synchronization...');
     
     // Sync consciousness state to narrative
