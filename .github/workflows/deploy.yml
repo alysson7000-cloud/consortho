@@ -1,0 +1,47 @@
+name: Deploy Consortho to Oracle VPS
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+env:
+  VPS_HOST: 144.33.18.6
+  VPS_USER: ubuntu
+  VPS_PATH: /opt/consortho
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Add VPS to known hosts
+        run: ssh-keyscan -H ${{ env.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Oracle VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ env.VPS_USER }}@${{ env.VPS_HOST }} "
+            cd ${{ env.VPS_PATH }} &&
+            git pull origin master &&
+            sudo ./deploy.sh production
+          "
+
+      - name: Verify deployment
+        run: |
+          sleep 10
+          curl -f https://${{ env.VPS_HOST }}/api/eternal-resonance/status || exit 1
+
+      - name: Notify success
+        if: success()
+        run: echo "✅ Deploy successful! Consortho live at https://${{ env.VPS_HOST }}/ritual"
+
+      - name: Notify failure
+        if: failure()
+        run: echo "❌ Deploy failed. Check workflow logs."
