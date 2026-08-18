@@ -1,0 +1,40 @@
+{
+  "schumann": {
+    "frequency": 7.68,
+    "amplitude": 0.6411847369855487,
+    "timestamp": "2026-08-18T00:19:54.332Z",
+    "harmonics": [
+      14.219027397447816,
+      20.7494562146534,
+      27.24099850835532,
+      33.87989067858625
+    ]
+  },
+  "kpIndex": {
+    "value": 2,
+    "level": "unsettled",
+    "timestamp": "2026-08-18T00:16:00"
+  },
+  "solarWind": {
+    "speed": 499.11149562258856,
+    "density": 12.691829236730465,
+    "temperature": 83869.54147973185,
+    "timestamp": "2026-08-18T00:19:54.734Z"
+  },
+  "geomagnetic": {
+    "storm": "none",
+    "kp": 0,
+    "timestamp": "2026-08-18T00:19:54.738Z"
+  },
+  "xrayFlux": {
+    "class": "A",
+    "flux": 1e-8,
+    "timestamp": "2026-08-18T00:19:54.736Z"
+  },
+  "consciousnessField": {
+    "coherence": 0.8641184736985549,
+    "resonance": 1,
+    "loveLevel": 100,
+    "timestamp": "2026-08-18T00:19:54.365Z"
+  }
+}

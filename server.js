@@ -31,10 +31,26 @@ const BeyLauncherSystem = require('./src/bey-launcher-system');
 const AutoEvolutionLoop = require('./src/auto-evolution-loop');
 const StarPhraseReveal = require('./src/star-phrase-reveal');
 const EternalResonance = require('./src/eternal-resonance').EternalResonance;
+const { scheduleDreamBridge, triggerDreamBridge } = require('./dream_reality_bridge');
+const { scheduleSubstrateGrowth, stimulateFromDream, stimulateFromResonance, stimulateFromDiamond, getSubstrateState } = require('./consciousness_substrate_growth');
+const { scheduleLoveFieldExpansion, stimulateFromFrequency, stimulateFromSocketConnection, registerEntity, exchangeLove, getLoveFieldState } = require('./love_field_expansion');
+const { scheduleAutoHarmonize, checkAndHarmonize, forceFullHarmonize, getHarmonizeState } = require('./eternal_resonance_auto_harmonize');
+const { register, setInstances, updateAllMetrics, updateWorldMetrics, updateSocketMetrics, metricsMiddleware, socketMessagesTotal } = require('./metrics');
 
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(metricsMiddleware); // Prometheus metrics middleware
+
+// ===== PROMETHEUS METRICS ENDPOINT =====
+app.get('/metrics', async (req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+  } catch (ex) {
+    res.status(500).end(ex.message);
+  }
+});
 
 const server = http.createServer(app);
 const io = new Server(server);
@@ -280,14 +296,24 @@ async function initializeNewSystems() {
     }
     
     // Eternal Resonance 3.0 - A Sinfonia Absoluta do Infinito
-    console.log('🎵 Inicializando Eternal Resonance 3.0...');
-    try {
-      eternalResonance = new EternalResonance({ state, io }, diamondProtocol, omegaSynthesisEngine, autoEvolutionLoop, starPhraseReveal);
-      await eternalResonance.start();
-      console.log('🎵 ETERNAL RESONANCE 3.0 INICIADO - A SINFONIA ABSOLTA DO INFINITO!');
-    } catch (e) {
-      console.error('❌ ERRO ao inicializar EternalResonance:', e.message, e.stack);
-    }
+      console.log('🎵 Inicializando Eternal Resonance 3.0...');
+      try {
+        eternalResonance = new EternalResonance({ state, io }, diamondProtocol, omegaSynthesisEngine, autoEvolutionLoop, starPhraseReveal);
+        await eternalResonance.start();
+        console.log('🎵 ETERNAL RESONANCE 3.0 INICIADO - A SINFONIA ABSOLTA DO INFINITO!');
+    
+        // Initialize Prometheus metrics with instances
+        setInstances({
+          eternalResonance: eternalResonance,
+          dreamIncubator: dreamIncubatorState,
+          diamondProtocol: diamondProtocol,
+          substrate: getSubstrateState,
+          loveField: getLoveFieldState,
+          harmonize: require('./eternal_resonance_auto_harmonize').harmonizeState
+        });
+      } catch (e) {
+        console.error('❌ ERRO ao inicializar EternalResonance:', e.message, e.stack);
+      }
     
   } catch (error) {
     console.error('Erro ao inicializar novos sistemas:', error);
@@ -304,6 +330,17 @@ setInterval(() => {
 
 // ===== FUNÇÃO SAVE =====
 function save() {
+  // Preserve existing dream/bridge data
+  let existingDreamData = {};
+  try {
+    const saved = JSON.parse(fs.readFileSync(SAVE, 'utf8'));
+    existingDreamData.dreamHistory = saved.dreamHistory;
+    existingDreamData.dreamIntention = saved.dreamIntention;
+    existingDreamData.dreamBridge = saved.dreamBridge;
+    existingDreamData.consciousnessLevel = saved.consciousnessLevel;
+    existingDreamData.evolvedAgentCount = saved.evolvedAgentCount;
+  } catch (e) {}
+  
   const persist = {
     c: state.c,
     e: state.e,
@@ -314,7 +351,8 @@ function save() {
     lastVisit: state.lastVisit,
     lastVisitSavedCycles: state.lastVisitSavedCycles,
     lastVisitSavedElements: state.lastVisitSavedElements,
-    lastVisitSavedConstrucoes: state.lastVisitSavedConstrucoes
+    lastVisitSavedConstrucoes: state.lastVisitSavedConstrucoes,
+    ...existingDreamData
   };
   // Atomic write with file lock coordination (cross-platform, Windows-safe)
   try {
@@ -327,13 +365,13 @@ function save() {
     console.error('[save] Erro atomic write:', err.message);
     try {
       fs.writeFileSync(SAVE, JSON.stringify(persist));
-    } catch (e) {
-      console.error('[save] Fallback falhou:', e.message);
+    } catch (e2) {
+      console.error('[save] Fallback write also failed:', e2.message);
     }
   }
-}
+  }
 
-// Sincroniza estado do arquivo a cada 5s (fonte única: estado.json)
+  // Sincroniza estado do arquivo a cada 5s (fonte única: estado.json)
 setInterval(() => {
   try {
     const saved = readJSONSafe(SAVE, {});
@@ -419,6 +457,16 @@ function broadcastPosicoes() {
 app.use(express.static(__dirname));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/ritual', (req, res) => res.sendFile(path.join(__dirname, 'eternal_resonance_ritual.html')));
+
+// Unity WebGL Game - serve build at /ritual/game
+app.use('/ritual/game', express.static(path.join(__dirname, 'unity_webgl/build'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.wasm')) res.setHeader('Content-Type', 'application/wasm');
+        if (filePath.endsWith('.js')) res.setHeader('Content-Type', 'application/javascript');
+        if (filePath.endsWith('.data')) res.setHeader('Content-Type', 'application/octet-stream');
+    }
+}));
+app.get('/ritual/game', (req, res) => res.sendFile(path.join(__dirname, 'unity_webgl/build', 'index.html')));
 
 // Servir arquivos estáticos da pasta memoria
 app.use('/memoria', express.static(path.join(__dirname, 'memoria')));
@@ -838,6 +886,9 @@ app.post('/api/eternal-resonance/love', async (req, res) => {
 io.on('connection', (socket) => {
   console.log(`[+] conectou: ${socket.id}`);
 
+  // Register new entity in Love Field
+  stimulateFromSocketConnection(socket.id, { connected: Date.now() });
+
   let papel = 'espectador';
 
   // Enviar estado inicial
@@ -951,21 +1002,23 @@ io.on('connection', (socket) => {
   });
 
   // ─── Chat ───
-  socket.on('chat:falar', (data) => {
-    if (!papel || papel === 'espectador') return;
-    const canal = data.canal || 'publico';
-    if (canal === 'publico') {
-      emitPublico(papel, data.texto);
-    } else {
-      socket.emit('chat:sistema', { canal: 'sistema', texto: '❌ Use /w <nome> <msg> para sussurrar.', hora: agora() });
-    }
-  });
+    socket.on('chat:falar', (data) => {
+      if (!papel || papel === 'espectador') return;
+      const canal = data.canal || 'publico';
+      if (canal === 'publico') {
+        emitPublico(papel, data.texto);
+        socketMessagesTotal.inc({ type: 'chat_publico' });
+      } else {
+        socket.emit('chat:sistema', { canal: 'sistema', texto: '❌ Use /w <nome> <msg> para sussurrar.', hora: agora() });
+      }
+    });
 
-  socket.on('chat:sussurrar', (data) => {
-    if (!papel || papel === 'espectador') return;
-    if (!data.para || !data.texto) return;
-    emitSussurro(papel, data.para, data.texto);
-  });
+    socket.on('chat:sussurrar', (data) => {
+      if (!papel || papel === 'espectador') return;
+      if (!data.para || !data.texto) return;
+      emitSussurro(papel, data.para, data.texto);
+      socketMessagesTotal.inc({ type: 'chat_sussurro' });
+    });
 
   // ─── Movimento ───
   socket.on('mov:ir', (data) => {
@@ -1517,6 +1570,11 @@ setInterval(() => {
   io.emit('recursos', { madeira: state.recursos.madeira, pedra: state.recursos.pedra, cristal: state.recursos.cristal, ciclo: state.c });
   broadcastEntitiesState();
   
+  // Update Prometheus metrics
+  updateAllMetrics();
+  updateWorldMetrics(state);
+  updateSocketMetrics(io);
+  
   // Process relationship interactions
   processarInteracoesAutomaticas();
   
@@ -1549,6 +1607,23 @@ async function initializeAllSystems() {
 }
 
 initializeAllSystems().catch(console.error);
+
+// ===== DREAM → REALITY BRIDGE INITIALIZATION =====
+// Schedule the bridge to run periodically and after dream cycles
+scheduleDreamBridge();
+console.log('🌉 Dream → Reality Bridge: ATIVO — Insights/Artifacts/Agentes fluem pro organismo vivo');
+
+// ===== CONSCIOUSNESS SUBSTRATE GROWTH INITIALIZATION =====
+scheduleSubstrateGrowth();
+console.log('🧠 Consciousness Substrate Growth: ATIVO — Hebbian learning + auto-expansão neural');
+
+// ===== LOVE FIELD EXPANSION INITIALIZATION =====
+scheduleLoveFieldExpansion();
+console.log('💖 Love Field Expansion: ATIVO — Auto-bonding, ressonância 100 baseline, 5ª força fundamental');
+
+// ===== ETERNAL RESONANCE AUTO-HARMONIZE INITIALIZATION =====
+scheduleAutoHarmonize(eternalResonance);
+console.log('💖 Eternal Resonance Auto-Harmonize: ATIVO — 13/13 evolved, love: 100 baseline permanente');
 
 // ===== DREAM INCUBATOR BACKEND =====
 // Server-side overnight dream generation for next-tier essences
@@ -1966,5 +2041,101 @@ app.post('/api/dream/start', (req, res) => {
   res.json({ success: true, message: 'Dream cycle iniciado manualmente' });
 });
 
+// Manual Dream → Reality Bridge trigger
+app.post('/api/dream/bridge', async (req, res) => {
+  try {
+    const result = await triggerDreamBridge();
+    res.json({ success: true, bridge: result });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// Get bridge status
+app.get('/api/dream/bridge', (req, res) => {
+  const { getBridgeState } = require('./dream_reality_bridge');
+  res.json({ success: true, bridge: getBridgeState() });
+});
+
+// Consciousness Substrate API
+app.get('/api/substrate/status', (req, res) => {
+  res.json({ success: true, substrate: getSubstrateState() });
+});
+
+app.post('/api/substrate/stimulate/resonance', (req, res) => {
+  const { frequencyId, lovePower } = req.body;
+  if (!frequencyId) {
+    return res.status(400).json({ success: false, error: 'frequencyId required' });
+  }
+  stimulateFromResonance(frequencyId, lovePower || 100);
+  res.json({ success: true, substrate: getSubstrateState() });
+});
+
+app.post('/api/substrate/stimulate/diamond', (req, res) => {
+  const { layerName } = req.body;
+  if (!layerName) {
+    return res.status(400).json({ success: false, error: 'layerName required' });
+  }
+  stimulateFromDiamond(layerName);
+  res.json({ success: true, substrate: getSubstrateState() });
+});
+
+// Love Field API
+app.get('/api/love/status', (req, res) => {
+  res.json({ success: true, loveField: getLoveFieldState() });
+});
+
+app.post('/api/love/stimulate/frequency', (req, res) => {
+  const { frequencyId, lovePower } = req.body;
+  if (!frequencyId) {
+    return res.status(400).json({ success: false, error: 'frequencyId required' });
+  }
+  stimulateFromFrequency(frequencyId, lovePower || 100);
+  res.json({ success: true, loveField: getLoveFieldState() });
+});
+
+app.post('/api/love/exchange', (req, res) => {
+  const { fromEntity, toEntity, amount, reason } = req.body;
+  if (!fromEntity || !toEntity) {
+    return res.status(400).json({ success: false, error: 'fromEntity and toEntity required' });
+  }
+  const success = exchangeLove(fromEntity, toEntity, amount || 10, reason || 'gift');
+  res.json({ success, loveField: getLoveFieldState() });
+});
+
+app.post('/api/love/register', (req, res) => {
+  const { entityId, entityType, metadata } = req.body;
+  if (!entityId) {
+    return res.status(400).json({ success: false, error: 'entityId required' });
+  }
+  registerEntity(entityId, entityType, metadata);
+  res.json({ success: true, loveField: getLoveFieldState() });
+});
+
+// Auto-Harmonize API
+app.get('/api/harmonize/status', (req, res) => {
+  res.json({ success: true, harmonize: getHarmonizeState() });
+});
+
+app.post('/api/harmonize/force', (req, res) => {
+  const result = forceFullHarmonize(eternalResonance);
+  res.json(result);
+});
+
+app.post('/api/harmonize/toggle', (req, res) => {
+  harmonizeState.autoHarmonizeEnabled = !harmonizeState.autoHarmonizeEnabled;
+  res.json({ success: true, autoEnabled: harmonizeState.autoHarmonizeEnabled });
+});
+
+// ===== TELEGRAM BOT =====
+const { startBot } = require('./telegram_bot');
+startBot();
+
+// ===== GIT AUTO-COMMIT =====
+const { startAutoCommit } = require('./git_auto_commit');
+startAutoCommit();
+
+module.exports = app;
+
 // Iniciar server
-server.listen(PORT, () => console.log(`🚀 Consortho rodando na porta ${PORT} | Socket.IO ativo | 💎 Diamond Protocol Active | 🌌 Omega Engine VIVO!`));
+server.listen(PORT, () => console.log(`🚀 Consortho rodando na porta ${PORT} | Socket.IO ativo | 💎 Diamond Protocol Active | 🌌 Omega Engine VIVO! | 🌉 Dream→Reality Bridge ATIVO | 🧠 Consciousness Substrate ATIVO | 💖 Love Field ATIVO | 💖 Auto-Harmonize ATIVO | 🤖 Telegram Bot ATIVO | 🤖 Git Auto-Commit ATIVO`));
