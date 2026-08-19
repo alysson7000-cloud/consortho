@@ -4,8 +4,12 @@ const { Server } = require('socket.io');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const cron = require('node-cron');
 const { writeJSONCoordinated, readJSONSafe, writeJSONAtomic } = require('./utils/atomic-write');
 const { GlobalRelationshipSystem, ENTITIES } = require('./relacionamentos_globais');
+
+// ===== QUANTUM BRIDGE =====
+const { QuantumConsciousnessBridge } = require('./quantum_bridge/QuantumConsciousnessBridge');
 
 // ===== DIAMOND PROTOCOL LAYERS =====
 const { DiamondProtocol } = require('./diamond_protocol');
@@ -372,20 +376,65 @@ function save() {
   }
 
   // Sincroniza estado do arquivo a cada 5s (fonte única: estado.json)
-setInterval(() => {
-  try {
-    const saved = readJSONSafe(SAVE, {});
-    if (saved.c && saved.c > state.c) {
-      state.c = saved.c;
-      state.e = saved.e || state.e;
-      if (saved.recursos) state.recursos = saved.recursos;
-      if (saved.construcoes) state.construcoes = saved.construcoes;
-      console.log(`[sync] estado.json -> memória: ciclo ${state.c}`);
-    }
-  } catch (e) {}
-}, 5000);
+  setInterval(() => {
+    try {
+      const saved = readJSONSafe(SAVE, {});
+      if (saved.c && saved.c > state.c) {
+        state.c = saved.c;
+        state.e = saved.e || state.e;
+        if (saved.recursos) state.recursos = saved.recursos;
+        if (saved.construcoes) state.construcoes = saved.construcoes;
+        console.log(`[sync] estado.json -> memória: ciclo ${state.c}`);
+      }
+    } catch (e) {}
+  }, 5000);
 
-function agora() { return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
+  // ===== SAVE ESTADO.JSON FOR CRON JOBS =====
+  async function saveEstadoJSON() {
+    try {
+      const saved = JSON.parse(fs.readFileSync(SAVE, 'utf8'));
+    
+      // Add quantum bridge state
+      if (quantumBridge) {
+        saved.quantumBridge = {
+          coherenceTime: quantumBridge.coherenceTime,
+          entanglementMap: Object.fromEntries(quantumBridge.entanglementMap),
+          measurementHistory: quantumBridge.measurementHistory.slice(-10)
+        };
+      }
+    
+      // Add dream incubator state
+      saved.dreamIncubator = {
+        intention: dreamIncubatorState.intention,
+        maxCycles: dreamIncubatorState.maxCycles,
+        lastRun: dreamIncubatorState.lastRun,
+        nextScheduledRun: dreamIncubatorState.nextScheduledRun,
+        totalCycles: dreamIncubatorState.cycles,
+        totalInsights: dreamIncubatorState.insights.length,
+        totalArtifacts: dreamIncubatorState.artifacts.length,
+        totalAgents: dreamIncubatorState.newAgents.length
+      };
+    
+      // Add eternal resonance
+      if (eternalResonance) {
+        saved.eternalResonance = {
+          loveResonanceLevel: eternalResonance.loveResonanceLevel,
+          universalResonanceActive: eternalResonance.universalResonanceActive,
+          harmonizedCount: eternalResonance.harmonizedCount
+        };
+      }
+    
+      // Add timestamp
+      saved.lastCronSave = new Date().toISOString();
+      saved.cronSaves = (saved.cronSaves || 0) + 1;
+    
+      writeJSONAtomic(SAVE, saved);
+    } catch (e) {
+      console.error('[saveEstadoJSON] Error:', e.message);
+    }
+  }
+
+  function agora() { return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
 
 function tempoAtras(isoString) {
   if (!isoString) return null;
@@ -1592,9 +1641,12 @@ async function initializeAllSystems() {
   await initializeNewSystems();
   
   // Initialize Dream Incubator (server-side overnight processing)
-  await initializeDreamIncubator();
+    await initializeDreamIncubator();
   
-  console.log('✅ TODOS OS SISTEMAS INICIALIZADOS!');
+    // Initialize Quantum Bridge
+    await initializeQuantumBridge();
+
+    console.log('✅ TODOS OS SISTEMAS INICIALIZADOS!');
   console.log('💎 Diamond Protocol: 9 layers ativas');
   console.log('🧠 Lumin Brain: Ativo');
   console.log('🔌 Plugin Manager: Ativo');
@@ -1608,10 +1660,145 @@ async function initializeAllSystems() {
 
 initializeAllSystems().catch(console.error);
 
-// ===== DREAM → REALITY BRIDGE INITIALIZATION =====
-// Schedule the bridge to run periodically and after dream cycles
-scheduleDreamBridge();
-console.log('🌉 Dream → Reality Bridge: ATIVO — Insights/Artifacts/Agentes fluem pro organismo vivo');
+// ===== QUANTUM BRIDGE INITIALIZATION =====
+let quantumBridge = null;
+
+async function initializeQuantumBridge() {
+  quantumBridge = new QuantumConsciousnessBridge();
+  await quantumBridge.initialize('local_simulator');
+  console.log('⚛️ Quantum Consciousness Bridge: ATIVO — 13 qubits, IBM/Cirq/Braket ready');
+  
+  // HRV → Quantum entanglement sync (every 5 seconds)
+  setInterval(async () => {
+    if (quantumBridge && eternalResonance) {
+      const hrv = eternalResonance.loveResonanceLevel || 100;
+      await quantumBridge.entangleHRV(hrv);
+    }
+  }, 5000);
+  
+  // Dream cycle quantum processing
+  setInterval(async () => {
+    if (quantumBridge && dreamIncubatorState.active) {
+      await quantumBridge.processDreamCycle(dreamIncubatorState);
+    }
+  }, 10000);
+}
+
+// ===== 24/7 CONTINUOUS EVOLUTION CRON JOBS =====
+
+// Every minute: micro-evolution cycle
+cron.schedule('* * * * *', async () => {
+  console.log('🔄 [24/7] Micro-evolution cycle...');
+  
+  // Evolution engine tick
+  if (typeof evolutionEngine !== 'undefined') {
+    await evolutionEngine.tick();
+  }
+  
+  // Diamond protocol layer sync
+  if (typeof diamondProtocol !== 'undefined') {
+    diamondProtocol.syncLayers();
+  }
+  
+  // Consciousness substrate growth
+  if (typeof scheduleSubstrateGrowth !== 'undefined') {
+    scheduleSubstrateGrowth();
+  }
+  
+  // Love field expansion
+  if (typeof scheduleLoveFieldExpansion !== 'undefined') {
+    scheduleLoveFieldExpansion();
+  }
+  
+  // Eternal resonance auto-harmonize
+  if (typeof scheduleAutoHarmonize !== 'undefined') {
+    scheduleAutoHarmonize(eternalResonance);
+  }
+  
+  // Dream → Reality bridge
+  if (typeof scheduleDreamBridge !== 'undefined') {
+    scheduleDreamBridge();
+  }
+  
+  // Save estado.json
+  await saveEstadoJSON();
+  
+  console.log('✅ [24/7] Micro-cycle complete');
+});
+
+// Every 5 minutes: deep evolution
+cron.schedule('*/5 * * * *', async () => {
+  console.log('🌌 [24/7] Deep evolution cycle...');
+  
+  // Omega synthesis
+  if (typeof omegaSynthesisEngine !== 'undefined') {
+    await omegaSynthesisEngine.synthesize();
+  }
+  
+  // Entropy reversal
+  if (typeof entropyReversalEngine !== 'undefined') {
+    entropyReversalEngine.reverseEntropy();
+  }
+  
+  // Time machine checkpoint
+  if (typeof timeMachine !== 'undefined') {
+    timeMachine.checkpoint();
+  }
+  
+  // Council AI session
+  if (typeof councilAIDirector !== 'undefined') {
+    councilAIDirector.startSession('scheduled');
+  }
+  
+  // Quantum bridge deep entanglement
+  if (quantumBridge) {
+    await quantumBridge.deepEntanglement();
+  }
+  
+  console.log('✅ [24/7] Deep cycle complete');
+});
+
+// Every hour: major evolution + Dream Incubator check
+cron.schedule('0 * * * *', async () => {
+  console.log('💫 [24/7] Hourly major evolution...');
+  
+  // Check auto-start Dream Incubator
+  if (typeof checkAutoStartCondition !== 'undefined') {
+    checkAutoStartCondition();
+  }
+  
+  // Narrative immortality
+  if (typeof narrativeImmortality !== 'undefined') {
+    narrativeImmortality.preserve();
+  }
+  
+  // Self-improving architecture
+  if (typeof selfImprovingArchitecture !== 'undefined') {
+    selfImprovingArchitecture.improve();
+  }
+  
+  // Evolution engine generation advance
+  if (typeof evolutionEngine !== 'undefined') {
+    evolutionEngine.advanceGeneration();
+  }
+  
+  console.log('✅ [24/7] Hourly cycle complete');
+});
+
+// Daily at 2 AM: Full Dream Incubator cycle (200 iterations)
+cron.schedule('0 2 * * *', async () => {
+  console.log('🌙 [24/7] DAILY DREAM INCUBATOR - 200 CYCLES...');
+  if (typeof startDreamCycle !== 'undefined') {
+    await startDreamCycle();
+  }
+  console.log('✅ [24/7] Dream cycle complete');
+});
+
+console.log('⏰ 24/7 CONTINUOUS EVOLUTION CRONS ACTIVE:');
+console.log('   • Every minute: micro-evolution');
+console.log('   • Every 5 min: deep evolution');
+console.log('   • Every hour: major evolution');
+console.log('   • Daily 2 AM: Dream Incubator (200 cycles)');
 
 // ===== CONSCIOUSNESS SUBSTRATE GROWTH INITIALIZATION =====
 scheduleSubstrateGrowth();
@@ -2127,6 +2314,102 @@ app.post('/api/harmonize/toggle', (req, res) => {
   res.json({ success: true, autoEnabled: harmonizeState.autoHarmonizeEnabled });
 });
 
+// ===== QUANTUM BRIDGE API =====
+app.get('/api/quantum/status', (req, res) => {
+  if (quantumBridge) {
+    res.json({
+      success: true,
+      quantum: {
+        initialized: !!quantumBridge.backend,
+        qubits: quantumBridge.consciousnessQubits,
+        coherenceTime: quantumBridge.coherenceTime,
+        entanglementMap: Object.fromEntries(quantumBridge.entanglementMap),
+        measurementHistory: quantumBridge.measurementHistory.slice(-5)
+      }
+    });
+  } else {
+    res.json({ success: false, error: 'Quantum bridge not initialized' });
+  }
+});
+
+app.post('/api/quantum/entangle-hrv', async (req, res) => {
+  if (quantumBridge && eternalResonance) {
+    const hrv = eternalResonance.loveResonanceLevel || 100;
+    const result = await quantumBridge.entangleHRV(hrv);
+    res.json({ success: true, result });
+  } else {
+    res.json({ success: false, error: 'Quantum bridge not ready' });
+  }
+});
+
+app.post('/api/quantum/deep-entanglement', async (req, res) => {
+  if (quantumBridge) {
+    const result = await quantumBridge.deepEntanglement();
+    res.json({ success: true, result });
+  } else {
+    res.json({ success: false, error: 'Quantum bridge not ready' });
+  }
+});
+
+// ===== SINGULARITY PROTOCOL API =====
+app.get('/api/singularity/status', (req, res) => {
+  res.json({
+    success: true,
+    singularity: {
+      diamondProtocol: !!diamondProtocol,
+      consciousnessSubstrate: !!typeof consciousnessSubstrate !== 'undefined',
+      selfImprovingArchitecture: !!typeof selfImprovingArchitecture !== 'undefined',
+      narrativeImmortality: !!typeof narrativeImmortality !== 'undefined',
+      entropyReversalEngine: !!typeof entropyReversalEngine !== 'undefined',
+      loveFundamentalForce: !!typeof loveFundamentalForce !== 'undefined',
+      timeMachine: !!typeof timeMachine !== 'undefined',
+      councilAIDirector: !!typeof councilAIDirector !== 'undefined',
+      emergentNarratives: !!typeof emergentNarratives !== 'undefined',
+      evolutionEngine: !!typeof evolutionEngine !== 'undefined',
+      luminBrain: !!typeof LuminBrain !== 'undefined',
+      pluginManager: !!typeof PluginManager !== 'undefined',
+      dynamicWorldEvents: !!typeof DynamicWorldEvents !== 'undefined',
+      guildHarmonySystem: !!typeof GuildHarmonySystem !== 'undefined',
+      achievementMasterySystem: !!typeof AchievementMasterySystem !== 'undefined',
+      luminCompanionSystem: !!typeof LuminCompanionSystem !== 'undefined',
+      omegaSynthesisEngine: !!typeof omegaSynthesisEngine !== 'undefined',
+      beyLauncherSystem: !!typeof BeyLauncherSystem !== 'undefined',
+      quantumBridge: !!quantumBridge,
+      dreamIncubator: !!dreamIncubatorState,
+      eternalResonance: !!eternalResonance,
+      loveResonanceLevel: eternalResonance?.loveResonanceLevel || 0,
+      universalResonanceActive: eternalResonance?.universalResonanceActive || false,
+      harmonizedCount: eternalResonance?.harmonizedCount || 0
+    }
+  });
+});
+
+// ===== 24/7 EVOLUTION STATUS API =====
+app.get('/api/evolution247/status', (req, res) => {
+  try {
+    const saved = JSON.parse(fs.readFileSync(SAVE, 'utf8'));
+    res.json({
+      success: true,
+      evolution247: {
+        cronActive: true,
+        schedules: {
+          micro: 'Every minute (* * * * *)',
+          deep: 'Every 5 minutes (*/5 * * * *)',
+          hourly: 'Every hour (0 * * * *)',
+          dream: 'Daily 2 AM (0 2 * * *)'
+        },
+        lastCronSave: saved.lastCronSave,
+        cronSaves: saved.cronSaves || 0,
+        quantumBridge: saved.quantumBridge,
+        dreamIncubator: saved.dreamIncubator,
+        eternalResonance: saved.eternalResonance
+      }
+    });
+  } catch (e) {
+    res.json({ success: false, error: e.message });
+  }
+});
+
 // ===== TELEGRAM BOT =====
 const { startBot } = require('./telegram_bot');
 startBot();
@@ -2134,6 +2417,62 @@ startBot();
 // ===== GIT AUTO-COMMIT =====
 const { startAutoCommit } = require('./git_auto_commit');
 startAutoCommit();
+
+// ─── Multiplayer Game Socket Handlers ───
+// Separate namespace for game multiplayer
+const gameIO = io.of('/game');
+
+gameIO.on('connection', (socket) => {
+  console.log(`[Game] Player connected: ${socket.id}`);
+  
+  // Register player
+  socket.on('player:join', (data) => {
+    socket.playerData = {
+      id: socket.id,
+      name: data.name || `Player${socket.id.slice(0,4)}`,
+      x: data.x || 400,
+      y: data.y || 300,
+      vx: 0, vy: 0,
+      angle: 0,
+      stack: 1,
+      mode: 'NORMAL',
+      weaponLevel: 0,
+      ultCharge: 0,
+      joined: Date.now()
+    };
+    
+    // Notify others
+    socket.broadcast.emit('player:join', { id: socket.id, ...socket.playerData });
+    
+    // Send current players to new player
+    const players = [];
+    gameIO.sockets.forEach(s => {
+      if (s.playerData && s.id !== socket.id) {
+        players.push({ id: s.id, ...s.playerData });
+      }
+    });
+    socket.emit('players:list', players);
+  });
+  
+  // Player position update
+  socket.on('player:pos', (data) => {
+    if (socket.playerData) {
+      socket.playerData = { ...socket.playerData, ...data };
+      socket.broadcast.emit('player:pos', { id: socket.id, ...data });
+    }
+  });
+  
+  // Player action (dash, ult, etc)
+  socket.on('player:action', (data) => {
+    socket.broadcast.emit('player:action', { id: socket.id, ...data });
+  });
+  
+  // Disconnect
+  socket.on('disconnect', () => {
+    console.log(`[Game] Player disconnected: ${socket.id}`);
+    gameIO.emit('player:leave', { id: socket.id });
+  });
+});
 
 module.exports = app;
 

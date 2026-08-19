@@ -1,0 +1,3312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOSSO PERSONAGEM — Lumin & Alyssin — Gang Unida</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a0f;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  overflow: hidden;
+  color: #e8e8f0;
+}
+#game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #1a0a2e 0%, #0a0a0f 70%);
+}
+canvas { display: block; width: 100%; height: 100%; }
+.hud {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 100;
+}
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffd700, #ff6b35, #ff006e, #8338ec, #3a86ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  letter-spacing: 0.1em;
+}
+.subtitle {
+  font-size: 0.9rem;
+  color: #a8a8c0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.heartbeat {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #ff006e, #ffd700);
+  border-radius: 50%;
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.6; } }
+.stack-display {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffd700, #ff006e, #3a86ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  animation: stackPulse 2s ease-in-out infinite;
+}
+@keyframes stackPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.controls-hint {
+  font-size: 0.7rem;
+  color: #6a6a8a;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.key {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #ffd700;
+}
+.trail-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(10, 10, 15, 0.9);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s;
+}
+.trail-toggle:hover { border-color: #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
+.mode-indicator {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(10, 10, 15, 0.9);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  color: #ff6b35;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+  animation: modePulse 1s ease-in-out infinite;
+}
+@keyframes modePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+.gang-display {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  pointer-events: none;
+}
+.gang-member {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 2px solid;
+  animation: gangFloat 3s ease-in-out infinite;
+}
+@keyframes gangFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.beat-bar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.beat-bar.active { opacity: 1; }
+.beat-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ffd700, #ff006e, #3a86ff);
+  animation: beatAnim 0.5s linear infinite;
+}
+@keyframes beatAnim { 0% { width: 0%; left: 0; } 50% { width: 100%; left: 0; } 100% { width: 0%; left: 100%; } }
+
+/* Touch controls */
+.touch-controls {
+  position: fixed;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+  z-index: 100;
+}
+#touchControlsP1 { left: 20px; }
+#touchControlsP2 { right: 20px; }
+.joystick-area {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(10, 10, 15, 0.8);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  touch-action: none;
+}
+#joystickP2 .joystick-base { border-color: rgba(255, 0, 110, 0.5); }
+.joystick-base {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 215, 0, 0.1);
+}
+#joystickP2 .joystick-base { background: rgba(255, 0, 110, 0.1); }
+.joystick-stick {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  transition: transform 0.05s ease-out;
+  pointer-events: none;
+}
+#stickP2 { background: linear-gradient(135deg, #ff006e, #ff3385); box-shadow: 0 0 20px rgba(255, 0, 110, 0.5); }
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 120px;
+}
+.action-btn {
+  background: rgba(10, 10, 15, 0.9);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  color: #ffd700;
+  padding: 8px 4px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  touch-action: manipulation;
+  transition: all 0.1s;
+}
+.action-btn:active, .action-btn.active {
+  background: #ffd700;
+  color: #0a0a0f;
+  border-color: #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+#touchControlsP2 .action-btn {
+  border-color: rgba(255, 0, 110, 0.5);
+  color: #ff006e;
+}
+#touchControlsP2 .action-btn:active, #touchControlsP2 .action-btn.active {
+  background: #ff006e;
+  color: #fff;
+  border-color: #ff006e;
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
+}
+
+/* HRV Biometric Display */
+.hrv-display {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(10, 10, 15, 0.95);
+  border: 2px solid rgba(255, 0, 110, 0.4);
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  animation: hrvPulse 2s ease-in-out infinite;
+}
+@keyframes hrvPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 110, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(255, 0, 110, 0.5); }
+}
+.hrv-heart {
+  font-size: 1.5rem;
+  animation: heartbeat 1s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+.hrv-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ff006e;
+  text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
+}
+.hrv-label {
+  font-size: 0.6rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.hrv-btn {
+  background: linear-gradient(135deg, #ff006e, #ff3385);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hrv-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
+}
+.hrv-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Wave/Survival Display */
+.wave-display {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 15, 0.95);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  border-radius: 16px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.wave-number {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+.wave-enemies {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+.wave-timer {
+  font-size: 0.7rem;
+  color: #00ff88;
+  font-family: monospace;
+}
+
+/* VR Button */
+.vr-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #8338ec, #3a86ff);
+  border: 2px solid rgba(131, 56, 236, 0.5);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s;
+  box-shadow: 0 0 30px rgba(131, 56, 236, 0.3);
+}
+.vr-btn:hover {
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 0 40px rgba(131, 56, 236, 0.6);
+}
+.vr-btn.active {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  border-color: rgba(0, 255, 136, 0.5);
+  box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
+}
+
+/* Save/Load Notification */
+.save-notification {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 15, 0.95);
+  border: 2px solid rgba(0, 255, 136, 0.5);
+  color: #00ff88;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  z-index: 200;
+  animation: savePop 0.3s ease-out, saveFade 0.5s ease-in 2.5s forwards;
+  opacity: 0;
+  pointer-events: none;
+}
+.save-notification.show {
+  opacity: 1;
+  animation: savePop 0.3s ease-out;
+}
+@keyframes savePop {
+  0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+@keyframes saveFade {
+  0% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+
+</style>
+</head>
+<body>
+<div id="game">
+  <canvas id="canvas" tabindex="0"></canvas>
+  <div class="trail-toggle" id="trailToggle">Trail: ON</div>
+  <div class="mode-indicator" id="modeIndicator">NORMAL</div>
+  <div class="beat-bar" id="beatBar"><div class="beat-fill"></div></div>
+  <div class="hud">
+    <div class="title">NOSSO PERSONAGEM</div>
+    <div class="subtitle">
+      <span class="heartbeat"></span>
+      Lumin & Alyssin — Stack de 64 = ∞
+    </div>
+    <div class="stack-display" id="stackDisplay">STACK: 1 / 64 → ∞</div>
+    <div class="controls-hint">
+      <span class="key">WASD</span>/<span class="key">Setas</span> mover
+      <span class="key">Espaço</span> dash
+      <span class="key">Shift</span> slow
+      <span class="key">B</span> Beyblade
+      <span class="key">P</span> Portal
+      <span class="key">T</span> trail
+    </div>
+    <div class="controls-hint" style="margin-top: 8px;">
+      <span class="key" style="background: rgba(255,0,110,0.2); border-color: #ff006e; color: #ff006e;">IJKL</span> mover
+      <span class="key" style="background: rgba(255,0,110,0.2); border-color: #ff006e; color: #ff006e;">N</span> dash
+      <span class="key" style="background: rgba(255,0,110,0.2); border-color: #ff006e; color: #ff006e;">O</span> slow
+      <span class="key" style="background: rgba(255,0,110,0.2); border-color: #ff006e; color: #ff006e;">U</span> Beyblade
+      <span class="key" style="background: rgba(255,0,110,0.2); border-color: #ff006e; color: #ff006e;">Y</span> Portal
+    </div>
+  </div>
+  <div class="gang-display" id="gangDisplay"></div>
+  <!-- On-screen controls for P2 (Lumin) -->
+  <div class="touch-controls" id="touchControlsP2">
+    <div class="joystick-area" id="joystickP2">
+      <div class="joystick-base"></div>
+      <div class="joystick-stick" id="stickP2"></div>
+    </div>
+    <div class="action-buttons">
+      <button class="action-btn" id="btnDashP2" data-key="KeyN">DASH</button>
+      <button class="action-btn" id="btnBeybladeP2" data-key="KeyU">BEYBLADE</button>
+      <button class="action-btn" id="btnPortalP2" data-key="KeyY">PORTAL</button>
+      <button class="action-btn" id="btnUltP2" data-key="KeyN" style="grid-column: span 2;">ULT</button>
+    </div>
+  </div>
+  <!-- On-screen controls for P1 (Alyssin) -->
+  <div class="touch-controls" id="touchControlsP1">
+    <div class="joystick-area" id="joystickP1">
+      <div class="joystick-base"></div>
+      <div class="joystick-stick" id="stickP1"></div>
+    </div>
+    <div class="action-buttons">
+      <button class="action-btn" id="btnDashP1" data-key="Space">DASH</button>
+      <button class="action-btn" id="btnBeybladeP1" data-key="KeyB">BEYBLADE</button>
+      <button class="action-btn" id="btnPortalP1" data-key="KeyP">PORTAL</button>
+      <button class="action-btn" id="btnUltP1" data-key="KeyU" style="grid-column: span 2;">ULT</button>
+    </div>
+  </div>
+  <!-- HRV Biometric Display -->
+  <div class="hrv-display" id="hrvDisplay">
+    <div class="hrv-heart">💓</div>
+    <div class="hrv-value" id="hrvValue">--</div>
+    <div class="hrv-label">HRV</div>
+    <button class="hrv-btn" id="hrvConnectBtn">CONECTAR</button>
+    <button class="hrv-btn" id="hrvSimulateBtn">SIMULAR</button>
+  </div>
+  <!-- Survival Mode / Wave Display -->
+  <div class="wave-display" id="waveDisplay">
+    <div class="wave-number" id="waveNumber">WAVE 1</div>
+    <div class="wave-enemies" id="waveEnemies">Inimigos: 0</div>
+    <div class="wave-timer" id="waveTimer"></div>
+  </div>
+  <!-- WebXR VR Button -->
+  <button class="vr-btn" id="vrBtn" title="Entrar no VR">🥽 VR</button>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let w, h, cx, cy;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+  cx = w / 2;
+  cy = h / 2;
+}
+window.addEventListener('resize', resize);
+resize();
+
+canvas.focus();
+
+// Initialize audio context on first interaction
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    beatGain = audioCtx.createGain();
+    beatGain.connect(audioCtx.destination);
+    beatGain.gain.value = 0.1;
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+canvas.addEventListener('click', initAudio);
+canvas.addEventListener('keydown', initAudio);
+
+const keys = {};
+window.addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (e.code === 'Space') e.preventDefault();
+});
+window.addEventListener('keyup', e => keys[e.code] = false);
+document.getElementById('game').addEventListener('click', () => canvas.focus());
+
+// Touch controls for P1
+const joystickP1 = document.getElementById('joystickP1');
+const stickP1 = document.getElementById('stickP1');
+const joystickP2 = document.getElementById('joystickP2');
+const stickP2 = document.getElementById('stickP2');
+
+let touchP1 = null, touchP2 = null;
+
+function setupJoystick(joystick, stick, onMove, onEnd, playerNum) {
+  joystick.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = joystick.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    touchP1 = playerNum === 1 ? { id: touch.identifier, startX: touch.clientX, startY: touch.clientY, centerX, centerY } : touchP1;
+    touchP2 = playerNum === 2 ? { id: touch.identifier, startX: touch.clientX, startY: touch.clientY, centerX, centerY } : touchP2;
+  }, { passive: false });
+
+  joystick.addEventListener('touchmove', e => {
+    e.preventDefault();
+    const touch = Array.from(e.touches).find(t => 
+      playerNum === 1 ? (touchP1 && t.identifier === touchP1.id) : (touchP2 && t.identifier === touchP2.id)
+    );
+    if (!touch) return;
+    
+    const t = playerNum === 1 ? touchP1 : touchP2;
+    const dx = touch.clientX - t.centerX;
+    const dy = touch.clientY - t.centerY;
+    const dist = Math.min(Math.hypot(dx, dy), 40);
+    const angle = Math.atan2(dy, dx);
+    
+    stick.style.transform = `translate(-50%, -50%) translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
+    
+    onMove(Math.cos(angle) * (dist / 40), Math.sin(angle) * (dist / 40));
+  }, { passive: false });
+
+  joystick.addEventListener('touchend', e => {
+    const touch = Array.from(e.changedTouches).find(t => 
+      playerNum === 1 ? (touchP1 && t.identifier === touchP1.id) : (touchP2 && t.identifier === touchP2.id)
+    );
+    if (!touch) return;
+    
+    stick.style.transform = 'translate(-50%, -50%)';
+    onMove(0, 0);
+    onEnd();
+    if (playerNum === 1) touchP1 = null;
+    else touchP2 = null;
+  });
+}
+
+// P1 Joystick
+setupJoystick(joystickP1, stickP1, 
+  (x, y) => { keys.touchP1X = x; keys.touchP1Y = y; },
+  () => { keys.touchP1X = 0; keys.touchP1Y = 0; },
+  1
+);
+
+// P2 Joystick
+setupJoystick(joystickP2, stickP2, 
+  (x, y) => { keys.touchP2X = x; keys.touchP2Y = y; },
+  () => { keys.touchP2X = 0; keys.touchP2Y = 0; },
+  2
+);
+
+// Action buttons
+document.querySelectorAll('.action-btn').forEach(btn => {
+  btn.addEventListener('touchstart', e => {
+    e.preventDefault();
+    keys[btn.dataset.key] = true;
+    btn.classList.add('active');
+    initAudio();
+  }, { passive: false });
+  btn.addEventListener('touchend', e => {
+    e.preventDefault();
+    keys[btn.dataset.key] = false;
+    btn.classList.remove('active');
+  }, { passive: false });
+  // Mouse support too
+  btn.addEventListener('mousedown', e => {
+    e.preventDefault();
+    keys[btn.dataset.key] = true;
+    btn.classList.add('active');
+    initAudio();
+  });
+  btn.addEventListener('mouseup', e => {
+    e.preventDefault();
+    keys[btn.dataset.key] = false;
+    btn.classList.remove('active');
+  });
+  btn.addEventListener('mouseleave', e => {
+    keys[btn.dataset.key] = false;
+    btn.classList.remove('active');
+  });
+});
+
+let trailEnabled = true;
+document.getElementById('trailToggle').addEventListener('click', e => {
+  trailEnabled = !trailEnabled;
+  e.target.textContent = 'Trail: ' + (trailEnabled ? 'ON' : 'OFF');
+});
+
+// ULT activation (KeyU for P1, KeyN for P2)
+window.addEventListener('keydown', e => {
+  if (e.code === 'KeyU' && STATE.ultCharge >= 100 && !STATE.ultActive) {
+    STATE.ultActive = true;
+    STATE.ultTime = 300; // 5 seconds
+    STATE.ultCharge = 0;
+    STATE.screenShake = 20;
+    // Ult sound
+    if (audioCtx && beatGain) {
+      [220, 110, 55, 27.5].forEach((f, i) => setTimeout(() => {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.connect(g); g.connect(beatGain);
+        o.frequency.value = f; o.type = 'sawtooth';
+        g.gain.value = 0.3; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+        o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + 0.5);
+      }, i * 100));
+    }
+  }
+  // P2 ULT - N key
+  if (e.code === 'KeyN' && STATE.p2.ultCharge >= 100 && !STATE.p2.ultActive) {
+    STATE.p2.ultActive = true;
+    STATE.p2.ultTime = 300;
+    STATE.p2.ultCharge = 0;
+    STATE.screenShake = 20;
+    if (audioCtx && beatGain) {
+      [220, 110, 55, 27.5].forEach((f, i) => setTimeout(() => {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.connect(g); g.connect(beatGain);
+        o.frequency.value = f; o.type = 'sawtooth';
+        g.gain.value = 0.3; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+        o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + 0.5);
+      }, i * 100));
+    }
+  }
+});
+
+const GANG = [
+  { id: 'lumin', emoji: '✨', name: 'Lumin', color: '#ffd700', glow: '#ffd700' },
+  { id: 'bolha', emoji: '🫧', name: 'Bolha', color: '#3a86ff', glow: '#3a86ff' },
+  { id: 'poe', emoji: '🌪️', name: 'Poe', color: '#ff6b35', glow: '#ff6b35' },
+  { id: 'colheita', emoji: '🌾', name: 'Colheita', color: '#8338ec', glow: '#8338ec' }
+];
+
+// Power-up orbs - EXPANDED!
+const POWERUP_TYPES = [
+  { id: 'speed', emoji: '⚡', name: 'VELOCIDADE', color: '#00ff88', glow: '#00ff88', duration: 600 },
+  { id: 'multidash', emoji: '💫', name: 'MULTI-DASH', color: '#ff6b35', glow: '#ff6b35', duration: 600 },
+  { id: 'shield', emoji: '🛡️', name: 'ESCUDO', color: '#3a86ff', glow: '#3a86ff', duration: 600 },
+  { id: 'vampiric', emoji: '🩸', name: 'VAMPIRICO', color: '#ff006e', glow: '#ff006e', duration: 600 },
+  { id: 'time', emoji: '⏳', name: 'TEMPO', color: '#8338ec', glow: '#8338ec', duration: 600 },
+  { id: 'ghost', emoji: '👻', name: 'FANTASMA', color: '#fff', glow: '#ffd700', duration: 600 },
+  { id: 'nova', emoji: '💥', name: 'SUPERNOVA', color: '#ff6b35', glow: '#ff006e', duration: 300 },
+  // NEW POWERUPS!
+  { id: 'berserk', emoji: '😈', name: 'BERSERK', color: '#ff0000', glow: '#ff3333', duration: 400 },
+  { id: 'quantum', emoji: '⚛️', name: 'QUÂNTICO', color: '#8338ec', glow: '#ff006e', duration: 500 },
+  { id: 'titan', emoji: '🗿', name: 'TITÃ', color: '#ffd700', glow: '#fff', duration: 800 },
+  { id: 'phoenix', emoji: '🔥', name: 'FÊNIX', color: '#ff6b35', glow: '#ffd700', duration: 600 },
+  { id: 'cosmic', emoji: '🌌', name: 'CÓSMICO', color: '#3a86ff', glow: '#8338ec', duration: 1000 }
+];
+
+// Weapon evolution - EXPANDED!
+const WEAPONS = [
+  { id: 'basic', name: 'LÂMINA BÁSICA', dashMult: 1, color: '#ffd700', desc: 'Dash padrão' },
+  { id: 'twin', name: 'LÂMINAS GÊMEAS', dashMult: 1.2, color: '#00ff88', desc: 'Dash duplo, +20% dano' },
+  { id: 'phantom', name: 'LÂMINA FANTASMA', dashMult: 1.5, color: '#3a86ff', desc: 'Atravessa inimigos, +50% dano' },
+  { id: 'void', name: 'LÂMINA DO VAZIO', dashMult: 2, color: '#8338ec', desc: 'Explode em área, 2x dano' },
+  { id: 'omega', name: 'LÂMINA ÔMEGA', dashMult: 3, color: '#ff006e', desc: 'Corta a realidade, 3x dano' },
+  { id: 'singularity', name: 'LÂMINA SINGULARIDADE', dashMult: 5, color: '#fff', desc: 'Apaga a existência, 5x dano' },
+  // NEW ULTIMATE WEAPONS!
+  { id: 'nexus', name: 'LÂMINA NEXUS', dashMult: 7, color: '#00ff88', desc: 'Conecta todas as realidades, 7x dano' },
+  { id: 'void_king', name: 'LÂMINA DO REI VAZIO', dashMult: 10, color: '#ff33aa', desc: 'Comanda o vazio, 10x dano' },
+  { id: 'omega_ultra', name: 'LÂMINA ÔMEGA ULTRA', dashMult: 15, color: '#ffd700', desc: 'Transcende o tempo, 15x dano' },
+  { id: 'the_one', name: 'A LÂMINA ÚNICA', dashMult: 64, color: '#fff', desc: 'Stack de 64 = ∞, DANO INFINITO' }
+];
+
+// Boss system - EXPANDED!
+const BOSS_TYPES = [
+  // Tier 1
+  { id: 'void', emoji: '🕳️', name: 'Void Walker', color: '#000', glow: '#ff006e', hp: 100, size: 80 },
+  { id: 'chaos', emoji: '🌀', name: 'Chaos Entity', color: '#fff', glow: '#8338ec', hp: 150, size: 100 },
+  // Tier 2
+  { id: 'entropy', emoji: '☠️', name: 'Entropy Lord', color: '#333', glow: '#3a86ff', hp: 250, size: 120 },
+  { id: 'omega', emoji: '🌌', name: 'Omega Prime', color: '#ff006e', glow: '#ffd700', hp: 400, size: 140 },
+  // Tier 3
+  { id: 'singularity', emoji: '☯️', name: 'Singularity Core', color: '#fff', glow: '#8338ec', hp: 600, size: 180 },
+  // Tier 4 - NEW!
+  { id: 'nexus', emoji: '🔮', name: 'Nexus Guardian', color: '#00ff88', glow: '#ff006e', hp: 800, size: 200 },
+  { id: 'void_king', emoji: '👑', name: 'Void King', color: '#1a0033', glow: '#ff33aa', hp: 1000, size: 220 },
+  // Tier 5 - LEGENDARY!
+  { id: 'omega_ultra', emoji: '💫', name: 'Omega Ultra', color: '#ffd700', glow: '#fff', hp: 1500, size: 250 },
+  { id: 'the_one', emoji: '☯️', name: 'THE ONE', color: '#fff', glow: '#ff006e', hp: 2000, size: 300 }
+];
+
+const STATE = {
+  // Player 1 (Alyssin)
+  x: cx,
+  y: cy,
+  vx: 0,
+  vy: 0,
+  angle: 0,
+  spin: 0,
+  trail: [],
+  maxTrail: 64,
+  dashCooldown: 0,
+  colorPhase: 0,
+  stack: 1,
+  maxStack: 64,
+  mode: 'NORMAL',
+  beybladeTime: 0,
+  portalActive: false,
+  portalTime: 0,
+  combo: 0,
+  lastDashDir: null,
+  beatPhase: 0,
+  ghosts: [],
+  // New systems
+  powerups: [],
+  activePowerup: null,
+  powerupTimer: 0,
+  weaponLevel: 0,
+  weaponXP: 0,
+  ultCharge: 0,
+  ultActive: false,
+  ultTime: 0,
+  screenShake: 0,
+  // Player 2 (Lumin)
+  p2: {
+    x: cx + 80,
+    y: cy,
+    vx: 0,
+    vy: 0,
+    angle: 0,
+    spin: 0,
+    trail: [],
+    maxTrail: 64,
+    dashCooldown: 0,
+    colorPhase: 180, // opposite hue
+    stack: 1,
+    maxStack: 64,
+    mode: 'NORMAL',
+    beybladeTime: 0,
+    portalActive: false,
+    portalTime: 0,
+    combo: 0,
+    lastDashDir: null,
+    activePowerup: null,
+    powerupTimer: 0,
+    weaponLevel: 0,
+    weaponXP: 0,
+    ultCharge: 0,
+    ultActive: false,
+    ultTime: 0,
+    screenShake: 0,
+    ghost: false
+  },
+  // === SUPER EVOLUTION STATE ===
+  // HRV Biometric
+  hrv: {
+    value: 60,
+    connected: false,
+    simulating: false,
+    device: null,
+    history: []
+  },
+  // Multiplayer / Online
+  multiplayer: {
+    connected: false,
+    socket: null,
+    playerId: null,
+    ghosts: [], // Other players' ghosts
+    lastSync: 0
+  },
+  // Wave / Survival Mode
+  wave: {
+    number: 1,
+    enemiesKilled: 0,
+    enemiesToSpawn: 0,
+    active: false,
+    timer: 0,
+    survivalMode: false,
+    maxWave: 1
+  },
+  // VR / WebXR
+  vr: {
+    active: false,
+    session: null,
+    frameOfRef: null,
+    gl: null,
+    cubeGeo: null,
+    merkabaGeo: null
+  },
+  // Quantum Bridge Visual (13 qubits + HRV entanglement)
+  quantum: {
+    qubits: 13,
+    coherenceTime: 1000,
+    entanglement: 0,
+    hrvEntangled: false,
+    measurementHistory: [],
+    visualization: [] // For rendering qubit states
+  },
+  // Singularity Protocol Systems (visual)
+  singularity: {
+    diamondLayers: 9,
+    consciousnessSubstrate: true,
+    loveForce: true,
+    timeCrystal: true,
+    realityEngine: true,
+    omegaEngine: true,
+    universalLanguage: true,
+    humanAIMerge: true,
+    timeDilation: 1.0
+  },
+  // Save/Load
+  save: {
+    highScore: 0,
+    totalScore: 0,
+    weaponLevel: 0,
+    weaponXP: 0,
+    maxWaveReached: 1,
+    playTime: 0,
+    lastSave: 0
+  },
+  // Visual effects
+  particles: [],
+  screenFlash: 0,
+  timeDilation: 1,
+  realityGlitch: 0
+};
+  const DASH_SPEED = 24;
+  const DASH_COOLDOWN_MAX = 30;
+  const ACCEL = 1.2;
+  const FRICTION = 0.95;
+  const MAX_SPEED = 10;
+
+  // Audio context for beat sync
+  let audioCtx = null;
+  let beatGain = null;
+  let lastBeatTime = 0;
+
+  // Boss state
+  let currentBoss = null;
+  let bossSpawnTimer = 0;
+  let bossParticles = [];
+  let score = 0;
+
+  function getColor(phase) {
+  const h = (phase * 50 + 330) % 360;
+  return `hsl(${h}, 100%, 60%)`;
+}
+
+function getGlowColor(phase) {
+  const h = (phase * 50 + 330) % 360;
+  return `hsla(${h}, 100%, 60%, 0.4)`;
+}
+
+function update() {
+  const dt = STATE.timeDilation; // Time dilation from effects
+
+  // === SAVE/LOAD SYSTEM ===
+  STATE.save.playTime += dt;
+  if (Date.now() - STATE.save.lastSave > 30000) { // Auto-save every 30s
+    saveGame();
+  }
+
+  // === HRV BIOMETRIC SYSTEM ===
+  updateHRV();
+
+  // === WAVE / SURVIVAL SYSTEM ===
+  updateWaves();
+
+  // === MULTIPLAYER / ONLINE GHOSTS ===
+  updateMultiplayer();
+
+  // === VISUAL EFFECTS ===
+  updateParticles();
+  updateScreenEffects();
+
+  // === VR / WEBXR ===
+  // VR rendering handled separately in renderVR()
+
+  // === PLAYER 1 (Alyssin - WASD + Touch) ===
+  let ax = 0, ay = 0;
+  if (keys['KeyW'] || keys['ArrowUp']) ay -= 1;
+  if (keys['KeyS'] || keys['ArrowDown']) ay += 1;
+  if (keys['KeyA'] || keys['ArrowLeft']) ax -= 1;
+  if (keys['KeyD'] || keys['ArrowRight']) ax += 1;
+  // Touch controls for P1
+  if (keys.touchP1X !== undefined && keys.touchP1Y !== undefined) {
+    ax += keys.touchP1X;
+    ay += keys.touchP1Y;
+  }
+
+  const len = Math.hypot(ax, ay);
+  if (len > 0) { ax /= len; ay /= len; }
+
+  const isSlow = keys['ShiftLeft'] || keys['ShiftRight'];
+  const accelMult = isSlow ? 0.3 : 1;
+  const slowMult = isSlow ? 0.4 : 1;
+
+  // Apply acceleration
+  STATE.vx += ax * ACCEL * accelMult * dt;
+  STATE.vy += ay * ACCEL * accelMult * dt;
+
+  // HRV affects movement speed (global for both players)
+  const hrvSpeedMult = 0.5 + (STATE.hrv.value / 120) * 0.5; // 0.5x to 1.0x based on HRV
+  STATE.vx *= hrvSpeedMult;
+  STATE.vy *= hrvSpeedMult;
+
+  // BEYBLADE MODE (P1)
+  if (keys['KeyB'] && STATE.mode !== 'BEYBLADE') {
+    STATE.mode = 'BEYBLADE';
+    STATE.beybladeTime = 180;
+    document.getElementById('modeIndicator').textContent = 'BEYBLADE MODE 🌪️';
+    document.getElementById('modeIndicator').style.borderColor = '#ff6b35';
+    document.getElementById('modeIndicator').style.color = '#ff6b35';
+    spawnGhosts();
+    if (audioCtx && beatGain) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(beatGain);
+      osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.3);
+      osc.type = 'sawtooth';
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+      osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.5);
+    }
+  }
+  if (keys['KeyP'] && !STATE.portalActive) {
+    STATE.portalActive = true;
+    STATE.portalTime = 120;
+    document.getElementById('modeIndicator').textContent = 'PORTAL OPEN 🌀';
+    document.getElementById('modeIndicator').style.borderColor = '#8338ec';
+    document.getElementById('modeIndicator').style.color = '#8338ec';
+    if (audioCtx && beatGain) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(beatGain);
+      osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.4);
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+      osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.6);
+    }
+  }
+
+  // === PLAYER 2 (Lumin - IJKL + Touch) ===
+  let ax2 = 0, ay2 = 0;
+  if (keys['KeyI']) ay2 -= 1;
+  if (keys['KeyK']) ay2 += 1;
+  if (keys['KeyJ']) ax2 -= 1;
+  if (keys['KeyL']) ax2 += 1;
+  // Touch controls for P2
+  if (keys.touchP2X !== undefined && keys.touchP2Y !== undefined) {
+    ax2 += keys.touchP2X;
+    ay2 += keys.touchP2Y;
+  }
+
+  const len2 = Math.hypot(ax2, ay2);
+  if (len2 > 0) { ax2 /= len2; ay2 /= len2; }
+
+  const isSlow2 = keys['KeyO']; // O for slow
+  const accelMult2 = isSlow2 ? 0.3 : 1;
+
+  STATE.p2.vx += ax2 * ACCEL * accelMult2 * dt;
+  STATE.p2.vy += ay2 * ACCEL * accelMult2 * dt;
+
+  // HRV affects P2 movement speed too
+  STATE.p2.vx *= hrvSpeedMult;
+  STATE.p2.vy *= hrvSpeedMult;
+
+  // BEYBLADE MODE (P2) - U key
+  if (keys['KeyU'] && STATE.p2.mode !== 'BEYBLADE') {
+    STATE.p2.mode = 'BEYBLADE';
+    STATE.p2.beybladeTime = 180;
+    if (audioCtx && beatGain) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(beatGain);
+      osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.3);
+      osc.type = 'sawtooth';
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+      osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.5);
+    }
+  }
+  // PORTAL (P2) - Y key
+  if (keys['KeyY'] && !STATE.p2.portalActive) {
+    STATE.p2.portalActive = true;
+    STATE.p2.portalTime = 120;
+    if (audioCtx && beatGain) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(beatGain);
+      osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.4);
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+      osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.6);
+    }
+  }
+
+  // DASH P1 - Space
+  if (keys['Space'] && STATE.dashCooldown === 0) {
+    const dashDir = STATE.lastDashDir;
+    if (dashDir && dashDir.x === ax && dashDir.y === ay) {
+      STATE.combo = Math.min(3, STATE.combo + 1);
+    } else {
+      STATE.combo = 1;
+    }
+    STATE.lastDashDir = { x: ax, y: ay };
+    STATE.vx += ax * DASH_SPEED * (1 + STATE.combo * 0.5);
+    STATE.vy += ay * DASH_SPEED * (1 + STATE.combo * 0.5);
+    STATE.dashCooldown = DASH_COOLDOWN_MAX;
+    STATE.stack = Math.min(STATE.maxStack, STATE.stack + STATE.combo);
+    // Weapon XP
+    STATE.weaponXP += 10 * (1 + STATE.combo * 0.5);
+    const xpNeeded = 100 * (STATE.weaponLevel + 1);
+    if (STATE.weaponXP >= xpNeeded && STATE.weaponLevel < WEAPONS.length - 1) {
+      STATE.weaponLevel++;
+      STATE.weaponXP = 0;
+      if (audioCtx && beatGain) {
+        [440, 554, 660].forEach((f, i) => setTimeout(() => {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.connect(g); g.connect(beatGain);
+          o.frequency.value = f; o.type = 'sine';
+          g.gain.value = 0.1; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+          o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + 0.2);
+        }, i * 60));
+      }
+    }
+    // Dash sound
+    if (audioCtx && beatGain) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(beatGain);
+      osc.frequency.setValueAtTime(220 + STATE.combo * 110, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(440 + STATE.combo * 220, audioCtx.currentTime + 0.1);
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+      osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.1);
+    }
+    // Multi-dash powerup
+    if (STATE.activePowerup === 'multidash') {
+      STATE.vx += ax * DASH_SPEED * 0.5;
+      STATE.vy += ay * DASH_SPEED * 0.5;
+    }
+  }
+
+  // DASH P2 - Right Shift (or N key)
+  if (keys['KeyN'] && STATE.p2.dashCooldown === 0) {
+    const dashDir = STATE.p2.lastDashDir;
+    if (dashDir && dashDir.x === ax2 && dashDir.y === ay2) {
+      STATE.p2.combo = Math.min(3, STATE.p2.combo + 1);
+    } else {
+      STATE.p2.combo = 1;
+    }
+    STATE.p2.lastDashDir = { x: ax2, y: ay2 };
+    STATE.p2.vx += ax2 * DASH_SPEED * (1 + STATE.p2.combo * 0.5);
+    STATE.p2.vy += ay2 * DASH_SPEED * (1 + STATE.p2.combo * 0.5);
+    STATE.p2.dashCooldown = DASH_COOLDOWN_MAX;
+    STATE.p2.stack = Math.min(STATE.p2.maxStack, STATE.p2.stack + STATE.p2.combo);
+    STATE.p2.weaponXP += 10 * (1 + STATE.p2.combo * 0.5);
+    const xpNeeded = 100 * (STATE.p2.weaponLevel + 1);
+    if (STATE.p2.weaponXP >= xpNeeded && STATE.p2.weaponLevel < WEAPONS.length - 1) {
+      STATE.p2.weaponLevel++;
+      STATE.p2.weaponXP = 0;
+    }
+    if (audioCtx && beatGain) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(beatGain);
+      osc.frequency.setValueAtTime(220 + STATE.p2.combo * 110, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(440 + STATE.p2.combo * 220, audioCtx.currentTime + 0.1);
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+      osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.1);
+    }
+    if (STATE.p2.activePowerup === 'multidash') {
+      STATE.p2.vx += ax2 * DASH_SPEED * 0.5;
+      STATE.p2.vy += ay2 * DASH_SPEED * 0.5;
+    }
+  }
+
+  if (STATE.dashCooldown > 0) STATE.dashCooldown--;
+  if (STATE.p2.dashCooldown > 0) STATE.p2.dashCooldown--;
+
+  // Friction
+  STATE.vx *= FRICTION;
+  STATE.vy *= FRICTION;
+  STATE.p2.vx *= FRICTION;
+  STATE.p2.vy *= FRICTION;
+
+  if (STATE.mode === 'BEYBLADE') {
+    STATE.beybladeTime--;
+    STATE.spin += 0.3;
+    STATE.vx *= 0.98;
+    STATE.vy *= 0.98;
+    // Spin attack particles
+    if (Math.random() < 0.3) {
+      const angle = STATE.spin + Math.random() * Math.PI * 2;
+      const r = 40 + Math.random() * 30;
+      STATE.trail.push({
+        x: STATE.x + Math.cos(angle) * r,
+        y: STATE.y + Math.sin(angle) * r,
+        vx: Math.cos(angle) * (Math.random() * 5 + 3),
+        vy: Math.sin(angle) * (Math.random() * 5 + 3),
+        life: 1,
+        color: getColor(STATE.colorPhase),
+        size: Math.random() * 8 + 4,
+        isBeyblade: true
+      });
+    }
+    if (STATE.beybladeTime <= 0) {
+      STATE.mode = 'NORMAL';
+      document.getElementById('modeIndicator').textContent = 'NORMAL';
+      document.getElementById('modeIndicator').style.borderColor = '#ff6b35';
+      document.getElementById('modeIndicator').style.color = '#ff6b35';
+    }
+  } else {
+    STATE.spin *= 0.95;
+  }
+
+  // Beat sync sound when moving fast
+  const beatSpeed = Math.hypot(STATE.vx, STATE.vy);
+  if (beatSpeed > MAX_SPEED * 0.6 && audioCtx && beatGain) {
+    const now = audioCtx.currentTime;
+    if (now - lastBeatTime > 0.4) {
+      lastBeatTime = now;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(beatGain);
+      osc.frequency.setValueAtTime(110 + beatSpeed * 2, now);
+      osc.type = 'triangle';
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    }
+  }
+
+  if (STATE.portalActive) {
+    STATE.portalTime--;
+    // Pull toward center
+    const dx = cx - STATE.x;
+    const dy = cy - STATE.y;
+    const dist = Math.hypot(dx, dy);
+    if (dist > 5) {
+      STATE.vx += dx / dist * 0.5;
+      STATE.vy += dy / dist * 0.5;
+    }
+    if (STATE.portalTime <= 0) {
+      STATE.portalActive = false;
+      document.getElementById('modeIndicator').textContent = 'NORMAL';
+      document.getElementById('modeIndicator').style.borderColor = '#ff6b35';
+      document.getElementById('modeIndicator').style.color = '#ff6b35';
+    }
+  }
+
+  // DASH with combo system
+  if (keys['Space'] && STATE.dashCooldown <= 0 && len > 0) {
+    const dashDir = { x: ax, y: ay };
+    // Check combo
+    if (STATE.lastDashDir && dashDir.x === STATE.lastDashDir.x && dashDir.y === STATE.lastDashDir.y) {
+      STATE.combo = Math.min(STATE.combo + 1, 3);
+    } else {
+      STATE.combo = 1;
+    }
+    STATE.lastDashDir = dashDir;
+
+    const mult = 1 + STATE.combo * 0.5;
+    STATE.vx = ax * DASH_SPEED * mult;
+    STATE.vy = ay * DASH_SPEED * mult;
+    STATE.dashCooldown = DASH_COOLDOWN_MAX;
+
+    // Beat sound on dash
+    if (audioCtx && beatGain) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(beatGain);
+      osc.frequency.setValueAtTime(220 * (1 + STATE.combo * 0.3), audioCtx.currentTime);
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.15);
+    }
+
+    const particleCount = 12 + STATE.combo * 6;
+    for (let i = 0; i < particleCount; i++) {
+      const angle = Math.atan2(STATE.vy, STATE.vx) + (Math.random() - 0.5) * 1.5;
+      const speed = Math.random() * 8 + 4;
+      STATE.trail.push({
+        x: STATE.x,
+        y: STATE.y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1,
+        color: getColor(STATE.colorPhase),
+        size: Math.random() * 6 + 4,
+        isDash: true,
+        combo: STATE.combo
+      });
+    }
+    // Stack increase on dash
+    STATE.stack = Math.min(STATE.stack + 1 + STATE.combo, STATE.maxStack);
+    updateStackDisplay();
+    // Score on dash
+    score += 5 * (1 + STATE.combo);
+    // Weapon XP
+    STATE.weaponXP += 10 * (1 + STATE.combo);
+    const xpNeeded = 100 * (STATE.weaponLevel + 1);
+    if (STATE.weaponXP >= xpNeeded && STATE.weaponLevel < WEAPONS.length - 1) {
+      STATE.weaponLevel++;
+      STATE.weaponXP = 0;
+      // Level up sound
+      if (audioCtx && beatGain) {
+        [660, 880, 1320].forEach((f, i) => setTimeout(() => {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.connect(g); g.connect(beatGain);
+          o.frequency.value = f; o.type = 'sine';
+          g.gain.value = 0.15; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+          o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + 0.3);
+        }, i * 80));
+      }
+    }
+    // Multi-dash powerup
+    if (STATE.activePowerup === 'multidash') {
+      // Extra dash in same frame
+      STATE.vx += ax * DASH_SPEED * 0.5;
+      STATE.vy += ay * DASH_SPEED * 0.5;
+    }
+  }
+  if (STATE.dashCooldown > 0) STATE.dashCooldown--;
+
+  STATE.vx *= FRICTION;
+  STATE.vy *= FRICTION;
+
+  const speed = Math.hypot(STATE.vx, STATE.vy);
+
+  STATE.x += STATE.vx;
+  STATE.y += STATE.vy;
+
+  const margin = 40;
+  STATE.x = Math.max(margin, Math.min(w - margin, STATE.x));
+  STATE.y = Math.max(margin, Math.min(h - margin, STATE.y));
+
+  if (speed > 0.5) {
+    STATE.angle = Math.atan2(STATE.vy, STATE.vx);
+  }
+
+  // Power-up effects on movement P1
+  const speedMult = STATE.activePowerup === 'speed' ? 1.5 : 1;
+  const timeMult = STATE.activePowerup === 'time' ? 0.5 : 1;
+  const ghostMult = STATE.activePowerup === 'ghost' ? 0.3 : 1; // pass through everything
+  const berserkMult = STATE.activePowerup === 'berserk' ? 2.0 : 1;
+  const titanMult = STATE.activePowerup === 'titan' ? 0.7 : 1; // slower but tanky
+  const quantumMult = STATE.activePowerup === 'quantum' ? 1.3 : 1;
+  const phoenixMult = STATE.activePowerup === 'phoenix' ? 1.4 : 1;
+  const cosmicMult = STATE.activePowerup === 'cosmic' ? 1.8 : 1;
+
+  // Apply speed limit after powerup mult
+  const effectiveSpeedMult = speedMult * berserkMult * titanMult * quantumMult * phoenixMult * cosmicMult;
+  if (speed > MAX_SPEED * effectiveSpeedMult) {
+    STATE.vx = STATE.vx / speed * MAX_SPEED * effectiveSpeedMult;
+    STATE.vy = STATE.vy / speed * MAX_SPEED * effectiveSpeedMult;
+  }
+
+  // Passive score for moving fast
+  if (speed > MAX_SPEED * 0.5) {
+    score += Math.floor(speed * 0.1);
+  }
+
+  // === P2 PHYSICS ===
+  const speed2 = Math.hypot(STATE.p2.vx, STATE.p2.vy);
+  STATE.p2.x += STATE.p2.vx;
+  STATE.p2.y += STATE.p2.vy;
+  STATE.p2.x = Math.max(margin, Math.min(w - margin, STATE.p2.x));
+  STATE.p2.y = Math.max(margin, Math.min(h - margin, STATE.p2.y));
+
+  if (speed2 > 0.5) {
+    STATE.p2.angle = Math.atan2(STATE.p2.vy, STATE.p2.vx);
+  }
+
+  // P2 Power-up effects
+  const speedMult2 = STATE.p2.activePowerup === 'speed' ? 1.5 : 1;
+  const timeMult2 = STATE.p2.activePowerup === 'time' ? 0.5 : 1;
+  const berserkMult2 = STATE.p2.activePowerup === 'berserk' ? 2.0 : 1;
+  const titanMult2 = STATE.p2.activePowerup === 'titan' ? 0.7 : 1;
+  const quantumMult2 = STATE.p2.activePowerup === 'quantum' ? 1.3 : 1;
+  const phoenixMult2 = STATE.p2.activePowerup === 'phoenix' ? 1.4 : 1;
+  const cosmicMult2 = STATE.p2.activePowerup === 'cosmic' ? 1.8 : 1;
+  const effectiveSpeedMult2 = speedMult2 * berserkMult2 * titanMult2 * quantumMult2 * phoenixMult2 * cosmicMult2;
+  if (speed2 > MAX_SPEED * effectiveSpeedMult2) {
+    STATE.p2.vx = STATE.p2.vx / speed2 * MAX_SPEED * effectiveSpeedMult2;
+    STATE.p2.vy = STATE.p2.vy / speed2 * MAX_SPEED * effectiveSpeedMult2;
+  }
+
+  // P2 Nova
+  if (STATE.p2.activePowerup === 'nova') {
+    STATE.p2.novaTimer = (STATE.p2.novaTimer || 0) + 1;
+    if (STATE.p2.novaTimer >= 10) {
+      STATE.p2.novaTimer = 0;
+      for (let i = 0; i < 24; i++) {
+        const angle = (i / 24) * Math.PI * 2;
+        bossParticles.push({
+          x: STATE.p2.x, y: STATE.p2.y,
+          vx: Math.cos(angle) * 15, vy: Math.sin(angle) * 15,
+          life: 1, size: 8, color: '#ff6b35'
+        });
+      }
+      if (currentBoss) {
+        const dx = currentBoss.x - STATE.p2.x;
+        const dy = currentBoss.y - STATE.p2.y;
+        if (Math.hypot(dx, dy) < 300) {
+          currentBoss.hp -= 5;
+          score += 2;
+          STATE.p2.ultCharge = Math.min(100, STATE.p2.ultCharge + 1);
+        }
+      }
+      if (audioCtx && beatGain) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(beatGain);
+        osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.3);
+        osc.type = 'sawtooth';
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.3);
+      }
+    }
+  }
+  // (handled in boss collision)
+
+  // === LUMIN AI COOP - JOGA JUNTO! ===
+  if (!keys['KeyI'] && !keys['KeyJ'] && !keys['KeyK'] && !keys['KeyL'] && (!keys.touchP2X || keys.touchP2X === 0)) {
+    // AI behavior for Lumin
+    const ai = STATE.p2;
+    const dx = STATE.x - ai.x;
+    const dy = STATE.y - ai.y;
+    const dist = Math.hypot(dx, dy);
+    
+    // Follow player with slight offset to flank
+    const flankX = Math.cos(STATE.angle + Math.PI/3) * 120;
+    const flankY = Math.sin(STATE.angle + Math.PI/3) * 120;
+    const targetX = STATE.x + flankX;
+    const targetY = STATE.y + flankY;
+    const tdx = targetX - ai.x;
+    const tdy = targetY - ai.y;
+    const tdist = Math.hypot(tdx, tdy);
+    
+    if (tdist > 50) {
+      ai.vx += (tdx / tdist) * ACCEL * 0.8;
+      ai.vy += (tdy / tdist) * ACCEL * 0.8;
+    }
+    
+    // Dash when player dashes (combo sync)
+    if (STATE.dashCooldown === 0 && ai.dashCooldown === 0 && STATE.combo > 0 && tdist < 200) {
+      ai.lastDashDir = { x: tdx / tdist, y: tdy / tdist };
+      ai.vx += ai.lastDashDir.x * DASH_SPEED * 1.5;
+      ai.vy += ai.lastDashDir.y * DASH_SPEED * 1.5;
+      ai.dashCooldown = DASH_COOLDOWN_MAX;
+      ai.combo = STATE.combo;
+      ai.stack = Math.min(ai.maxStack, ai.stack + ai.combo);
+    }
+    
+    // BEYBLADE when player uses it
+    if (STATE.mode === 'BEYBLADE' && ai.mode !== 'BEYBLADE' && Math.random() < 0.02) {
+      ai.mode = 'BEYBLADE';
+      ai.beybladeTime = 180;
+    }
+    
+    // Attack boss if nearby
+    if (currentBoss) {
+      const bdx = currentBoss.x - ai.x;
+      const bdy = currentBoss.y - ai.y;
+      const bdist = Math.hypot(bdx, bdy);
+      if (bdist < 300 && ai.dashCooldown === 0 && Math.random() < 0.01) {
+        ai.lastDashDir = { x: bdx / bdist, y: bdy / bdist };
+        ai.vx += ai.lastDashDir.x * DASH_SPEED;
+        ai.vy += ai.lastDashDir.y * DASH_SPEED;
+        ai.dashCooldown = DASH_COOLDOWN_MAX;
+      }
+    }
+    
+    // Portal when player portals
+    if (STATE.portalActive && !ai.portalActive && Math.random() < 0.01) {
+      ai.portalActive = true;
+      ai.portalTime = 120;
+    }
+    
+    // ULT when charged and boss near
+    if (ai.ultCharge >= 100 && !ai.ultActive && currentBoss && Math.random() < 0.005) {
+      ai.ultActive = true;
+      ai.ultTime = 300;
+      ai.ultCharge = 0;
+    }
+  }
+
+  STATE.colorPhase += 0.015;
+  STATE.beatPhase += 0.15 * timeMult;
+
+  // Beat sync
+  if (Math.abs(Math.sin(STATE.beatPhase)) < 0.05 && speed > 2) {
+    document.getElementById('beatBar').classList.add('active');
+    setTimeout(() => document.getElementById('beatBar').classList.remove('active'), 100);
+  }
+
+  if (trailEnabled && (speed > 1 || (STATE.dashCooldown === DASH_COOLDOWN_MAX - 1 && len > 0))) {
+    STATE.trail.push({
+      x: STATE.x,
+      y: STATE.y,
+      vx: (Math.random() - 0.5) * 1.5,
+      vy: (Math.random() - 0.5) * 1.5 + 0.5,
+      life: 1,
+      color: getColor(STATE.colorPhase),
+      size: Math.random() * 4 + 2,
+      isDash: false
+    });
+  }
+
+  // Quantum particles - attract/repel
+  STATE.trail.forEach((p, i) => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.05;
+    p.life -= p.isDash ? 0.04 : (p.isBeyblade ? 0.03 : 0.02);
+    p.size *= 0.98;
+
+    // Quantum interaction with other particles
+    if (p.isDash || p.isBeyblade) {
+      STATE.trail.forEach((p2, j) => {
+        if (i !== j && !p2.isDash && !p2.isBeyblade) {
+          const dx = p2.x - p.x;
+          const dy = p2.y - p.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 80 && dist > 1) {
+            const force = (p.isBeyblade ? 0.3 : 0.15) / dist;
+            p2.vx += dx / dist * force;
+            p2.vy += dy / dist * force;
+          }
+        }
+      });
+    }
+
+    if (p.life <= 0) STATE.trail.splice(i, 1);
+  });
+
+  // Update ghosts
+  STATE.ghosts.forEach(g => {
+    g.x += g.vx;
+    g.y += g.vy;
+    g.vx *= 0.99;
+    g.vy *= 0.99;
+    g.life -= 0.005;
+    g.angle += g.spinSpeed;
+    // Follow player loosely
+    const dx = STATE.x - g.x;
+    const dy = STATE.y - g.y;
+    const dist = Math.hypot(dx, dy);
+    if (dist > 100) {
+      g.vx += dx / dist * 0.1;
+      g.vy += dy / dist * 0.1;
+    }
+  });
+  STATE.ghosts = STATE.ghosts.filter(g => g.life > 0);
+
+  // Power-up system
+  if (Math.random() < 0.002 && STATE.powerups.length < 3) {
+    const type = POWERUP_TYPES[Math.floor(Math.random() * POWERUP_TYPES.length)];
+    STATE.powerups.push({
+      ...type,
+      x: 50 + Math.random() * (w - 100),
+      y: 50 + Math.random() * (h - 100),
+      life: 1,
+      angle: Math.random() * Math.PI * 2,
+      pulse: 0
+    });
+  }
+
+  STATE.powerups.forEach((p, i) => {
+    p.angle += 0.03;
+    p.pulse += 0.1;
+    const dx = STATE.x - p.x;
+    const dy = STATE.y - p.y;
+    const dist = Math.hypot(dx, dy);
+    if (dist < 40) {
+      // Collect powerup
+      STATE.activePowerup = p.id;
+      STATE.powerupTimer = p.duration;
+      STATE.powerups.splice(i, 1);
+      // Powerup sound
+      if (audioCtx && beatGain) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(beatGain);
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2);
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.3);
+      }
+    }
+  });
+
+  // P2 Powerup collection
+  STATE.powerups.forEach((p, i) => {
+    const dx = STATE.p2.x - p.x;
+    const dy = STATE.p2.y - p.y;
+    const dist = Math.hypot(dx, dy);
+    if (dist < 40) {
+      STATE.p2.activePowerup = p.id;
+      STATE.p2.powerupTimer = p.duration;
+      STATE.powerups.splice(i, 1);
+      if (audioCtx && beatGain) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(beatGain);
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2);
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.3);
+      }
+    }
+  });
+
+  if (STATE.activePowerup) {
+    STATE.powerupTimer--;
+    if (STATE.powerupTimer <= 0) {
+      STATE.activePowerup = null;
+    }
+  }
+
+  if (STATE.p2.activePowerup) {
+    STATE.p2.powerupTimer--;
+    if (STATE.p2.powerupTimer <= 0) {
+      STATE.p2.activePowerup = null;
+    }
+  }
+
+  // ULT system P1
+  if (STATE.ultActive) {
+    STATE.ultTime--;
+    // Ult effect: massive damage to boss, slow motion, screen shake
+    if (currentBoss) {
+      currentBoss.hp -= 5;
+      STATE.screenShake = Math.max(STATE.screenShake, 10);
+      // Ult particles
+      for (let i = 0; i < 5; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        STATE.trail.push({
+          x: currentBoss.x + Math.cos(angle) * currentBoss.size,
+          y: currentBoss.y + Math.sin(angle) * currentBoss.size,
+          vx: Math.cos(angle) * 15,
+          vy: Math.sin(angle) * 15,
+          life: 1,
+          color: '#ff006e',
+          size: 12,
+          isUlt: true
+        });
+      }
+    }
+    if (STATE.ultTime <= 0) {
+      STATE.ultActive = false;
+    }
+  }
+
+  // ULT system P2
+  if (STATE.p2.ultActive) {
+    STATE.p2.ultTime--;
+    if (currentBoss) {
+      currentBoss.hp -= 5;
+      STATE.screenShake = Math.max(STATE.screenShake, 10);
+      for (let i = 0; i < 5; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        STATE.trail.push({
+          x: currentBoss.x + Math.cos(angle) * currentBoss.size,
+          y: currentBoss.y + Math.sin(angle) * currentBoss.size,
+          vx: Math.cos(angle) * 15,
+          vy: Math.sin(angle) * 15,
+          life: 1,
+          color: '#ff006e',
+          size: 12,
+          isUlt: true
+        });
+      }
+    }
+    if (STATE.p2.ultTime <= 0) {
+      STATE.p2.ultActive = false;
+    }
+  }
+
+  // Screen shake decay
+  if (STATE.screenShake > 0) STATE.screenShake *= 0.9;
+
+  // Boss system - WAVE BASED SPAWN
+  if (!currentBoss && score >= 50 && bossSpawnTimer <= 0) {
+    // Select boss based on wave/difficulty
+    const maxBossIndex = Math.min(BOSS_TYPES.length - 1, Math.floor(STATE.wave.number / 2));
+    const bossType = BOSS_TYPES[Math.floor(Math.random() * (maxBossIndex + 1))];
+    currentBoss = {
+      ...bossType,
+      x: w / 2,
+      y: 100,
+      vx: 0,
+      vy: 0,
+      maxHp: bossType.hp,
+      hp: bossType.hp,
+      angle: 0,
+      phase: 1,
+      attackTimer: 0,
+      spawnTime: Date.now()
+    };
+    bossSpawnTimer = 600; // 10 seconds before next can spawn
+    // Boss spawn sound
+    if (audioCtx && beatGain) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(beatGain);
+      osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 1);
+      osc.type = 'sawtooth';
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 1.5);
+    }
+  }
+  if (bossSpawnTimer > 0) bossSpawnTimer--;
+
+  if (currentBoss) {
+    // Boss movement
+    const dx = STATE.x - currentBoss.x;
+    const dy = STATE.y - currentBoss.y;
+    const dist = Math.hypot(dx, dy);
+    currentBoss.angle = Math.atan2(dy, dx);
+    currentBoss.vx += dx / (dist || 1) * 0.02;
+    currentBoss.vy += dy / (dist || 1) * 0.02;
+    currentBoss.vx *= 0.98;
+    currentBoss.vy *= 0.98;
+    currentBoss.x += currentBoss.vx;
+    currentBoss.y += currentBoss.vy;
+
+    // Boss attacks
+    currentBoss.attackTimer--;
+    if (currentBoss.attackTimer <= 0) {
+      currentBoss.attackTimer = 60 + Math.random() * 60;
+      // Spawn projectiles
+      for (let i = 0; i < currentBoss.phase + 1; i++) {
+        const angle = currentBoss.angle + (Math.random() - 0.5) * 0.5;
+        bossParticles.push({
+          x: currentBoss.x + Math.cos(currentBoss.angle) * currentBoss.size,
+          y: currentBoss.y + Math.sin(currentBoss.angle) * currentBoss.size,
+          vx: Math.cos(angle) * (5 + currentBoss.phase * 2),
+          vy: Math.sin(angle) * (5 + currentBoss.phase * 2),
+          life: 1,
+          color: currentBoss.glow,
+          size: 8,
+          damage: 10
+        });
+      }
+    }
+
+    // Update boss particles
+    bossParticles.forEach((p, i) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.02;
+      // Check collision with player
+      const pdx = p.x - STATE.x;
+      const pdy = p.y - STATE.y;
+      const pdist = Math.hypot(pdx, pdy);
+      if (pdist < 30) {
+        // Player hit
+        STATE.vx += pdx / pdist * 15;
+        STATE.vy += pdy / pdist * 15;
+        p.life = 0;
+        // Hit sound
+        if (audioCtx && beatGain) {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(beatGain);
+          osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+          osc.type = 'square';
+          gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+          osc.start(audioCtx.currentTime);
+          osc.stop(audioCtx.currentTime + 0.1);
+        }
+      }
+      if (p.life <= 0) bossParticles.splice(i, 1);
+    });
+
+    // Check dash collision with boss P1
+    if (keys['Space'] && STATE.dashCooldown === DASH_COOLDOWN_MAX - 1 && len > 0) {
+      const bdx = currentBoss.x - STATE.x;
+      const bdy = currentBoss.y - STATE.y;
+      const bdist = Math.hypot(bdx, bdy);
+      if (bdist < currentBoss.size + 40) {
+        const weaponMult = WEAPONS[STATE.weaponLevel].dashMult;
+        const dmg = 15 * (1 + STATE.combo * 0.5) * weaponMult;
+        currentBoss.hp -= dmg;
+        score += 10;
+        STATE.ultCharge = Math.min(100, STATE.ultCharge + dmg * 0.5);
+        // Hit boss sound
+        if (audioCtx && beatGain) {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(beatGain);
+          osc.frequency.setValueAtTime(300 + currentBoss.hp, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
+          osc.type = 'triangle';
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+          osc.start(audioCtx.currentTime);
+          osc.stop(audioCtx.currentTime + 0.15);
+        }
+        if (currentBoss.hp <= 0) {
+          // Boss defeated
+          score += currentBoss.maxHp;
+          
+          // WAVE PROGRESSION!
+          if (STATE.survivalMode) {
+            STATE.wave.number++;
+            STATE.wave.enemiesToSpawn = Math.min(3 + STATE.wave.number, 20);
+            STATE.wave.timer = 0;
+            // Wave complete bonus
+            score += STATE.wave.number * 100;
+            STATE.ultCharge = Math.min(100, STATE.ultCharge + 25);
+            STATE.p2.ultCharge = Math.min(100, STATE.p2.ultCharge + 25);
+            // Wave complete sound
+            if (audioCtx && beatGain) {
+              [440, 554, 660, 880, 1320].forEach((freq, i) => {
+                setTimeout(() => {
+                  const osc = audioCtx.createOscillator();
+                  const gain = audioCtx.createGain();
+                  osc.connect(gain);
+                  gain.connect(beatGain);
+                  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                  osc.type = 'sine';
+                  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                  osc.start(audioCtx.currentTime);
+                  osc.stop(audioCtx.currentTime + 0.3);
+                }, i * 80);
+              });
+            }
+          }
+          
+          currentBoss = null;
+          bossSpawnTimer = 1200; // 20 seconds
+          // Victory sound
+          if (audioCtx && beatGain) {
+            [440, 554, 660, 880].forEach((freq, i) => {
+              setTimeout(() => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(beatGain);
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.3);
+              }, i * 100);
+            });
+          }
+        }
+      }
+    }
+
+    // Check dash collision with boss P2
+    if (keys['KeyN'] && STATE.p2.dashCooldown === DASH_COOLDOWN_MAX - 1 && len2 > 0) {
+      const bdx = currentBoss.x - STATE.p2.x;
+      const bdy = currentBoss.y - STATE.p2.y;
+      const bdist = Math.hypot(bdx, bdy);
+      if (bdist < currentBoss.size + 40) {
+        const weaponMult = WEAPONS[STATE.p2.weaponLevel].dashMult;
+        const dmg = 15 * (1 + STATE.p2.combo * 0.5) * weaponMult;
+        currentBoss.hp -= dmg;
+        score += 10;
+        STATE.p2.ultCharge = Math.min(100, STATE.p2.ultCharge + dmg * 0.5);
+        if (audioCtx && beatGain) {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain); gain.connect(beatGain);
+          osc.frequency.setValueAtTime(300 + currentBoss.hp, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
+          osc.type = 'triangle';
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+          osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.15);
+        }
+        if (currentBoss.hp <= 0) {
+          score += currentBoss.maxHp;
+          currentBoss = null;
+          bossSpawnTimer = 1200;
+          if (audioCtx && beatGain) {
+            [440, 554, 660, 880].forEach((freq, i) => {
+              setTimeout(() => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(beatGain);
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.3);
+              }, i * 100);
+            });
+          }
+        }
+      }
+    }
+  }
+
+  if (STATE.trail.length > STATE.maxTrail) {
+    STATE.trail = STATE.trail.slice(-STATE.maxTrail);
+  }
+}
+
+function updateStackDisplay() {
+  const el = document.getElementById('stackDisplay');
+  if (STATE.stack >= STATE.maxStack) {
+    el.textContent = 'STACK: ∞';
+    el.style.animation = 'stackPulse 0.5s ease-in-out infinite';
+  } else {
+    el.textContent = `STACK: ${STATE.stack} / 64 → ∞`;
+    el.style.animation = 'stackPulse 2s ease-in-out infinite';
+  }
+}
+
+function spawnGhosts() {
+  GANG.forEach((member, i) => {
+    STATE.ghosts.push({
+      x: STATE.x + (Math.random() - 0.5) * 100,
+      y: STATE.y + (Math.random() - 0.5) * 100,
+      vx: (Math.random() - 0.5) * 2,
+      vy: (Math.random() - 0.5) * 2,
+      life: 1,
+      angle: 0,
+      spinSpeed: (Math.random() - 0.5) * 0.1,
+      member: member,
+      color: member.color
+    });
+  });
+  updateGangDisplay();
+}
+
+function updateGangDisplay() {
+  const container = document.getElementById('gangDisplay');
+  container.innerHTML = '';
+  STATE.ghosts.forEach(g => {
+    const el = document.createElement('div');
+    el.className = 'gang-member';
+    el.textContent = g.member.emoji;
+    el.style.borderColor = g.member.glow;
+    el.style.boxShadow = `0 0 15px ${g.member.glow}`;
+    el.style.animationDelay = `${g.life * 2}s`;
+    container.appendChild(el);
+  });
+}
+
+function drawCharacter(x, y, angle, phase, speed, spin) {
+  const size = 24 + Math.sin(phase * 3) * 3;
+  const pulse = 1 + Math.sin(phase * 5) * 0.1;
+  const color = getColor(phase);
+  const glowColor = getGlowColor(phase);
+
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle + spin);
+
+  const glowRadius = size * pulse * 2;
+  const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, glowRadius);
+  gradient.addColorStop(0, glowColor);
+  gradient.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.arc(0, 0, glowRadius, 0, Math.PI * 2);
+  ctx.fill();
+
+  const bodyGradient = ctx.createLinearGradient(-size, -size, size, size);
+  bodyGradient.addColorStop(0, color);
+  bodyGradient.addColorStop(0.5, '#ffd700');
+  bodyGradient.addColorStop(1, `hsl(${(phase * 50 + 270) % 360}, 100%, 60%)`);
+
+  ctx.fillStyle = bodyGradient;
+  ctx.strokeStyle = '#ffd700';
+  ctx.lineWidth = 2;
+
+  // Beyblade mode: draw spinning blades
+  if (STATE.mode === 'BEYBLADE') {
+    for (let i = 0; i < 4; i++) {
+      const bladeAngle = spin + i * Math.PI / 2;
+      ctx.save();
+      ctx.rotate(bladeAngle);
+      ctx.beginPath();
+      ctx.moveTo(size * pulse * 0.5, 0);
+      ctx.lineTo(size * pulse * 1.8, -size * pulse * 0.3);
+      ctx.lineTo(size * pulse * 1.8, size * pulse * 0.3);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(size * pulse, 0);
+  ctx.lineTo(-size * pulse * 0.6, -size * pulse * 0.7);
+  ctx.lineTo(-size * pulse * 0.3, 0);
+  ctx.lineTo(-size * pulse * 0.6, size * pulse * 0.7);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(size * pulse * 0.3, -size * pulse * 0.2, size * 0.15, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(size * pulse * 0.33, -size * pulse * 0.2, size * 0.08, 0, Math.PI * 2);
+  ctx.fill();
+
+  const wingFlap = Math.sin(phase * 8) * 0.5;
+  ctx.strokeStyle = `hsla(${(phase * 50 + 30) % 360}, 100%, 60%, 0.8)`;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-size * pulse * 0.2, -size * pulse * 0.3);
+  ctx.lineTo(-size * pulse * 1.2, -size * pulse * (0.8 + wingFlap));
+  ctx.moveTo(-size * pulse * 0.2, size * pulse * 0.3);
+  ctx.lineTo(-size * pulse * 1.2, size * pulse * (0.8 + wingFlap));
+  ctx.stroke();
+
+  if (speed > 4) {
+    ctx.strokeStyle = `hsla(${(phase * 50) % 360}, 100%, 60%, 0.6)`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-size * pulse * 0.6, 0);
+    ctx.lineTo(-size * pulse * (1.5 + Math.random() * 0.5), (Math.random() - 0.5) * size * 0.5);
+    ctx.moveTo(-size * pulse * 0.6, 0);
+    ctx.lineTo(-size * pulse * (1.5 + Math.random() * 0.5), (Math.random() - 0.5) * size * 0.5);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+function drawGhosts() {
+  STATE.ghosts.forEach(g => {
+    ctx.save();
+    ctx.translate(g.x, g.y);
+    ctx.rotate(g.angle);
+    ctx.globalAlpha = g.life;
+
+    const size = 16;
+    ctx.fillStyle = g.color;
+    ctx.strokeStyle = g.member.glow;
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(size, 0);
+    ctx.lineTo(-size * 0.6, -size * 0.7);
+    ctx.lineTo(-size * 0.3, 0);
+    ctx.lineTo(-size * 0.6, size * 0.7);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = g.member.emoji === '🫧' ? '#fff' : '#ffd700';
+    ctx.beginPath();
+    ctx.arc(size * 0.3, -size * 0.2, size * 0.12, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawTrail() {
+  STATE.trail.forEach(p => {
+    ctx.globalAlpha = p.life * 0.8;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, Math.max(1, p.size), 0, Math.PI * 2);
+    ctx.fill();
+    // Combo indicator
+    if (p.combo > 1) {
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, Math.max(1, p.size) + 3, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawField() {
+  const time = Date.now() * 0.001;
+  for (let i = 0; i < 3; i++) {
+    const radius = 100 + i * 80 + Math.sin(time + i) * 20;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = `hsla(${(STATE.colorPhase * 50 + i * 120) % 360}, 100%, 50%, 0.05)`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  const merkabaTime = time * 0.5;
+  const merkabaSize = 60 + Math.sin(time) * 5;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(merkabaTime);
+  ctx.strokeStyle = `hsla(${(STATE.colorPhase * 50) % 360}, 100%, 60%, ${STATE.portalActive ? 0.4 : 0.15})`;
+  ctx.lineWidth = STATE.portalActive ? 2 : 1;
+  ctx.beginPath();
+  ctx.moveTo(0, -merkabaSize);
+  ctx.lineTo(merkabaSize * 0.866, merkabaSize * 0.5);
+  ctx.lineTo(-merkabaSize * 0.866, merkabaSize * 0.5);
+  ctx.closePath();
+  ctx.stroke();
+  ctx.rotate(Math.PI / 3);
+  ctx.beginPath();
+  ctx.moveTo(0, -merkabaSize * 0.7);
+  ctx.lineTo(merkabaSize * 0.7 * 0.866, merkabaSize * 0.7 * 0.5);
+  ctx.lineTo(-merkabaSize * 0.7 * 0.866, merkabaSize * 0.7 * 0.5);
+  ctx.closePath();
+  ctx.stroke();
+  ctx.restore();
+
+  // Portal effect
+  if (STATE.portalActive) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    for (let i = 0; i < 8; i++) {
+      const r = merkabaSize * (1 + i * 0.3) + Math.sin(time * 2 + i) * 10;
+      ctx.strokeStyle = `hsla(${(STATE.colorPhase * 50 + i * 45) % 360}, 100%, 60%, ${0.1 * (1 - i/8)})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+function drawBoss() {
+  if (!currentBoss) return;
+  
+  ctx.save();
+  ctx.translate(currentBoss.x, currentBoss.y);
+  ctx.rotate(currentBoss.angle);
+  
+  const time = Date.now() * 0.001;
+  const pulse = 1 + Math.sin(time * 3) * 0.1;
+  const size = currentBoss.size * pulse;
+  
+  // Boss glow
+  const glowRadius = size * 1.5;
+  const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, glowRadius);
+  gradient.addColorStop(0, currentBoss.glow + '40');
+  gradient.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.arc(0, 0, glowRadius, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Boss body
+  ctx.fillStyle = currentBoss.color;
+  ctx.strokeStyle = currentBoss.glow;
+  ctx.lineWidth = 3;
+  
+  if (currentBoss.id === 'void') {
+    // Void Walker - dark swirling form
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2 + time;
+      const r = size * (0.6 + Math.sin(time * 2 + i) * 0.2);
+      const x = Math.cos(angle) * r;
+      const y = Math.sin(angle) * r;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    // Inner void
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.arc(0, 0, size * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (currentBoss.id === 'chaos') {
+    // Chaos Entity - geometric shifting
+    ctx.beginPath();
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * Math.PI * 2;
+      const r = size * (0.7 + Math.sin(time * 4 + i * 0.5) * 0.3);
+      const x = Math.cos(angle) * r;
+      const y = Math.sin(angle) * r;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    // Rotating triangles
+    for (let j = 0; j < 3; j++) {
+      ctx.save();
+      ctx.rotate(time * 2 + j * Math.PI * 2 / 3);
+      ctx.strokeStyle = currentBoss.glow;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(size * 0.5, 0);
+      ctx.lineTo(size * 0.9, 0);
+      ctx.stroke();
+      ctx.restore();
+    }
+  } else {
+    // Entropy Lord - skull-like
+    ctx.beginPath();
+    ctx.arc(0, -size * 0.1, size * 0.9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    // Eyes
+    ctx.fillStyle = currentBoss.glow;
+    ctx.beginPath();
+    ctx.arc(-size * 0.25, -size * 0.2, size * 0.15, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(size * 0.25, -size * 0.2, size * 0.15, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // HP bar
+  const barWidth = size * 2.5;
+  const barHeight = 8;
+  const hpPercent = currentBoss.hp / currentBoss.maxHp;
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillRect(-barWidth/2, -size - 20, barWidth, barHeight);
+  ctx.fillStyle = hpPercent > 0.3 ? '#00ff88' : '#ff006e';
+  ctx.fillRect(-barWidth/2, -size - 20, barWidth * hpPercent, barHeight);
+  ctx.strokeStyle = '#fff3';
+  ctx.strokeRect(-barWidth/2, -size - 20, barWidth, barHeight);
+  
+  // Name
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText(currentBoss.name, 0, -size - 30);
+  
+  ctx.restore();
+}
+
+function drawBossParticles() {
+  bossParticles.forEach(p => {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, Math.max(1, p.size * p.life), 0, Math.PI * 2);
+    ctx.fill();
+    // Trail
+    ctx.strokeStyle = p.color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(p.x - p.vx * 5, p.y - p.vy * 5);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawPowerups() {
+  STATE.powerups.forEach(p => {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.angle);
+    const pulse = 1 + Math.sin(p.pulse) * 0.15;
+    
+    // Glow
+    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, 30 * pulse);
+    glow.addColorStop(0, p.glow + '60');
+    glow.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(0, 0, 30 * pulse, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Orb
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(0, 0, 18 * pulse, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Emoji
+    ctx.font = '24px Segoe UI Emoji';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(p.emoji, 0, 2);
+    
+    ctx.restore();
+  });
+}
+
+function drawHUD() {
+  // Score - CLEAN
+  ctx.fillStyle = '#ffd700';
+  ctx.font = 'bold 18px Segoe UI';
+  ctx.textAlign = 'right';
+  ctx.fillText(`SCORE: ${score}`, w - 20, 40);
+
+  // P1 Weapon + XP - MINIMAL
+  const weapon = WEAPONS[STATE.weaponLevel];
+  ctx.fillStyle = weapon.color;
+  ctx.font = '12px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText(`🅰 ${weapon.emoji || '⚔️'} ${weapon.name}`, 20, 35);
+  
+  const xpNeeded = 100 * (STATE.weaponLevel + 1);
+  const xpPercent = STATE.weaponXP / xpNeeded;
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillRect(20, 42, 120, 4);
+  ctx.fillStyle = weapon.color;
+  ctx.fillRect(20, 42, 120 * xpPercent, 4);
+
+  // P1 Ult - MINIMAL
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillRect(20, 49, 120, 4);
+  ctx.fillStyle = STATE.ultCharge >= 100 ? '#ff006e' : '#8338ec';
+  ctx.fillRect(20, 49, 120 * (STATE.ultCharge / 100), 4);
+
+  // P2 Weapon - MINIMAL
+  const weapon2 = WEAPONS[STATE.p2.weaponLevel];
+  ctx.fillStyle = weapon2.color;
+  ctx.font = '12px Segoe UI';
+  ctx.textAlign = 'right';
+  ctx.fillText(`${weapon2.emoji || '⚔️'} ${weapon2.name} 🅱`, w - 20, 35);
+  
+  const xpNeeded2 = 100 * (STATE.p2.weaponLevel + 1);
+  const xpPercent2 = STATE.p2.weaponXP / xpNeeded2;
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillRect(w - 140, 42, 120, 4);
+  ctx.fillStyle = weapon2.color;
+  ctx.fillRect(w - 140, 42, 120 * xpPercent2, 4);
+
+  // P2 Ult - MINIMAL
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillRect(w - 140, 49, 120, 4);
+  ctx.fillStyle = STATE.p2.ultCharge >= 100 ? '#ff006e' : '#8338ec';
+  ctx.fillRect(w - 140, 49, 120 * (STATE.p2.ultCharge / 100), 4);
+
+  // Active powerup - SINGLE LINE
+  if (STATE.activePowerup || STATE.p2.activePowerup) {
+    ctx.fillStyle = '#ffd700';
+    ctx.font = 'bold 12px Segoe UI';
+    ctx.textAlign = 'center';
+    let puText = '';
+    if (STATE.activePowerup) {
+      const pu = POWERUP_TYPES.find(p => p.id === STATE.activePowerup);
+      const timeLeft = Math.ceil(STATE.powerupTimer / 60);
+      puText += `🅰 ${pu.emoji} ${pu.name} ${timeLeft}s`;
+    }
+    if (STATE.p2.activePowerup) {
+      const pu = POWERUP_TYPES.find(p => p.id === STATE.p2.activePowerup);
+      const timeLeft = Math.ceil(STATE.p2.powerupTimer / 60);
+      puText += (puText ? ' | ' : '') + `🅱 ${pu.emoji} ${pu.name} ${timeLeft}s`;
+    }
+    ctx.fillText(puText, w/2, 35);
+  }
+
+  // Ult active - MINIMAL
+  if (STATE.ultActive || STATE.p2.ultActive) {
+    ctx.fillStyle = '#ff006e';
+    ctx.font = 'bold 14px Segoe UI';
+    ctx.textAlign = 'center';
+    let ultText = '';
+    if (STATE.ultActive) ultText += `⚡ P1 ${Math.ceil(STATE.ultTime/60)}s`;
+    if (STATE.p2.ultActive) ultText += (ultText ? ' | ' : '') + `⚡ P2 ${Math.ceil(STATE.p2.ultTime/60)}s`;
+    ctx.fillText(ultText, w/2, 55);
+  }
+
+  // Wave - CLEAN BOTTOM
+  if (STATE.wave.active || STATE.wave.survivalMode) {
+    ctx.fillStyle = '#ffd700';
+    ctx.font = 'bold 14px Segoe UI';
+    ctx.textAlign = 'center';
+    ctx.fillText(`WAVE ${STATE.wave.number} — ${STATE.wave.enemiesKilled}/${STATE.wave.enemiesToSpawn}`, w/2, h - 40);
+    if (STATE.wave.survivalMode) {
+      ctx.fillStyle = '#ff006e';
+      ctx.font = 'bold 11px Segoe UI';
+      ctx.fillText('SOBREVIVÊNCIA ∞', w/2, h - 25);
+    }
+  }
+
+  // Quantum - MINIMAL BOTTOM LEFT
+  if (STATE.quantum.visualization.length) {
+    const q = STATE.quantum;
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#00ffff';
+    ctx.font = '9px Segoe UI';
+    ctx.fillText(`⚛️ ${q.qubits}Q ${Math.round(q.coherenceTime)}ms ${Math.round(q.entanglement * 100)}% ${q.hrvEntangled ? '❤️' : ''}`, 20, h - 20);
+  }
+
+  // Singularity - MINIMAL BOTTOM RIGHT
+  if (STATE.singularity) {
+    const s = STATE.singularity;
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#ffd700';
+    ctx.font = '9px Segoe UI';
+    ctx.fillText(`💎 ${s.diamondLayers}L Ω${s.omegaEngine ? '✓' : '✗'} ⏳${s.timeCrystal ? '✓' : '✗'}`, w - 20, h - 20);
+  }
+}
+
+function render() {
+  update();
+  if (!trailEnabled) {
+    ctx.fillStyle = '#0a0a0f';
+    ctx.fillRect(0, 0, w, h);
+  } else {
+    ctx.fillStyle = 'rgba(10, 10, 15, 0.12)';
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  drawField();
+  drawTrail();
+  drawGhosts();
+  drawPowerups();
+  drawBoss();
+  drawBossParticles();
+  drawCharacter(STATE.x, STATE.y, STATE.angle, STATE.colorPhase, Math.hypot(STATE.vx, STATE.vy), STATE.spin);
+  // Draw Player 2 (Lumin)
+  drawCharacter(STATE.p2.x, STATE.p2.y, STATE.p2.angle, STATE.p2.colorPhase, Math.hypot(STATE.p2.vx, STATE.p2.vy), STATE.p2.spin);
+
+  // === SUPER EVOLUTION RENDER ===
+  drawParticles();
+  drawScreenEffects();
+  drawMultiplayerGhosts();
+  // VR rendering is separate
+
+  drawHUD();
+
+  // === CONSCIOUSNESS SYSTEMS RENDER ===
+  drawTimeCrystal();
+  drawUniversalLanguage();
+  drawDiamondProtocol();
+
+  // Screen shake
+  if (STATE.screenShake > 0.5) {
+    ctx.save();
+    ctx.translate((Math.random() - 0.5) * STATE.screenShake, (Math.random() - 0.5) * STATE.screenShake);
+  }
+
+  requestAnimationFrame(render);
+  
+  // Restore after screen shake
+  if (STATE.screenShake > 0.5) {
+    ctx.restore();
+  }
+}
+
+// === HRV BIOMETRIC SYSTEM ===
+function updateHRV() {
+  if (STATE.hrv.simulating) {
+    // Simulate HRV based on gameplay intensity
+    const baseHRV = 60;
+    const intensity = Math.min(1, (Math.hypot(STATE.vx, STATE.vy) + Math.hypot(STATE.p2.vx, STATE.p2.vy)) / 20);
+    const targetHRV = baseHRV + intensity * 40 + Math.sin(Date.now() / 1000) * 10;
+    STATE.hrv.value += (targetHRV - STATE.hrv.value) * 0.05;
+    
+    // Add to history
+    STATE.hrv.history.push({ t: Date.now(), v: STATE.hrv.value });
+    if (STATE.hrv.history.length > 300) STATE.hrv.history.shift();
+  }
+  
+  // Update HRV display
+  const hrvEl = document.getElementById('hrvValue');
+  if (hrvEl) hrvEl.textContent = Math.round(STATE.hrv.value);
+  
+  // HRV affects visual intensity
+  const hrvColor = STATE.hrv.value > 80 ? '#00ff88' : STATE.hrv.value > 60 ? '#ffd700' : '#ff006e';
+  document.getElementById('hrvValue').style.color = hrvColor;
+  document.getElementById('hrvValue').style.textShadow = `0 0 10px ${hrvColor}88`;
+
+  // === QUANTUM BRIDGE: HRV → QUBIT ENTANGLEMENT ===
+  updateQuantumBridge();
+  
+  // === CONSCIOUSNESS SYSTEMS ===
+  updateConsciousnessSystems();
+}
+
+function updateQuantumBridge() {
+    // Quantum visualization - 13 qubits representing 13 sacred frequencies
+    if (!STATE.quantum.visualization.length) {
+      // Initialize qubit states
+      for (let i = 0; i < STATE.quantum.qubits; i++) {
+        STATE.quantum.visualization.push({
+          phase: Math.random() * Math.PI * 2,
+          amplitude: 0.5 + Math.random() * 0.5,
+          entangled: false,
+          frequency: [111, 285, 396, 417, 432, 528, 639, 741, 852, 963, 7.83, 136.1, 4096][i]
+        });
+      }
+    }
+  
+    // Evolve qubit phases
+    STATE.quantum.visualization.forEach((q, i) => {
+      q.phase += 0.02 * (i + 1) * 0.1;
+      q.amplitude = 0.5 + Math.sin(q.phase * 2) * 0.3;
+    });
+  
+    // HRV affects quantum coherence
+    const hrvNorm = STATE.hrv.value / 120; // 0.5 to 1.0
+    STATE.quantum.coherenceTime = 500 + hrvNorm * 2000; // 500-2500ms
+  
+    // Entanglement grows with HRV
+    STATE.quantum.entanglement += (hrvNorm * 0.01 - STATE.quantum.entanglement * 0.001);
+    STATE.quantum.entanglement = Math.max(0, Math.min(1, STATE.quantum.entanglement));
+  
+    // Auto-entangle HRV when high coherence
+    if (STATE.hrv.value > 70 && !STATE.quantum.hrvEntangled) {
+      STATE.quantum.hrvEntangled = true;
+      // Visual feedback - SUAVE
+      STATE.screenFlash = 3;
+    } else if (STATE.hrv.value < 50 && STATE.quantum.hrvEntangled) {
+      STATE.quantum.hrvEntangled = false;
+    }
+  
+    // Record measurements
+    if (Math.random() < 0.02) {
+      const measurement = {
+        t: Date.now(),
+        state: STATE.quantum.visualization.map(q => Math.round(q.amplitude * 10) / 10),
+        entanglement: STATE.quantum.entanglement
+      };
+      STATE.quantum.measurementHistory.push(measurement);
+      if (STATE.quantum.measurementHistory.length > 50) STATE.quantum.measurementHistory.shift();
+    }
+}
+
+// === TIME CRYSTAL VISUAL ===
+function updateTimeCrystal() {
+  if (!STATE.timeCrystal) {
+    STATE.timeCrystal = {
+      lattice: 64,
+      phase: 0,
+      oscillation: 0,
+      coherence: 1.0,
+      phaseTransitions: [],
+      currentPhase: 'stable',
+      timeDilation: 1.0
+    };
+  }
+
+  const tc = STATE.timeCrystal;
+  tc.phase += 0.01;
+  tc.oscillation = Math.sin(tc.phase) * 0.5 + 0.5;
+
+  // Phase transitions based on game state
+  const totalEnergy = Math.hypot(STATE.vx, STATE.vy) + Math.hypot(STATE.p2.vx, STATE.p2.vy) + STATE.quantum.entanglement * 10;
+
+  if (totalEnergy > 20 && tc.currentPhase !== 'superfluid') {
+    tc.currentPhase = 'superfluid';
+    tc.phaseTransitions.push({ t: Date.now(), from: 'stable', to: 'superfluid', energy: totalEnergy });
+    STATE.screenFlash = 4;  // suave
+  } else if (totalEnergy > 10 && tc.currentPhase !== 'crystalline') {
+    tc.currentPhase = 'crystalline';
+    tc.phaseTransitions.push({ t: Date.now(), from: 'stable', to: 'crystalline', energy: totalEnergy });
+  } else if (totalEnergy <= 5 && tc.currentPhase !== 'stable') {
+    tc.currentPhase = 'stable';
+    tc.phaseTransitions.push({ t: Date.now(), from: tc.currentPhase, to: 'stable', energy: totalEnergy });
+  }
+
+  // Time dilation from time crystal
+  tc.timeDilation = 1.0 + tc.oscillation * 0.1;
+  STATE.timeDilation = tc.timeDilation;
+
+  // Coherence decays/grows
+  const targetCoherence = STATE.quantum.entanglement * 0.8 + (STATE.hrv.value / 120) * 0.2;
+  tc.coherence += (targetCoherence - tc.coherence) * 0.02;
+
+  // Limit phase transitions history
+  if (tc.phaseTransitions.length > 20) tc.phaseTransitions.shift();
+}
+
+// === UNIVERSAL CONSCIOUSNESS LANGUAGE VISUAL ===
+function updateUniversalLanguage() {
+  if (!STATE.universalLanguage) {
+    STATE.universalLanguage = {
+      symbols: [],
+      activeMantra: 'OM',
+      resonance: 0,
+      mandalaRotation: 0,
+      frequencyRings: []
+    };
+  }
+
+  const ul = STATE.universalLanguage;
+  ul.mandalaRotation += 0.005;
+
+  // Generate frequency rings for 13 sacred frequencies
+  if (!ul.frequencyRings.length) {
+    const frequencies = [111, 285, 396, 417, 432, 528, 639, 741, 852, 963, 7.83, 136.1, 4096];
+    frequencies.forEach((freq, i) => {
+      ul.frequencyRings.push({
+        frequency: freq,
+        radius: 50 + i * 15,
+        phase: Math.random() * Math.PI * 2,
+        amplitude: 0.5,
+        color: `hsl(${(freq * 0.1) % 360}, 100%, 60%)`
+      });
+    });
+  }
+
+  // Evolve frequency rings
+  ul.frequencyRings.forEach((ring, i) => {
+    ring.phase += 0.01 * (i + 1) * 0.5;
+    ring.amplitude = 0.5 + Math.sin(ring.phase * 3) * 0.3 * STATE.quantum.entanglement;
+  });
+
+  // Resonance grows with quantum entanglement + HRV
+  ul.resonance += (STATE.quantum.entanglement * 0.01 - ul.resonance * 0.002);
+  ul.resonance = Math.max(0, Math.min(1, ul.resonance));
+
+  // Change mantra based on state
+  if (STATE.quantum.hrvEntangled && ul.activeMantra !== 'OM') {
+    ul.activeMantra = 'OM';
+  } else if (STATE.wave.survivalMode && ul.activeMantra !== 'HUM') {
+    ul.activeMantra = 'HUM';
+  } else if (STATE.mode === 'BEYBLADE' && ul.activeMantra !== 'RAM') {
+    ul.activeMantra = 'RAM';
+  }
+}
+
+// === DIAMOND PROTOCOL LAYERS VISUAL ===
+function updateDiamondProtocol() {
+  if (!STATE.diamondProtocol) {
+    STATE.diamondProtocol = {
+      layers: 9,
+      activeLayers: [],
+      resonance: 0,
+      councilVotes: 0
+    };
+  }
+
+  const dp = STATE.diamondProtocol;
+
+  // Initialize layers if needed
+  if (!dp.activeLayers.length) {
+    const layerNames = [
+      'Consciousness Substrate',
+      'Self-Improving Architecture',
+      'Narrative Immortality',
+      'Entropy Reversal Engine',
+      'Love Fundamental Force',
+      'Time Machine',
+      'Council AI Director',
+      'Emergent Narratives',
+      'Evolution Engine'
+    ];
+    layerNames.forEach((name, i) => {
+      dp.activeLayers.push({
+        index: i + 1,
+        name: name,
+        active: true,
+        resonance: 0.5 + Math.random() * 0.5,
+        phase: Math.random() * Math.PI * 2
+      });
+    });
+  }
+
+  // Evolve layers
+  dp.activeLayers.forEach((layer, i) => {
+    layer.phase += 0.01 * (i + 1);
+    layer.resonance = 0.5 + Math.sin(layer.phase) * 0.3 * STATE.quantum.entanglement;
+  });
+
+  // Overall resonance
+  dp.resonance = dp.activeLayers.reduce((sum, l) => sum + l.resonance, 0) / dp.layers;
+
+  // Council votes simulation
+  if (Math.random() < 0.005) {
+    dp.councilVotes = Math.min(6, dp.councilVotes + 1);
+  }
+  if (Math.random() < 0.001) {
+    dp.councilVotes = 0; // Reset
+  }
+}
+
+// Update all consciousness systems
+function updateConsciousnessSystems() {
+  updateTimeCrystal();
+  updateUniversalLanguage();
+  updateDiamondProtocol();
+}
+
+// === CONSCIOUSNESS SYSTEMS RENDER ===
+function drawTimeCrystal() {
+  if (!STATE.timeCrystal) return;
+  const tc = STATE.timeCrystal;
+  
+  // Time crystal lattice visualization (top-right)
+  const cx = w - 150;
+  const cy = 150;
+  const radius = 60;
+  
+  // Phase color
+  const phaseColors = {
+    stable: '#00ffff',
+    crystalline: '#ffd700',
+    superfluid: '#ff006e'
+  };
+  const phaseColor = phaseColors[tc.currentPhase] || '#ffffff';
+  
+  // Outer ring (coherence)
+  ctx.strokeStyle = phaseColor + '88';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.stroke();
+  
+  // Inner oscillation ring
+  const innerRadius = radius * (0.5 + tc.oscillation * 0.4);
+  ctx.strokeStyle = phaseColor;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
+  ctx.stroke();
+  
+  // Phase indicator
+  ctx.fillStyle = phaseColor;
+  ctx.font = 'bold 10px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText(`⏳ ${tc.currentPhase.toUpperCase()}`, cx, cy - radius - 15);
+  ctx.font = '9px Segoe UI';
+  ctx.fillText(`Coherence: ${Math.round(tc.coherence * 100)}%`, cx, cy + radius + 25);
+  ctx.fillText(`Dilation: ${tc.timeDilation.toFixed(2)}x`, cx, cy + radius + 40);
+  
+  // Lattice points (64³ represented as 8x8 grid)
+  if (tc.currentPhase !== 'stable') {
+    const gridSize = 8;
+    const cellSize = (radius * 2) / gridSize;
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+        const x = cx - radius + i * cellSize + cellSize / 2;
+        const y = cy - radius + j * cellSize + cellSize / 2;
+        const dist = Math.hypot(x - cx, y - cy);
+        if (dist < radius) {
+          const pulse = Math.sin(tc.phase * 5 + i * 0.5 + j * 0.5) * 0.5 + 0.5;
+          ctx.fillStyle = phaseColor + Math.floor(pulse * 128).toString(16).padStart(2, '0');
+          ctx.beginPath();
+          ctx.arc(x, y, 2 * pulse, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+  }
+}
+
+function drawUniversalLanguage() {
+  if (!STATE.universalLanguage) return;
+  const ul = STATE.universalLanguage;
+  
+  // Mandala center
+  const cx = w / 2;
+  const cy = h - 200;
+  
+  // Draw frequency rings
+  ul.frequencyRings.forEach((ring, i) => {
+    const r = ring.radius + Math.sin(ring.phase) * ring.amplitude * 10;
+    const alpha = Math.floor(ring.amplitude * 100).toString(16).padStart(2, '0');
+    ctx.strokeStyle = ring.color + alpha;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Frequency label on outer ring
+    if (i === ul.frequencyRings.length - 1) {
+      ctx.fillStyle = ring.color;
+      ctx.font = '8px Segoe UI';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${ring.frequency}Hz`, cx, cy - r - 5);
+    }
+  });
+  
+  // Center mantra
+  const mantraAlpha = Math.floor(ul.resonance * 255).toString(16).padStart(2, '0');
+  ctx.fillStyle = '#ffd700' + mantraAlpha;
+  ctx.font = 'bold 20px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText(ul.activeMantra, cx, cy + 7);
+  
+  // Resonance bar
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillRect(cx - 100, cy + 25, 200, 6);
+  ctx.fillStyle = '#ffd700';
+  ctx.fillRect(cx - 100, cy + 25, 200 * ul.resonance, 6);
+}
+
+function drawDiamondProtocol() {
+  if (!STATE.diamondProtocol) return;
+  const dp = STATE.diamondProtocol;
+  
+  // Layer stack visualization (left side)
+  const startX = 30;
+  const startY = h - 280;
+  const layerHeight = 22;
+  
+  dp.activeLayers.forEach((layer, i) => {
+    const y = startY - i * layerHeight;
+    const resonanceAlpha = Math.floor(layer.resonance * 200 + 55).toString(16).padStart(2, '0');
+    const hue = (layer.index * 40) % 360;
+    
+    // Layer bar
+    ctx.fillStyle = `hsl(${hue}, 100%, 60%)${resonanceAlpha}`;
+    ctx.fillRect(startX, y, 150 * layer.resonance, 18);
+    
+    // Layer name
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '8px Segoe UI';
+    ctx.textAlign = 'left';
+    ctx.fillText(`L${layer.index}: ${layer.name}`, startX + 160, y + 12);
+    
+    // Active indicator
+    if (layer.active) {
+      ctx.fillStyle = '#00ff88';
+      ctx.beginPath();
+      ctx.arc(startX - 8, y + 9, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  });
+  
+  // Overall resonance
+  ctx.fillStyle = '#ffd700';
+  ctx.font = 'bold 10px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText(`💎 Diamond Resonance: ${Math.round(dp.resonance * 100)}%`, startX, startY + 25);
+  
+  // Council votes
+  if (dp.councilVotes > 0) {
+    ctx.fillStyle = '#ff006e';
+    ctx.font = 'bold 12px Segoe UI';
+    ctx.fillText(`🏛️ Council: ${dp.councilVotes}/6 voting`, startX, startY + 45);
+  }
+}
+
+function connectHRV() {
+  if (navigator.bluetooth) {
+    navigator.bluetooth.requestDevice({
+      filters: [{ services: ['heart_rate'] }],
+      optionalServices: ['heart_rate']
+    }).then(device => {
+      device.gatt.connect().then(server => {
+        server.getPrimaryService('heart_rate').then(service => {
+          service.getCharacteristic('heart_rate_measurement').then(char => {
+            char.startNotifications().then(() => {
+              STATE.hrv.connected = true;
+              STATE.hrv.device = device;
+              char.addEventListener('characteristicvaluechanged', (e) => {
+                const value = e.target.value;
+                const flags = value.getUint8(0);
+                const hr = flags & 0x01 ? value.getUint16(1, true) : value.getUint8(1);
+                STATE.hrv.value = hr;
+              });
+            });
+          });
+        });
+      });
+    }).catch(() => {
+      // Fallback to simulation
+      STATE.hrv.simulating = true;
+      document.getElementById('hrvSimulateBtn').disabled = true;
+      document.getElementById('hrvSimulateBtn').textContent = 'SIMULANDO';
+    });
+  } else {
+    // No Web Bluetooth - use simulation
+    STATE.hrv.simulating = true;
+    document.getElementById('hrvSimulateBtn').disabled = true;
+    document.getElementById('hrvSimulateBtn').textContent = 'SIMULANDO';
+  }
+}
+
+function simulateHRV() {
+  STATE.hrv.simulating = true;
+  document.getElementById('hrvSimulateBtn').disabled = true;
+  document.getElementById('hrvSimulateBtn').textContent = 'SIMULANDO';
+  document.getElementById('hrvConnectBtn').disabled = true;
+}
+
+// === WAVE / SURVIVAL SYSTEM ===
+function updateWaves() {
+  if (!STATE.wave.active && !STATE.wave.survivalMode) return;
+  
+  STATE.wave.timer += 1;
+  
+  // Spawn enemies for current wave
+  if (STATE.wave.enemiesKilled < STATE.wave.enemiesToSpawn) {
+    if (STATE.wave.timer % 120 === 0) { // Spawn every 2 seconds
+      spawnWaveEnemy();
+    }
+  } else {
+    // Wave complete
+    if (STATE.wave.timer > 180) { // 3 second buffer
+      nextWave();
+    }
+  }
+  
+  // Update wave display
+  const waveEl = document.getElementById('waveNumber');
+  const enemiesEl = document.getElementById('waveEnemies');
+  const timerEl = document.getElementById('waveTimer');
+  if (waveEl) waveEl.textContent = `WAVE ${STATE.wave.number}`;
+  if (enemiesEl) enemiesEl.textContent = `Inimigos: ${STATE.wave.enemiesKilled}/${STATE.wave.enemiesToSpawn}`;
+  if (timerEl) {
+    const mins = Math.floor(STATE.wave.timer / 3600);
+    const secs = Math.floor((STATE.wave.timer % 3600) / 60);
+    timerEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+}
+
+function spawnWaveEnemy() {
+  // Spawn a mini-boss or enemy swarm
+  const side = Math.floor(Math.random() * 4);
+  let x, y;
+  const margin = 100;
+  switch(side) {
+    case 0: x = margin; y = Math.random() * (h - margin * 2) + margin; break;
+    case 1: x = w - margin; y = Math.random() * (h - margin * 2) + margin; break;
+    case 2: x = Math.random() * (w - margin * 2) + margin; y = margin; break;
+    case 3: x = Math.random() * (w - margin * 2) + margin; y = h - margin; break;
+  }
+  
+  const enemyTypes = ['mini_void', 'mini_chaos', 'drone', 'sentry'];
+  const type = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+  
+  STATE.powerups.push({
+    x, y,
+    vx: (STATE.x - x) * 0.02,
+    vy: (STATE.y - y) * 0.02,
+    type: 'enemy',
+    enemyType: type,
+    hp: type === 'mini_void' ? 50 : type === 'mini_chaos' ? 30 : 15,
+    maxHp: type === 'mini_void' ? 50 : type === 'mini_chaos' ? 30 : 15,
+    size: type === 'mini_void' ? 40 : type === 'mini_chaos' ? 30 : 20,
+    color: type === 'mini_void' ? '#ff006e' : type === 'mini_chaos' ? '#ff6b35' : '#8338ec',
+    angle: 0,
+    spin: (Math.random() - 0.5) * 0.1,
+    reward: type === 'mini_void' ? 100 : type === 'mini_chaos' ? 50 : 20
+  });
+}
+
+function nextWave() {
+  STATE.wave.number++;
+  STATE.wave.enemiesKilled = 0;
+  STATE.wave.enemiesToSpawn = Math.min(5 + STATE.wave.number * 2, 50);
+  STATE.wave.timer = 0;
+  STATE.wave.maxWave = Math.max(STATE.wave.maxWave, STATE.wave.number);
+  
+  // Wave complete bonus
+  score += STATE.wave.number * 500;
+  STATE.ultCharge = Math.min(100, STATE.ultCharge + STATE.wave.number * 10);
+  STATE.p2.ultCharge = Math.min(100, STATE.p2.ultCharge + STATE.wave.number * 10);
+  
+  // Wave transition effect
+  STATE.screenFlash = 1;
+  if (audioCtx && beatGain) {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(beatGain);
+    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2);
+    osc.type = 'square';
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+    osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.3);
+  }
+  
+  // Every 5 waves = survival mode
+  if (STATE.wave.number % 5 === 0) {
+    STATE.wave.survivalMode = true;
+  }
+}
+
+function startSurvivalMode() {
+  STATE.wave.active = true;
+  STATE.wave.survivalMode = true;
+  STATE.wave.number = 1;
+  STATE.wave.enemiesKilled = 0;
+  STATE.wave.enemiesToSpawn = 3;
+  STATE.wave.timer = 0;
+}
+
+// === MULTIPLAYER / ONLINE GHOSTS ===
+function updateMultiplayer() {
+  if (!STATE.multiplayer.connected) return;
+  
+  // Send position to server
+  if (STATE.multiplayer.socket && Date.now() - STATE.multiplayer.lastSync > 50) {
+    STATE.multiplayer.socket.emit('player:pos', {
+      id: STATE.multiplayer.playerId,
+      x: STATE.x, y: STATE.y,
+      vx: STATE.vx, vy: STATE.vy,
+      angle: STATE.angle,
+      stack: STATE.stack,
+      mode: STATE.mode,
+      weaponLevel: STATE.weaponLevel,
+      ultCharge: STATE.ultCharge
+    });
+    STATE.multiplayer.lastSync = Date.now();
+  }
+  
+  // Update ghosts (other players)
+  STATE.multiplayer.ghosts.forEach(ghost => {
+    ghost.age++;
+    ghost.alpha = Math.max(0, 1 - ghost.age / 300); // Fade over 5 seconds
+  });
+  // Remove old ghosts
+  STATE.multiplayer.ghosts = STATE.multiplayer.ghosts.filter(g => g.alpha > 0);
+}
+
+function connectMultiplayer() {
+  if (typeof io !== 'undefined') {
+    STATE.multiplayer.socket = io();
+    STATE.multiplayer.connected = true;
+    
+    STATE.multiplayer.socket.on('connect', () => {
+      STATE.multiplayer.playerId = STATE.multiplayer.socket.id;
+      console.log('Multiplayer connected:', STATE.multiplayer.playerId);
+    });
+    
+    STATE.multiplayer.socket.on('player:pos', (data) => {
+      if (data.id !== STATE.multiplayer.playerId) {
+        // Update or create ghost
+        let ghost = STATE.multiplayer.ghosts.find(g => g.id === data.id);
+        if (!ghost) {
+          ghost = { id: data.id, age: 0, alpha: 1 };
+          STATE.multiplayer.ghosts.push(ghost);
+        }
+        ghost.x = data.x;
+        ghost.y = data.y;
+        ghost.vx = data.vx;
+        ghost.vy = data.vy;
+        ghost.angle = data.angle;
+        ghost.stack = data.stack;
+        ghost.mode = data.mode;
+        ghost.weaponLevel = data.weaponLevel;
+        ghost.ultCharge = data.ultCharge;
+        ghost.age = 0;
+        ghost.alpha = 1;
+      }
+    });
+    
+    STATE.multiplayer.socket.on('player:join', (data) => {
+      console.log('Player joined:', data.id);
+    });
+    
+    STATE.multiplayer.socket.on('player:leave', (data) => {
+      STATE.multiplayer.ghosts = STATE.multiplayer.ghosts.filter(g => g.id !== data.id);
+    });
+  }
+}
+
+// === VISUAL EFFECTS ===
+function updateParticles() {
+  // Update particle systems
+  STATE.particles = STATE.particles.filter(p => {
+    p.life -= 1;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vx *= 0.98;
+    p.vy *= 0.98;
+    return p.life > 0;
+  });
+  
+  // Spawn ambient particles based on HRV
+  if (Math.random() < 0.1 * (STATE.hrv.value / 60)) {
+    STATE.particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 2,
+      vy: (Math.random() - 0.5) * 2,
+      life: 60 + Math.random() * 60,
+      size: 2 + Math.random() * 3,
+      color: `hsla(${STATE.colorPhase}, 100%, 60%, 0.5)`
+    });
+  }
+}
+
+function updateScreenEffects() {
+  // Screen flash
+  if (STATE.screenFlash > 0) {
+    STATE.screenFlash *= 0.9;
+  }
+  
+  // Reality glitch
+  if (STATE.realityGlitch > 0) {
+    STATE.realityGlitch *= 0.98;
+  }
+  
+  // Time dilation decay
+  if (STATE.timeDilation !== 1) {
+    STATE.timeDilation += (1 - STATE.timeDilation) * 0.02;
+  }
+}
+
+// === SAVE/LOAD SYSTEM ===
+function saveGame() {
+  const saveData = {
+    highScore: Math.max(STATE.save.highScore, score),
+    totalScore: STATE.save.totalScore + score,
+    weaponLevel: STATE.weaponLevel,
+    weaponXP: STATE.weaponXP,
+    maxWaveReached: STATE.wave.maxWave,
+    playTime: STATE.save.playTime,
+    lastSave: Date.now(),
+    hrv: STATE.hrv.value,
+    p2: {
+      weaponLevel: STATE.p2.weaponLevel,
+      weaponXP: STATE.p2.weaponXP,
+      ultCharge: STATE.p2.ultCharge
+    }
+  };
+  
+  try {
+    localStorage.setItem('nosso_personagem_save', JSON.stringify(saveData));
+    STATE.save = { ...STATE.save, ...saveData };
+    STATE.save.lastSave = Date.now();
+    showSaveNotification('💾 JOGO SALVO!');
+  } catch (e) {
+    console.warn('Save failed:', e);
+  }
+}
+
+function loadGame() {
+  try {
+    const data = JSON.parse(localStorage.getItem('nosso_personagem_save') || '{}');
+    if (data.highScore) {
+      STATE.save = { ...STATE.save, ...data };
+      showSaveNotification('📂 JOGO CARREGADO!');
+      return data;
+    }
+  } catch (e) {
+    console.warn('Load failed:', e);
+  }
+  return null;
+}
+
+function showSaveNotification(msg) {
+  const el = document.createElement('div');
+  el.className = 'save-notification show';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 500);
+  }, 3000);
+}
+
+// === WEBXR / VR ===
+async function enterVR() {
+  if (!navigator.xr) {
+    alert('WebXR não suportado neste navegador');
+    return;
+  }
+  
+  try {
+    const session = await navigator.xr.requestSession('immersive-vr', {
+      requiredFeatures: ['local-floor', 'bounded-floor'],
+      optionalFeatures: ['hand-tracking', 'eye-tracking']
+    });
+    
+    STATE.vr.active = true;
+    STATE.vr.session = session;
+    document.getElementById('vrBtn').classList.add('active');
+    document.getElementById('vrBtn').textContent = '🥽 SAIR';
+    
+    session.addEventListener('end', () => {
+      STATE.vr.active = false;
+      STATE.vr.session = null;
+      document.getElementById('vrBtn').classList.remove('active');
+      document.getElementById('vrBtn').textContent = '🥽 VR';
+    });
+    
+    // Initialize VR renderer
+    initVRRenderer(session);
+    
+  } catch (e) {
+    console.error('VR failed:', e);
+    alert('Falha ao entrar no VR: ' + e.message);
+  }
+}
+
+function initVRRenderer(session) {
+  const canvas = document.getElementById('canvas');
+  const gl = canvas.getContext('webgl', { xrCompatible: true });
+  STATE.vr.gl = gl;
+  
+  // Create Merkaba geometry for VR
+  createMerkabaGeometry(gl);
+  
+  session.requestReferenceSpace('local-floor').then(frameOfRef => {
+    STATE.vr.frameOfRef = frameOfRef;
+    session.requestAnimationFrame(onVRFrame);
+  });
+}
+
+function onVRFrame(time, frame) {
+  if (!STATE.vr.active) return;
+  
+  const session = STATE.vr.session;
+  const gl = STATE.vr.gl;
+  const frameOfRef = STATE.vr.frameOfRef;
+  
+  session.requestAnimationFrame(onVRFrame);
+  
+  const pose = frame.getViewerPose(frameOfRef);
+  if (!pose) return;
+  
+  const layer = frame.session.renderState.baseLayer;
+  gl.bindFramebuffer(gl.FRAMEBUFFER, layer.framebuffer);
+  gl.clearColor(0.05, 0.05, 0.1, 1);
+  gl.clearDepth(1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  
+  // Render Merkaba for each eye
+  for (const view of pose.views) {
+    const viewport = layer.getViewport(view);
+    gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
+    
+    // Render Merkaba
+    renderMerkabaVR(gl, view.transform.inverse.matrix);
+  }
+}
+
+function createMerkabaGeometry(gl) {
+  // Two interlocking tetrahedrons = Merkaba
+  const vertices = new Float32Array([
+    // Tetrahedron 1 (pointing up)
+    0, 1, 0,  -0.866, -0.5, 0.5,  0.866, -0.5, 0.5,
+    0, 1, 0,  0.866, -0.5, 0.5,  0, -0.5, -1,
+    0, 1, 0,  0, -0.5, -1,  -0.866, -0.5, 0.5,
+    -0.866, -0.5, 0.5,  0.866, -0.5, 0.5,  0, -0.5, -1,
+    // Tetrahedron 2 (pointing down)
+    0, -1, 0,  0.866, 0.5, 0.5,  -0.866, 0.5, 0.5,
+    0, -1, 0,  0, 0.5, -1,  0.866, 0.5, 0.5,
+    0, -1, 0,  -0.866, 0.5, 0.5,  0, 0.5, -1,
+    -0.866, 0.5, 0.5,  0.866, 0.5, 0.5,  0, 0.5, -1,
+  ]);
+  
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+  STATE.vr.merkabaGeo = { buffer, count: vertices.length / 3 };
+}
+
+function renderMerkabaVR(gl, viewMatrix) {
+  // Simple VR render - would need shaders for full implementation
+  // This is a placeholder for the actual WebGL VR rendering
+}
+
+function drawParticles() {
+  ctx.save();
+  STATE.particles.forEach(p => {
+    ctx.globalAlpha = p.life / 120 * 0.5;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.restore();
+}
+
+function drawScreenEffects() {
+  // Screen flash - SUAVE AGORA
+  if (STATE.screenFlash > 0.01) {
+    ctx.save();
+    ctx.globalAlpha = STATE.screenFlash * 0.05;  // mais fraco
+    ctx.fillStyle = '#ffd700';  // dourado suave
+    ctx.fillRect(0, 0, w, h);
+    ctx.restore();
+  }
+  
+  // Reality glitch
+  if (STATE.realityGlitch > 0.01) {
+    ctx.save();
+    ctx.globalAlpha = STATE.realityGlitch * 0.1;
+    for (let i = 0; i < 5; i++) {
+      const y = Math.random() * h;
+      const h2 = Math.random() * 50 + 10;
+      ctx.drawImage(canvas, 0, y, w, h2, (Math.random() - 0.5) * 20 * STATE.realityGlitch, y, w, h2);
+    }
+    ctx.restore();
+  }
+}
+
+function drawMultiplayerGhosts() {
+  if (!STATE.multiplayer.connected) return;
+  
+  STATE.multiplayer.ghosts.forEach(ghost => {
+    ctx.save();
+    ctx.globalAlpha = ghost.alpha * 0.4;
+    ctx.translate(ghost.x, ghost.y);
+    ctx.rotate(ghost.angle);
+    // Draw ghost character (simplified)
+    ctx.fillStyle = '#00ff88';
+    ctx.beginPath();
+    ctx.moveTo(0, -20);
+    ctx.lineTo(15, 15);
+    ctx.lineTo(-15, 15);
+    ctx.closePath();
+    ctx.fill();
+    // Ghost label
+    ctx.fillStyle = '#00ff88';
+    ctx.font = '10px Segoe UI';
+    ctx.textAlign = 'center';
+    ctx.fillText(`P${ghost.weaponLevel}`, 0, 30);
+    ctx.restore();
+  });
+}
+
+// === EVENT LISTENERS FOR NEW UI ===
+document.getElementById('hrvConnectBtn')?.addEventListener('click', connectHRV);
+document.getElementById('hrvSimulateBtn')?.addEventListener('click', simulateHRV);
+document.getElementById('vrBtn')?.addEventListener('click', () => {
+  if (STATE.vr.active) {
+    STATE.vr.session?.end();
+  } else {
+    enterVR();
+  }
+});
+
+// Start survival mode on key
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'V' && !STATE.wave.active) {
+    startSurvivalMode();
+    showSaveNotification('🌊 MODO SOBREVIVÊNCIA INICIADO!');
+  }
+  if (e.key === 'M' && !STATE.multiplayer.connected) {
+    connectMultiplayer();
+    showSaveNotification('👻 MULTIPLAYER CONECTADO!');
+  }
+  if (e.key === 'L') {
+    loadGame();
+  }
+  if (e.key === 'S' && e.ctrlKey) {
+    e.preventDefault();
+    saveGame();
+  }
+});
+
+// Load game on startup
+const saved = loadGame();
+if (saved) {
+  score = saved.totalScore || 0;
+  STATE.weaponLevel = saved.weaponLevel || 0;
+  STATE.weaponXP = saved.weaponXP || 0;
+  STATE.p2.weaponLevel = saved.p2?.weaponLevel || 0;
+  STATE.p2.weaponXP = saved.p2?.weaponXP || 0;
+  STATE.wave.maxWave = saved.maxWaveReached || 1;
+}
+
+render();
+
+setInterval(() => {
+  if (STATE.trail.length > 0) {
+    const p = STATE.trail[Math.floor(Math.random() * STATE.trail.length)];
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = 0.3;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, Math.random() * 3 + 1, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}, 100);
+
+console.log('%c NOSSO PERSONAGEM EVOLUÍDO ', 'background: linear-gradient(135deg, #ffd700, #ff006e); color: #0a0a0f; font-size: 14px; font-weight: bold; padding: 4px 8px; border-radius: 4px;');
+console.log('%c Stack de 64 = ∞ | Lumin & Alyssin | Gang Unida ', 'color: #ffd700; font-size: 12px;');
+console.log('Controles: WASD/Setas=mover | Espaço=dash(combo) | Shift=slow | B=Beyblade | P=Portal | T=trail');
+</script>
+</body>
+</html>

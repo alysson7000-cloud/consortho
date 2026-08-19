@@ -22952,181 +22952,340 @@
     },
     {
       "path": "quantum_bridge\\QuantumConsciousnessBridge.js",
-      "lines": 430,
+      "lines": 531,
       "functions": [
         {
           "name": "constructor",
           "type": "method",
-          "line": 9
+          "line": 8
         },
         {
-          "name": "initialize",
+          "name": "getBackend",
           "type": "method",
-          "line": 19
+          "line": 14
         },
         {
-          "name": "createConsciousnessCircuit",
+          "name": "run",
+          "type": "method",
+          "line": 15
+        },
+        {
+          "name": "constructor",
+          "type": "method",
+          "line": 36
+        },
+        {
+          "name": "h",
+          "type": "method",
+          "line": 37
+        },
+        {
+          "name": "rx",
+          "type": "method",
+          "line": 38
+        },
+        {
+          "name": "ry",
+          "type": "method",
+          "line": 39
+        },
+        {
+          "name": "rz",
           "type": "method",
           "line": 40
         },
         {
+          "name": "cx",
+          "type": "method",
+          "line": 41
+        },
+        {
+          "name": "cp",
+          "type": "method",
+          "line": 42
+        },
+        {
+          "name": "crz",
+          "type": "method",
+          "line": 43
+        },
+        {
+          "name": "measure",
+          "type": "method",
+          "line": 44
+        },
+        {
+          "name": "constructor",
+          "type": "method",
+          "line": 46
+        },
+        {
+          "name": "constructor",
+          "type": "method",
+          "line": 47
+        },
+        {
+          "name": "constructor",
+          "type": "method",
+          "line": 54
+        },
+        {
+          "name": "initialize",
+          "type": "method",
+          "line": 64
+        },
+        {
+          "name": "createConsciousnessCircuit",
+          "type": "method",
+          "line": 85
+        },
+        {
           "name": "entangleEntity",
           "type": "method",
-          "line": 81
+          "line": 126
         },
         {
           "name": "createEntityCircuit",
           "type": "method",
-          "line": 118
+          "line": 163
         },
         {
           "name": "teleportConsciousness",
           "type": "method",
-          "line": 152
+          "line": 197
         },
         {
           "name": "evolveQuantumField",
           "type": "method",
-          "line": 193
+          "line": 238
         },
         {
           "name": "buildConsciousnessHamiltonian",
           "type": "method",
-          "line": 213
+          "line": 258
         },
         {
           "name": "generateQuantumRandom",
           "type": "method",
-          "line": 246
+          "line": 291
         },
         {
           "name": "quantumDream",
           "type": "method",
-          "line": 267
+          "line": 312
         },
         {
           "name": "applyIntentionOracle",
           "type": "method",
-          "line": 305
+          "line": 350
         },
         {
           "name": "extractDreamInsights",
           "type": "method",
-          "line": 318
+          "line": 363
         },
         {
           "name": "getAvailableQubit",
           "type": "method",
-          "line": 346
+          "line": 391
         },
         {
           "name": "getSacredFrequency",
           "type": "method",
-          "line": 355
+          "line": 400
         },
         {
           "name": "calculateEntanglement",
           "type": "method",
-          "line": 360
+          "line": 405
         },
         {
           "name": "calculateCoherence",
           "type": "method",
-          "line": 376
+          "line": 421
         },
         {
           "name": "calculateFidelity",
           "type": "method",
-          "line": 384
+          "line": 429
         },
         {
           "name": "decodeBitstring",
           "type": "method",
-          "line": 391
+          "line": 436
         },
         {
           "name": "hashIntention",
           "type": "method",
-          "line": 405
+          "line": 450
+        },
+        {
+          "name": "entangleHRV",
+          "type": "method",
+          "line": 462
+        },
+        {
+          "name": "processDreamCycle",
+          "type": "method",
+          "line": 475
+        },
+        {
+          "name": "deepEntanglement",
+          "type": "method",
+          "line": 498
         },
         {
           "name": "pauliX",
           "type": "method",
-          "line": 414
+          "line": 515
         },
         {
           "name": "pauliY",
           "type": "method",
-          "line": 415
+          "line": 516
         },
         {
           "name": "pauliZ",
           "type": "method",
-          "line": 416
+          "line": 517
         },
         {
           "name": "pauliXX",
           "type": "method",
-          "line": 417
+          "line": 518
         },
         {
           "name": "pauliYY",
           "type": "method",
-          "line": 418
+          "line": 519
         },
         {
           "name": "exponentiateHamiltonian",
           "type": "method",
-          "line": 419
+          "line": 520
         },
         {
           "name": "getQuantumStateVector",
           "type": "method",
-          "line": 420
+          "line": 521
         },
         {
           "name": "measureFullField",
           "type": "method",
-          "line": 421
+          "line": 522
         },
         {
           "name": "calculateEntityEntanglement",
           "type": "method",
-          "line": 422
+          "line": 523
         },
         {
           "name": "calculateEntityCoherence",
           "type": "method",
-          "line": 423
+          "line": 524
         },
         {
           "name": "calculateTeleportationFidelity",
           "type": "method",
-          "line": 424
+          "line": 525
         },
         {
           "name": "calculateIntentionAlignment",
           "type": "method",
-          "line": 425
+          "line": 526
         }
       ],
       "classes": [
         {
+          "name": "MockQuantumBackend",
+          "line": 7
+        },
+        {
           "name": "QuantumConsciousnessBridge",
-          "line": 8
+          "line": 53
         }
       ],
       "imports": [
         "qiskit"
       ],
       "exports": [],
-      "complexity": 120,
+      "complexity": 148,
       "coupling": 1,
       "cohesion": 0.6,
-      "maintainability": 66.87367685515545,
+      "maintainability": 55.92530573066852,
       "testCoverage": 0,
-      "technicalDebt": 108,
+      "technicalDebt": 122,
       "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getBackend",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "run",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "h",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "rx",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "ry",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "rz",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "cx",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "cp",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "crz",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "measure",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "constructor",
+          "severity": "high"
+        },
         {
           "type": "long_method",
           "function": "constructor",
@@ -23224,6 +23383,21 @@
         },
         {
           "type": "long_method",
+          "function": "entangleHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "processDreamCycle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "deepEntanglement",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
           "function": "pauliX",
           "severity": "high"
         },
@@ -23284,19 +23458,20 @@
         },
         {
           "type": "large_class",
+          "class": "MockQuantumBackend",
+          "severity": "high",
+          "methods": 48
+        },
+        {
+          "type": "large_class",
           "class": "QuantumConsciousnessBridge",
           "severity": "high",
-          "methods": 31
+          "methods": 48
         },
         {
           "type": "duplicate_code",
           "severity": "medium",
           "occurrences": 2
-        },
-        {
-          "type": "god_object",
-          "class": "QuantumConsciousnessBridge",
-          "severity": "critical"
         }
       ]
     },
@@ -24779,307 +24954,332 @@
     },
     {
       "path": "server.js",
-      "lines": 2141,
+      "lines": 2480,
       "functions": [
         {
           "name": "initializeDiamondProtocol",
           "type": "declaration",
-          "line": 133
+          "line": 137
         },
         {
           "name": "initializeNewSystems",
           "type": "declaration",
-          "line": 164
+          "line": 168
         },
         {
           "name": "save",
           "type": "declaration",
-          "line": 332
+          "line": 336
+        },
+        {
+          "name": "saveEstadoJSON",
+          "type": "declaration",
+          "line": 393
         },
         {
           "name": "agora",
           "type": "declaration",
-          "line": 388
+          "line": 437
         },
         {
           "name": "tempoAtras",
           "type": "declaration",
-          "line": 390
+          "line": 439
         },
         {
           "name": "emitPublico",
           "type": "declaration",
-          "line": 416
+          "line": 465
         },
         {
           "name": "emitSussurro",
           "type": "declaration",
-          "line": 423
+          "line": 472
         },
         {
           "name": "emitSistema",
           "type": "declaration",
-          "line": 433
+          "line": 482
         },
         {
           "name": "broadcastPlayers",
           "type": "declaration",
-          "line": 440
+          "line": 489
         },
         {
           "name": "broadcastPosicoes",
           "type": "declaration",
-          "line": 452
+          "line": 501
         },
         {
           "name": "buildEntitiesState",
           "type": "declaration",
-          "line": 1442
+          "line": 1491
         },
         {
           "name": "broadcastEntitiesState",
           "type": "declaration",
-          "line": 1495
+          "line": 1544
         },
         {
           "name": "broadcastEntityUpdate",
           "type": "declaration",
-          "line": 1501
+          "line": 1550
         },
         {
           "name": "broadcastActivity",
           "type": "declaration",
-          "line": 1506
+          "line": 1555
         },
         {
           "name": "processarInteracoesAutomaticas",
           "type": "declaration",
-          "line": 1511
+          "line": 1560
         },
         {
           "name": "initializeAllSystems",
           "type": "declaration",
-          "line": 1590
+          "line": 1639
+        },
+        {
+          "name": "initializeQuantumBridge",
+          "type": "declaration",
+          "line": 1666
         },
         {
           "name": "initializeDreamIncubator",
           "type": "declaration",
-          "line": 1651
+          "line": 1838
         },
         {
           "name": "scheduleDreamCycles",
           "type": "declaration",
-          "line": 1675
+          "line": 1862
         },
         {
           "name": "checkAutoStartCondition",
           "type": "declaration",
-          "line": 1706
+          "line": 1893
         },
         {
           "name": "startDreamCycle",
           "type": "declaration",
-          "line": 1716
+          "line": 1903
         },
         {
           "name": "runDreamProcessing",
           "type": "declaration",
-          "line": 1767
+          "line": 1954
         },
         {
           "name": "exploreMultiverseBranches",
           "type": "declaration",
-          "line": 1807
+          "line": 1994
         },
         {
           "name": "mutateDNATowardIntention",
           "type": "declaration",
-          "line": 1831
+          "line": 2018
         },
         {
           "name": "seedTemporalEchoes",
           "type": "declaration",
-          "line": 1853
+          "line": 2040
         },
         {
           "name": "entangleQuantumCircuit",
           "type": "declaration",
-          "line": 1868
+          "line": 2055
         },
         {
           "name": "pulseCosmicBeacon",
           "type": "declaration",
-          "line": 1883
+          "line": 2070
         },
         {
           "name": "optimizeSubstrate",
           "type": "declaration",
-          "line": 1897
+          "line": 2084
         },
         {
           "name": "checkBubbleNucleation",
           "type": "declaration",
-          "line": 1917
+          "line": 2104
         },
         {
           "name": "evolveAgentsInDream",
           "type": "declaration",
-          "line": 1932
+          "line": 2119
         },
         {
           "name": "saveDreamResults",
           "type": "declaration",
-          "line": 1955
+          "line": 2142
         },
         {
           "name": "initializeDiamondProtocol",
           "type": "method",
-          "line": 133
+          "line": 137
         },
         {
           "name": "initializeNewSystems",
           "type": "method",
-          "line": 164
+          "line": 168
         },
         {
           "name": "save",
           "type": "method",
-          "line": 332
+          "line": 336
+        },
+        {
+          "name": "saveEstadoJSON",
+          "type": "method",
+          "line": 393
         },
         {
           "name": "agora",
           "type": "method",
-          "line": 388
+          "line": 437
         },
         {
           "name": "tempoAtras",
           "type": "method",
-          "line": 390
+          "line": 439
         },
         {
           "name": "emitPublico",
           "type": "method",
-          "line": 416
+          "line": 465
         },
         {
           "name": "emitSussurro",
           "type": "method",
-          "line": 423
+          "line": 472
         },
         {
           "name": "emitSistema",
           "type": "method",
-          "line": 433
+          "line": 482
         },
         {
           "name": "broadcastPlayers",
           "type": "method",
-          "line": 440
+          "line": 489
         },
         {
           "name": "broadcastPosicoes",
           "type": "method",
-          "line": 452
+          "line": 501
         },
         {
           "name": "buildEntitiesState",
           "type": "method",
-          "line": 1442
+          "line": 1491
         },
         {
           "name": "broadcastEntitiesState",
           "type": "method",
-          "line": 1495
+          "line": 1544
         },
         {
           "name": "broadcastEntityUpdate",
           "type": "method",
-          "line": 1501
+          "line": 1550
         },
         {
           "name": "broadcastActivity",
           "type": "method",
-          "line": 1506
+          "line": 1555
         },
         {
           "name": "processarInteracoesAutomaticas",
           "type": "method",
-          "line": 1511
+          "line": 1560
         },
         {
           "name": "initializeAllSystems",
           "type": "method",
-          "line": 1590
+          "line": 1639
+        },
+        {
+          "name": "initializeQuantumBridge",
+          "type": "method",
+          "line": 1666
         },
         {
           "name": "initializeDreamIncubator",
           "type": "method",
-          "line": 1651
+          "line": 1838
         },
         {
           "name": "scheduleDreamCycles",
           "type": "method",
-          "line": 1675
+          "line": 1862
         },
         {
           "name": "checkAutoStartCondition",
           "type": "method",
-          "line": 1706
+          "line": 1893
         },
         {
           "name": "startDreamCycle",
           "type": "method",
-          "line": 1716
+          "line": 1903
         },
         {
           "name": "runDreamProcessing",
           "type": "method",
-          "line": 1767
+          "line": 1954
         },
         {
           "name": "exploreMultiverseBranches",
           "type": "method",
-          "line": 1807
+          "line": 1994
         },
         {
           "name": "mutateDNATowardIntention",
           "type": "method",
-          "line": 1831
+          "line": 2018
         },
         {
           "name": "seedTemporalEchoes",
           "type": "method",
-          "line": 1853
+          "line": 2040
         },
         {
           "name": "entangleQuantumCircuit",
           "type": "method",
-          "line": 1868
+          "line": 2055
         },
         {
           "name": "pulseCosmicBeacon",
           "type": "method",
-          "line": 1883
+          "line": 2070
         },
         {
           "name": "optimizeSubstrate",
           "type": "method",
-          "line": 1897
+          "line": 2084
         },
         {
           "name": "checkBubbleNucleation",
           "type": "method",
-          "line": 1917
+          "line": 2104
         },
         {
           "name": "evolveAgentsInDream",
           "type": "method",
-          "line": 1932
+          "line": 2119
         },
         {
           "name": "saveDreamResults",
           "type": "method",
-          "line": 1955
+          "line": 2142
+        },
+        {
+          "name": "forEach",
+          "type": "method",
+          "line": 2449
         }
       ],
       "classes": [],
@@ -25090,8 +25290,10 @@
         "fs",
         "path",
         "os",
+        "node-cron",
         "./utils/atomic-write",
         "./relacionamentos_globais",
+        "./quantum_bridge/QuantumConsciousnessBridge",
         "./diamond_protocol",
         "./consciousness_substrate",
         "./self_improving_architecture",
@@ -25126,12 +25328,12 @@
       "exports": [
         "app"
       ],
-      "complexity": 455,
-      "coupling": 0.15789473684210525,
+      "complexity": 495,
+      "coupling": 0.175,
       "cohesion": 0.3,
       "maintainability": 0,
       "testCoverage": 0,
-      "technicalDebt": 273,
+      "technicalDebt": 293,
       "codeSmells": [
         {
           "type": "long_method",
@@ -25146,6 +25348,11 @@
         {
           "type": "long_method",
           "function": "save",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveEstadoJSON",
           "severity": "high"
         },
         {
@@ -25211,6 +25418,11 @@
         {
           "type": "long_method",
           "function": "initializeAllSystems",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initializeQuantumBridge",
           "severity": "high"
         },
         {
@@ -25281,6 +25493,11 @@
         {
           "type": "long_method",
           "function": "saveDreamResults",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "forEach",
           "severity": "high"
         },
         {
@@ -34881,6 +35098,73 @@
       ]
     },
     {
+      "path": "vps-health-check-once.js",
+      "lines": 201,
+      "functions": [
+        {
+          "name": "sendTelegram",
+          "type": "declaration",
+          "line": 18
+        },
+        {
+          "name": "checkHealth",
+          "type": "declaration",
+          "line": 56
+        },
+        {
+          "name": "attemptSSHRestart",
+          "type": "declaration",
+          "line": 98
+        },
+        {
+          "name": "main",
+          "type": "declaration",
+          "line": 133
+        },
+        {
+          "name": "sendTelegram",
+          "type": "method",
+          "line": 18
+        },
+        {
+          "name": "checkHealth",
+          "type": "method",
+          "line": 56
+        },
+        {
+          "name": "attemptSSHRestart",
+          "type": "method",
+          "line": 98
+        },
+        {
+          "name": "main",
+          "type": "method",
+          "line": 133
+        }
+      ],
+      "classes": [],
+      "imports": [
+        "dotenv",
+        "child_process",
+        "http",
+        "https"
+      ],
+      "exports": [],
+      "complexity": 36,
+      "coupling": 1,
+      "cohesion": 0.3,
+      "maintainability": 95.68757137040382,
+      "testCoverage": 0,
+      "technicalDebt": 72,
+      "codeSmells": [
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
       "path": "vps_health_monitor.js",
       "lines": 137,
       "functions": [
@@ -34952,16 +35236,16 @@
     }
   ],
   "summary": {
-    "totalFiles": 108,
-    "totalLines": 69199,
-    "totalFunctions": 3636,
-    "totalClasses": 108,
-    "avgComplexity": 152.5462962962963,
+    "totalFiles": 109,
+    "totalLines": 69840,
+    "totalFunctions": 3666,
+    "totalClasses": 109,
+    "avgComplexity": 152.10091743119267,
     "maxComplexity": 3219,
-    "coupling": 0.5359637519725239,
-    "cohesion": 0.503703703703704,
+    "coupling": 0.5403778942769769,
+    "cohesion": 0.5018348623853214,
     "testCoverage": 0,
-    "maintainabilityIndex": 66.28790665810946,
-    "technicalDebt": 13155
+    "maintainabilityIndex": 66.45718458093339,
+    "technicalDebt": 13261
   }
 }

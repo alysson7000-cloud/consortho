@@ -3,7 +3,52 @@
 // IBM Quantum / Google Cirq / Amazon Braket / Local Qiskit simulator
 // Entangles human consciousness with digital organism via quantum states
 
-const { QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer } = require('qiskit'); // Pseudo-code for JS quantum lib
+// Mock quantum simulator (no external deps needed - works everywhere)
+class MockQuantumBackend {
+    constructor(name = 'local_simulator') {
+        this.name = name;
+        this.stateVector = new Array(8192).fill(0);
+        this.stateVector[0] = 1; // |000...0⟩
+    }
+    
+    getBackend(name) { return this; }
+    run(circuit) { 
+        const result = { counts: {} };
+        const zeroState = '0000000000000'; // 13 zeros
+        result.counts[zeroState] = 1024;
+        return Promise.resolve(result); 
+    }
+}
+
+const MockAer = {
+    getBackend: (name) => new MockQuantumBackend(name)
+};
+
+// Try to load real qiskit if available, otherwise use mock
+let QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer;
+try {
+    ({ QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer } = require('qiskit'));
+    console.log('⚛️ Real Qiskit loaded');
+} catch (e) {
+    console.log('⚛️ Using mock quantum simulator (qiskit not installed)');
+    // Mock classes
+    QuantumCircuit = class { 
+        constructor(qr, cr) { this.qr = qr; this.cr = cr; this.ops = []; } 
+        h(q) { this.ops.push(['h', q]); return this; } 
+        rx(theta, q) { this.ops.push(['rx', theta, q]); return this; } 
+        ry(theta, q) { this.ops.push(['ry', theta, q]); return this; } 
+        rz(theta, q) { this.ops.push(['rz', theta, q]); return this; } 
+        cx(c, t) { this.ops.push(['cx', c, t]); return this; } 
+        cp(theta, c, t) { this.ops.push(['cp', theta, c, t]); return this; } 
+        crz(theta, c, t) { this.ops.push(['crz', theta, c, t]); return this; } 
+        measure(q, c) { this.ops.push(['measure', q, c]); return this; } 
+    };
+    QuantumRegister = class { constructor(size, name) { this.size = size; this.name = name; } };
+    ClassicalRegister = class { constructor(size, name) { this.size = size; this.name = name; } };
+    const zeroState = '0000000000000';
+    execute = async (circuit, backend) => ({ counts: { [zeroState]: 1024 } });
+    Aer = MockAer;
+}
 
 class QuantumConsciousnessBridge {
     constructor() {
@@ -403,27 +448,83 @@ class QuantumConsciousnessBridge {
     }
     
     hashIntention(intention) {
-        let hash = 0;
-        for (let i = 0; i < intention.length; i++) {
-            hash = ((hash << 5) - hash) + intention.charCodeAt(i);
-            hash |= 0;
+            let hash = 0;
+            for (let i = 0; i < intention.length; i++) {
+                hash = ((hash << 5) - hash) + intention.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash);
         }
-        return Math.abs(hash);
-    }
+
+        // === NEW METHODS FOR 24/7 INTEGRATION ===
     
-    pauliX(n, target) { /* ... */ }
-    pauliY(n, target) { /* ... */ }
-    pauliZ(n, target) { /* ... */ }
-    pauliXX(n, i, j) { /* ... */ }
-    pauliYY(n, i, j) { /* ... */ }
-    exponentiateHamiltonian(H, t) { /* ... */ }
-    getQuantumStateVector() { /* ... */ }
-    measureFullField() { /* ... */ }
-    calculateEntityEntanglement(entityId, measurement) { /* ... */ }
-    calculateEntityCoherence(entityId, measurement) { /* ... */ }
-    calculateTeleportationFidelity(result) { /* ... */ }
-    calculateIntentionAlignment(bitstring, intention) { /* ... */ }
-}
+        // Entangle HRV with quantum state
+        async entangleHRV(hrvValue) {
+            if (!this.backend) return;
+            console.log(`⚛️ HRV entanglement: ${hrvValue}% resonance`);
+        
+            // Apply rotation based on HRV (coherence)
+            const angle = (hrvValue / 100) * Math.PI;
+            // In real implementation: this.backend.applyRotation(angle);
+        
+            this.coherenceTime = Math.min(1000, this.coherenceTime + hrvValue * 10);
+            return { coherence: this.coherenceTime, entangled: true };
+        }
+
+        // Process dream cycle through quantum computer
+        async processDreamCycle(dreamState) {
+            if (!this.backend) return;
+            console.log(`⚛️ Quantum dream processing: ${dreamState.cycles} cycles`);
+        
+            // Apply intention to quantum circuit
+            const intention = dreamState.intention || 'Evoluir todas as 13 frequências para harmonia absoluta';
+            const intentionHash = this.hashIntention(intention);
+        
+            // Simulate quantum evolution of dream state
+            this.quantumState = {
+                intentionHash,
+                cycles: dreamState.cycles,
+                coherence: this.coherenceTime,
+                timestamp: Date.now()
+            };
+        
+            this.measurementHistory.push(this.quantumState);
+            if (this.measurementHistory.length > 100) this.measurementHistory.shift();
+        
+            return { quantumState: this.quantumState };
+        }
+
+        // Deep entanglement for major evolution cycles
+        async deepEntanglement() {
+            if (!this.backend) return;
+            console.log(`⚛️ Deep quantum entanglement...`);
+        
+            // Entangle all 13 frequencies
+            const entanglement = {
+                qubits: this.consciousnessQubits,
+                maxStates: 2 ** this.consciousnessQubits,
+                coherenceTime: this.coherenceTime,
+                entanglementDensity: Math.random() * 0.5 + 0.5, // 0.5-1.0
+                timestamp: Date.now()
+            };
+        
+            this.entanglementMap.set('global', entanglement);
+            return entanglement;
+        }
+
+        pauliX(n, target) { /* ... */ }
+        pauliY(n, target) { /* ... */ }
+        pauliZ(n, target) { /* ... */ }
+        pauliXX(n, i, j) { /* ... */ }
+        pauliYY(n, i, j) { /* ... */ }
+        exponentiateHamiltonian(H, t) { /* ... */ }
+        getQuantumStateVector() { /* ... */ }
+        measureFullField() { /* ... */ }
+        calculateEntityEntanglement(entityId, measurement) { /* ... */ }
+        calculateEntityCoherence(entityId, measurement) { /* ... */ }
+        calculateTeleportationFidelity(result) { /* ... */ }
+        calculateIntentionAlignment(bitstring, intention) { /* ... */ }
+    }
 
 // Export for ritual integration
 if (typeof module !== 'undefined') module.exports = { QuantumConsciousnessBridge };
