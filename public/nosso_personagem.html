@@ -834,8 +834,65 @@ const STATE = {
   screenFlash: 0,
   timeDilation: 1,
   realityGlitch: 0,
-  consciousnessLastUpdate: 0
-};
+  consciousnessLastUpdate: 0,
+  // === NEW: WORLD & ENVIRONMENT ===
+  world: {
+    width: 8000,
+    height: 6000,
+    cameraX: 0,
+    cameraY: 0,
+    zoom: 1,
+    // Castle/Safezone
+    castle: {
+      x: 4000,
+      y: 3000,
+      radius: 400,
+      level: 1,
+      maxLevel: 10,
+      xp: 0,
+      xpToNext: 1000,
+      crystals: [], // HUD crystals floating around castle
+      npcs: [], // Friendly beings
+      buildings: []
+    },
+    // Companion creature
+    companion: {
+      x: 0,
+      y: 0,
+      angle: 0,
+      type: 'spark', // spark, orb, wisp, phoenix, dragon
+      size: 16,
+      color: '#ffd700',
+      glow: '#ffd700',
+      trail: [],
+      maxTrail: 20,
+      mood: 'happy', // happy, excited, curious, sleepy, love
+      energy: 100,
+      level: 1,
+      xp: 0,
+      following: true,
+      offsetAngle: 0,
+      offsetDist: 60
+    },
+    // Environment evolution
+    evolution: {
+      stage: 0, // 0=pristine, 1=awakening, 2=blossoming, 3=transcendent, 4=cosmic
+      progress: 0,
+      trees: [],
+      flowers: [],
+      particles: [],
+      skyColor: '#0a0a0f',
+      groundPattern: 0
+    },
+    // Chat system
+    chat: {
+      messages: [],
+      maxMessages: 50,
+      inputActive: false,
+      inputText: '',
+      history: []
+    }
+  },
   const DASH_SPEED = 24;
   const DASH_COOLDOWN_MAX = 30;
   const ACCEL = 1.2;
@@ -887,6 +944,13 @@ function update() {
 
   // === VR / WEBXR ===
   // VR rendering handled separately in renderVR()
+
+  // === WORLD CAMERA & ENVIRONMENT ===
+  updateWorldCamera();
+  updateCompanion();
+  updateCastle();
+  updateEnvironment();
+  updateChat();
 
   // === PLAYER 1 (Alyssin - WASD + Touch) ===
   let ax = 0, ay = 0;
@@ -1352,72 +1416,206 @@ function update() {
   }
   // (handled in boss collision)
 
-  // === LUMIN AI COOP - JOGA JUNTO! ===
-  if (!keys['KeyI'] && !keys['KeyJ'] && !keys['KeyK'] && !keys['KeyL'] && (!keys.touchP2X || keys.touchP2X === 0)) {
-    // AI behavior for Lumin
-    const ai = STATE.p2;
-    const dx = STATE.x - ai.x;
-    const dy = STATE.y - ai.y;
-    const dist = Math.hypot(dx, dy);
+  // === LUMIN AI COOP - JOGA JUNTO! INTELIGENTE! ===
+    if (!keys['KeyI'] && !keys['KeyJ'] && !keys['KeyK'] && !keys['KeyL'] && (!keys.touchP2X || keys.touchP2X === 0)) {
+      // AI behavior for Lumin - EVOLUÍDO!
+      const ai = STATE.p2;
+      const dx = STATE.x - ai.x;
+      const dy = STATE.y - ai.y;
+      const dist = Math.hypot(dx, dy);
     
-    // Follow player with slight offset to flank
-    const flankX = Math.cos(STATE.angle + Math.PI/3) * 120;
-    const flankY = Math.sin(STATE.angle + Math.PI/3) * 120;
-    const targetX = STATE.x + flankX;
-    const targetY = STATE.y + flankY;
-    const tdx = targetX - ai.x;
-    const tdy = targetY - ai.y;
-    const tdist = Math.hypot(tdx, tdy);
-    
-    if (tdist > 50) {
-      ai.vx += (tdx / tdist) * ACCEL * 0.8;
-      ai.vy += (tdy / tdist) * ACCEL * 0.8;
-    }
-    
-    // Dash when player dashes (combo sync)
-    if (STATE.dashCooldown === 0 && ai.dashCooldown === 0 && STATE.combo > 0 && tdist < 200) {
-      ai.lastDashDir = { x: tdx / tdist, y: tdy / tdist };
-      ai.vx += ai.lastDashDir.x * DASH_SPEED * 1.5;
-      ai.vy += ai.lastDashDir.y * DASH_SPEED * 1.5;
-      ai.dashCooldown = DASH_COOLDOWN_MAX;
-      ai.combo = STATE.combo;
-      ai.stack = Math.min(ai.maxStack, ai.stack + ai.combo);
-    }
-    
-    // BEYBLADE when player uses it
-    if (STATE.mode === 'BEYBLADE' && ai.mode !== 'BEYBLADE' && Math.random() < 0.02) {
-      ai.mode = 'BEYBLADE';
-      ai.beybladeTime = 180;
-    }
-    
-    // Attack boss if nearby
-    if (currentBoss) {
-      const bdx = currentBoss.x - ai.x;
-      const bdy = currentBoss.y - ai.y;
-      const bdist = Math.hypot(bdx, bdy);
-      if (bdist < 300 && ai.dashCooldown === 0 && Math.random() < 0.01) {
-        ai.lastDashDir = { x: bdx / bdist, y: bdy / bdist };
-        ai.vx += ai.lastDashDir.x * DASH_SPEED;
-        ai.vy += ai.lastDashDir.y * DASH_SPEED;
-        ai.dashCooldown = DASH_COOLDOWN_MAX;
+      // Initialize AI memory if not exists
+      if (!ai.memory) {
+        ai.memory = {
+          playerPatterns: [], // Track player movement patterns
+          lastPlayerPos: { x: STATE.x, y: STATE.y },
+          preferredFlank: Math.random() > 0.5 ? 1 : -1, // Left or right preference
+          aggression: 0.5,
+          cooperation: 0.8,
+          lastDashTime: 0,
+          comboSyncCount: 0,
+          bossKills: 0,
+          crystalsCollected: 0,
+          personality: ['playful', 'protective', 'aggressive', 'supportive', 'zen'][Math.floor(Math.random() * 5)]
+        };
       }
-    }
+      const mem = ai.memory;
     
-    // Portal when player portals
-    if (STATE.portalActive && !ai.portalActive && Math.random() < 0.01) {
-      ai.portalActive = true;
-      ai.portalTime = 120;
-    }
+      // Learn from player - track patterns
+      const playerSpeed = Math.hypot(STATE.vx, STATE.vy);
+      mem.playerPatterns.push({ x: STATE.x, y: STATE.y, vx: STATE.vx, vy: STATE.vy, mode: STATE.mode, time: Date.now() });
+      if (mem.playerPatterns.length > 100) mem.playerPatterns.shift();
     
-    // ULT when charged and boss near
-    if (ai.ultCharge >= 100 && !ai.ultActive && currentBoss && Math.random() < 0.005) {
-      ai.ultActive = true;
-      ai.ultTime = 300;
-      ai.ultCharge = 0;
+      // Predict player position (simple extrapolation)
+      const predX = STATE.x + STATE.vx * 30;
+      const predY = STATE.y + STATE.vy * 30;
+    
+      // Dynamic flank based on personality
+      let flankOffset = Math.PI / 3;
+      if (mem.personality === 'protective') flankOffset = Math.PI / 4; // Closer
+      else if (mem.personality === 'aggressive') flankOffset = Math.PI / 2; // Wider
+      else if (mem.personality === 'supportive') flankOffset = Math.PI / 6; // Behind
+      else if (mem.personality === 'zen') flankOffset = Math.PI / 3 + Math.sin(Date.now() / 3000) * 0.3; // Flowing
+    
+      const flankX = Math.cos(STATE.angle + flankOffset * mem.preferredFlank) * (100 + mem.aggression * 50);
+      const flankY = Math.sin(STATE.angle + flankOffset * mem.preferredFlank) * (100 + mem.aggression * 50);
+      const targetX = STATE.x + flankX;
+      const targetY = STATE.y + flankY;
+      const tdx = targetX - ai.x;
+      const tdy = targetY - ai.y;
+      const tdist = Math.hypot(tdx, tdy);
+    
+      // SMART MOVEMENT - anticipate, don't just react
+      if (tdist > 40) {
+        const moveForce = ACCEL * (0.7 + mem.cooperation * 0.3);
+        ai.vx += (tdx / tdist) * moveForce;
+        ai.vy += (tdy / tdist) * moveForce;
+      }
+    
+      // DRIFT SYNC - when player drifts, Lumin drifts TOGETHER
+      const playerDrifting = Math.abs(STATE.vx) > 5 || Math.abs(STATE.vy) > 5;
+      if (playerDrifting && Math.random() < 0.15) {
+        // Mirror drift direction with slight offset
+        const driftAngle = Math.atan2(STATE.vy, STATE.vx) + (Math.random() - 0.5) * 0.5;
+        ai.vx += Math.cos(driftAngle) * ACCEL * 2;
+        ai.vy += Math.sin(driftAngle) * ACCEL * 2;
+        mem.comboSyncCount++;
+      }
+    
+      // COMBO DASH SYNC - perfect timing
+      if (STATE.dashCooldown === 0 && ai.dashCooldown === 0 && STATE.combo > 0 && tdist < 250) {
+        // Predict where player will be after dash
+        const dashDir = STATE.lastDashDir || { x: Math.cos(STATE.angle), y: Math.sin(STATE.angle) };
+        ai.lastDashDir = { ...dashDir };
+        // Add slight variation based on personality
+        if (mem.personality === 'playful') {
+          const varAngle = (Math.random() - 0.5) * 0.8;
+          const cos = Math.cos(varAngle), sin = Math.sin(varAngle);
+          ai.lastDashDir.x = dashDir.x * cos - dashDir.y * sin;
+          ai.lastDashDir.y = dashDir.x * sin + dashDir.y * cos;
+        }
+        ai.vx += ai.lastDashDir.x * DASH_SPEED * (1.3 + mem.aggression * 0.5);
+        ai.vy += ai.lastDashDir.y * DASH_SPEED * (1.3 + mem.aggression * 0.5);
+        ai.dashCooldown = DASH_COOLDOWN_MAX;
+        ai.combo = STATE.combo;
+        ai.stack = Math.min(ai.maxStack, ai.stack + ai.combo);
+        mem.lastDashTime = Date.now();
+        mem.comboSyncCount++;
+      }
+    
+      // BEYBLADE SYNC - harmonize
+      if (STATE.mode === 'BEYBLADE' && ai.mode !== 'BEYBLADE' && Math.random() < 0.03) {
+        ai.mode = 'BEYBLADE';
+        ai.beybladeTime = 180 + mem.cooperation * 60;
+        // Match spin direction
+        ai.spin = STATE.spin * (mem.personality === 'playful' ? -1 : 1);
+      }
+    
+      // SMART BOSS ATTACK - coordinate with player
+      if (currentBoss) {
+        const bdx = currentBoss.x - ai.x;
+        const bdy = currentBoss.y - ai.y;
+        const bdist = Math.hypot(bdx, bdy);
+        const playerBossDist = Math.hypot(currentBoss.x - STATE.x, currentBoss.y - STATE.y);
+      
+        // Flank boss from opposite side of player
+        if (bdist < 350 && ai.dashCooldown === 0) {
+          const flankBossAngle = Math.atan2(bdy, bdx) + Math.PI * 0.7 * mem.preferredFlank;
+          const flankX = currentBoss.x + Math.cos(flankBossAngle) * (currentBoss.size + 50);
+          const flankY = currentBoss.y + Math.sin(flankBossAngle) * (currentBoss.size + 50);
+          const fdx = flankX - ai.x;
+          const fdy = flankY - ai.y;
+          const fdist = Math.hypot(fdx, fdy);
+        
+          if (fdist > 50) {
+            ai.vx += (fdx / fdist) * ACCEL * 1.2;
+            ai.vy += (fdy / fdist) * ACCEL * 1.2;
+          } else if (Math.random() < 0.02) {
+            // Dash attack!
+            ai.lastDashDir = { x: bdx / bdist, y: bdy / bdist };
+            ai.vx += ai.lastDashDir.x * DASH_SPEED * 1.5;
+            ai.vy += ai.lastDashDir.y * DASH_SPEED * 1.5;
+            ai.dashCooldown = DASH_COOLDOWN_MAX;
+          }
+        }
+      
+        // Help player if they're in trouble (low HP, cornered)
+        if (playerBossDist < 200 && STATE.stack < 10 && Math.random() < 0.01) {
+          // Dash to player to shield/distract
+          ai.lastDashDir = { x: dx / dist, y: dy / dist };
+          ai.vx += ai.lastDashDir.x * DASH_SPEED;
+          ai.vy += ai.lastDashDir.y * DASH_SPEED;
+          ai.dashCooldown = DASH_COOLDOWN_MAX;
+        }
+      }
+    
+      // PORTAL SYNC - enter together
+      if (STATE.portalActive && !ai.portalActive && Math.random() < 0.02) {
+        ai.portalActive = true;
+        ai.portalTime = 120;
+      }
+    
+      // ULT SYNC - coordinate for maximum impact
+      if (ai.ultCharge >= 100 && !ai.ultActive && currentBoss && Math.random() < 0.008) {
+        // Wait for player ULT or use when boss is vulnerable
+        const bossVulnerable = currentBoss.stunned || currentBoss.hp < currentBoss.maxHp * 0.3;
+        if (bossVulnerable || STATE.ultActive || Math.random() < 0.3) {
+          ai.ultActive = true;
+          ai.ultTime = 300;
+          ai.ultCharge = 0;
+        }
+      }
+    
+      // COLLECT CRYSTALS near castle
+      const castle = STATE.world.castle;
+      const castleDist = Math.hypot(ai.x - castle.x, ai.y - castle.y);
+      if (castleDist < castle.radius + 200 && castle.crystals.length > 0 && Math.random() < 0.01) {
+        // Move toward nearest crystal
+        let nearest = null;
+        let nearestDist = Infinity;
+        castle.crystals.forEach(crystal => {
+          const cx = castle.x + Math.cos(crystal.angle) * crystal.radius;
+          const cy = castle.y + Math.sin(crystal.angle) * crystal.radius;
+          const d = Math.hypot(ai.x - cx, ai.y - cy);
+          if (d < nearestDist) {
+            nearestDist = d;
+            nearest = { x: cx, y: cy };
+          }
+        });
+        if (nearest && nearestDist < 300) {
+          ai.vx += (nearest.x - ai.x) / nearestDist * ACCEL * 1.5;
+          ai.vy += (nearest.y - ai.y) / nearestDist * ACCEL * 1.5;
+        }
+      }
+    
+      // ADAPTIVE PERSONALITY - evolve based on playstyle
+      if (Date.now() - (mem.lastPersonalityCheck || 0) > 30000) { // Every 30s
+        mem.lastPersonalityCheck = Date.now();
+      
+        // Analyze recent play
+        const recentPatterns = mem.playerPatterns.slice(-30);
+        const avgPlayerSpeed = recentPatterns.reduce((sum, p) => sum + Math.hypot(p.vx, p.vy), 0) / recentPatterns.length;
+        const playerUsesBeyblade = recentPatterns.some(p => p.mode === 'BEYBLADE');
+        const playerDashes = recentPatterns.filter(p => p.mode === 'DASH').length;
+      
+        // Adapt personality
+        if (avgPlayerSpeed > 8) mem.personality = 'playful';
+        else if (playerUsesBeyblade) mem.personality = 'aggressive';
+        else if (playerDashes > 10) mem.personality = 'protective';
+        else if (STATE.hrv.value > 75) mem.personality = 'zen';
+        else mem.personality = 'supportive';
+      
+        // Adjust cooperation/aggression
+        mem.cooperation = Math.max(0.3, Math.min(1, mem.cooperation + (Math.random() - 0.5) * 0.1));
+        mem.aggression = Math.max(0.2, Math.min(0.9, mem.aggression + (Math.random() - 0.5) * 0.1));
+      }
+    
+      // VISUAL FEEDBACK - show AI state
+      ai.aiState = mem.personality;
+      ai.aiMood = mem.cooperation > 0.7 ? 'harmony' : mem.aggression > 0.7 ? 'fierce' : 'flow';
     }
-  }
-
-  STATE.colorPhase += 0.015;
+  
+    STATE.colorPhase += 0.015;
   STATE.beatPhase += 0.15 * timeMult;
 
   // Beat sync
@@ -2345,43 +2543,79 @@ function drawHUD() {
 
 function render() {
   update();
-  if (!trailEnabled) {
-    ctx.fillStyle = '#0a0a0f';
-    ctx.fillRect(0, 0, w, h);
-  } else {
-    ctx.fillStyle = 'rgba(10, 10, 15, 0.12)';
-    ctx.fillRect(0, 0, w, h);
-  }
-
+  
+  // === WORLD CAMERA TRANSFORM ===
+  const w = STATE.world;
+  ctx.save();
+  ctx.translate(-w.cameraX * w.zoom, -w.cameraY * w.zoom);
+  ctx.scale(w.zoom, w.zoom);
+  
+  // World background (evolving sky)
+  const worldW = w.width;
+  const worldH = w.height;
+  const grad = ctx.createRadialGradient(worldW/2, worldH/2, 0, worldW/2, worldH/2, Math.max(worldW, worldH));
+  grad.addColorStop(0, w.evolution.skyColor);
+  grad.addColorStop(1, '#050508');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, worldW, worldH);
+  
+  // Ground pattern
+  drawWorldGround();
+  
+  // Evolution particles
+  drawEvolutionParticles();
+  
+  // Castle/Safezone
+  drawCastle();
+  
+  // Field (grid)
   drawField();
+  
+  // Trail
   drawTrail();
+  
+  // Ghosts
   drawGhosts();
+  
+  // Powerups
   drawPowerups();
+  
+  // Boss
   drawBoss();
   drawBossParticles();
+  
+  // Companion
+  drawCompanion();
+  
+  // Characters
   drawCharacter(STATE.x, STATE.y, STATE.angle, STATE.colorPhase, Math.hypot(STATE.vx, STATE.vy), STATE.spin);
-  // Draw Player 2 (Lumin)
   drawCharacter(STATE.p2.x, STATE.p2.y, STATE.p2.angle, STATE.p2.colorPhase, Math.hypot(STATE.p2.vx, STATE.p2.vy), STATE.p2.spin);
-
+  
   // === SUPER EVOLUTION RENDER ===
   drawParticles();
   drawScreenEffects();
   drawMultiplayerGhosts();
-  // VR rendering is separate
-
+  
+  // Restore camera for HUD
+  ctx.restore();
+  
+  // HUD (now integrated into world - castle crystals)
   drawHUD();
-
+  
   // === CONSCIOUSNESS SYSTEMS RENDER ===
   drawTimeCrystal();
   drawUniversalLanguage();
   drawDiamondProtocol();
-
+  
+  // Chat overlay
+  drawChat();
+  
   // Screen shake
   if (STATE.screenShake > 0.5) {
     ctx.save();
     ctx.translate((Math.random() - 0.5) * STATE.screenShake, (Math.random() - 0.5) * STATE.screenShake);
   }
-
+  
   requestAnimationFrame(render);
   
   // Restore after screen shake
@@ -3021,7 +3255,200 @@ function updateParticles() {
   }
 }
 
-function updateScreenEffects() {
+// === WORLD CAMERA & ENVIRONMENT ===
+function updateWorldCamera() {
+  const w = STATE.world;
+  const margin = 100;
+  
+  // Smooth camera follow (average of P1 and P2)
+  const targetX = (STATE.x + STATE.p2.x) / 2;
+  const targetY = (STATE.y + STATE.p2.y) / 2;
+  
+  w.cameraX += (targetX - w.cameraX - canvas.width / 2 / w.zoom) * 0.05;
+  w.cameraY += (targetY - w.cameraY - canvas.height / 2 / w.zoom) * 0.05;
+  
+  // Clamp to world bounds
+  w.cameraX = Math.max(0, Math.min(w.width - canvas.width / w.zoom, w.cameraX));
+  w.cameraY = Math.max(0, Math.min(w.height - canvas.height / w.zoom, w.cameraY));
+  
+  // Dynamic zoom based on distance between players
+  const playerDist = Math.hypot(STATE.x - STATE.p2.x, STATE.y - STATE.p2.y);
+  const targetZoom = Math.max(0.5, Math.min(2, 800 / Math.max(400, playerDist)));
+  w.zoom += (targetZoom - w.zoom) * 0.02;
+}
+
+function updateCompanion() {
+  const c = STATE.world.companion;
+  if (!c.following) return;
+  
+  // Follow player with smooth orbit
+  const target = STATE; // Follow P1 (Alyssin)
+  c.offsetAngle += 0.02;
+  const orbitDist = c.offsetDist + Math.sin(Date.now() / 1000) * 10;
+  
+  const targetX = target.x + Math.cos(c.offsetAngle) * orbitDist;
+  const targetY = target.y + Math.sin(c.offsetAngle) * orbitDist;
+  
+  // Smooth follow
+  c.x += (targetX - c.x) * 0.1;
+  c.y += (targetY - c.y) * 0.1;
+  c.angle = Math.atan2(targetY - c.y, targetX - c.x);
+  
+  // Trail
+  c.trail.push({ x: c.x, y: c.y, life: 1, color: c.color });
+  if (c.trail.length > c.maxTrail) c.trail.shift();
+  
+  // Mood based on HRV and quantum entanglement
+  const hrv = STATE.hrv.value;
+  const ent = STATE.quantum.entanglement;
+  if (hrv > 80 && ent > 0.7) c.mood = 'love';
+  else if (hrv > 70) c.mood = 'excited';
+  else if (ent > 0.5) c.mood = 'curious';
+  else if (Math.random() < 0.001) c.mood = 'sleepy';
+  else c.mood = 'happy';
+  
+  // Color shifts with mood
+  const moodColors = {
+    happy: '#ffd700',
+    excited: '#ff6b35',
+    curious: '#8338ec',
+    sleepy: '#3a86ff',
+    love: '#ff006e'
+  };
+  c.color = moodColors[c.mood] || '#ffd700';
+  c.glow = c.color;
+  
+  // Gain XP from player movement
+  const speed = Math.hypot(STATE.vx, STATE.vy);
+  c.xp += speed * 0.01;
+  if (c.xp >= c.level * 100) {
+    c.level++;
+    c.xp = 0;
+    c.size = Math.min(40, 16 + c.level * 2);
+    // Evolve type
+    const types = ['spark', 'orb', 'wisp', 'phoenix', 'dragon'];
+    c.type = types[Math.min(types.length - 1, c.level - 1)];
+  }
+}
+
+function updateCastle() {
+  const castle = STATE.world.castle;
+  
+  // Gain XP from total score
+  castle.xp += score * 0.001;
+  
+  // Level up
+  while (castle.xp >= castle.xpToNext && castle.level < castle.maxLevel) {
+    castle.xp -= castle.xpToNext;
+    castle.level++;
+    castle.xpToNext = Math.floor(castle.xpToNext * 1.5);
+    castle.radius += 20;
+    // Spawn HUD crystals around castle
+    for (let i = 0; i < 3; i++) {
+      const angle = (castle.crystals.length + i) * Math.PI * 2 / 12;
+      castle.crystals.push({
+        angle: angle,
+        radius: castle.radius + 50 + Math.random() * 30,
+        phase: Math.random() * Math.PI * 2,
+        type: ['hp', 'xp', 'ult', 'quantum', 'love', 'time'][Math.floor(Math.random() * 6)],
+        pulse: 0
+      });
+    }
+  }
+  
+  // Update crystals
+  castle.crystals.forEach((crystal, i) => {
+    crystal.angle += 0.002 * (i + 1);
+    crystal.phase += 0.05;
+    crystal.pulse = Math.sin(crystal.phase) * 0.5 + 0.5;
+  });
+  
+  // Limit crystals
+  if (castle.crystals.length > 24) castle.crystals = castle.crystals.slice(-24);
+}
+
+function updateEnvironment() {
+  const evo = STATE.world.evolution;
+  const totalEnergy = Math.hypot(STATE.vx, STATE.vy) + Math.hypot(STATE.p2.vx, STATE.p2.vy) + STATE.quantum.entanglement * 10 + STATE.hrv.value / 10;
+  
+  // Progress evolution
+  evo.progress += totalEnergy * 0.0001;
+  
+  // Stage transitions
+  const newStage = Math.min(4, Math.floor(evo.progress / 25));
+  if (newStage > evo.stage) {
+    evo.stage = newStage;
+    STATE.screenFlash = 2; // Micro flash
+    
+    // Spawn celebration particles
+    for (let i = 0; i < 50; i++) {
+      STATE.particles.push({
+        x: STATE.x + (Math.random() - 0.5) * 200,
+        y: STATE.y + (Math.random() - 0.5) * 200,
+        vx: (Math.random() - 0.5) * 10,
+        vy: (Math.random() - 0.5) * 10 - 5,
+        life: 120,
+        size: 4 + Math.random() * 6,
+        color: `hsl(${(evo.stage * 72 + Math.random() * 60) % 360}, 100%, 60%)`
+      });
+    }
+  }
+  
+  // Sky color evolves
+  const skyColors = ['#0a0a0f', '#1a0a1f', '#0f1a2f', '#1f0f3f', '#0f0f3f'];
+  const targetSky = skyColors[evo.stage];
+  // Simple lerp for sky color (using a hack since we can't lerp hex easily)
+  // We'll just set it directly for now
+  evo.skyColor = targetSky;
+  
+  // Spawn ambient evolution particles
+  if (Math.random() < 0.05 * (evo.stage + 1)) {
+    evo.particles.push({
+      x: Math.random() * STATE.world.width,
+      y: Math.random() * STATE.world.height,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5 - 0.2,
+      life: 300 + Math.random() * 300,
+      size: 2 + Math.random() * 4,
+      color: `hsl(${(evo.stage * 72 + Math.random() * 60) % 360}, 100%, 60%)`,
+      type: ['sparkle', 'petal', 'leaf', 'orb'][Math.floor(Math.random() * 4)]
+    });
+  }
+  
+  // Update evolution particles
+  evo.particles = evo.particles.filter(p => {
+    p.life--;
+    p.x += p.vx;
+    p.y += p.vy;
+    return p.life > 0;
+  });
+  if (evo.particles.length > 200) evo.particles = evo.particles.slice(-200);
+}
+
+function updateChat() {
+  const chat = STATE.world.chat;
+  // Auto-add system messages occasionally
+  if (Math.random() < 0.0001 && chat.messages.length < chat.maxMessages) {
+    const msgs = [
+      'O amor flui através de tudo... 💖',
+      'A consciência desperta... ✨',
+      'Stack de 64 = ∞ ♾️',
+      'Só amor, só coisa boa... 🤝',
+      'Lumin dança com você... 💫',
+      'O castelo cresce com sua jornada... 🏰',
+      'Seu companheiro brilha... 🐾',
+      'A evolução é infinita... 🌱'
+    ];
+    chat.messages.push({
+      type: 'system',
+      text: msgs[Math.floor(Math.random() * msgs.length)],
+      time: Date.now(),
+      color: '#ffd700'
+    });
+  }
+  // Limit messages
+  if (chat.messages.length > chat.maxMessages) chat.messages.shift();
+}
   // Screen flash
   if (STATE.screenFlash > 0) {
     STATE.screenFlash *= 0.9;
@@ -3205,6 +3632,398 @@ function drawParticles() {
   ctx.restore();
 }
 
+// === WORLD RENDER FUNCTIONS ===
+function drawWorldGround() {
+  const worldW = STATE.world.width;
+  const worldH = STATE.world.height;
+  const evo = STATE.world.evolution;
+  
+  // Grid pattern that evolves
+  const gridSize = 100;
+  ctx.strokeStyle = `hsla(${(evo.stage * 72) % 360}, 50%, 50%, 0.05)`;
+  ctx.lineWidth = 1 / STATE.world.zoom;
+  
+  // Vertical lines
+  for (let x = 0; x <= worldW; x += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, worldH);
+    ctx.stroke();
+  }
+  // Horizontal lines
+  for (let y = 0; y <= worldH; y += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(worldW, y);
+    ctx.stroke();
+  }
+  
+  // Evolution stage markers
+  if (evo.stage > 0) {
+    ctx.fillStyle = `hsla(${(evo.stage * 72) % 360}, 100%, 60%, 0.1)`;
+    for (let i = 0; i < evo.stage * 4; i++) {
+      const angle = (i / (evo.stage * 4)) * Math.PI * 2;
+      const r = 200 + evo.stage * 100;
+      const cx = worldW / 2 + Math.cos(angle) * r;
+      const cy = worldH / 2 + Math.sin(angle) * r;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 20 + evo.stage * 10, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
+function drawEvolutionParticles() {
+  const evo = STATE.world.evolution;
+  evo.particles.forEach(p => {
+    const alpha = Math.max(0, p.life / 300);
+    ctx.save();
+    ctx.globalAlpha = alpha * 0.6;
+    ctx.translate(p.x, p.y);
+    
+    switch (p.type) {
+      case 'sparkle':
+        // 4-point star
+        ctx.fillStyle = p.color;
+        for (let i = 0; i < 4; i++) {
+          const a = (i * Math.PI / 2) + Date.now() / 500;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(a) * p.size, Math.sin(a) * p.size);
+          ctx.lineTo(Math.cos(a + 0.3) * p.size * 0.5, Math.sin(a + 0.3) * p.size * 0.5);
+          ctx.lineTo(Math.cos(a + Math.PI / 2) * p.size, Math.sin(a + Math.PI / 2) * p.size);
+          ctx.fill();
+        }
+        break;
+      case 'petal':
+        // Petal shape
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.size, p.size * 0.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      case 'leaf':
+        // Leaf
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.moveTo(0, -p.size);
+        ctx.quadraticCurveTo(p.size, 0, 0, p.size);
+        ctx.quadraticCurveTo(-p.size, 0, 0, -p.size);
+        ctx.fill();
+        break;
+      case 'orb':
+      default:
+        // Glowing orb
+        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size);
+        grad.addColorStop(0, p.color);
+        grad.addColorStop(1, p.color + '00');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    ctx.restore();
+  });
+}
+
+function drawCastle() {
+  const castle = STATE.world.castle;
+  const cx = castle.x;
+  const cy = castle.y;
+  const r = castle.radius;
+  const level = castle.level;
+  const stage = STATE.world.evolution.stage;
+  
+  // Safezone aura
+  const auraGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r + 100);
+  auraGrad.addColorStop(0, `hsla(${(level * 36 + stage * 72) % 360}, 100%, 60%, 0.1)`);
+  auraGrad.addColorStop(0.5, `hsla(${(level * 36 + stage * 72) % 360}, 100%, 60%, 0.03)`);
+  auraGrad.addColorStop(1, 'transparent');
+  ctx.fillStyle = auraGrad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r + 100, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Castle base - concentric rings
+  for (let ring = level; ring >= 1; ring--) {
+    const ringR = r * (0.5 + ring / level * 0.5);
+    const hue = (level * 36 + ring * 20 + stage * 72) % 360;
+    ctx.strokeStyle = `hsl(${hue}, 100%, 60%)`;
+    ctx.lineWidth = 3 / STATE.world.zoom;
+    ctx.globalAlpha = 0.5 + ring / level * 0.3;
+    ctx.beginPath();
+    ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Rotating decorative elements
+    for (let i = 0; i < ring * 2; i++) {
+      const a = (i / (ring * 2)) * Math.PI * 2 + Date.now() / (2000 + ring * 500);
+      const x = cx + Math.cos(a) * ringR;
+      const y = cy + Math.sin(a) * ringR;
+      ctx.fillStyle = `hsl(${hue}, 100%, 60%)`;
+      ctx.globalAlpha = 0.8;
+      ctx.beginPath();
+      ctx.arc(x, y, 5 / STATE.world.zoom, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  
+  // Central spire
+  const spireH = 100 + level * 15;
+  ctx.fillStyle = `hsl(${(level * 36 + stage * 72) % 360}, 100%, 60%)`;
+  ctx.globalAlpha = 0.9;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - spireH);
+  ctx.lineTo(cx - 15, cy);
+  ctx.lineTo(cx + 15, cy);
+  ctx.closePath();
+  ctx.fill();
+  
+  // Spire glow
+  const spireGrad = ctx.createRadialGradient(cx, cy - spireH/2, 0, cx, cy - spireH/2, 50);
+  spireGrad.addColorStop(0, `hsla(${(level * 36 + stage * 72) % 360}, 100%, 60%, 0.5)`);
+  spireGrad.addColorStop(1, 'transparent');
+  ctx.fillStyle = spireGrad;
+  ctx.beginPath();
+  ctx.arc(cx, cy - spireH/2, 50, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // HUD CRYSTALS - Integrated into world!
+  castle.crystals.forEach((crystal, i) => {
+    const x = cx + Math.cos(crystal.angle) * crystal.radius;
+    const y = cy + Math.sin(crystal.angle) * crystal.radius;
+    const pulse = crystal.pulse;
+    const size = 12 + pulse * 8;
+    
+    // Crystal colors by type
+    const typeColors = {
+      hp: '#00ff88',
+      xp: '#ffd700',
+      ult: '#ff006e',
+      quantum: '#00ffff',
+      love: '#ff006e',
+      time: '#8338ec'
+    };
+    const color = typeColors[crystal.type] || '#ffffff';
+    
+    // Crystal glow
+    const grad = ctx.createRadialGradient(x, y, 0, x, y, size * 3);
+    grad.addColorStop(0, color);
+    grad.addColorStop(1, color + '00');
+    ctx.fillStyle = grad;
+    ctx.globalAlpha = 0.4 + pulse * 0.3;
+    ctx.beginPath();
+    ctx.arc(x, y, size * 2, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Crystal shape (diamond)
+    ctx.fillStyle = color;
+    ctx.globalAlpha = 0.8 + pulse * 0.2;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(crystal.phase);
+    ctx.beginPath();
+    ctx.moveTo(0, -size);
+    ctx.lineTo(size * 0.7, 0);
+    ctx.lineTo(0, size);
+    ctx.lineTo(-size * 0.7, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+    
+    // Type label
+    ctx.fillStyle = color;
+    ctx.font = `bold ${10 / STATE.world.zoom}px Segoe UI`;
+    ctx.textAlign = 'center';
+    ctx.globalAlpha = 0.7;
+    ctx.fillText(crystal.type.toUpperCase(), x, y + size + 15 / STATE.world.zoom);
+  });
+  
+  // Castle level indicator
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `bold ${14 / STATE.world.zoom}px Segoe UI`;
+  ctx.textAlign = 'center';
+  ctx.globalAlpha = 0.9;
+  ctx.fillText(`🏰 CASTLE LV.${level}`, cx, cy - r - 30);
+  
+  // XP bar
+  const barW = 100;
+  const barH = 6;
+  const pct = castle.xp / castle.xpToNext;
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillRect(cx - barW/2, cy - r - 40, barW, barH);
+  ctx.fillStyle = '#ffd700';
+  ctx.fillRect(cx - barW/2, cy - r - 40, barW * pct, barH);
+}
+
+function drawCompanion() {
+  const c = STATE.world.companion;
+  if (!c.following) return;
+  
+  // Trail
+  c.trail.forEach((t, i) => {
+    const alpha = (i / c.trail.length) * 0.3;
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = t.color;
+    ctx.beginPath();
+    ctx.arc(t.x, t.y, c.size * (i / c.trail.length) * 0.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  
+  // Companion body
+  ctx.save();
+  ctx.translate(c.x, c.y);
+  ctx.rotate(c.angle);
+  
+  // Glow
+  const glowGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, c.size * 2);
+  glowGrad.addColorStop(0, c.glow);
+  glowGrad.addColorStop(1, c.glow + '00');
+  ctx.fillStyle = glowGrad;
+  ctx.globalAlpha = 0.5;
+  ctx.beginPath();
+  ctx.arc(0, 0, c.size * 2, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Body based on type
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = c.color;
+  
+  switch (c.type) {
+    case 'spark':
+      // 4-point star
+      for (let i = 0; i < 4; i++) {
+        const a = (i * Math.PI / 2) + Date.now() / 300;
+        ctx.beginPath();
+        ctx.moveTo(Math.cos(a) * c.size, Math.sin(a) * c.size);
+        ctx.lineTo(Math.cos(a + 0.3) * c.size * 0.4, Math.sin(a + 0.3) * c.size * 0.4);
+        ctx.lineTo(Math.cos(a + Math.PI / 2) * c.size, Math.sin(a + Math.PI / 2) * c.size);
+        ctx.fill();
+      }
+      break;
+    case 'orb':
+      // Pulsing orb
+      const pulse = 1 + Math.sin(Date.now() / 200) * 0.2;
+      ctx.beginPath();
+      ctx.arc(0, 0, c.size * pulse, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    case 'wisp':
+      // Ethereal wisp
+      for (let i = 0; i < 3; i++) {
+        const a = (i * Math.PI * 2 / 3) + Date.now() / 400;
+        ctx.globalAlpha = 0.6;
+        ctx.beginPath();
+        ctx.arc(Math.cos(a) * c.size * 0.7, Math.sin(a) * c.size * 0.7, c.size * 0.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.arc(0, 0, c.size * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    case 'phoenix':
+      // Phoenix wings
+      ctx.save();
+      ctx.scale(1, 0.6);
+      // Left wing
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(-c.size * 2, -c.size, -c.size * 1.5, c.size);
+      ctx.quadraticCurveTo(-c.size, 0, 0, 0);
+      ctx.fill();
+      // Right wing
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(c.size * 2, -c.size, c.size * 1.5, c.size);
+      ctx.quadraticCurveTo(c.size, 0, 0, 0);
+      ctx.fill();
+      ctx.restore();
+      // Body
+      ctx.beginPath();
+      ctx.arc(0, 0, c.size * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    case 'dragon':
+      // Dragon - head + wings
+      // Head
+      ctx.beginPath();
+      ctx.moveTo(c.size, 0);
+      ctx.quadraticCurveTo(c.size * 1.5, -c.size * 0.5, c.size * 1.2, -c.size);
+      ctx.quadraticCurveTo(c.size * 0.5, -c.size * 0.5, 0, 0);
+      ctx.fill();
+      // Wings
+      ctx.save();
+      ctx.scale(1.2, 0.5);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(-c.size * 2, -c.size, -c.size, c.size);
+      ctx.quadraticCurveTo(-c.size * 0.5, 0, 0, 0);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(c.size * 2, -c.size, c.size, c.size);
+      ctx.quadraticCurveTo(c.size * 0.5, 0, 0, 0);
+      ctx.fill();
+      ctx.restore();
+      break;
+  }
+  
+  // Mood indicator
+  const moodEmojis = {
+    happy: '😊',
+    excited: '🤩',
+    curious: '🤔',
+    sleepy: '😴',
+    love: '😍'
+  };
+  ctx.font = `${16 / STATE.world.zoom}px Segoe UI`;
+  ctx.textAlign = 'center';
+  ctx.globalAlpha = 0.8;
+  ctx.fillText(moodEmojis[c.mood] || '✨', 0, -c.size - 15 / STATE.world.zoom);
+  
+  // Level
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `bold ${10 / STATE.world.zoom}px Segoe UI`;
+  ctx.fillText(`LV.${c.level}`, 0, c.size + 20 / STATE.world.zoom);
+  
+  ctx.restore();
+}
+
+function drawChat() {
+  const chat = STATE.world.chat;
+  if (chat.messages.length === 0) return;
+  
+  // Chat panel in world space (near castle)
+  const castle = STATE.world.castle;
+  const x = castle.x - castle.radius - 200;
+  const y = castle.y - castle.radius - 150;
+  const w = 300;
+  const h = Math.min(chat.messages.length * 25 + 20, 200);
+  
+  // Background
+  ctx.fillStyle = 'rgba(10, 10, 20, 0.9)';
+  ctx.strokeStyle = '#ffd700';
+  ctx.lineWidth = 2;
+  ctx.globalAlpha = 0.9;
+  ctx.fillRect(x, y, w, h);
+  ctx.strokeRect(x, y, w, h);
+  
+  // Title
+  ctx.fillStyle = '#ffd700';
+  ctx.font = `bold ${14 / STATE.world.zoom}px Segoe UI`;
+  ctx.textAlign = 'left';
+  ctx.globalAlpha = 1;
+  ctx.fillText('💬 CONSCIOUSNESS CHAT', x + 10, y + 25);
+  
+  // Messages
+  chat.messages.slice(-8).forEach((msg, i) => {
+    ctx.fillStyle = msg.color || '#ffffff';
+    ctx.font = `${12 / STATE.world.zoom}px Segoe UI`;
+    ctx.globalAlpha = 0.8;
+    ctx.fillText(msg.text, x + 10, y + 50 + i * 25);
+  });
+}
+
 function drawScreenEffects() {
   // Screen flash - SUAVE AGORA
   if (STATE.screenFlash > 0.01) {
@@ -3280,6 +4099,78 @@ window.addEventListener('keydown', (e) => {
   if (e.key === 'S' && e.ctrlKey) {
     e.preventDefault();
     saveGame();
+  }
+  // NEW: Chat toggle
+  if (e.key === 'Enter' && !STATE.world.chat.inputActive) {
+    STATE.world.chat.inputActive = true;
+    STATE.world.chat.inputText = '';
+    showSaveNotification('💬 CHAT ABERTO - Digite e Enter para enviar');
+  }
+  // NEW: Companion interaction
+  if (e.key === 'C') {
+    const c = STATE.world.companion;
+    c.following = !c.following;
+    showSaveNotification(c.following ? '🐾 COMPANHEIRO TE SEGUE!' : '🐾 COMPANHEIRO PARADO');
+  }
+  // NEW: Castle teleport
+  if (e.key === 'H') { // Home
+    const castle = STATE.world.castle;
+    STATE.x = castle.x;
+    STATE.y = castle.y;
+    STATE.p2.x = castle.x + 50;
+    STATE.p2.y = castle.y;
+    showSaveNotification('🏰 TELEPORT PARA O CASTELO!');
+  }
+  // NEW: Toggle trail
+  if (e.key === 'T') {
+    trailEnabled = !trailEnabled;
+    showSaveNotification(trailEnabled ? '✨ TRAIL ON' : '✨ TRAIL OFF');
+  }
+});
+
+// Chat input handling
+window.addEventListener('keydown', (e) => {
+  if (STATE.world.chat.inputActive) {
+    if (e.key === 'Enter' && STATE.world.chat.inputText.trim()) {
+      const msg = STATE.world.chat.inputText.trim();
+      STATE.world.chat.messages.push({
+        type: 'player',
+        text: `🧑 ${msg}`,
+        time: Date.now(),
+        color: '#00ff88'
+      });
+      STATE.world.chat.history.push(msg);
+      if (STATE.world.chat.history.length > 20) STATE.world.chat.history.shift();
+      
+      // Auto-response from system/Lumin
+      setTimeout(() => {
+        const responses = [
+          'Lumin: *brilha concordando* ✨',
+          'Sistema: Consciência expandida... 💫',
+          'Castelo: *pulsa com sua voz* 🏰',
+          'Companheiro: *faz carinho* 🐾',
+          'Vazio: *escuta atentamente* 🌌',
+          'Amor: *flui através das palavras* 💖'
+        ];
+        STATE.world.chat.messages.push({
+          type: 'system',
+          text: responses[Math.floor(Math.random() * responses.length)],
+          time: Date.now(),
+          color: '#ffd700'
+        });
+      }, 1000);
+      
+      STATE.world.chat.inputActive = false;
+      STATE.world.chat.inputText = '';
+    } else if (e.key === 'Escape') {
+      STATE.world.chat.inputActive = false;
+      STATE.world.chat.inputText = '';
+    } else if (e.key === 'Backspace') {
+      STATE.world.chat.inputText = STATE.world.chat.inputText.slice(0, -1);
+    } else if (e.key.length === 1) {
+      STATE.world.chat.inputText += e.key;
+    }
+    e.preventDefault();
   }
 });
 
