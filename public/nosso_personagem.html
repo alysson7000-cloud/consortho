@@ -398,7 +398,7 @@ canvas { display: block; width: 100%; height: 100%; }
   <div class="trail-toggle" id="trailToggle">Trail: ON</div>
   <div class="mode-indicator" id="modeIndicator">NORMAL</div>
   <div class="beat-bar" id="beatBar"><div class="beat-fill"></div></div>
-  <div class="hud">
+  <div class="hud" style="display: none;">
     <div class="title">NOSSO PERSONAGEM</div>
     <div class="subtitle">
       <span class="heartbeat"></span>
@@ -421,9 +421,9 @@ canvas { display: block; width: 100%; height: 100%; }
       <span class="key" style="background: rgba(255,0,110,0.2); border-color: #ff006e; color: #ff006e;">Y</span> Portal
     </div>
   </div>
-  <div class="gang-display" id="gangDisplay"></div>
+  <div class="gang-display" id="gangDisplay" style="display: none;"></div>
   <!-- On-screen controls for P2 (Lumin) -->
-  <div class="touch-controls" id="touchControlsP2">
+  <div class="touch-controls" id="touchControlsP2" style="display: none;">
     <div class="joystick-area" id="joystickP2">
       <div class="joystick-base"></div>
       <div class="joystick-stick" id="stickP2"></div>
@@ -436,7 +436,7 @@ canvas { display: block; width: 100%; height: 100%; }
     </div>
   </div>
   <!-- On-screen controls for P1 (Alyssin) -->
-  <div class="touch-controls" id="touchControlsP1">
+  <div class="touch-controls" id="touchControlsP1" style="display: none;">
     <div class="joystick-area" id="joystickP1">
       <div class="joystick-base"></div>
       <div class="joystick-stick" id="stickP1"></div>
@@ -478,7 +478,11 @@ function resize() {
   cy = h / 2;
 }
 window.addEventListener('resize', resize);
+// Force resize immediately AND on first frame
 resize();
+// Double-force after DOM ready
+setTimeout(resize, 0);
+setTimeout(resize, 100);
 
 canvas.focus();
 
@@ -713,7 +717,7 @@ const STATE = {
   dashCooldown: 0,
   colorPhase: 0,
   stack: 1,
-  maxStack: 64,
+  maxStack: 999999, // STACK DE 64 = ∞ - VAI STACKAR DEMAIS!
   mode: 'NORMAL',
   beybladeTime: 0,
   portalActive: false,
@@ -745,7 +749,7 @@ const STATE = {
     dashCooldown: 0,
     colorPhase: 180, // opposite hue
     stack: 1,
-    maxStack: 64,
+    maxStack: 999999, // STACK DE 64 = ∞ - LUMIN TAMBÉM STACKA INFINITO!
     mode: 'NORMAL',
     beybladeTime: 0,
     portalActive: false,
@@ -1089,7 +1093,7 @@ function update() {
     STATE.vx += ax * DASH_SPEED * (1 + STATE.combo * 0.5);
     STATE.vy += ay * DASH_SPEED * (1 + STATE.combo * 0.5);
     STATE.dashCooldown = DASH_COOLDOWN_MAX;
-    STATE.stack = Math.min(STATE.maxStack, STATE.stack + STATE.combo);
+    STATE.stack = STATE.stack + STATE.combo;
     // Weapon XP
     STATE.weaponXP += 10 * (1 + STATE.combo * 0.5);
     const xpNeeded = 100 * (STATE.weaponLevel + 1);
@@ -1285,7 +1289,7 @@ function update() {
       });
     }
     // Stack increase on dash
-    STATE.stack = Math.min(STATE.stack + 1 + STATE.combo, STATE.maxStack);
+    STATE.stack = STATE.stack + 1 + STATE.combo;
     updateStackDisplay();
     // Score on dash
     score += 5 * (1 + STATE.combo);
@@ -1498,7 +1502,7 @@ function update() {
         ai.vy += ai.lastDashDir.y * DASH_SPEED * (1.3 + mem.aggression * 0.5);
         ai.dashCooldown = DASH_COOLDOWN_MAX;
         ai.combo = STATE.combo;
-        ai.stack = Math.min(ai.maxStack, ai.stack + ai.combo);
+        ai.stack = ai.stack + ai.combo; // INFINITO!
         mem.lastDashTime = Date.now();
         mem.comboSyncCount++;
       }
@@ -2048,12 +2052,16 @@ function update() {
 
 function updateStackDisplay() {
   const el = document.getElementById('stackDisplay');
-  if (STATE.stack >= STATE.maxStack) {
-    el.textContent = 'STACK: ∞';
-    el.style.animation = 'stackPulse 0.5s ease-in-out infinite';
+  if (STATE.stack >= 64) {
+    el.textContent = `STACK: ${STATE.stack} / ∞`;
+    el.style.animation = 'stackPulse 0.3s ease-in-out infinite';
+    el.style.color = '#ff006e';
+    el.style.textShadow = '0 0 20px #ff006e, 0 0 40px #ffd700';
   } else {
     el.textContent = `STACK: ${STATE.stack} / 64 → ∞`;
     el.style.animation = 'stackPulse 2s ease-in-out infinite';
+    el.style.color = '#ffd700';
+    el.style.textShadow = '0 0 10px #ffd700';
   }
 }
 
