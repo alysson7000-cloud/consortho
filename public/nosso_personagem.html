@@ -833,7 +833,8 @@ const STATE = {
   particles: [],
   screenFlash: 0,
   timeDilation: 1,
-  realityGlitch: 0
+  realityGlitch: 0,
+  consciousnessLastUpdate: 0
 };
   const DASH_SPEED = 24;
   const DASH_COOLDOWN_MAX = 30;
@@ -2415,8 +2416,11 @@ function updateHRV() {
   // === QUANTUM BRIDGE: HRV → QUBIT ENTANGLEMENT ===
   updateQuantumBridge();
   
-  // === CONSCIOUSNESS SYSTEMS ===
-  updateConsciousnessSystems();
+  // === CONSCIOUSNESS SYSTEMS - THROTTLED (5x/sec) ===
+  if (!STATE.consciousnessLastUpdate || Date.now() - STATE.consciousnessLastUpdate > 200) {
+    updateConsciousnessSystems();
+    STATE.consciousnessLastUpdate = Date.now();
+  }
 }
 
 function updateQuantumBridge() {
