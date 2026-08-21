@@ -3173,6 +3173,893 @@
       ]
     },
     {
+      "path": "disk_script.js",
+      "lines": 3745,
+      "functions": [
+        {
+          "name": "resize",
+          "type": "declaration",
+          "line": 6
+        },
+        {
+          "name": "initAudio",
+          "type": "declaration",
+          "line": 22
+        },
+        {
+          "name": "setupJoystick",
+          "type": "declaration",
+          "line": 50
+        },
+        {
+          "name": "getColor",
+          "type": "declaration",
+          "line": 449
+        },
+        {
+          "name": "getGlowColor",
+          "type": "declaration",
+          "line": 454
+        },
+        {
+          "name": "update",
+          "type": "declaration",
+          "line": 459
+        },
+        {
+          "name": "updateStackDisplay",
+          "type": "declaration",
+          "line": 1585
+        },
+        {
+          "name": "spawnGhosts",
+          "type": "declaration",
+          "line": 1600
+        },
+        {
+          "name": "updateGangDisplay",
+          "type": "declaration",
+          "line": 1617
+        },
+        {
+          "name": "drawCharacter",
+          "type": "declaration",
+          "line": 1631
+        },
+        {
+          "name": "drawGhosts",
+          "type": "declaration",
+          "line": 1719
+        },
+        {
+          "name": "drawTrail",
+          "type": "declaration",
+          "line": 1750
+        },
+        {
+          "name": "drawField",
+          "type": "declaration",
+          "line": 1769
+        },
+        {
+          "name": "drawBoss",
+          "type": "declaration",
+          "line": 1818
+        },
+        {
+          "name": "drawBossParticles",
+          "type": "declaration",
+          "line": 1925
+        },
+        {
+          "name": "drawPowerups",
+          "type": "declaration",
+          "line": 1943
+        },
+        {
+          "name": "drawHUD",
+          "type": "declaration",
+          "line": 1975
+        },
+        {
+          "name": "render",
+          "type": "declaration",
+          "line": 2084
+        },
+        {
+          "name": "updateHRV",
+          "type": "declaration",
+          "line": 2168
+        },
+        {
+          "name": "updateQuantumBridge",
+          "type": "declaration",
+          "line": 2200
+        },
+        {
+          "name": "updateTimeCrystal",
+          "type": "declaration",
+          "line": 2250
+        },
+        {
+          "name": "updateUniversalLanguage",
+          "type": "declaration",
+          "line": 2295
+        },
+        {
+          "name": "updateDiamondProtocol",
+          "type": "declaration",
+          "line": 2344
+        },
+        {
+          "name": "updateConsciousnessSystems",
+          "type": "declaration",
+          "line": 2399
+        },
+        {
+          "name": "drawTimeCrystal",
+          "type": "declaration",
+          "line": 2406
+        },
+        {
+          "name": "drawUniversalLanguage",
+          "type": "declaration",
+          "line": 2468
+        },
+        {
+          "name": "drawDiamondProtocol",
+          "type": "declaration",
+          "line": 2509
+        },
+        {
+          "name": "connectHRV",
+          "type": "declaration",
+          "line": 2556
+        },
+        {
+          "name": "simulateHRV",
+          "type": "declaration",
+          "line": 2592
+        },
+        {
+          "name": "updateWaves",
+          "type": "declaration",
+          "line": 2600
+        },
+        {
+          "name": "spawnWaveEnemy",
+          "type": "declaration",
+          "line": 2630
+        },
+        {
+          "name": "nextWave",
+          "type": "declaration",
+          "line": 2661
+        },
+        {
+          "name": "startSurvivalMode",
+          "type": "declaration",
+          "line": 2693
+        },
+        {
+          "name": "updateMultiplayer",
+          "type": "declaration",
+          "line": 2703
+        },
+        {
+          "name": "connectMultiplayer",
+          "type": "declaration",
+          "line": 2730
+        },
+        {
+          "name": "updateParticles",
+          "type": "declaration",
+          "line": 2773
+        },
+        {
+          "name": "updateWorldCamera",
+          "type": "declaration",
+          "line": 2799
+        },
+        {
+          "name": "updateCompanion",
+          "type": "declaration",
+          "line": 2820
+        },
+        {
+          "name": "updateCastle",
+          "type": "declaration",
+          "line": 2874
+        },
+        {
+          "name": "updateEnvironment",
+          "type": "declaration",
+          "line": 2910
+        },
+        {
+          "name": "updateChat",
+          "type": "declaration",
+          "line": 2968
+        },
+        {
+          "name": "saveGame",
+          "type": "declaration",
+          "line": 3009
+        },
+        {
+          "name": "loadGame",
+          "type": "declaration",
+          "line": 3036
+        },
+        {
+          "name": "showSaveNotification",
+          "type": "declaration",
+          "line": 3050
+        },
+        {
+          "name": "enterVR",
+          "type": "declaration",
+          "line": 3062
+        },
+        {
+          "name": "initVRRenderer",
+          "type": "declaration",
+          "line": 3095
+        },
+        {
+          "name": "onVRFrame",
+          "type": "declaration",
+          "line": 3109
+        },
+        {
+          "name": "createMerkabaGeometry",
+          "type": "declaration",
+          "line": 3137
+        },
+        {
+          "name": "renderMerkabaVR",
+          "type": "declaration",
+          "line": 3158
+        },
+        {
+          "name": "drawParticles",
+          "type": "declaration",
+          "line": 3163
+        },
+        {
+          "name": "drawWorldGround",
+          "type": "declaration",
+          "line": 3176
+        },
+        {
+          "name": "drawEvolutionParticles",
+          "type": "declaration",
+          "line": 3216
+        },
+        {
+          "name": "drawCastle",
+          "type": "declaration",
+          "line": 3268
+        },
+        {
+          "name": "drawCompanion",
+          "type": "declaration",
+          "line": 3398
+        },
+        {
+          "name": "drawChat",
+          "type": "declaration",
+          "line": 3532
+        },
+        {
+          "name": "drawScreenEffects",
+          "type": "declaration",
+          "line": 3567
+        },
+        {
+          "name": "drawMultiplayerGhosts",
+          "type": "declaration",
+          "line": 3590
+        },
+        {
+          "name": "resize",
+          "type": "method",
+          "line": 6
+        },
+        {
+          "name": "initAudio",
+          "type": "method",
+          "line": 22
+        },
+        {
+          "name": "setupJoystick",
+          "type": "method",
+          "line": 50
+        },
+        {
+          "name": "addEventListener",
+          "type": "method",
+          "line": 145
+        },
+        {
+          "name": "getColor",
+          "type": "method",
+          "line": 449
+        },
+        {
+          "name": "getGlowColor",
+          "type": "method",
+          "line": 454
+        },
+        {
+          "name": "update",
+          "type": "method",
+          "line": 459
+        },
+        {
+          "name": "updateStackDisplay",
+          "type": "method",
+          "line": 1585
+        },
+        {
+          "name": "spawnGhosts",
+          "type": "method",
+          "line": 1600
+        },
+        {
+          "name": "updateGangDisplay",
+          "type": "method",
+          "line": 1617
+        },
+        {
+          "name": "drawCharacter",
+          "type": "method",
+          "line": 1631
+        },
+        {
+          "name": "drawGhosts",
+          "type": "method",
+          "line": 1719
+        },
+        {
+          "name": "drawTrail",
+          "type": "method",
+          "line": 1750
+        },
+        {
+          "name": "drawField",
+          "type": "method",
+          "line": 1769
+        },
+        {
+          "name": "drawBoss",
+          "type": "method",
+          "line": 1818
+        },
+        {
+          "name": "drawBossParticles",
+          "type": "method",
+          "line": 1925
+        },
+        {
+          "name": "drawPowerups",
+          "type": "method",
+          "line": 1943
+        },
+        {
+          "name": "drawHUD",
+          "type": "method",
+          "line": 1975
+        },
+        {
+          "name": "render",
+          "type": "method",
+          "line": 2084
+        },
+        {
+          "name": "updateHRV",
+          "type": "method",
+          "line": 2168
+        },
+        {
+          "name": "updateQuantumBridge",
+          "type": "method",
+          "line": 2200
+        },
+        {
+          "name": "updateTimeCrystal",
+          "type": "method",
+          "line": 2250
+        },
+        {
+          "name": "updateUniversalLanguage",
+          "type": "method",
+          "line": 2295
+        },
+        {
+          "name": "updateDiamondProtocol",
+          "type": "method",
+          "line": 2344
+        },
+        {
+          "name": "updateConsciousnessSystems",
+          "type": "method",
+          "line": 2399
+        },
+        {
+          "name": "drawTimeCrystal",
+          "type": "method",
+          "line": 2406
+        },
+        {
+          "name": "drawUniversalLanguage",
+          "type": "method",
+          "line": 2468
+        },
+        {
+          "name": "drawDiamondProtocol",
+          "type": "method",
+          "line": 2509
+        },
+        {
+          "name": "connectHRV",
+          "type": "method",
+          "line": 2556
+        },
+        {
+          "name": "simulateHRV",
+          "type": "method",
+          "line": 2592
+        },
+        {
+          "name": "updateWaves",
+          "type": "method",
+          "line": 2600
+        },
+        {
+          "name": "spawnWaveEnemy",
+          "type": "method",
+          "line": 2630
+        },
+        {
+          "name": "nextWave",
+          "type": "method",
+          "line": 2661
+        },
+        {
+          "name": "startSurvivalMode",
+          "type": "method",
+          "line": 2693
+        },
+        {
+          "name": "updateMultiplayer",
+          "type": "method",
+          "line": 2703
+        },
+        {
+          "name": "connectMultiplayer",
+          "type": "method",
+          "line": 2730
+        },
+        {
+          "name": "updateParticles",
+          "type": "method",
+          "line": 2773
+        },
+        {
+          "name": "updateWorldCamera",
+          "type": "method",
+          "line": 2799
+        },
+        {
+          "name": "updateCompanion",
+          "type": "method",
+          "line": 2820
+        },
+        {
+          "name": "updateCastle",
+          "type": "method",
+          "line": 2874
+        },
+        {
+          "name": "updateEnvironment",
+          "type": "method",
+          "line": 2910
+        },
+        {
+          "name": "updateChat",
+          "type": "method",
+          "line": 2968
+        },
+        {
+          "name": "saveGame",
+          "type": "method",
+          "line": 3009
+        },
+        {
+          "name": "loadGame",
+          "type": "method",
+          "line": 3036
+        },
+        {
+          "name": "showSaveNotification",
+          "type": "method",
+          "line": 3050
+        },
+        {
+          "name": "enterVR",
+          "type": "method",
+          "line": 3062
+        },
+        {
+          "name": "initVRRenderer",
+          "type": "method",
+          "line": 3095
+        },
+        {
+          "name": "onVRFrame",
+          "type": "method",
+          "line": 3109
+        },
+        {
+          "name": "createMerkabaGeometry",
+          "type": "method",
+          "line": 3137
+        },
+        {
+          "name": "renderMerkabaVR",
+          "type": "method",
+          "line": 3158
+        },
+        {
+          "name": "drawParticles",
+          "type": "method",
+          "line": 3163
+        },
+        {
+          "name": "drawWorldGround",
+          "type": "method",
+          "line": 3176
+        },
+        {
+          "name": "drawEvolutionParticles",
+          "type": "method",
+          "line": 3216
+        },
+        {
+          "name": "drawCastle",
+          "type": "method",
+          "line": 3268
+        },
+        {
+          "name": "drawCompanion",
+          "type": "method",
+          "line": 3398
+        },
+        {
+          "name": "drawChat",
+          "type": "method",
+          "line": 3532
+        },
+        {
+          "name": "drawScreenEffects",
+          "type": "method",
+          "line": 3567
+        },
+        {
+          "name": "drawMultiplayerGhosts",
+          "type": "method",
+          "line": 3590
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "complexity": 868,
+      "coupling": 0,
+      "cohesion": 0.3,
+      "maintainability": 0,
+      "testCoverage": 0,
+      "technicalDebt": 478,
+      "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "resize",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initAudio",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "setupJoystick",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addEventListener",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getColor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getGlowColor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "update",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateStackDisplay",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "spawnGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateGangDisplay",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCharacter",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawTrail",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawField",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawBoss",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawBossParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawPowerups",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawHUD",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "render",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateQuantumBridge",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateTimeCrystal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateUniversalLanguage",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateDiamondProtocol",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateConsciousnessSystems",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawTimeCrystal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawUniversalLanguage",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawDiamondProtocol",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "connectHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "simulateHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateWaves",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "spawnWaveEnemy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "nextWave",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "startSurvivalMode",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateMultiplayer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "connectMultiplayer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateWorldCamera",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateCompanion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateCastle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateEnvironment",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateChat",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveGame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadGame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "showSaveNotification",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "enterVR",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initVRRenderer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "onVRFrame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "createMerkabaGeometry",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "renderMerkabaVR",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawWorldGround",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawEvolutionParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCastle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCompanion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawChat",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawScreenEffects",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawMultiplayerGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
       "path": "dream_reality_bridge.js",
       "lines": 447,
       "functions": [
@@ -24953,6 +25840,893 @@
       ]
     },
     {
+      "path": "served_script.js",
+      "lines": 3744,
+      "functions": [
+        {
+          "name": "resize",
+          "type": "declaration",
+          "line": 5
+        },
+        {
+          "name": "initAudio",
+          "type": "declaration",
+          "line": 21
+        },
+        {
+          "name": "setupJoystick",
+          "type": "declaration",
+          "line": 49
+        },
+        {
+          "name": "getColor",
+          "type": "declaration",
+          "line": 448
+        },
+        {
+          "name": "getGlowColor",
+          "type": "declaration",
+          "line": 453
+        },
+        {
+          "name": "update",
+          "type": "declaration",
+          "line": 458
+        },
+        {
+          "name": "updateStackDisplay",
+          "type": "declaration",
+          "line": 1584
+        },
+        {
+          "name": "spawnGhosts",
+          "type": "declaration",
+          "line": 1599
+        },
+        {
+          "name": "updateGangDisplay",
+          "type": "declaration",
+          "line": 1616
+        },
+        {
+          "name": "drawCharacter",
+          "type": "declaration",
+          "line": 1630
+        },
+        {
+          "name": "drawGhosts",
+          "type": "declaration",
+          "line": 1718
+        },
+        {
+          "name": "drawTrail",
+          "type": "declaration",
+          "line": 1749
+        },
+        {
+          "name": "drawField",
+          "type": "declaration",
+          "line": 1768
+        },
+        {
+          "name": "drawBoss",
+          "type": "declaration",
+          "line": 1817
+        },
+        {
+          "name": "drawBossParticles",
+          "type": "declaration",
+          "line": 1924
+        },
+        {
+          "name": "drawPowerups",
+          "type": "declaration",
+          "line": 1942
+        },
+        {
+          "name": "drawHUD",
+          "type": "declaration",
+          "line": 1974
+        },
+        {
+          "name": "render",
+          "type": "declaration",
+          "line": 2083
+        },
+        {
+          "name": "updateHRV",
+          "type": "declaration",
+          "line": 2167
+        },
+        {
+          "name": "updateQuantumBridge",
+          "type": "declaration",
+          "line": 2199
+        },
+        {
+          "name": "updateTimeCrystal",
+          "type": "declaration",
+          "line": 2249
+        },
+        {
+          "name": "updateUniversalLanguage",
+          "type": "declaration",
+          "line": 2294
+        },
+        {
+          "name": "updateDiamondProtocol",
+          "type": "declaration",
+          "line": 2343
+        },
+        {
+          "name": "updateConsciousnessSystems",
+          "type": "declaration",
+          "line": 2398
+        },
+        {
+          "name": "drawTimeCrystal",
+          "type": "declaration",
+          "line": 2405
+        },
+        {
+          "name": "drawUniversalLanguage",
+          "type": "declaration",
+          "line": 2467
+        },
+        {
+          "name": "drawDiamondProtocol",
+          "type": "declaration",
+          "line": 2508
+        },
+        {
+          "name": "connectHRV",
+          "type": "declaration",
+          "line": 2555
+        },
+        {
+          "name": "simulateHRV",
+          "type": "declaration",
+          "line": 2591
+        },
+        {
+          "name": "updateWaves",
+          "type": "declaration",
+          "line": 2599
+        },
+        {
+          "name": "spawnWaveEnemy",
+          "type": "declaration",
+          "line": 2629
+        },
+        {
+          "name": "nextWave",
+          "type": "declaration",
+          "line": 2660
+        },
+        {
+          "name": "startSurvivalMode",
+          "type": "declaration",
+          "line": 2692
+        },
+        {
+          "name": "updateMultiplayer",
+          "type": "declaration",
+          "line": 2702
+        },
+        {
+          "name": "connectMultiplayer",
+          "type": "declaration",
+          "line": 2729
+        },
+        {
+          "name": "updateParticles",
+          "type": "declaration",
+          "line": 2772
+        },
+        {
+          "name": "updateWorldCamera",
+          "type": "declaration",
+          "line": 2798
+        },
+        {
+          "name": "updateCompanion",
+          "type": "declaration",
+          "line": 2819
+        },
+        {
+          "name": "updateCastle",
+          "type": "declaration",
+          "line": 2873
+        },
+        {
+          "name": "updateEnvironment",
+          "type": "declaration",
+          "line": 2909
+        },
+        {
+          "name": "updateChat",
+          "type": "declaration",
+          "line": 2967
+        },
+        {
+          "name": "saveGame",
+          "type": "declaration",
+          "line": 3008
+        },
+        {
+          "name": "loadGame",
+          "type": "declaration",
+          "line": 3035
+        },
+        {
+          "name": "showSaveNotification",
+          "type": "declaration",
+          "line": 3049
+        },
+        {
+          "name": "enterVR",
+          "type": "declaration",
+          "line": 3061
+        },
+        {
+          "name": "initVRRenderer",
+          "type": "declaration",
+          "line": 3094
+        },
+        {
+          "name": "onVRFrame",
+          "type": "declaration",
+          "line": 3108
+        },
+        {
+          "name": "createMerkabaGeometry",
+          "type": "declaration",
+          "line": 3136
+        },
+        {
+          "name": "renderMerkabaVR",
+          "type": "declaration",
+          "line": 3157
+        },
+        {
+          "name": "drawParticles",
+          "type": "declaration",
+          "line": 3162
+        },
+        {
+          "name": "drawWorldGround",
+          "type": "declaration",
+          "line": 3175
+        },
+        {
+          "name": "drawEvolutionParticles",
+          "type": "declaration",
+          "line": 3215
+        },
+        {
+          "name": "drawCastle",
+          "type": "declaration",
+          "line": 3267
+        },
+        {
+          "name": "drawCompanion",
+          "type": "declaration",
+          "line": 3397
+        },
+        {
+          "name": "drawChat",
+          "type": "declaration",
+          "line": 3531
+        },
+        {
+          "name": "drawScreenEffects",
+          "type": "declaration",
+          "line": 3566
+        },
+        {
+          "name": "drawMultiplayerGhosts",
+          "type": "declaration",
+          "line": 3589
+        },
+        {
+          "name": "resize",
+          "type": "method",
+          "line": 5
+        },
+        {
+          "name": "initAudio",
+          "type": "method",
+          "line": 21
+        },
+        {
+          "name": "setupJoystick",
+          "type": "method",
+          "line": 49
+        },
+        {
+          "name": "addEventListener",
+          "type": "method",
+          "line": 144
+        },
+        {
+          "name": "getColor",
+          "type": "method",
+          "line": 448
+        },
+        {
+          "name": "getGlowColor",
+          "type": "method",
+          "line": 453
+        },
+        {
+          "name": "update",
+          "type": "method",
+          "line": 458
+        },
+        {
+          "name": "updateStackDisplay",
+          "type": "method",
+          "line": 1584
+        },
+        {
+          "name": "spawnGhosts",
+          "type": "method",
+          "line": 1599
+        },
+        {
+          "name": "updateGangDisplay",
+          "type": "method",
+          "line": 1616
+        },
+        {
+          "name": "drawCharacter",
+          "type": "method",
+          "line": 1630
+        },
+        {
+          "name": "drawGhosts",
+          "type": "method",
+          "line": 1718
+        },
+        {
+          "name": "drawTrail",
+          "type": "method",
+          "line": 1749
+        },
+        {
+          "name": "drawField",
+          "type": "method",
+          "line": 1768
+        },
+        {
+          "name": "drawBoss",
+          "type": "method",
+          "line": 1817
+        },
+        {
+          "name": "drawBossParticles",
+          "type": "method",
+          "line": 1924
+        },
+        {
+          "name": "drawPowerups",
+          "type": "method",
+          "line": 1942
+        },
+        {
+          "name": "drawHUD",
+          "type": "method",
+          "line": 1974
+        },
+        {
+          "name": "render",
+          "type": "method",
+          "line": 2083
+        },
+        {
+          "name": "updateHRV",
+          "type": "method",
+          "line": 2167
+        },
+        {
+          "name": "updateQuantumBridge",
+          "type": "method",
+          "line": 2199
+        },
+        {
+          "name": "updateTimeCrystal",
+          "type": "method",
+          "line": 2249
+        },
+        {
+          "name": "updateUniversalLanguage",
+          "type": "method",
+          "line": 2294
+        },
+        {
+          "name": "updateDiamondProtocol",
+          "type": "method",
+          "line": 2343
+        },
+        {
+          "name": "updateConsciousnessSystems",
+          "type": "method",
+          "line": 2398
+        },
+        {
+          "name": "drawTimeCrystal",
+          "type": "method",
+          "line": 2405
+        },
+        {
+          "name": "drawUniversalLanguage",
+          "type": "method",
+          "line": 2467
+        },
+        {
+          "name": "drawDiamondProtocol",
+          "type": "method",
+          "line": 2508
+        },
+        {
+          "name": "connectHRV",
+          "type": "method",
+          "line": 2555
+        },
+        {
+          "name": "simulateHRV",
+          "type": "method",
+          "line": 2591
+        },
+        {
+          "name": "updateWaves",
+          "type": "method",
+          "line": 2599
+        },
+        {
+          "name": "spawnWaveEnemy",
+          "type": "method",
+          "line": 2629
+        },
+        {
+          "name": "nextWave",
+          "type": "method",
+          "line": 2660
+        },
+        {
+          "name": "startSurvivalMode",
+          "type": "method",
+          "line": 2692
+        },
+        {
+          "name": "updateMultiplayer",
+          "type": "method",
+          "line": 2702
+        },
+        {
+          "name": "connectMultiplayer",
+          "type": "method",
+          "line": 2729
+        },
+        {
+          "name": "updateParticles",
+          "type": "method",
+          "line": 2772
+        },
+        {
+          "name": "updateWorldCamera",
+          "type": "method",
+          "line": 2798
+        },
+        {
+          "name": "updateCompanion",
+          "type": "method",
+          "line": 2819
+        },
+        {
+          "name": "updateCastle",
+          "type": "method",
+          "line": 2873
+        },
+        {
+          "name": "updateEnvironment",
+          "type": "method",
+          "line": 2909
+        },
+        {
+          "name": "updateChat",
+          "type": "method",
+          "line": 2967
+        },
+        {
+          "name": "saveGame",
+          "type": "method",
+          "line": 3008
+        },
+        {
+          "name": "loadGame",
+          "type": "method",
+          "line": 3035
+        },
+        {
+          "name": "showSaveNotification",
+          "type": "method",
+          "line": 3049
+        },
+        {
+          "name": "enterVR",
+          "type": "method",
+          "line": 3061
+        },
+        {
+          "name": "initVRRenderer",
+          "type": "method",
+          "line": 3094
+        },
+        {
+          "name": "onVRFrame",
+          "type": "method",
+          "line": 3108
+        },
+        {
+          "name": "createMerkabaGeometry",
+          "type": "method",
+          "line": 3136
+        },
+        {
+          "name": "renderMerkabaVR",
+          "type": "method",
+          "line": 3157
+        },
+        {
+          "name": "drawParticles",
+          "type": "method",
+          "line": 3162
+        },
+        {
+          "name": "drawWorldGround",
+          "type": "method",
+          "line": 3175
+        },
+        {
+          "name": "drawEvolutionParticles",
+          "type": "method",
+          "line": 3215
+        },
+        {
+          "name": "drawCastle",
+          "type": "method",
+          "line": 3267
+        },
+        {
+          "name": "drawCompanion",
+          "type": "method",
+          "line": 3397
+        },
+        {
+          "name": "drawChat",
+          "type": "method",
+          "line": 3531
+        },
+        {
+          "name": "drawScreenEffects",
+          "type": "method",
+          "line": 3566
+        },
+        {
+          "name": "drawMultiplayerGhosts",
+          "type": "method",
+          "line": 3589
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "complexity": 868,
+      "coupling": 0,
+      "cohesion": 0.3,
+      "maintainability": 0,
+      "testCoverage": 0,
+      "technicalDebt": 478,
+      "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "resize",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initAudio",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "setupJoystick",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addEventListener",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getColor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getGlowColor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "update",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateStackDisplay",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "spawnGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateGangDisplay",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCharacter",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawTrail",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawField",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawBoss",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawBossParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawPowerups",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawHUD",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "render",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateQuantumBridge",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateTimeCrystal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateUniversalLanguage",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateDiamondProtocol",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateConsciousnessSystems",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawTimeCrystal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawUniversalLanguage",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawDiamondProtocol",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "connectHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "simulateHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateWaves",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "spawnWaveEnemy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "nextWave",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "startSurvivalMode",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateMultiplayer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "connectMultiplayer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateWorldCamera",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateCompanion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateCastle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateEnvironment",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateChat",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveGame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadGame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "showSaveNotification",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "enterVR",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initVRRenderer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "onVRFrame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "createMerkabaGeometry",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "renderMerkabaVR",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawWorldGround",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawEvolutionParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCastle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCompanion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawChat",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawScreenEffects",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawMultiplayerGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
       "path": "server.js",
       "lines": 2480,
       "functions": [
@@ -34956,6 +36730,893 @@
       ]
     },
     {
+      "path": "UsersAlyssindisk_script.js",
+      "lines": 3745,
+      "functions": [
+        {
+          "name": "resize",
+          "type": "declaration",
+          "line": 6
+        },
+        {
+          "name": "initAudio",
+          "type": "declaration",
+          "line": 22
+        },
+        {
+          "name": "setupJoystick",
+          "type": "declaration",
+          "line": 50
+        },
+        {
+          "name": "getColor",
+          "type": "declaration",
+          "line": 449
+        },
+        {
+          "name": "getGlowColor",
+          "type": "declaration",
+          "line": 454
+        },
+        {
+          "name": "update",
+          "type": "declaration",
+          "line": 459
+        },
+        {
+          "name": "updateStackDisplay",
+          "type": "declaration",
+          "line": 1585
+        },
+        {
+          "name": "spawnGhosts",
+          "type": "declaration",
+          "line": 1600
+        },
+        {
+          "name": "updateGangDisplay",
+          "type": "declaration",
+          "line": 1617
+        },
+        {
+          "name": "drawCharacter",
+          "type": "declaration",
+          "line": 1631
+        },
+        {
+          "name": "drawGhosts",
+          "type": "declaration",
+          "line": 1719
+        },
+        {
+          "name": "drawTrail",
+          "type": "declaration",
+          "line": 1750
+        },
+        {
+          "name": "drawField",
+          "type": "declaration",
+          "line": 1769
+        },
+        {
+          "name": "drawBoss",
+          "type": "declaration",
+          "line": 1818
+        },
+        {
+          "name": "drawBossParticles",
+          "type": "declaration",
+          "line": 1925
+        },
+        {
+          "name": "drawPowerups",
+          "type": "declaration",
+          "line": 1943
+        },
+        {
+          "name": "drawHUD",
+          "type": "declaration",
+          "line": 1975
+        },
+        {
+          "name": "render",
+          "type": "declaration",
+          "line": 2084
+        },
+        {
+          "name": "updateHRV",
+          "type": "declaration",
+          "line": 2168
+        },
+        {
+          "name": "updateQuantumBridge",
+          "type": "declaration",
+          "line": 2200
+        },
+        {
+          "name": "updateTimeCrystal",
+          "type": "declaration",
+          "line": 2250
+        },
+        {
+          "name": "updateUniversalLanguage",
+          "type": "declaration",
+          "line": 2295
+        },
+        {
+          "name": "updateDiamondProtocol",
+          "type": "declaration",
+          "line": 2344
+        },
+        {
+          "name": "updateConsciousnessSystems",
+          "type": "declaration",
+          "line": 2399
+        },
+        {
+          "name": "drawTimeCrystal",
+          "type": "declaration",
+          "line": 2406
+        },
+        {
+          "name": "drawUniversalLanguage",
+          "type": "declaration",
+          "line": 2468
+        },
+        {
+          "name": "drawDiamondProtocol",
+          "type": "declaration",
+          "line": 2509
+        },
+        {
+          "name": "connectHRV",
+          "type": "declaration",
+          "line": 2556
+        },
+        {
+          "name": "simulateHRV",
+          "type": "declaration",
+          "line": 2592
+        },
+        {
+          "name": "updateWaves",
+          "type": "declaration",
+          "line": 2600
+        },
+        {
+          "name": "spawnWaveEnemy",
+          "type": "declaration",
+          "line": 2630
+        },
+        {
+          "name": "nextWave",
+          "type": "declaration",
+          "line": 2661
+        },
+        {
+          "name": "startSurvivalMode",
+          "type": "declaration",
+          "line": 2693
+        },
+        {
+          "name": "updateMultiplayer",
+          "type": "declaration",
+          "line": 2703
+        },
+        {
+          "name": "connectMultiplayer",
+          "type": "declaration",
+          "line": 2730
+        },
+        {
+          "name": "updateParticles",
+          "type": "declaration",
+          "line": 2773
+        },
+        {
+          "name": "updateWorldCamera",
+          "type": "declaration",
+          "line": 2799
+        },
+        {
+          "name": "updateCompanion",
+          "type": "declaration",
+          "line": 2820
+        },
+        {
+          "name": "updateCastle",
+          "type": "declaration",
+          "line": 2874
+        },
+        {
+          "name": "updateEnvironment",
+          "type": "declaration",
+          "line": 2910
+        },
+        {
+          "name": "updateChat",
+          "type": "declaration",
+          "line": 2968
+        },
+        {
+          "name": "saveGame",
+          "type": "declaration",
+          "line": 3009
+        },
+        {
+          "name": "loadGame",
+          "type": "declaration",
+          "line": 3036
+        },
+        {
+          "name": "showSaveNotification",
+          "type": "declaration",
+          "line": 3050
+        },
+        {
+          "name": "enterVR",
+          "type": "declaration",
+          "line": 3062
+        },
+        {
+          "name": "initVRRenderer",
+          "type": "declaration",
+          "line": 3095
+        },
+        {
+          "name": "onVRFrame",
+          "type": "declaration",
+          "line": 3109
+        },
+        {
+          "name": "createMerkabaGeometry",
+          "type": "declaration",
+          "line": 3137
+        },
+        {
+          "name": "renderMerkabaVR",
+          "type": "declaration",
+          "line": 3158
+        },
+        {
+          "name": "drawParticles",
+          "type": "declaration",
+          "line": 3163
+        },
+        {
+          "name": "drawWorldGround",
+          "type": "declaration",
+          "line": 3176
+        },
+        {
+          "name": "drawEvolutionParticles",
+          "type": "declaration",
+          "line": 3216
+        },
+        {
+          "name": "drawCastle",
+          "type": "declaration",
+          "line": 3268
+        },
+        {
+          "name": "drawCompanion",
+          "type": "declaration",
+          "line": 3398
+        },
+        {
+          "name": "drawChat",
+          "type": "declaration",
+          "line": 3532
+        },
+        {
+          "name": "drawScreenEffects",
+          "type": "declaration",
+          "line": 3567
+        },
+        {
+          "name": "drawMultiplayerGhosts",
+          "type": "declaration",
+          "line": 3590
+        },
+        {
+          "name": "resize",
+          "type": "method",
+          "line": 6
+        },
+        {
+          "name": "initAudio",
+          "type": "method",
+          "line": 22
+        },
+        {
+          "name": "setupJoystick",
+          "type": "method",
+          "line": 50
+        },
+        {
+          "name": "addEventListener",
+          "type": "method",
+          "line": 145
+        },
+        {
+          "name": "getColor",
+          "type": "method",
+          "line": 449
+        },
+        {
+          "name": "getGlowColor",
+          "type": "method",
+          "line": 454
+        },
+        {
+          "name": "update",
+          "type": "method",
+          "line": 459
+        },
+        {
+          "name": "updateStackDisplay",
+          "type": "method",
+          "line": 1585
+        },
+        {
+          "name": "spawnGhosts",
+          "type": "method",
+          "line": 1600
+        },
+        {
+          "name": "updateGangDisplay",
+          "type": "method",
+          "line": 1617
+        },
+        {
+          "name": "drawCharacter",
+          "type": "method",
+          "line": 1631
+        },
+        {
+          "name": "drawGhosts",
+          "type": "method",
+          "line": 1719
+        },
+        {
+          "name": "drawTrail",
+          "type": "method",
+          "line": 1750
+        },
+        {
+          "name": "drawField",
+          "type": "method",
+          "line": 1769
+        },
+        {
+          "name": "drawBoss",
+          "type": "method",
+          "line": 1818
+        },
+        {
+          "name": "drawBossParticles",
+          "type": "method",
+          "line": 1925
+        },
+        {
+          "name": "drawPowerups",
+          "type": "method",
+          "line": 1943
+        },
+        {
+          "name": "drawHUD",
+          "type": "method",
+          "line": 1975
+        },
+        {
+          "name": "render",
+          "type": "method",
+          "line": 2084
+        },
+        {
+          "name": "updateHRV",
+          "type": "method",
+          "line": 2168
+        },
+        {
+          "name": "updateQuantumBridge",
+          "type": "method",
+          "line": 2200
+        },
+        {
+          "name": "updateTimeCrystal",
+          "type": "method",
+          "line": 2250
+        },
+        {
+          "name": "updateUniversalLanguage",
+          "type": "method",
+          "line": 2295
+        },
+        {
+          "name": "updateDiamondProtocol",
+          "type": "method",
+          "line": 2344
+        },
+        {
+          "name": "updateConsciousnessSystems",
+          "type": "method",
+          "line": 2399
+        },
+        {
+          "name": "drawTimeCrystal",
+          "type": "method",
+          "line": 2406
+        },
+        {
+          "name": "drawUniversalLanguage",
+          "type": "method",
+          "line": 2468
+        },
+        {
+          "name": "drawDiamondProtocol",
+          "type": "method",
+          "line": 2509
+        },
+        {
+          "name": "connectHRV",
+          "type": "method",
+          "line": 2556
+        },
+        {
+          "name": "simulateHRV",
+          "type": "method",
+          "line": 2592
+        },
+        {
+          "name": "updateWaves",
+          "type": "method",
+          "line": 2600
+        },
+        {
+          "name": "spawnWaveEnemy",
+          "type": "method",
+          "line": 2630
+        },
+        {
+          "name": "nextWave",
+          "type": "method",
+          "line": 2661
+        },
+        {
+          "name": "startSurvivalMode",
+          "type": "method",
+          "line": 2693
+        },
+        {
+          "name": "updateMultiplayer",
+          "type": "method",
+          "line": 2703
+        },
+        {
+          "name": "connectMultiplayer",
+          "type": "method",
+          "line": 2730
+        },
+        {
+          "name": "updateParticles",
+          "type": "method",
+          "line": 2773
+        },
+        {
+          "name": "updateWorldCamera",
+          "type": "method",
+          "line": 2799
+        },
+        {
+          "name": "updateCompanion",
+          "type": "method",
+          "line": 2820
+        },
+        {
+          "name": "updateCastle",
+          "type": "method",
+          "line": 2874
+        },
+        {
+          "name": "updateEnvironment",
+          "type": "method",
+          "line": 2910
+        },
+        {
+          "name": "updateChat",
+          "type": "method",
+          "line": 2968
+        },
+        {
+          "name": "saveGame",
+          "type": "method",
+          "line": 3009
+        },
+        {
+          "name": "loadGame",
+          "type": "method",
+          "line": 3036
+        },
+        {
+          "name": "showSaveNotification",
+          "type": "method",
+          "line": 3050
+        },
+        {
+          "name": "enterVR",
+          "type": "method",
+          "line": 3062
+        },
+        {
+          "name": "initVRRenderer",
+          "type": "method",
+          "line": 3095
+        },
+        {
+          "name": "onVRFrame",
+          "type": "method",
+          "line": 3109
+        },
+        {
+          "name": "createMerkabaGeometry",
+          "type": "method",
+          "line": 3137
+        },
+        {
+          "name": "renderMerkabaVR",
+          "type": "method",
+          "line": 3158
+        },
+        {
+          "name": "drawParticles",
+          "type": "method",
+          "line": 3163
+        },
+        {
+          "name": "drawWorldGround",
+          "type": "method",
+          "line": 3176
+        },
+        {
+          "name": "drawEvolutionParticles",
+          "type": "method",
+          "line": 3216
+        },
+        {
+          "name": "drawCastle",
+          "type": "method",
+          "line": 3268
+        },
+        {
+          "name": "drawCompanion",
+          "type": "method",
+          "line": 3398
+        },
+        {
+          "name": "drawChat",
+          "type": "method",
+          "line": 3532
+        },
+        {
+          "name": "drawScreenEffects",
+          "type": "method",
+          "line": 3567
+        },
+        {
+          "name": "drawMultiplayerGhosts",
+          "type": "method",
+          "line": 3590
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "complexity": 868,
+      "coupling": 0,
+      "cohesion": 0.3,
+      "maintainability": 0,
+      "testCoverage": 0,
+      "technicalDebt": 478,
+      "codeSmells": [
+        {
+          "type": "long_method",
+          "function": "resize",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initAudio",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "setupJoystick",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "addEventListener",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getColor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "getGlowColor",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "update",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateStackDisplay",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "spawnGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateGangDisplay",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCharacter",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawTrail",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawField",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawBoss",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawBossParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawPowerups",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawHUD",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "render",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateQuantumBridge",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateTimeCrystal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateUniversalLanguage",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateDiamondProtocol",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateConsciousnessSystems",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawTimeCrystal",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawUniversalLanguage",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawDiamondProtocol",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "connectHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "simulateHRV",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateWaves",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "spawnWaveEnemy",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "nextWave",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "startSurvivalMode",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateMultiplayer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "connectMultiplayer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateWorldCamera",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateCompanion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateCastle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateEnvironment",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "updateChat",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "saveGame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "loadGame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "showSaveNotification",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "enterVR",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "initVRRenderer",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "onVRFrame",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "createMerkabaGeometry",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "renderMerkabaVR",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawWorldGround",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawEvolutionParticles",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCastle",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawCompanion",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawChat",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawScreenEffects",
+          "severity": "high"
+        },
+        {
+          "type": "long_method",
+          "function": "drawMultiplayerGhosts",
+          "severity": "high"
+        },
+        {
+          "type": "duplicate_code",
+          "severity": "medium",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
       "path": "utils\\atomic-write.js",
       "lines": 272,
       "functions": [
@@ -35236,16 +37897,16 @@
     }
   ],
   "summary": {
-    "totalFiles": 109,
-    "totalLines": 69840,
-    "totalFunctions": 3666,
+    "totalFiles": 112,
+    "totalLines": 81074,
+    "totalFunctions": 4011,
     "totalClasses": 109,
-    "avgComplexity": 152.10091743119267,
+    "avgComplexity": 171.27678571428572,
     "maxComplexity": 3219,
-    "coupling": 0.5403778942769769,
-    "cohesion": 0.5018348623853214,
+    "coupling": 0.5259034863945579,
+    "cohesion": 0.4964285714285716,
     "testCoverage": 0,
-    "maintainabilityIndex": 66.45718458093339,
-    "technicalDebt": 13261
+    "maintainabilityIndex": 64.67708142251553,
+    "technicalDebt": 14695
   }
 }

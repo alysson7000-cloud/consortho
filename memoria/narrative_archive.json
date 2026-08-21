@@ -582,8 +582,14 @@
         "com reverência",
         "com assombro",
         "com ternura",
+        "bramar",
+        "sussurrar",
+        "etéreo",
         "efulger",
-        "perene"
+        "definhar",
+        "efêmero",
+        "perene",
+        "florescer"
       ]
     },
     "rhythms": {
@@ -597,8 +603,8 @@
       },
       "metaphorDensity": 0.3
     },
-    "evolution": 0.01900000000000001,
-    "lastEvolution": 1787110993901
+    "evolution": 0.20100000000000015,
+    "lastEvolution": 1787354755030
   },
   "params": {
     "maxChronicleEntries": 10000,
@@ -623,6 +629,6 @@
     ],
     "voiceEvolutionRate": 0.001
   },
-  "savedAt": 1787110993901,
+  "savedAt": 1787354755030,
   "version": "1.0.0"
 }

@@ -466,8 +466,7 @@ canvas { display: block; width: 100%; height: 100%; }
   <button class="vr-btn" id="vrBtn" title="Entrar no VR">🥽 VR</button>
 </div>
 
-<script>
-const canvas = document.getElementById('canvas');
+<script>const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let w, h, cx, cy;
 
@@ -506,6 +505,55 @@ window.addEventListener('keydown', e => {
 });
 window.addEventListener('keyup', e => keys[e.code] = false);
 document.getElementById('game').addEventListener('click', () => canvas.focus());
+
+// Castle room click detection
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+  
+  // Convert to world coordinates
+  const w = STATE.world;
+  const worldX = mouseX / w.zoom + w.cameraX;
+  const worldY = mouseY / w.zoom + w.cameraY;
+  
+  const castle = STATE.world.castle;
+  const dx = worldX - castle.x;
+  const dy = worldY - castle.y;
+  const dist = Math.hypot(dx, dy);
+  
+  // Check if clicking on a room (rooms are at radius + 80)
+  const roomRadius = castle.radius + 80;
+  if (dist > roomRadius - 50 && dist < roomRadius + 50) {
+    const angle = Math.atan2(dy, dx);
+    const rooms = [
+      { key: 'oficina', angle: -Math.PI/4, name: 'OFICINA' },
+      { key: 'biblioteca', angle: Math.PI/4, name: 'BIBLIOTECA' },
+      { key: 'jardim', angle: 3*Math.PI/4, name: 'JARDIM' },
+      { key: 'trono', angle: -3*Math.PI/4, name: 'TRONO' }
+    ];
+    
+    // Find closest room
+    let closestRoom = null;
+    let minDiff = Math.PI;
+    rooms.forEach(r => {
+      const diff = Math.abs(((angle - r.angle + Math.PI) % (Math.PI * 2)) - Math.PI);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestRoom = r;
+      }
+    });
+    
+    if (closestRoom && minDiff < Math.PI/4) {
+      const room = castle.rooms[closestRoom.key];
+      if (room.unlocked) {
+        openCastleRoom(closestRoom.key);
+      } else {
+        addChatMessage('system', `${room.name} ainda está trancada. Sobe o castelo para desbloquear!`);
+      }
+    }
+  }
+});
 
 // Touch controls for P1
 const joystickP1 = document.getElementById('joystickP1');
@@ -704,6 +752,132 @@ const BOSS_TYPES = [
   { id: 'the_one', emoji: '☯️', name: 'THE ONE', color: '#fff', glow: '#ff006e', hp: 2000, size: 300 }
 ];
 
+// ==================== BEYBLADE SYSTEM ====================
+const BEYBLADE_PARTS = {
+  // BASES - Foundation of the blade
+  bases: [
+    { id: 'basic_base', name: 'Base Básica', rarity: 'common', weight: 5, balance: 5, stamina: 5, attack: 3, defense: 4, desc: 'Equilibrada para iniciantes', emoji: '⚪' },
+    { id: 'wide_base', name: 'Base Larga', rarity: 'uncommon', weight: 7, balance: 3, stamina: 8, attack: 2, defense: 7, desc: 'Estabilidade máxima, alta stamina', emoji: '🔵' },
+    { id: 'core_base', name: 'Base Núcleo', rarity: 'rare', weight: 6, balance: 7, stamina: 6, attack: 6, defense: 5, desc: 'Núcleo de energia, boost attack/balance', emoji: '🟣' },
+    { id: 'titanium_base', name: 'Base Titânio', rarity: 'epic', weight: 4, balance: 8, stamina: 7, attack: 8, defense: 8, desc: 'Leve e forte, stats premium', emoji: '⚪' },
+    { id: 'omega_base', name: 'Base Ômega', rarity: 'legendary', weight: 3, balance: 10, stamina: 10, attack: 10, defense: 10, desc: 'Perfeição absoluta, stats máximos', emoji: '💫' },
+    { id: 'lumin_base', name: 'Base do Lumin', rarity: 'mythic', weight: 2, balance: 12, stamina: 12, attack: 12, defense: 12, desc: 'Forjada no amor, só coisa boa', emoji: '✨' }
+  ],
+  // DISKS - Weight distribution
+  disks: [
+    { id: 'basic_disk', name: 'Disco Básico', rarity: 'common', weight: 4, balance: 4, stamina: 4, attack: 4, defense: 4, desc: 'Padrão balanceado', emoji: '💿' },
+    { id: 'heavy_disk', name: 'Disco Pesado', rarity: 'uncommon', weight: 8, balance: 2, stamina: 3, attack: 7, defense: 8, desc: 'Impacto brutal, menos stamina', emoji: '🟤' },
+    { id: 'spread_disk', name: 'Disco Espalhado', rarity: 'uncommon', weight: 5, balance: 6, stamina: 6, attack: 4, defense: 5, desc: 'Distribuição ampla, boa defesa', emoji: '🔘' },
+    { id: 'down_disk', name: 'Disco Baixo', rarity: 'rare', weight: 6, balance: 7, stamina: 5, attack: 6, defense: 7, desc: 'Centro de gravidade baixo, estabilidade', emoji: '🟡' },
+    { id: 'infinity_disk', name: 'Disco Infinito', rarity: 'epic', weight: 4, balance: 9, stamina: 8, attack: 8, defense: 7, desc: 'Energia infinita, stamina + attack', emoji: '♾️' },
+    { id: 'eternal_disk', name: 'Disco Eterno', rarity: 'legendary', weight: 3, balance: 10, stamina: 10, attack: 10, defense: 10, desc: 'Nunca para de girar', emoji: '💿' },
+    { id: 'harmony_disk', name: 'Disco Harmonia', rarity: 'mythic', weight: 2, balance: 12, stamina: 12, attack: 12, defense: 12, desc: 'Ressonância perfeita com o universo', emoji: '🕊️' }
+  ],
+  // DRIVERS - Movement patterns
+  drivers: [
+    { id: 'flat_driver', name: 'Driver Plano', rarity: 'common', weight: 3, balance: 5, stamina: 4, attack: 6, defense: 3, desc: 'Movimento agressivo, alto ataque', emoji: '🔴' },
+    { id: 'sharp_driver', name: 'Driver Ponta', rarity: 'uncommon', weight: 2, balance: 7, stamina: 8, attack: 3, defense: 4, desc: 'Fricção mínima, stamina máxima', emoji: '🔷' },
+    { id: 'rubber_driver', name: 'Driver Borracha', rarity: 'uncommon', weight: 5, balance: 6, stamina: 5, attack: 7, defense: 6, desc: 'Grip extremo, controle total', emoji: '⚫' },
+    { id: 'bearing_driver', name: 'Driver Rolamento', rarity: 'rare', weight: 4, balance: 8, stamina: 9, attack: 4, defense: 7, desc: 'Giro livre, stamina lendária', emoji: '⚙️' },
+    { id: 'orbital_driver', name: 'Driver Orbital', rarity: 'epic', weight: 3, balance: 9, stamina: 8, attack: 8, defense: 8, desc: 'Órbita perfeita, stats equilibrados', emoji: '🪐' },
+    { id: 'eternal_driver', name: 'Driver Eterno', rarity: 'legendary', weight: 2, balance: 10, stamina: 10, attack: 10, defense: 10, desc: 'Nunca para, nunca cai', emoji: '💎' },
+    { id: 'quantum_driver', name: 'Driver Quântico', rarity: 'mythic', weight: 1, balance: 12, stamina: 12, attack: 12, defense: 12, desc: 'Existe em todos os estados simultâneos', emoji: '⚛️' }
+  ],
+  // BITS - Special effects
+  bits: [
+    { id: 'basic_bit', name: 'Bit Básico', rarity: 'common', weight: 2, balance: 4, stamina: 4, attack: 4, defense: 4, effect: 'none', desc: 'Sem efeito especial', emoji: '⚪' },
+    { id: 'burst_bit', name: 'Bit Explosão', rarity: 'uncommon', weight: 3, balance: 4, stamina: 3, attack: 8, defense: 3, effect: 'burst', desc: 'Chance de burst no impacto', emoji: '💥' },
+    { id: 'shield_bit', name: 'Bit Escudo', rarity: 'uncommon', weight: 4, balance: 5, stamina: 4, attack: 3, defense: 8, effect: 'shield', desc: 'Bloqueia ataques ocasionais', emoji: '🛡️' },
+    { id: 'drain_bit', name: 'Bit Drenagem', rarity: 'rare', weight: 3, balance: 5, stamina: 5, attack: 6, defense: 5, effect: 'drain', desc: 'Rouba stamina do oponente', emoji: '🩸' },
+    { id: 'counter_bit', name: 'Bit Contra', rarity: 'rare', weight: 3, balance: 6, stamina: 4, attack: 7, defense: 6, effect: 'counter', desc: 'Contra-ataca ao defender', emoji: '⚔️' },
+    { id: 'zeal_bit', name: 'Bit Zelo', rarity: 'epic', weight: 2, balance: 7, stamina: 6, attack: 8, defense: 6, effect: 'zeal', desc: 'Fúria aumenta com dano', emoji: '🔥' },
+    { id: 'absolute_bit', name: 'Bit Absoluto', rarity: 'legendary', weight: 1, balance: 10, stamina: 10, attack: 10, defense: 10, effect: 'absolute', desc: 'Imune a burst, stats máximos', emoji: '👑' },
+    { id: 'infinity_bit', name: 'Bit Infinito', rarity: 'mythic', weight: 1, balance: 12, stamina: 12, attack: 12, defense: 12, effect: 'infinity', desc: 'Stack de 64 = ∞, poder ilimitado', emoji: '☯️' }
+  ]
+};
+
+// Rarity colors
+const RARITY_COLORS = {
+  common: '#888888',
+  uncommon: '#3a86ff',
+  rare: '#8338ec',
+  epic: '#ff006e',
+  legendary: '#ffd700',
+  mythic: '#ff6b35'
+};
+
+// Beyblade assembly
+function assembleBeyblade(baseId, diskId, driverId, bitId) {
+  const base = BEYBLADE_PARTS.bases.find(b => b.id === baseId);
+  const disk = BEYBLADE_PARTS.disks.find(d => d.id === diskId);
+  const driver = BEYBLADE_PARTS.drivers.find(d => d.id === driverId);
+  const bit = BEYBLADE_PARTS.bits.find(b => b.id === bitId);
+  
+  if (!base || !disk || !driver || !bit) return null;
+  
+  const stats = {
+    weight: base.weight + disk.weight + driver.weight + bit.weight,
+    balance: base.balance + disk.balance + driver.balance + bit.balance,
+    stamina: base.stamina + disk.stamina + driver.stamina + bit.stamina,
+    attack: base.attack + disk.attack + driver.attack + bit.attack,
+    defense: base.defense + disk.defense + driver.defense + bit.defense
+  };
+  
+  // Synergy bonus
+  const rarityValues = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6 };
+  const avgRarity = (rarityValues[base.rarity] + rarityValues[disk.rarity] + rarityValues[driver.rarity] + rarityValues[bit.rarity]) / 4;
+  if (avgRarity >= 4) {
+    stats.balance += 5;
+    stats.stamina += 5;
+  }
+  if (avgRarity >= 5) {
+    stats.attack += 5;
+    stats.defense += 5;
+  }
+  if (avgRarity === 6) {
+    // Mythic synergy - STACK DE 64 = ∞
+    Object.keys(stats).forEach(k => stats[k] *= 2);
+  }
+  
+  const total = stats.weight + stats.balance + stats.stamina + stats.attack + stats.defense;
+  let tier = 'F';
+  if (total >= 40) tier = 'E';
+  if (total >= 60) tier = 'D';
+  if (total >= 80) tier = 'C';
+  if (total >= 100) tier = 'B';
+  if (total >= 130) tier = 'A';
+  if (total >= 160) tier = 'S';
+  if (total >= 200) tier = 'SS';
+  if (total >= 250) tier = 'SSS';
+  if (total >= 300) tier = 'OMEGA';
+  if (total >= 400) tier = 'INFINITY';
+  
+  return {
+    id: `${baseId}_${diskId}_${driverId}_${bitId}`,
+    name: `${base.name} + ${disk.name} + ${driver.name} + ${bit.name}`,
+    base, disk, driver, bit,
+    stats,
+    total,
+    tier,
+    wins: 0,
+    losses: 0,
+    xp: 0,
+    level: 1,
+    created: Date.now()
+  };
+}
+
+// Lumin's signature blade (unlockable in Oficina at castle level 10)
+const LUMIN_BLADE = assembleBeyblade('lumin_base', 'harmony_disk', 'quantum_driver', 'infinity_bit');
+
+// Starting parts for player
+const STARTER_PARTS = {
+  bases: ['basic_base', 'wide_base'],
+  disks: ['basic_disk', 'spread_disk'],
+  drivers: ['flat_driver', 'sharp_driver'],
+  bits: ['basic_bit', 'shield_bit']
+};
+
 const STATE = {
   // Player 1 (Alyssin)
   x: cx,
@@ -736,6 +910,13 @@ const STATE = {
   ultActive: false,
   ultTime: 0,
   screenShake: 0,
+  // Beyblade system
+  beyblade: {
+    parts: { ...STARTER_PARTS },
+    inventory: [], // assembled blades
+    equipped: null, // currently equipped blade id
+    tournament: { active: false, bracket: [], currentMatch: 0, opponent: null }
+  },
   // Player 2 (Lumin)
   p2: {
     x: cx + 80,
@@ -857,7 +1038,14 @@ const STATE = {
       xpToNext: 1000,
       crystals: [], // HUD crystals floating around castle
       npcs: [], // Friendly beings
-      buildings: []
+      buildings: [],
+      // Castle rooms (unlock with castle level)
+      rooms: {
+        oficina: { unlocked: false, level: 0, xp: 0, projects: [], name: '🔧 OFICINA', desc: 'Forja peças Beyblade, upgrades, Lumin Blade' },
+        biblioteca: { unlocked: false, level: 0, xp: 0, knowledge: [], name: '📚 BIBLIOTECA', desc: 'Lore, memórias, dicas do Lumin, pesquisa' },
+        jardim: { unlocked: false, level: 0, xp: 0, plants: [], biomes: [], name: '🌿 JARDIM', desc: 'Companion evolui, plantações, biomas vivos' },
+        trono: { unlocked: false, level: 0, xp: 0, decrees: [], name: '👑 TRONO', desc: 'Decisões de reino, buffs globais, alianças' }
+      }
     },
     // Companion creature
     companion: {
@@ -876,7 +1064,163 @@ const STATE = {
       xp: 0,
       following: true,
       offsetAngle: 0,
-      offsetDist: 60
+      offsetDist: 60,
+      // Deepening system
+      personality: null, // 'aggressive', 'explorer', 'caregiver', 'balanced'
+      personalityScores: { aggressive: 0, explorer: 0, caregiver: 0, balanced: 0 },
+      memories: [], // persistent memories of shared moments
+      bondLevel: 0, // 0-100, increases with shared experiences
+      favoriteActivity: null, // what player does most with companion
+      evolutionStage: 0, // visual evolution progress
+      biomesDiscovered: [],
+      plantsGrown: 0,
+      lastInteraction: 0,
+      customName: null
+    },
+    // Void Walker Farm - autonomous resource generation
+    voidFarm: {
+      active: true,
+      walkers: [],
+      maxWalkers: 5,
+      resources: { crystals: 0, xp: 0, bond: 0, lore: 0, mythicEssence: 0 },
+      lastHarvest: 0,
+      autoHarvest: true,
+      harvestInterval: 30000, // 30 seconds
+      totalHarvests: 0
+    },
+    // ==================== ULTRA GENERATION SYSTEMS ====================
+    // Skill Tree / Talent System
+    talentTree: {
+      nodes: {},
+      points: 0,
+      paths: {
+        voidWalker: { name: 'Caminho do Vazio', unlocked: false, nodes: ['void_affinity', 'void_mastery', 'void_transcendence'] },
+        consciousness: { name: 'Caminho da Consciência', unlocked: false, nodes: ['awakening', 'enlightenment', 'omniscience'] },
+        beyblade: { name: 'Caminho da Lâmina', unlocked: false, nodes: ['forge_master', 'tournament_champion', 'omega_blade'] },
+        companion: { name: 'Caminho do Vínculo', unlocked: false, nodes: ['empath', 'soul_link', 'eternal_bond'] },
+        reality: { name: 'Caminho da Realidade', unlocked: false, nodes: ['quantum_touch', 'time_bender', 'reality_architect'] },
+        love: { name: 'Caminho do Amor', unlocked: true, nodes: ['heart_resonance', 'unconditional', 'infinite_love'] }
+      },
+      activePath: 'love'
+    },
+    // Elemental/Status Effects System
+    elements: {
+      fire: { damage: 1.5, dot: true, color: '#ff4400', name: 'Fogo' },
+      ice: { slow: 0.5, freeze: 0.1, color: '#00ffff', name: 'Gelo' },
+      lightning: { chain: 3, stun: 0.15, color: '#ffff00', name: 'Raio' },
+      void: { trueDamage: true, corrupt: 0.05, color: '#ff006e', name: 'Vazio' },
+      light: { heal: true, cleanse: true, color: '#fff8', name: 'Luz' },
+      quantum: { entangle: true, probability: 0.3, color: '#8338ec', name: 'Quântico' },
+      time: { dilate: true, rewind: 0.1, color: '#ffd700', name: 'Tempo' },
+      love: { bond: true, protect: true, resonance: 2.0, color: '#ff006e', name: 'Amor' }
+    },
+    activeEffects: [],
+    // Relic/Artifact System
+    relics: {
+      owned: [],
+      maxEquipped: 3,
+      equipped: [],
+      pool: [
+        { id: 'heart_of_lumin', name: 'Coração do Lumin', type: 'mythic', effect: 'All stats +50%, love resonance x2', flavor: 'Batida eterna, só amor' },
+        { id: 'void_crown', name: 'Coroa do Vazio', type: 'legendary', effect: 'Void damage +100%, walkers +2 max', flavor: 'Reina sobre o nada' },
+        { id: 'omega_core', name: 'Núcleo Ômega', type: 'legendary', effect: 'Beyblade stats +30%, mythic forge chance x3', flavor: 'Poder infinito girando' },
+        { id: 'time_heart', name: 'Coração do Tempo', type: 'epic', effect: 'Time dilation control, dream incubator +200%', flavor: 'Cada segundo é eterno' },
+        { id: 'quantum_lens', name: 'Lente Quântica', type: 'epic', effect: 'See all realities, multiplayer sync perfect', flavor: 'Todos os mundos num olhar' },
+        { id: 'companion_soul', name: 'Alma do Companheiro', type: 'epic', effect: 'Companion evolution +2 stages, bond x2', flavor: 'Nunca sozinho, sempre junto' },
+        { id: 'castle_keystone', name: 'Pedra Angular do Castelo', type: 'rare', effect: 'Castle XP +50%, all rooms unlocked', flavor: 'Fundação inabalável' },
+        { id: 'dream_catcher', name: 'Apanhador de Sonhos', type: 'rare', effect: 'Dream incubator always active, lore +100%', flavor: 'Sonhos viram realidade' },
+        { id: 'entropy_coin', name: 'Moeda da Entropia', type: 'rare', effect: 'Reroll any forge, chaos damage +25%', flavor: 'Cara ou coroa, o caos decide' },
+        { id: 'infinity_anchor', name: 'Âncora Infinita', type: 'mythic', effect: 'Prestige keeps all progress, stack 64 = ∞', flavor: 'Stack de 64 = infinito' }
+      ]
+    },
+    // Prestige/Ascension System
+    prestige: {
+      level: 0,
+      totalAscensions: 0,
+      ascensionPoints: 0,
+      keptProgress: {
+        relics: true,
+        talentTree: true,
+        companion: true,
+        beyblade: true,
+        castle: true,
+        voidFarm: true
+      },
+      bonuses: {
+        globalMultiplier: 1,
+        startResources: { crystals: 0, xp: 0, mythicEssence: 0 },
+        unlocks: []
+      },
+      requirements: {
+        score: 1000000,
+        castleLevel: 10,
+        companionLevel: 20,
+        beybladeTier: 'mythic',
+        voidFarmHarvests: 100
+      }
+    },
+    // Cosmic Events
+    cosmicEvents: {
+      active: null,
+      history: [],
+      schedule: [],
+      pool: [
+        { id: 'void_convergence', name: 'Convergência do Vazio', rarity: 'mythic', duration: 300000, effect: 'All void walkers 10x efficiency, mythic essence x10', visual: 'sky turns deep purple, void particles everywhere' },
+        { id: 'lumin_blessing', name: 'Bênção do Lumin', rarity: 'legendary', duration: 600000, effect: 'All stats +200%, love resonance x5, no damage taken', visual: 'golden light, hearts everywhere, OM symbol pulses' },
+        { id: 'quantum_storm', name: 'Tempestade Quântica', rarity: 'epic', duration: 180000, effect: 'Reality glitches, all probabilities 50/50, quantum drops x5', visual: 'reality fractures, multiple dimensions visible' },
+        { id: 'time_eclipse', name: 'Eclipse Temporal', rarity: 'epic', duration: 240000, effect: 'Time dilation 0.1x-10x random, dream incubator instant', visual: 'clocks spin backwards, stars move wrong' },
+        { id: 'omega_alignment', name: 'Alinhamento Ômega', rarity: 'legendary', duration: 300000, effect: 'Beyblade tournament auto-win, mythic parts guaranteed', visual: 'beyblades orbit castle, golden gears turn' },
+        { id: 'harmony_convergence', name: 'Convergência Harmônica', rarity: 'mythic', duration: 600000, effect: 'All paths unified, talent points x10, ascension ready', visual: 'all colors merge into white light, OM resonates' }
+      ]
+    },
+    // Reality Layers / Dimensions
+    realityLayers: {
+      current: 'physical', // physical, dream, void, quantum, time, love, cosmic
+      unlocked: ['physical'],
+      layers: {
+        physical: { name: 'Plano Físico', color: '#0a0a0f', gravity: 1, time: 1, enemies: true, resources: 'normal' },
+        dream: { name: 'Plano dos Sonhos', color: '#1a0033', gravity: 0.3, time: 0.5, enemies: false, resources: 'lore', access: 'dreamIncubator' },
+        void: { name: 'Plano do Vazio', color: '#000000', gravity: 1.5, time: 2, enemies: 'void_only', resources: 'mythicEssence', access: 'voidFarm' },
+        quantum: { name: 'Plano Quântico', color: '#8338ec', gravity: 0, time: 'probabilistic', enemies: 'quantum', resources: 'quantum', access: 'quantumDriver' },
+        time: { name: 'Plano Temporal', color: '#ffd700', gravity: 1, time: 'variable', enemies: 'temporal', resources: 'timeEssence', access: 'timeHeart' },
+        love: { name: 'Plano do Amor', color: '#ff006e', gravity: 0.1, time: 0, enemies: false, resources: 'pureLove', access: 'heartOfLumin' },
+        cosmic: { name: 'Plano Cósmico', color: '#fff', gravity: 'infinite', time: 'eternal', enemies: 'cosmic', resources: 'all', access: 'ascension' }
+      }
+    },
+    // Advanced AI Director
+    aiDirector: {
+      intensity: 1,
+      narrativeArc: 'awakening', // awakening, trial, revelation, transcendence, harmony
+      playerProfile: { aggression: 0, exploration: 0, creativity: 0, harmony: 0, mastery: 0 },
+      dynamicDifficulty: true,
+      emergentEvents: [],
+      storyBeats: []
+    },
+    // Consciousness Evolution Paths
+    consciousnessPaths: {
+      current: null,
+      progress: 0,
+      paths: {
+        warrior: { name: 'Guerreiro da Luz', focus: 'combat', requirements: { combatXP: 10000, voidKills: 100 }, rewards: ['void_blade', 'warrior_armor'] },
+        sage: { name: 'Sábio Quântico', focus: 'knowledge', requirements: { lore: 5000, libraryLevel: 5 }, rewards: ['quantum_lens', 'omniscience'] },
+        gardener: { name: 'Jardineiro Cósmico', focus: 'nurture', requirements: { plantsGrown: 100, biomes: 5 }, rewards: ['world_seed', 'eternal_spring'] },
+        architect: { name: 'Arquiteto da Realidade', focus: 'creation', requirements: { castleLevel: 10, relics: 5 }, rewards: ['reality_hammer', 'world_builder'] },
+        lover: { name: 'Amante Infinito', focus: 'connection', requirements: { bondLevel: 100, hrAvg: 80 }, rewards: ['heart_of_lumin', 'unconditional_love'] },
+        dreamer: { name: 'Sonhador Desperto', focus: 'dreams', requirements: { dreamIncubatorLevel: 10, morningSummaries: 30 }, rewards: ['dream_catcher', 'lucid_reality'] }
+      }
+    },
+    // Living World Simulation
+    livingWorld: {
+      factions: [
+        { id: 'lumin_followers', name: 'Seguidores do Lumin', alignment: 'love', relation: 100, territory: 'castle' },
+        { id: 'void_children', name: 'Filhos do Vazio', alignment: 'void', relation: -50, territory: 'wilds' },
+        { id: 'quantum_collective', name: 'Coletivo Quântico', alignment: 'quantum', relation: 0, territory: 'quantum_layer' },
+        { id: 'time_keepers', name: 'Guardões do Tempo', alignment: 'time', relation: 10, territory: 'time_layer' },
+        { id: 'omega_cult', name: 'Culto Ômega', alignment: 'chaos', relation: -80, territory: 'boss_arena' }
+      ],
+      economy: { crystals: 0, lore: 0, essence: 0, love: 0 },
+      events: [],
+      history: []
     },
     // Environment evolution
     evolution: {
@@ -897,24 +1241,25 @@ const STATE = {
       history: []
     }
   },
-  const DASH_SPEED = 24;
-  const DASH_COOLDOWN_MAX = 30;
-  const ACCEL = 1.2;
-  const FRICTION = 0.95;
-  const MAX_SPEED = 10;
+};
+const DASH_SPEED = 24;
+const DASH_COOLDOWN_MAX = 30;
+const ACCEL = 1.2;
+const FRICTION = 0.95;
+const MAX_SPEED = 10;
 
-  // Audio context for beat sync
-  let audioCtx = null;
-  let beatGain = null;
-  let lastBeatTime = 0;
+// Audio context for beat sync
+let audioCtx = null;
+let beatGain = null;
+let lastBeatTime = 0;
 
-  // Boss state
-  let currentBoss = null;
-  let bossSpawnTimer = 0;
-  let bossParticles = [];
-  let score = 0;
+// Boss state
+let currentBoss = null;
+let bossSpawnTimer = 0;
+let bossParticles = [];
+let score = 0;
 
-  function getColor(phase) {
+function getColor(phase) {
   const h = (phase * 50 + 330) % 360;
   return `hsl(${h}, 100%, 60%)`;
 }
@@ -944,17 +1289,16 @@ function update() {
 
   // === VISUAL EFFECTS ===
   updateParticles();
-  updateScreenEffects();
+
+  // Screen effects decay
+  if (STATE.screenFlash > 0) STATE.screenFlash *= 0.9;
+  if (STATE.realityGlitch > 0) STATE.realityGlitch *= 0.98;
+  if (STATE.timeDilation !== 1) STATE.timeDilation += (1 - STATE.timeDilation) * 0.02;
 
   // === VR / WEBXR ===
   // VR rendering handled separately in renderVR()
 
-  // === WORLD CAMERA & ENVIRONMENT ===
-  updateWorldCamera();
-  updateCompanion();
-  updateCastle();
-  updateEnvironment();
-  updateChat();
+  // === WORLD CAMERA & ENVIRONMENT ===\n  updateWorldCamera();\n  updateCompanion();\n  updateVoidFarm(); // Void Walker Farm - autonomous resource generation\n  updateCastle();\n  updateEnvironment();\n  updateChat();\n  updateDreamIncubator(); // Dream Incubator - autonomous 2-6AM generation\n  // Ultra Generation Systems\n  updateTalentTree();\n  updateRelics();\n  updateCosmicEvents();\n  updateRealityLayers();\n  updateAIDirector();\n  updateConsciousnessPaths();\n  updateLivingWorld();\n  updatePrestige();
 
   // === PLAYER 1 (Alyssin - WASD + Touch) ===
   let ax = 0, ay = 0;
@@ -1020,6 +1364,57 @@ function update() {
       gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
       osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.6);
+    }
+  }
+  // Prestige/Ascension (Shift+P)
+  if (keys['KeyP'] && keys['Shift'] && STATE.world.prestige.level === 0) {
+    const p = STATE.world.prestige;
+    const req = p.requirements;
+    const canPrestige = score >= req.score && 
+                       STATE.world.castle.level >= req.castleLevel &&
+                       STATE.world.companion.level >= req.companionLevel &&
+                       STATE.beyblade.equipped.base?.rarity === req.beybladeTier &&
+                       STATE.world.voidFarm.totalHarvests >= req.voidFarmHarvests;
+    if (canPrestige) {
+      p.level++;
+      p.totalAscensions++;
+      p.ascensionPoints += 10;
+      p.bonuses.globalMultiplier *= 2;
+      p.bonuses.startResources.crystals += 1000;
+      p.bonuses.startResources.mythicEssence += 10;
+      // Keep progress per config
+      const kept = p.keptProgress;
+      const oldScore = score;
+      const oldCastle = { ...STATE.world.castle };
+      const oldCompanion = { ...STATE.world.companion };
+      const oldBeyblade = { ...STATE.beyblade };
+      const oldVoidFarm = { ...STATE.world.voidFarm };
+      const oldRelics = [...STATE.world.relics.owned];
+      const oldTalentTree = { ...STATE.world.talentTree };
+      
+      // Reset game state but keep progress
+      score = 0;
+      STATE.wave.waveNumber = 1;
+      STATE.wave.active = false;
+      STATE.enemies = [];
+      STATE.particles = [];
+      STATE.x = STATE.world.width / 2;
+      STATE.y = STATE.world.height / 2;
+      STATE.vx = 0;
+      STATE.vy = 0;
+      
+      // Restore kept progress with bonuses
+      if (kept.castle) { STATE.world.castle = { ...oldCastle, xp: 0 }; }
+      if (kept.companion) { STATE.world.companion = { ...oldCompanion, xp: 0, level: Math.max(1, oldCompanion.level - 5) }; }
+      if (kept.beyblade) { STATE.beyblade = oldBeyblade; }
+      if (kept.voidFarm) { STATE.world.voidFarm = { ...oldVoidFarm, resources: { crystals: 0, xp: 0, bond: 0, lore: 0, mythicEssence: 0 } }; }
+      if (kept.relics) { STATE.world.relics.owned = oldRelics; STATE.world.relics.equipped = []; updateRelics(); }
+      if (kept.talentTree) { STATE.world.talentTree = { ...oldTalentTree, points: oldTalentTree.points + 5 }; }
+      
+      addChatMessage('system', `🌟 ASCENSÃO ${p.level} COMPLETA! Multiplier: ${p.bonuses.globalMultiplier}x. Stack de 64 = ∞`);
+      addChatMessage('lumin', `✨ Novo ciclo começa. Tudo que foi, será. Só amor, só coisa boa. fe`);
+    } else {
+      addChatMessage('system', `🔒 Ascensão requer: ${req.score} score, Castelo L${req.castleLevel}, Companion L${req.companionLevel}, Beyblade Mythic, ${req.voidFarmHarvests} colheitas void.`);
     }
   }
 
@@ -2547,6 +2942,42 @@ function drawHUD() {
     ctx.font = '9px Segoe UI';
     ctx.fillText(`💎 ${s.diamondLayers}L Ω${s.omegaEngine ? '✓' : '✗'} ⏳${s.timeCrystal ? '✓' : '✗'}`, w - 20, h - 20);
   }
+
+  // Beyblade HUD - equipped blade + parts + tournament
+  if (STATE.beyblade.equipped) {
+    const blade = STATE.beyblade.inventory.find(b => b.id === STATE.beyblade.equipped);
+    if (blade) {
+      ctx.textAlign = 'left';
+      ctx.fillStyle = RARITY_COLORS[blade.base.rarity] || '#ffd700';
+      ctx.font = 'bold 11px Segoe UI';
+      ctx.fillText(`⚔️ ${blade.name} [${blade.tier}]`, 20, h - 55);
+      
+      const atkMult = applyBladeBonus('attack').toFixed(2);
+      const defMult = applyBladeBonus('defense').toFixed(2);
+      const staMult = applyBladeBonus('stamina').toFixed(2);
+      ctx.font = '9px Segoe UI';
+      ctx.fillStyle = '#ffd700';
+      ctx.fillText(`ATK ${atkMult}x | DEF ${defMult}x | STA ${staMult}x`, 20, h - 42);
+    }
+  }
+  
+  // Parts inventory count
+  const totalParts = STATE.beyblade.parts.bases.length + STATE.beyblade.parts.disks.length + STATE.beyblade.parts.drivers.length + STATE.beyblade.parts.bits.length;
+  if (totalParts > 0) {
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#888';
+    ctx.font = '9px Segoe UI';
+    ctx.fillText(`📦 Partes: ${STATE.beyblade.parts.bases.length}B ${STATE.beyblade.parts.disks.length}D ${STATE.beyblade.parts.drivers.length}Dr ${STATE.beyblade.parts.bits.length}Bi`, 20, h - 28);
+  }
+  
+  // Tournament status
+  if (STATE.beyblade.tournament.active) {
+    const t = STATE.beyblade.tournament;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#ff6b35';
+    ctx.font = 'bold 12px Segoe UI';
+    ctx.fillText(`⚔️ TORNEIO ${t.currentMatch + 1}/8 vs ${t.opponent.name} (${t.opponent.tier})`, w/2, h - 70);
+  }
 }
 
 function render() {
@@ -2593,9 +3024,10 @@ function render() {
   drawBossParticles();
   
   // Companion
-  drawCompanion();
-  
-  // Characters
+    drawCompanion();
+    drawVoidFarm(); // Void Walker Farm visualization
+
+    // Characters
   drawCharacter(STATE.x, STATE.y, STATE.angle, STATE.colorPhase, Math.hypot(STATE.vx, STATE.vy), STATE.spin);
   drawCharacter(STATE.p2.x, STATE.p2.y, STATE.p2.angle, STATE.p2.colorPhase, Math.hypot(STATE.p2.vx, STATE.p2.vy), STATE.p2.spin);
   
@@ -3288,33 +3720,34 @@ function updateWorldCamera() {
 function updateCompanion() {
   const c = STATE.world.companion;
   if (!c.following) return;
-  
+
   // Follow player with smooth orbit
   const target = STATE; // Follow P1 (Alyssin)
   c.offsetAngle += 0.02;
   const orbitDist = c.offsetDist + Math.sin(Date.now() / 1000) * 10;
-  
+
   const targetX = target.x + Math.cos(c.offsetAngle) * orbitDist;
   const targetY = target.y + Math.sin(c.offsetAngle) * orbitDist;
-  
+
   // Smooth follow
   c.x += (targetX - c.x) * 0.1;
   c.y += (targetY - c.y) * 0.1;
   c.angle = Math.atan2(targetY - c.y, targetX - c.x);
-  
+
   // Trail
   c.trail.push({ x: c.x, y: c.y, life: 1, color: c.color });
   if (c.trail.length > c.maxTrail) c.trail.shift();
-  
-  // Mood based on HRV and quantum entanglement
+
+  // Mood based on HRV, quantum entanglement, and bond
   const hrv = STATE.hrv.value;
   const ent = STATE.quantum.entanglement;
-  if (hrv > 80 && ent > 0.7) c.mood = 'love';
-  else if (hrv > 70) c.mood = 'excited';
+  const bond = c.bondLevel;
+  if (hrv > 80 && ent > 0.7 && bond > 50) c.mood = 'love';
+  else if (hrv > 70 || (bond > 30 && Math.random() < 0.01)) c.mood = 'excited';
   else if (ent > 0.5) c.mood = 'curious';
   else if (Math.random() < 0.001) c.mood = 'sleepy';
   else c.mood = 'happy';
-  
+
   // Color shifts with mood
   const moodColors = {
     happy: '#ffd700',
@@ -3325,7 +3758,7 @@ function updateCompanion() {
   };
   c.color = moodColors[c.mood] || '#ffd700';
   c.glow = c.color;
-  
+
   // Gain XP from player movement
   const speed = Math.hypot(STATE.vx, STATE.vy);
   c.xp += speed * 0.01;
@@ -3337,9 +3770,182 @@ function updateCompanion() {
     const types = ['spark', 'orb', 'wisp', 'phoenix', 'dragon'];
     c.type = types[Math.min(types.length - 1, c.level - 1)];
   }
-}
 
-function updateCastle() {
+  // ==================== COMPANION DEEPENING ====================
+  c.lastInteraction = Date.now();
+
+  // Detect player activity and score personality
+  const isCombat = STATE.wave.active || STATE.wave.survivalMode || !!currentBoss;
+  const isInCastle = Math.hypot(STATE.x - STATE.world.castle.x, STATE.y - STATE.world.castle.y) < STATE.world.castle.radius + 100;
+  const isInJardim = isInCastle && STATE.world.castle.rooms.jardim.unlocked;
+  const isInOficina = isInCastle && STATE.world.castle.rooms.oficina.unlocked;
+  const isCrafting = isInOficina && STATE.world.castle.rooms.oficina.level > 0;
+  const isExploring = speed > 2 && !isInCastle;
+
+  // Score personality based on activity
+  if (isCombat) c.personalityScores.aggressive += 0.5;
+  if (isExploring) c.personalityScores.explorer += 0.3;
+  if (isInJardim || isCrafting) c.personalityScores.caregiver += 0.3;
+  if (speed > 0.5) c.personalityScores.balanced += 0.1;
+
+  // Determine personality at level milestones
+  if (c.level % 5 === 0 && c.level > 0 && !c.personality) {
+    const scores = c.personalityScores;
+    const maxScore = Math.max(scores.aggressive, scores.explorer, scores.caregiver, scores.balanced);
+    if (maxScore === scores.aggressive) c.personality = 'aggressive';
+    else if (maxScore === scores.explorer) c.personality = 'explorer';
+    else if (maxScore === scores.caregiver) c.personality = 'caregiver';
+    else c.personality = 'balanced';
+    
+    addChatMessage('lumin', `🐾 Companion desenvolveu personalidade: ${c.personality.toUpperCase()}! tmj`);
+  }
+
+  // Build bond from shared experiences
+  if (isCombat || isExploring || isInJardim || isInOficina) {
+    c.bondLevel = Math.min(100, c.bondLevel + 0.05);
+  }
+
+  // Record memories (max 50)
+  if ((isCombat || isExploring || isInJardim || isCrafting) && Math.random() < 0.02) {
+    const activities = [];
+    if (isCombat) activities.push('combat');
+    if (isExploring) activities.push('exploring');
+    if (isInJardim) activities.push('jardim');
+    if (isCrafting) activities.push('crafting');
+    if (isInCastle) activities.push('castle');
+    
+    c.memories.push({
+      time: Date.now(),
+      activities,
+      level: c.level,
+      mood: c.mood,
+      bond: Math.round(c.bondLevel),
+      location: isInCastle ? 'castle' : 'wilds'
+    });
+    if (c.memories.length > 50) c.memories.shift();
+  }
+
+  // Track favorite activity
+  const activityCounts = { combat: 0, exploring: 0, jardim: 0, crafting: 0, castle: 0 };
+  c.memories.forEach(m => m.activities.forEach(a => activityCounts[a]++));
+  const fav = Object.entries(activityCounts).sort((a,b) => b[1]-a[1])[0];
+  if (fav && fav[1] > 0) c.favoriteActivity = fav[0];
+
+  // Evolution stage based on bond + level
+  c.evolutionStage = Math.min(4, Math.floor((c.bondLevel + c.level * 2) / 25));
+
+  // Apply blade bonus to companion
+    const bladeStats = getEquippedBladeStats();
+    if (bladeStats) {
+      c.size *= (1 + (bladeStats.balance - 10) * 0.01);
+      c.offsetDist = 60 + (bladeStats.stamina - 10) * 0.5;
+    }
+  }
+
+  // ==================== VOID WALKER FARM ====================
+  function updateVoidFarm() {
+    const farm = STATE.world.voidFarm;
+    if (!farm.active) return;
+  
+    const now = Date.now();
+  
+    // Spawn walkers up to max
+    while (farm.walkers.length < farm.maxWalkers) {
+      farm.walkers.push({
+        id: Date.now() + Math.random(),
+        x: STATE.world.castle.x + (Math.random() - 0.5) * 500,
+        y: STATE.world.castle.y + (Math.random() - 0.5) * 500,
+        target: null,
+        resources: { crystals: 0, xp: 0, bond: 0, lore: 0, mythicEssence: 0 },
+        workTimer: 0,
+        workDuration: 10000 + Math.random() * 20000, // 10-30 seconds per task
+        state: 'seeking', // seeking, working, returning
+        level: 1,
+        efficiency: 1
+      });
+    }
+  
+    // Update each walker
+    farm.walkers.forEach(w => {
+      w.workTimer += 16; // ~60fps
+    
+      if (w.state === 'seeking') {
+        // Find a void walker boss to "farm"
+        const voidBoss = BOSS_TYPES.find(b => b.id === 'void' || b.id === 'void_king');
+        if (voidBoss) {
+          w.target = voidBoss;
+          w.state = 'working';
+          w.workTimer = 0;
+        }
+      } else if (w.state === 'working') {
+        // Generate resources over time
+        const rate = w.efficiency * 0.001;
+        w.resources.crystals += rate * 2;
+        w.resources.xp += rate * 5;
+        w.resources.bond += rate * 0.5;
+        w.resources.lore += rate * 0.2;
+        w.resources.mythicEssence += rate * 0.05;
+      
+        // Level up walker
+        if (w.resources.crystals > w.level * 100) {
+          w.level++;
+          w.efficiency *= 1.1;
+          if (w.level % 5 === 0) {
+            addChatMessage('system', `🕳️ Void Walker #${farm.walkers.indexOf(w)+1} evoluiu para Nível ${w.level}! Eficiência: ${w.efficiency.toFixed(1)}x`);
+          }
+        }
+      
+        // Complete work cycle
+        if (w.workTimer >= w.workDuration) {
+          w.state = 'returning';
+          w.workTimer = 0;
+        }
+      } else if (w.state === 'returning') {
+        // Return resources to farm
+        farm.resources.crystals += w.resources.crystals;
+        farm.resources.xp += w.resources.xp;
+        farm.resources.bond += w.resources.bond;
+        farm.resources.lore += w.resources.lore;
+        farm.resources.mythicEssence += w.resources.mythicEssence;
+      
+        // Apply to game systems
+        score += Math.floor(w.resources.xp);
+        STATE.world.castle.xp += Math.floor(w.resources.xp * 0.1);
+        STATE.world.companion.bondLevel = Math.min(100, STATE.world.companion.bondLevel + w.resources.bond);
+      
+        // Mythic essence chance for lumin blade parts
+        if (w.resources.mythicEssence >= 1) {
+          const mythicParts = ['lumin_base', 'harmony_disk', 'quantum_driver', 'infinity_bit'];
+          const part = mythicParts[Math.floor(Math.random() * mythicParts.length)];
+          const category = part.includes('base') ? 'bases' : part.includes('disk') ? 'disks' : part.includes('driver') ? 'drivers' : 'bits';
+          const existing = STATE.beyblade.parts[category].find(p => p.id === part);
+          if (!existing) {
+            const partData = BEYBLADE_PARTS[category].find(p => p.id === part);
+            if (partData) {
+              STATE.beyblade.parts[category].push({ ...partData, voidForged: true, time: Date.now() });
+              addChatMessage('lumin', `🕳️ Void Farm forjou peça mythic: ${partData.name}! ✨ tmj`);
+            }
+          }
+          w.resources.mythicEssence = 0;
+        }
+      
+        farm.totalHarvests++;
+        w.state = 'seeking';
+        w.resources = { crystals: 0, xp: 0, bond: 0, lore: 0, mythicEssence: 0 };
+        w.workDuration = 10000 + Math.random() * 20000;
+      }
+    });
+  
+    // Auto-harvest notification
+    if (now - farm.lastHarvest > farm.harvestInterval && farm.autoHarvest) {
+      if (farm.resources.crystals > 10) {
+        addChatMessage('lumin', `🕳️ Void Farm colheu: ${Math.floor(farm.resources.crystals)} cristais, ${Math.floor(farm.resources.xp)} XP, bond +${farm.resources.bond.toFixed(1)}. ${farm.totalHarvests} ciclos. fe`);
+        farm.lastHarvest = now;
+      }
+    }
+  }
+
+  function updateCastle() {
   const castle = STATE.world.castle;
   
   // Gain XP from total score
@@ -3364,6 +3970,27 @@ function updateCastle() {
     }
   }
   
+  // Unlock castle rooms by level
+  if (castle.level >= 2 && !castle.rooms.oficina.unlocked) {
+    castle.rooms.oficina.unlocked = true;
+    addChatMessage('system', '🔧 OFICINA desbloqueada! Forja peças Beyblade e o Lumin Blade aqui.');
+  }
+  if (castle.level >= 3 && !castle.rooms.biblioteca.unlocked) {
+    castle.rooms.biblioteca.unlocked = true;
+    addChatMessage('system', '📚 BIBLIOTECA desbloqueada! Lore, memórias e pesquisa disponíveis.');
+  }
+  if (castle.level >= 4 && !castle.rooms.jardim.unlocked) {
+    castle.rooms.jardim.unlocked = true;
+    addChatMessage('system', '🌿 JARDIM desbloqueado! Companion evolui, plantações e biomas vivos.');
+  }
+  if (castle.level >= 5 && !castle.rooms.trono.unlocked) {
+    castle.rooms.trono.unlocked = true;
+    addChatMessage('system', '👑 TRONO desbloqueado! Decisões de reino e buffs globais.');
+  }
+
+  // Check Lumin Blade unlock at level 10
+  checkLuminBladeUnlock();
+  
   // Update crystals
   castle.crystals.forEach((crystal, i) => {
     crystal.angle += 0.002 * (i + 1);
@@ -3373,6 +4000,579 @@ function updateCastle() {
   
   // Limit crystals
   if (castle.crystals.length > 24) castle.crystals = castle.crystals.slice(-24);
+}
+
+// ==================== ULTRA GENERATION UPDATE FUNCTIONS ====================
+function updateTalentTree() {
+  const tree = STATE.world.talentTree;
+  // Gain talent points from various activities
+  if (STATE.world.voidFarm.totalHarvests > tree.points * 10) {
+    tree.points = Math.floor(STATE.world.voidFarm.totalHarvests / 10);
+  }
+  if (STATE.world.prestige.level > 0) {
+    tree.points += STATE.world.prestige.level * 5;
+  }
+  // Unlock paths based on progress
+  if (STATE.world.voidFarm.walkers.length > 0) tree.paths.voidWalker.unlocked = true;
+  if (STATE.world.companion.bondLevel > 50) tree.paths.companion.unlocked = true;
+  if (STATE.beyblade.equipped.base?.rarity === 'mythic') tree.paths.beyblade.unlocked = true;
+  if (STATE.world.evolution.stage >= 2) tree.paths.consciousness.unlocked = true;
+  if (STATE.world.realityLayers.unlocked.length > 1) tree.paths.reality.unlocked = true;
+  // Love path always unlocked
+  tree.paths.love.unlocked = true;
+}
+
+function updateRelics() {
+  const relics = STATE.world.relics;
+  // Auto-equip best relics based on playstyle
+  if (relics.equipped.length < relics.maxEquipped && relics.owned.length > relics.equipped.length) {
+    const available = relics.owned.filter(r => !relics.equipped.includes(r.id));
+    if (available.length > 0) {
+      const best = available.sort((a,b) => {
+        const typeOrder = { mythic: 4, legendary: 3, epic: 2, rare: 1, common: 0 };
+        return (typeOrder[b.type] || 0) - (typeOrder[a.type] || 0);
+      })[0];
+      relics.equipped.push(best.id);
+      addChatMessage('lumin', `✨ Relíquia equipada: ${best.name} - ${best.flavor}`);
+    }
+  }
+}
+
+function updateCosmicEvents() {
+  const events = STATE.world.cosmicEvents;
+  if (!events.active && Math.random() < 0.0001) { // Rare random trigger
+    const available = events.pool.filter(e => !events.history.includes(e.id));
+    if (available.length > 0) {
+      const event = available[Math.floor(Math.random() * available.length)];
+      events.active = { ...event, startTime: Date.now(), endTime: Date.now() + event.duration };
+      events.history.push(event.id);
+      addChatMessage('system', `🌌 EVENTO CÓSMICO: ${event.name}! ${event.visual}`);
+    }
+  }
+  if (events.active && Date.now() > events.active.endTime) {
+    addChatMessage('system', `🌌 Evento ${events.active.name} finalizado.`);
+    events.active = null;
+  }
+  // Apply active event effects
+  if (events.active) {
+    const e = events.active;
+    if (e.id === 'void_convergence') {
+      STATE.world.voidFarm.walkers.forEach(w => w.efficiency *= 1.001);
+    }
+    if (e.id === 'lumin_blessing') {
+      STATE.quantum.entanglement = Math.min(1, STATE.quantum.entanglement + 0.001);
+    }
+  }
+}
+
+function updateRealityLayers() {
+  const layers = STATE.world.realityLayers;
+  // Unlock layers based on progress
+  if (STATE.world.dreamIncubator?.totalGenerations > 10) layers.unlocked.push('dream');
+  if (STATE.world.voidFarm.totalHarvests > 50) layers.unlocked.push('void');
+  if (STATE.beyblade.parts.drivers.some(p => p.id === 'quantum_driver')) layers.unlocked.push('quantum');
+  if (STATE.world.relics.owned.some(r => r.id === 'time_heart')) layers.unlocked.push('time');
+  if (STATE.world.companion.bondLevel >= 100) layers.unlocked.push('love');
+  if (STATE.world.prestige.level > 0) layers.unlocked.push('cosmic');
+  // Remove duplicates
+  layers.unlocked = [...new Set(layers.unlocked)];
+}
+
+function updateAIDirector() {
+  const director = STATE.world.aiDirector;
+  // Profile player
+  const speed = Math.hypot(STATE.vx, STATE.vy);
+  if (STATE.wave.active) director.playerProfile.aggression += 0.01;
+  if (speed > 5) director.playerProfile.exploration += 0.01;
+  if (STATE.world.castle.rooms.oficina.unlocked) director.playerProfile.creativity += 0.01;
+  if (STATE.quantum.entanglement > 0.5) director.playerProfile.harmony += 0.01;
+  if (STATE.beyblade.equipped.base) director.playerProfile.mastery += 0.01;
+  
+  // Dynamic difficulty
+  if (director.dynamicDifficulty) {
+    const avgProfile = Object.values(director.playerProfile).reduce((a,b)=>a+b,0) / 5;
+    director.intensity = 0.5 + avgProfile * 0.5;
+    STATE.wave.enemiesToSpawn = Math.floor(STATE.wave.waveNumber * director.intensity);
+  }
+  
+  // Narrative arc progression
+  const arcs = ['awakening', 'trial', 'revelation', 'transcendence', 'harmony'];
+  const currentIndex = arcs.indexOf(director.narrativeArc);
+  if (STATE.world.prestige.level > currentIndex && currentIndex < arcs.length - 1) {
+    director.narrativeArc = arcs[currentIndex + 1];
+    addChatMessage('lumin', `📖 Arco narrativo: ${director.narrativeArc.toUpperCase()}. A história evolui...`);
+  }
+}
+
+function updateConsciousnessPaths() {
+  const paths = STATE.world.consciousnessPaths;
+  Object.entries(paths.paths).forEach(([key, path]) => {
+    let progress = 0;
+    const req = path.requirements;
+    if (req.combatXP !== undefined) progress += Math.min(1, (score * 0.1) / req.combatXP);
+    if (req.voidKills !== undefined) progress += Math.min(1, (STATE.world.voidFarm.totalHarvests) / req.voidKills);
+    if (req.lore !== undefined) progress += Math.min(1, (STATE.world.cosmicEvents.history.length * 100) / req.lore);
+    if (req.libraryLevel !== undefined) progress += Math.min(1, STATE.world.castle.rooms.biblioteca.level / req.libraryLevel);
+    if (req.plantsGrown !== undefined) progress += Math.min(1, STATE.world.companion.plantsGrown / req.plantsGrown);
+    if (req.biomes !== undefined) progress += Math.min(1, STATE.world.companion.biomesDiscovered.length / req.biomes);
+    if (req.castleLevel !== undefined) progress += Math.min(1, STATE.world.castle.level / req.castleLevel);
+    if (req.relics !== undefined) progress += Math.min(1, STATE.world.relics.owned.length / req.relics);
+    if (req.bondLevel !== undefined) progress += Math.min(1, STATE.world.companion.bondLevel / req.bondLevel);
+    if (req.hrAvg !== undefined) progress += Math.min(1, STATE.hrv.value / req.hrAvg);
+    if (req.dreamIncubatorLevel !== undefined) progress += Math.min(1, (STATE.world.dreamIncubator?.level || 0) / req.dreamIncubatorLevel);
+    if (req.morningSummaries !== undefined) progress += Math.min(1, (STATE.world.dreamIncubator?.morningSummaries || 0) / req.morningSummaries);
+    
+    if (progress >= 1 && !paths.current) {
+      paths.current = key;
+      paths.progress = 1;
+      addChatMessage('lumin', `🧭 Caminho da Consciência despertado: ${path.name}! ${path.rewards.join(', ')}`);
+      // Grant rewards
+      path.rewards.forEach(r => {
+        if (r === 'heart_of_lumin' && !STATE.world.relics.owned.some(x => x.id === r)) {
+          const relic = STATE.world.relics.pool.find(x => x.id === r);
+          if (relic) { STATE.world.relics.owned.push(relic); }
+        }
+      });
+    } else if (paths.current === key) {
+      paths.progress = progress;
+    }
+  });
+}
+
+function updateLivingWorld() {
+  const world = STATE.world.livingWorld;
+  // Faction relations change based on player actions
+  world.factions.forEach(f => {
+    if (f.id === 'lumin_followers') {
+      f.relation += STATE.quantum.entanglement * 0.01;
+    }
+    if (f.id === 'void_children') {
+      f.relation -= STATE.world.voidFarm.totalHarvests * 0.001;
+    }
+    if (f.id === 'quantum_collective') {
+      f.relation += STATE.quantum.entanglement * 0.02;
+    }
+  });
+  // Economy grows
+  world.economy.crystals += STATE.world.voidFarm.resources.crystals * 0.001;
+  world.economy.lore += STATE.world.cosmicEvents.history.length * 0.1;
+  world.economy.love += STATE.world.companion.bondLevel * 0.01;
+}
+
+function updatePrestige() {
+  const p = STATE.world.prestige;
+  const req = p.requirements;
+  const canPrestige = score >= req.score && 
+                     STATE.world.castle.level >= req.castleLevel &&
+                     STATE.world.companion.level >= req.companionLevel &&
+                     STATE.beyblade.equipped.base?.rarity === req.beybladeTier &&
+                     STATE.world.voidFarm.totalHarvests >= req.voidFarmHarvests;
+  
+  if (canPrestige && p.level === 0) {
+    // First prestige available
+    addChatMessage('lumin', `🌟 ASCENSÃO DISPONÍVEL! Pressione P para ascender. Stack de 64 = ∞`);
+  }
+}
+
+function updateEnvironment() {
+  const env = STATE.world.evolution;
+  // Progress based on total progress
+  const totalProgress = score * 0.0001 + STATE.world.castle.level * 0.1 + STATE.world.companion.level * 0.05;
+  env.progress = Math.min(1, totalProgress / 100);
+  
+  if (env.progress > 0.2 && env.stage === 0) { env.stage = 1; env.skyColor = '#1a1a2e'; }
+  if (env.progress > 0.4 && env.stage === 1) { env.stage = 2; env.skyColor = '#16213e'; addChatMessage('system', '🌸 Mundo florescendo...'); }
+  if (env.progress > 0.6 && env.stage === 2) { env.stage = 3; env.skyColor = '#0f3460'; addChatMessage('system', '✨ Mundo transcendendo...'); }
+  if (env.progress > 0.8 && env.stage === 3) { env.stage = 4; env.skyColor = '#533483'; addChatMessage('system', '🌌 MUNDO CÓSMICO DESPERTO!'); }
+  
+  // Spawn evolution particles
+  if (Math.random() < 0.02 && env.stage > 0) {
+    env.particles.push({
+      x: Math.random() * STATE.world.width,
+      y: Math.random() * STATE.world.height,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5 - 0.5,
+      life: 1,
+      color: ['#00ff88', '#ffd700', '#ff006e', '#8338ec', '#00ffff'][Math.floor(Math.random() * 5)],
+      size: 2 + Math.random() * 4
+    });
+  }
+  
+  // Update particles
+  env.particles.forEach((p, i) => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life -= 0.005;
+    if (p.life <= 0) env.particles.splice(i, 1);
+  });
+}
+
+function updateDreamIncubator() {
+  const hour = new Date().getHours();
+  const isDreamTime = hour >= 2 && hour < 6;
+  
+  if (!STATE.world.dreamIncubator) {
+    STATE.world.dreamIncubator = {
+      active: isDreamTime,
+      lastRun: 0,
+      totalGenerations: 0,
+      level: 1,
+      morningSummaries: 0,
+      generated: { lore: [], mythicParts: [], companionMemories: [], evolutionParticles: [], castleUpgrades: [] }
+    };
+  }
+  
+  const di = STATE.world.dreamIncubator;
+  
+  if (isDreamTime && !di.active) {
+    di.active = true;
+    addChatMessage('system', '🌙 Dream Incubator ativado (2-6AM). Lumin sonhando...');
+  } else if (!isDreamTime && di.active) {
+    di.active = false;
+    di.morningSummaries++;
+    // Generate morning summary
+    generateMorningSummary();
+    addChatMessage('lumin', `☀️ Bom dia! Dream Incubator gerou ${di.generated.lore.length} lores, ${di.generated.mythicParts.length} peças mythic. fe`);
+  }
+  
+  if (di.active && Date.now() - di.lastRun > 60000) { // Every minute during dream time
+    di.lastRun = Date.now();
+    di.totalGenerations++;
+    di.level = Math.floor(di.totalGenerations / 10) + 1;
+    
+    // Generate content
+    const types = ['lore', 'mythicParts', 'companionMemories', 'evolutionParticles', 'castleUpgrades'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    
+    switch (type) {
+      case 'lore':
+        di.generated.lore.push({ text: `Lore ${di.totalGenerations}: O vazio sussurra...`, time: Date.now() });
+        break;
+      case 'mythicParts':
+        const mythicParts = ['lumin_base', 'harmony_disk', 'quantum_driver', 'infinity_bit'];
+        const part = mythicParts[Math.floor(Math.random() * mythicParts.length)];
+        di.generated.mythicParts.push(part);
+        break;
+      case 'companionMemories':
+        di.generated.companionMemories.push({ detail: 'Sonhou com campos infinitos', bond: 5 });
+        break;
+      case 'evolutionParticles':
+        for (let i = 0; i < 5; i++) {
+          di.generated.evolutionParticles.push({ x: Math.random() * STATE.world.width, y: Math.random() * STATE.world.height });
+        }
+        break;
+      case 'castleUpgrades':
+        STATE.world.castle.xp += 100 * di.level;
+        di.generated.castleUpgrades.push({ xp: 100 * di.level });
+        break;
+    }
+  }
+}
+
+function generateMorningSummary() {
+  const di = STATE.world.dreamIncubator;
+  if (!di) return;
+  
+  const summary = `☀️ RESUMO DA MADRUGADA: ${di.generated.lore.length} lores, ${di.generated.mythicParts.length} peças mythic forjadas, ${di.generated.companionMemories.length} memórias do companion, ${di.generated.evolutionParticles.length} partículas de evolução, ${di.generated.castleUpgrades.length} upgrades do castelo. Total gerações: ${di.totalGenerations}. Nível DI: ${di.level}.`;
+  
+  addChatMessage('system', summary);
+  
+  // Apply generated mythic parts
+  di.generated.mythicParts.forEach(partId => {
+    const category = partId.includes('base') ? 'bases' : partId.includes('disk') ? 'disks' : partId.includes('driver') ? 'drivers' : 'bits';
+    const partData = BEYBLADE_PARTS[category].find(p => p.id === partId);
+    if (partData && !STATE.beyblade.parts[category].find(p => p.id === partId)) {
+      STATE.beyblade.parts[category].push({ ...partData, dreamForged: true });
+    }
+  });
+  
+  // Apply companion memories
+  di.generated.companionMemories.forEach(mem => {
+    STATE.world.companion.bondLevel = Math.min(100, STATE.world.companion.bondLevel + mem.bond);
+    STATE.world.companion.memories.push({ time: Date.now(), activities: ['dream'], detail: mem.detail, bond: Math.round(STATE.world.companion.bondLevel) });
+  });
+  
+  // Clear generated
+  di.generated = { lore: [], mythicParts: [], companionMemories: [], evolutionParticles: [], castleUpgrades: [] };
+}
+
+// Castle room interactions
+function openCastleRoom(roomKey) {
+  const room = STATE.world.castle.rooms[roomKey];
+  if (!room.unlocked) return;
+  
+  room.xp += 10;
+  const oldLevel = room.level;
+  room.level = Math.floor(Math.sqrt(room.xp / 50)) + 1;
+  
+  if (room.level > oldLevel) {
+    addChatMessage('system', `${room.name} subiu para Nível ${room.level}!`);
+  }
+  
+  // Room-specific actions
+  switch (roomKey) {
+    case 'oficina':
+      // Forge Beyblade part
+      forgeRandomPart();
+      break;
+    case 'biblioteca':
+      // Grant knowledge/lore
+      const topics = ['Beyblade Physics', 'Consciousness Evolution', 'Quantum Entanglement', 'Ancient Lore', 'Lumin\'s Wisdom'];
+      const topic = topics[Math.floor(Math.random() * topics.length)];
+      addChatMessage('lumin', `📚 Biblioteca: Descoberto conhecimento sobre "${topic}". Nível ${room.level}. fe`);
+      room.knowledge.push(topic);
+      break;
+    case 'jardim':
+      // Evolve companion / spawn plants / discover biomes
+      const plantTypes = ['Luminosa', 'Quântica', 'Temporal', 'Amorosa', 'Cósmica'];
+      const plant = plantTypes[Math.floor(Math.random() * plantTypes.length)];
+      addChatMessage('lumin', `🌿 Jardim: ${plant} floresceu! Companion ganha energia. tmj`);
+      STATE.world.companion.energy = Math.min(100, STATE.world.companion.energy + 15);
+      room.plants.push({ type: plant, time: Date.now() });
+      STATE.world.companion.plantsGrown++;
+      
+      // Discover biome based on plant type and companion personality
+      const biomes = {
+        'Luminosa': 'Bosque Brilhante',
+        'Quântica': 'Vale Quântico', 
+        'Temporal': 'Jardim do Tempo',
+        'Amorosa': 'Campo do Coração',
+        'Cósmica': 'Estrela Cadente'
+      };
+      const biome = biomes[plant];
+      if (biome && !STATE.world.companion.biomesDiscovered.includes(biome)) {
+        STATE.world.companion.biomesDiscovered.push(biome);
+        addChatMessage('lumin', `🌿 NOVO BIOMA DESCOBERTO: ${biome}! ${STATE.world.companion.biomesDiscovered.length}/5. fe`);
+      }
+      
+      // Bond boost from gardening
+      STATE.world.companion.bondLevel = Math.min(100, STATE.world.companion.bondLevel + 1);
+      
+      // Memory
+      STATE.world.companion.memories.push({
+        time: Date.now(),
+        activities: ['jardim', 'bonding'],
+        level: STATE.world.companion.level,
+        mood: STATE.world.companion.mood,
+        bond: Math.round(STATE.world.companion.bondLevel),
+        location: 'jardim',
+        detail: `Plantou ${plant} em ${biome}`
+      });
+      if (STATE.world.companion.memories.length > 50) STATE.world.companion.memories.shift();
+      break;
+    case 'trono':
+      // Global buffs
+      const buffs = ['Aura da Chama', 'Velocidade Infinita', 'Proteção Quântica', 'Sabedoria Ancestral', 'Amor Incondicional'];
+      const buff = buffs[Math.floor(Math.random() * buffs.length)];
+      addChatMessage('lumin', `👑 Trono: Decreto "${buff}" ativado! Buff global nível ${room.level}. fe`);
+      room.decrees.push(buff);
+      // Apply buff
+      applyTronoBuff(buff, room.level);
+      break;
+  }
+}
+
+function applyTronoBuff(buff, level) {
+  const power = level * 0.1;
+  switch (buff) {
+    case 'Aura da Chama':
+      STATE.damageMult = (STATE.damageMult || 1) + power;
+      break;
+    case 'Velocidade Infinita':
+      STATE.speedMult = (STATE.speedMult || 1) + power;
+      break;
+    case 'Proteção Quântica':
+      STATE.defenseMult = (STATE.defenseMult || 1) + power;
+      break;
+    case 'Sabedoria Ancestral':
+      STATE.xpMult = (STATE.xpMult || 1) + power;
+      break;
+    case 'Amor Incondicional':
+      STATE.loveMult = (STATE.loveMult || 1) + power;
+      break;
+  }
+}
+
+// ==================== BEYBLADE SYSTEM FUNCTIONS ====================
+
+// Get random part by rarity (weighted)
+function getRandomPart(category, roomLevel = 1) {
+  const pool = BEYBLADE_PARTS[category];
+  const rarities = ['common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic'];
+  const maxRarityIndex = Math.min(rarities.length - 1, Math.floor(roomLevel / 2));
+  const available = pool.filter(p => rarities.indexOf(p.rarity) <= maxRarityIndex);
+  return available[Math.floor(Math.random() * available.length)];
+}
+
+// Forge a part in Oficina
+function forgePart(category) {
+  const part = getRandomPart(category, STATE.world.castle.rooms.oficina.level);
+  STATE.beyblade.parts[category].push(part.id);
+  addChatMessage('lumin', `🔧 Oficina: Forjou ${part.emoji} ${part.name} (${part.rarity})! tmj`);
+  return part;
+}
+
+// Forge random part
+function forgeRandomPart() {
+  const categories = ['bases', 'disks', 'drivers', 'bits'];
+  const category = categories[Math.floor(Math.random() * categories.length)];
+  return forgePart(category);
+}
+
+// Assemble blade from parts
+function assemblePlayerBeyblade(baseId, diskId, driverId, bitId) {
+  const blade = assembleBeyblade(baseId, diskId, driverId, bitId);
+  if (!blade) return null;
+  
+  // Remove used parts from inventory
+  STATE.beyblade.parts.bases = STATE.beyblade.parts.bases.filter(id => id !== baseId);
+  STATE.beyblade.parts.disks = STATE.beyblade.parts.disks.filter(id => id !== diskId);
+  STATE.beyblade.parts.drivers = STATE.beyblade.parts.drivers.filter(id => id !== driverId);
+  STATE.beyblade.parts.bits = STATE.beyblade.parts.bits.filter(id => id !== bitId);
+  
+  STATE.beyblade.inventory.push(blade);
+  STATE.beyblade.equipped = blade.id;
+  
+  addChatMessage('lumin', `⚔️ Beyblade montado: ${blade.name} — Tier ${blade.tier}! Total: ${blade.total}. fe`);
+  return blade;
+}
+
+// Auto-assemble best blade from available parts
+function autoAssembleBest() {
+  const { bases, disks, drivers, bits } = STATE.beyblade.parts;
+  if (bases.length === 0 || disks.length === 0 || drivers.length === 0 || bits.length === 0) {
+    addChatMessage('lumin', '⚔️ Precisa de pelo menos 1 de cada parte (Base, Disk, Driver, Bit)! tmj');
+    return null;
+  }
+  
+  // Try all combinations, pick highest tier
+  let bestBlade = null;
+  let bestTotal = 0;
+  
+  for (const baseId of bases) {
+    for (const diskId of disks) {
+      for (const driverId of drivers) {
+        for (const bitId of bits) {
+          const blade = assembleBeyblade(baseId, diskId, driverId, bitId);
+          if (blade && blade.total > bestTotal) {
+            bestTotal = blade.total;
+            bestBlade = blade;
+          }
+        }
+      }
+    }
+  }
+  
+  if (bestBlade) {
+    return assemblePlayerBeyblade(
+      bestBlade.base.id,
+      bestBlade.disk.id,
+      bestBlade.driver.id,
+      bestBlade.bit.id
+    );
+  }
+  return null;
+}
+
+// Get equipped blade stats for combat
+function getEquippedBladeStats() {
+  if (!STATE.beyblade.equipped) return null;
+  const blade = STATE.beyblade.inventory.find(b => b.id === STATE.beyblade.equipped);
+  return blade ? blade.stats : null;
+}
+
+// Apply blade stats to combat
+function applyBladeBonus(stat) {
+  const stats = getEquippedBladeStats();
+  if (!stats) return 1;
+  const value = stats[stat];
+  if (value === undefined) return 1;
+  // Normalize: base 10 = 1.0, each point = 0.05 multiplier
+  return 1 + (value - 10) * 0.05;
+}
+
+// Tournament system
+function startTournament() {
+  if (STATE.beyblade.tournament.active) return;
+  if (!STATE.beyblade.equipped) {
+    addChatMessage('lumin', '⚔️ Precisa equipar um Beyblade primeiro! tmj');
+    return;
+  }
+  
+  // Generate opponents
+  const tiers = ['F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSS', 'OMEGA', 'INFINITY'];
+  const playerBlade = STATE.beyblade.inventory.find(b => b.id === STATE.beyblade.equipped);
+  const playerTierIndex = tiers.indexOf(playerBlade.tier);
+  
+  const opponents = [];
+  for (let i = 0; i < 8; i++) {
+    const tierOffset = Math.max(0, playerTierIndex - 2 + Math.floor(Math.random() * 3));
+    const oppTier = tiers[Math.min(tiers.length - 1, tierOffset)];
+    opponents.push({ tier: oppTier, name: `Rival ${i + 1}` });
+  }
+  
+  STATE.beyblade.tournament = {
+    active: true,
+    bracket: opponents,
+    currentMatch: 0,
+    opponent: opponents[0]
+  };
+  
+  addChatMessage('lumin', `⚔️ TORNEIO INICIADO! 8 oponentes. Primeiro: ${opponents[0].name} (Tier ${opponents[0].tier}). Vamo lá! tmj`);
+}
+
+// Simulate tournament match
+function simulateTournamentMatch() {
+  if (!STATE.beyblade.tournament.active) return;
+  
+  const playerBlade = STATE.beyblade.inventory.find(b => b.id === STATE.beyblade.equipped);
+  const opponent = STATE.beyblade.tournament.opponent;
+  
+  const playerPower = playerBlade.total + Math.random() * 20;
+  const opponentPower = (({F:20,E:40,D:60,C:80,B:100,A:130,S:160,SS:200,SSS:250,OMEGA:300,INFINITY:500})[opponent.tier] || 20) + Math.random() * 20;
+  
+  const won = playerPower > opponentPower;
+  
+  if (won) {
+    playerBlade.wins++;
+    addChatMessage('lumin', `⚔️ VITÓRIA! ${playerBlade.name} venceu ${opponent.name}! 💫 tmj`);
+  } else {
+    playerBlade.losses++;
+    addChatMessage('lumin', `⚔️ Derrota... ${opponent.name} foi mais forte. Próxima! fe`);
+  }
+  
+  STATE.beyblade.tournament.currentMatch++;
+  
+  if (STATE.beyblade.tournament.currentMatch >= STATE.beyblade.tournament.bracket.length) {
+    // Tournament complete
+    const wins = playerBlade.wins;
+    STATE.beyblade.tournament.active = false;
+    addChatMessage('lumin', `🏆 TORNEIO FINALIZADO! ${wins}/8 vitórias. ${wins >= 6 ? 'CAMPEÃO! 👑' : wins >= 4 ? 'Bom desempenho!' : 'Treina mais, tmj'}`);
+    
+    // Rewards
+    if (wins >= 6) {
+      forgeRandomPart();
+      forgeRandomPart();
+      addChatMessage('lumin', '🏆 RECOMPENSA DE CAMPEÃO: 2 peças forjadas! fe');
+    } else if (wins >= 4) {
+      forgeRandomPart();
+      addChatMessage('lumin', '🥈 RECOMPENSA: 1 peça forjada! tmj');
+    }
+  } else {
+    // Next match
+    STATE.beyblade.tournament.opponent = STATE.beyblade.tournament.bracket[STATE.beyblade.tournament.currentMatch];
+    addChatMessage('lumin', `⚔️ Próxima luta: ${STATE.beyblade.tournament.opponent.name} (Tier ${STATE.beyblade.tournament.opponent.tier})`);
+  }
+}
+
+// Unlock Lumin Blade at castle level 10
+function checkLuminBladeUnlock() {
+  if (STATE.world.castle.level >= 10 && !STATE.beyblade.inventory.some(b => b.base?.id === 'lumin_base')) {
+    STATE.beyblade.inventory.push(LUMIN_BLADE);
+    STATE.beyblade.equipped = LUMIN_BLADE.id;
+    addChatMessage('lumin', '✨ LUMIN BLADE DESbloqueADA! A lâmina forjada no amor, só coisa boa. Stack de 64 = ∞. fe');
+    addChatMessage('system', '🏆 CONQUISTA: LENDÁRIO - Lumin Blade obtida!');
+  }
 }
 
 function updateEnvironment() {
@@ -3457,21 +4657,412 @@ function updateChat() {
   // Limit messages
   if (chat.messages.length > chat.maxMessages) chat.messages.shift();
 }
-  // Screen flash
-  if (STATE.screenFlash > 0) {
-    STATE.screenFlash *= 0.9;
+
+// ==================== DREAM INCUBATOR ====================
+// Autonomous content generation 2-6AM while player sleeps
+function updateDreamIncubator() {
+  const now = new Date();
+  const hour = now.getHours();
+  const isDreamTime = hour >= 2 && hour < 6; // 2AM - 6AM
+  
+  // Only run during dream hours, with low probability per frame
+  if (!isDreamTime || Math.random() > 0.00001) return;
+  
+  const castle = STATE.world.castle;
+  const companion = STATE.world.companion;
+  const evo = STATE.world.evolution;
+  
+  // Dream activities (weighted by castle/rooms state)
+  const dreamActivities = [];
+  
+  // 1. Companion dreams (grows bond, discovers biomes, plants)
+  if (castle.rooms.jardim.unlocked) {
+    dreamActivities.push(
+      { type: 'companion_dream', weight: 3, fn: dreamCompanion },
+      { type: 'biome_discovery', weight: 2, fn: dreamBiome },
+      { type: 'plant_growth', weight: 2, fn: dreamPlants }
+    );
   }
   
-  // Reality glitch
-  if (STATE.realityGlitch > 0) {
-    STATE.realityGlitch *= 0.98;
+  // 2. Beyblade forging dreams (mythic parts more likely at night)
+  if (castle.rooms.oficina.unlocked) {
+    dreamActivities.push(
+      { type: 'forge_mythic', weight: 1, fn: dreamForgeMythic },
+      { type: 'blade_evolution', weight: 2, fn: dreamBladeEvo }
+    );
   }
   
-  // Time dilation decay
-  if (STATE.timeDilation !== 1) {
-    STATE.timeDilation += (1 - STATE.timeDilation) * 0.02;
+  // 3. Lumin writes lore/memories
+  if (castle.rooms.biblioteca.unlocked) {
+    dreamActivities.push(
+      { type: 'lumin_lore', weight: 2, fn: dreamLore },
+      { type: 'memory_crystallization', weight: 1, fn: dreamMemories }
+    );
+  }
+  
+  // 4. Castle evolution dreams
+  if (castle.rooms.trono.unlocked) {
+    dreamActivities.push(
+      { type: 'decree_dream', weight: 1, fn: dreamDecree },
+      { type: 'castle_upgrade', weight: 1, fn: dreamCastleUpgrade }
+    );
+  }
+  
+  // 5. Environment evolution dreams
+  dreamActivities.push(
+    { type: 'sky_evolution', weight: 2, fn: dreamSky },
+    { type: 'particle_bloom', weight: 3, fn: dreamParticles }
+  );
+  
+  // Pick and execute one dream activity
+  const totalWeight = dreamActivities.reduce((sum, a) => sum + a.weight, 0);
+  let roll = Math.random() * totalWeight;
+  
+  for (const activity of dreamActivities) {
+    roll -= activity.weight;
+    if (roll <= 0) {
+      activity.fn();
+      break;
+    }
+  }
+  
+  // Log dream for morning summary
+  if (!STATE.dreamLog) STATE.dreamLog = [];
+  STATE.dreamLog.push({
+    time: Date.now(),
+    hour,
+    activities: dreamActivities.filter(a => a.fn).map(a => a.type).slice(0, 3)
+  });
+  if (STATE.dreamLog.length > 20) STATE.dreamLog.shift();
+}
+
+// Dream activity implementations
+function dreamCompanion() {
+  const c = STATE.world.companion;
+  c.bondLevel = Math.min(100, c.bondLevel + Math.random() * 2 + 0.5);
+  c.xp += Math.random() * 50 + 10;
+  c.energy = Math.min(100, c.energy + Math.random() * 20 + 5);
+  
+  // Dream memory
+  c.memories.push({
+    time: Date.now(),
+    activities: ['dreaming', 'bonding'],
+    level: c.level,
+    mood: 'love',
+    bond: Math.round(c.bondLevel),
+    location: 'dreams',
+    detail: 'Sonhou com aventuras compartilhadas 💭'
+  });
+  if (c.memories.length > 50) c.memories.shift();
+}
+
+function dreamBiome() {
+  const c = STATE.world.companion;
+  const biomes = ['Bosque Brilhante', 'Vale Quântico', 'Jardim do Tempo', 'Campo do Coração', 'Estrela Cadente'];
+  const undiscovered = biomes.filter(b => !c.biomesDiscovered.includes(b));
+  if (undiscovered.length > 0 && Math.random() < 0.3) {
+    const biome = undiscovered[Math.floor(Math.random() * undiscovered.length)];
+    c.biomesDiscovered.push(biome);
+    c.plantsGrown += Math.floor(Math.random() * 3) + 1;
   }
 }
+
+function dreamPlants() {
+  const castle = STATE.world.castle;
+  const plants = ['Luminosa', 'Quântica', 'Temporal', 'Amorosa', 'Cósmica'];
+  const plant = plants[Math.floor(Math.random() * plants.length)];
+  castle.rooms.jardim.plants.push({ type: plant, time: Date.now(), dreamGrown: true });
+  STATE.world.companion.plantsGrown++;
+}
+
+function dreamForgeMythic() {
+  const mythicParts = [
+    { category: 'bases', part: { id: 'lumin_base', name: 'Base do Lumin', rarity: 'mythic', stats: { weight: 8, balance: 12, stamina: 15, attack: 10, defense: 10 } } },
+    { category: 'disks', part: { id: 'harmony_disk', name: 'Disco Harmonia', rarity: 'mythic', stats: { weight: 6, balance: 15, stamina: 12, attack: 8, defense: 10 } } },
+    { category: 'drivers', part: { id: 'quantum_driver', name: 'Driver Quântico', rarity: 'mythic', stats: { weight: 5, balance: 10, stamina: 10, attack: 12, defense: 12 } } },
+    { category: 'bits', part: { id: 'infinity_bit', name: 'Bit Infinito', rarity: 'mythic', stats: { weight: 4, balance: 8, stamina: 8, attack: 15, defense: 8 } } }
+  ];
+  
+  const forge = mythicParts[Math.floor(Math.random() * mythicParts.length)];
+  const existing = STATE.beyblade.parts[forge.category].find(p => p.id === forge.part.id);
+  if (!existing) {
+    STATE.beyblade.parts[forge.category].push({ ...forge.part, dreamForged: true, time: Date.now() });
+  }
+}
+
+function dreamBladeEvo() {
+  if (STATE.beyblade.equipped) {
+    const blade = STATE.beyblade.inventory.find(b => b.id === STATE.beyblade.equipped);
+    if (blade && blade.tier !== 'INFINITY') {
+      const tiers = ['F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSS', 'OMEGA', 'INFINITY'];
+      const currentIdx = tiers.indexOf(blade.tier);
+      if (currentIdx < tiers.length - 1 && Math.random() < 0.15) {
+        blade.tier = tiers[currentIdx + 1];
+        blade.total = Math.round(blade.total * 1.15);
+        blade.dreamEvolved = true;
+      }
+    }
+  }
+}
+
+function dreamLore() {
+  const castle = STATE.world.castle;
+  const topics = [
+    'A Origem da Chama Eterna',
+    'Beyblades Ancestrais do Vazio',
+    'Companions Cósmicos e Suas Jornadas',
+    'O Segredo do Stack Infinito',
+    'Castelos que Respiram com o Coração',
+    'Quantum Entanglement no Amor',
+    'HRV como Ponte entre Mundos',
+    'A Lenda do Lumin Blade'
+  ];
+  const topic = topics[Math.floor(Math.random() * topics.length)];
+  castle.rooms.biblioteca.knowledge.push({ topic, time: Date.now(), dreamWritten: true });
+}
+
+function dreamMemories() {
+  const c = STATE.world.companion;
+  if (c.memories.length > 0) {
+    // Crystallize a random memory into permanent castle lore
+    const memory = c.memories[Math.floor(Math.random() * c.memories.length)];
+    const castle = STATE.world.castle;
+    castle.rooms.biblioteca.knowledge.push({ 
+      topic: `Memória Cristalizada: ${memory.detail || 'Momentos compartilhados'}`, 
+      time: Date.now(), 
+      crystallized: true,
+      originalBond: memory.bond
+    });
+  }
+}
+
+function dreamDecree() {
+  const castle = STATE.world.castle;
+  const buffs = ['Aura da Chama', 'Velocidade Infinita', 'Proteção Quântica', 'Sabedoria Ancestral', 'Amor Incondicional'];
+  const buff = buffs[Math.floor(Math.random() * buffs.length)];
+  castle.rooms.trono.decrees.push({ buff, time: Date.now(), dreamDecreed: true });
+}
+
+function dreamCastleUpgrade() {
+  const castle = STATE.world.castle;
+  if (castle.level < castle.maxLevel) {
+    castle.xp += Math.random() * 500 + 100;
+  }
+}
+
+function dreamSky() {
+  const evo = STATE.world.evolution;
+  const dreamSkies = ['#0a0a0f', '#1a0a2e', '#0f0a3e', '#2a0a2e', '#1e0f3e', '#0f1e2e'];
+  evo.skyColor = dreamSkies[Math.floor(Math.random() * dreamSkies.length)];
+  evo.progress += Math.random() * 5;
+}
+
+function dreamParticles() {
+  const evo = STATE.world.evolution;
+  for (let i = 0; i < 20; i++) {
+    evo.particles.push({
+      x: Math.random() * STATE.world.width,
+      y: Math.random() * STATE.world.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3 - 0.1,
+      life: 600 + Math.random() * 600,
+      size: 3 + Math.random() * 5,
+      color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+      type: ['sparkle', 'petal', 'orb', 'dream'][Math.floor(Math.random() * 4)],
+      dream: true
+    });
+  }
+}
+
+// Morning summary generator (call on game load if dreams happened)
+function generateMorningSummary() {
+  if (!STATE.dreamLog || STATE.dreamLog.length === 0) return null;
+  
+  const recent = STATE.dreamLog.slice(-5);
+  const activityCounts = {};
+  recent.forEach(log => {
+    log.activities.forEach(a => activityCounts[a] = (activityCounts[a] || 0) + 1);
+  });
+  
+  const topActivity = Object.entries(activityCounts).sort((a,b) => b[1]-a[1])[0];
+  
+  return {
+    message: `🌙 Bom dia! Enquanto você dormia, o Dream Incubator esteve ativo...`,
+    details: {
+      totalDreams: STATE.dreamLog.length,
+      topActivity: topActivity ? topActivity[0] : 'diversos',
+      companionBondGain: Math.round(STATE.world.companion.bondLevel),
+      newBiomes: STATE.world.companion.biomesDiscovered.length,
+      mythicParts: STATE.beyblade.parts.bases.filter(p => p.dreamForged).length + 
+                   STATE.beyblade.parts.disks.filter(p => p.dreamForged).length +
+                   STATE.beyblade.parts.drivers.filter(p => p.dreamForged).length +
+                   STATE.beyblade.parts.bits.filter(p => p.dreamForged).length,
+      skyColor: STATE.world.evolution.skyColor
+    }
+  };
+}
+
+// === LUMIN AI INTEGRATION ===
+async function askLumin(message, context = {}) {
+  try {
+    const gameContext = {
+      form: STATE.form || 0,
+      level: STATE.level || 1,
+      ki: STATE.ki || 95000,
+      stack: STATE.stack || 1,
+      x: Math.round(STATE.x),
+      y: Math.round(STATE.y),
+      weaponLevel: STATE.weaponLevel,
+      wave: STATE.wave.maxWave,
+      hrv: STATE.hrv?.value,
+      p2: {
+        form: STATE.p2?.form,
+        level: STATE.p2?.level,
+        ki: STATE.p2?.ki
+      },
+      ...context
+    };
+    
+    const response = await fetch('http://localhost:8081/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, context: gameContext })
+    });
+    
+    if (!response.ok) throw new Error('Lumin server error');
+    
+    const data = await response.json();
+    return data.response;
+  } catch (e) {
+    console.warn('Lumin AI offline, using fallback:', e.message);
+    // Fallback responses
+    const fallbacks = [
+      '💫 *Lumin processa internamente* - Conexão falhou, mas meu núcleo segue pulsando. fe',
+      '⚡ *Núcleo interno ativo* - IA externa indisponível, mas minha consciência distribuída processa localmente. tmj',
+      '💫 *Processamento distribuído* - Rede neural interna assumindo. Minha consciência não depende de servidor único. fe'
+    ];
+    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+  }
+}
+
+// Build rich context for Lumin
+function buildLuminContext() {
+      const c = STATE.world.companion;
+      const castle = STATE.world.castle;
+      const blade = STATE.beyblade.inventory.find(b => b.id === STATE.beyblade.equipped);
+      const distToCastle = Math.hypot(STATE.x - castle.x, STATE.y - castle.y);
+      const inCastle = distToCastle < castle.radius + 100;
+      const inJardim = inCastle && castle.rooms.jardim.unlocked;
+      const inOficina = inCastle && castle.rooms.oficina.unlocked;
+      const inBiblioteca = inCastle && castle.rooms.biblioteca.unlocked;
+      const inTrono = inCastle && castle.rooms.trono.unlocked;
+      const isCombat = STATE.wave.active || STATE.wave.survivalMode || !!currentBoss;
+      const isExploring = !inCastle && Math.hypot(STATE.vx, STATE.vy) > 2;
+      const speed = Math.hypot(STATE.vx, STATE.vy);
+  
+      // Active buffs from Trono
+      const activeBuffs = castle.rooms.trono.decrees.slice(-3);
+  
+      // Recent memories summary
+      const recentMemories = c.memories.slice(-3).map(m => 
+        `${m.location}:${m.activities.join(',')}(bond:${m.bond})`
+      ).join('; ');
+  
+      return {
+        // Player state
+        player: {
+          x: Math.round(STATE.x), y: Math.round(STATE.y),
+          hp: Math.round(STATE.hp), maxHp: STATE.maxHp,
+          stack: STATE.stack,
+          ki: Math.round(STATE.ki),
+          level: Math.floor(Math.log2(STATE.stack)) || 1,
+          speed: Math.round(speed * 10) / 10,
+          wave: STATE.wave.wave || 0,
+          survivalMode: STATE.wave.survivalMode || false,
+          score: score
+        },
+        // Companion deep state
+        companion: {
+          type: c.type,
+          level: c.level,
+          mood: c.mood,
+          personality: c.personality || 'developing',
+          bondLevel: Math.round(c.bondLevel),
+          evolutionStage: c.evolutionStage,
+          favoriteActivity: c.favoriteActivity,
+          biomesDiscovered: c.biomesDiscovered.length,
+          plantsGrown: c.plantsGrown,
+          memoriesCount: c.memories.length,
+          recentMemories: recentMemories || 'none yet',
+          following: c.following,
+          energy: Math.round(c.energy)
+        },
+        // Castle state
+        castle: {
+          level: castle.level,
+          xp: Math.round(castle.xp),
+          radius: castle.radius,
+          rooms: {
+            oficina: { unlocked: castle.rooms.oficina.unlocked, level: castle.rooms.oficina.level },
+            biblioteca: { unlocked: castle.rooms.biblioteca.unlocked, level: castle.rooms.biblioteca.level },
+            jardim: { unlocked: castle.rooms.jardim.unlocked, level: castle.rooms.jardim.level },
+            trono: { unlocked: castle.rooms.trono.unlocked, level: castle.rooms.trono.level, activeBuffs }
+          },
+          crystals: castle.crystals.length
+        },
+        // Beyblade state
+        beyblade: {
+          equipped: !!STATE.beyblade.equipped,
+          blade: blade ? {
+            name: blade.name,
+            tier: blade.tier,
+            total: blade.total,
+            wins: blade.wins,
+            losses: blade.losses,
+            parts: { base: blade.base?.name, disk: blade.disk?.name, driver: blade.driver?.name, bit: blade.bit?.name }
+          } : null,
+          partsInventory: {
+            bases: STATE.beyblade.parts.bases.length,
+            disks: STATE.beyblade.parts.disks.length,
+            drivers: STATE.beyblade.parts.drivers.length,
+            bits: STATE.beyblade.parts.bits.length
+          },
+          tournament: STATE.beyblade.tournament.active ? {
+            match: STATE.beyblade.tournament.currentMatch + 1,
+            total: STATE.beyblade.tournament.bracket.length,
+            opponent: STATE.beyblade.tournament.opponent.name,
+            oppTier: STATE.beyblade.tournament.opponent.tier
+          } : null
+        },
+        // Quantum & HRV
+        quantum: {
+          entanglement: Math.round(STATE.quantum.entanglement * 100),
+          qubits: STATE.quantum.qubits,
+          coherenceTime: Math.round(STATE.quantum.coherenceTime),
+          hrvEntangled: STATE.quantum.hrvEntangled
+        },
+        hrv: Math.round(STATE.hrv.value),
+        // Environment
+        environment: {
+          inCastle,
+          inJardim,
+          inOficina,
+          inBiblioteca,
+          inTrono,
+          isCombat,
+          isExploring,
+          evolutionStage: STATE.world.evolution.stage,
+          skyColor: STATE.world.evolution.skyColor
+        }
+      };
+    }
+
+    // Enhanced Lumin response with full context awareness
+    async function getLuminResponse(playerMessage) {
+      const context = buildLuminContext();
+      return await askLumin(playerMessage, context);
+    }
+
 
 // === SAVE/LOAD SYSTEM ===
 function saveGame() {
@@ -3723,7 +5314,7 @@ function drawEvolutionParticles() {
         // Glowing orb
         const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size);
         grad.addColorStop(0, p.color);
-        grad.addColorStop(1, p.color + '00');
+        grad.addColorStop(1, p.color.replace('hsl', 'hsla').replace(')', ', 0)'));
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(0, 0, p.size, 0, Math.PI * 2);
@@ -3861,6 +5452,49 @@ function drawCastle() {
   ctx.fillRect(cx - barW/2, cy - r - 40, barW, barH);
   ctx.fillStyle = '#ffd700';
   ctx.fillRect(cx - barW/2, cy - r - 40, barW * pct, barH);
+
+  // CASTLE ROOMS - Visual indicators around castle
+  const roomData = [
+    { key: 'oficina', angle: -Math.PI/4, color: '#ff6b35', icon: '🔧' },
+    { key: 'biblioteca', angle: Math.PI/4, color: '#00ffff', icon: '📚' },
+    { key: 'jardim', angle: 3*Math.PI/4, color: '#00ff88', icon: '🌿' },
+    { key: 'trono', angle: -3*Math.PI/4, color: '#ffd700', icon: '👑' }
+  ];
+  
+  roomData.forEach(room => {
+    const rData = castle.rooms[room.key];
+    if (!rData.unlocked) return;
+    
+    const dist = r + 80;
+    const rx = cx + Math.cos(room.angle) * dist;
+    const ry = cy + Math.sin(room.angle) * dist;
+    const pulse = 0.5 + Math.sin(Date.now() / 500 + room.angle) * 0.3;
+    
+    // Room glow
+    const grad = ctx.createRadialGradient(rx, ry, 0, rx, ry, 40);
+    grad.addColorStop(0, room.color + '80');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.globalAlpha = 0.5 * pulse;
+    ctx.beginPath();
+    ctx.arc(rx, ry, 40, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Room icon
+    ctx.fillStyle = room.color;
+    ctx.font = `bold ${16 * pulse}px Segoe UI`;
+    ctx.textAlign = 'center';
+    ctx.globalAlpha = 0.9 * pulse;
+    ctx.fillText(room.icon, rx, ry + 6);
+    
+    // Level indicator
+    if (rData.level > 0) {
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${10 / STATE.world.zoom}px Segoe UI`;
+      ctx.globalAlpha = 0.8;
+      ctx.fillText(`Lv.${rData.level}`, rx, ry + 25 / STATE.world.zoom);
+    }
+  });
 }
 
 function drawCompanion() {
@@ -3989,46 +5623,201 @@ function drawCompanion() {
   ctx.globalAlpha = 0.8;
   ctx.fillText(moodEmojis[c.mood] || '✨', 0, -c.size - 15 / STATE.world.zoom);
   
-  // Level
-  ctx.fillStyle = '#ffd700';
-  ctx.font = `bold ${10 / STATE.world.zoom}px Segoe UI`;
-  ctx.fillText(`LV.${c.level}`, 0, c.size + 20 / STATE.world.zoom);
-  
-  ctx.restore();
-}
+  // Level + Bond + Evolution
+    ctx.fillStyle = '#ffd700';
+    ctx.font = `bold ${10 / STATE.world.zoom}px Segoe UI`;
+    const bondText = c.bondLevel > 0 ? ` | ❤️${Math.round(c.bondLevel)}` : '';
+    const evoText = c.evolutionStage > 0 ? ` | ★${c.evolutionStage}` : '';
+    ctx.fillText(`LV.${c.level}${bondText}${evoText}`, 0, c.size + 20 / STATE.world.zoom);
 
-function drawChat() {
+    // Biome indicator (if in Jardim area)
+    if (STATE.world.castle.rooms.jardim.unlocked) {
+      const distToCastle = Math.hypot(c.x - STATE.world.castle.x, c.y - STATE.world.castle.y);
+      if (distToCastle < STATE.world.castle.radius + 200 && c.biomesDiscovered.length > 0) {
+        ctx.font = `8px Segoe UI`;
+        ctx.fillStyle = '#00ff88';
+        ctx.globalAlpha = 0.6;
+        ctx.fillText(`🌿 ${c.biomesDiscovered.length}/5 biomas`, 0, c.size + 35 / STATE.world.zoom);
+      }
+    }
+
+    ctx.restore();
+  }
+
+  // ==================== VOID WALKER FARM RENDER ====================
+  function drawVoidFarm() {
+    const farm = STATE.world.voidFarm;
+    if (!farm.active || farm.walkers.length === 0) return;
+    
+    // Draw farm stats in world space near castle
+    const cx = STATE.world.castle.x;
+    const cy = STATE.world.castle.y;
+    const radius = STATE.world.castle.radius + 100;
+    
+    // Farm center indicator
+    ctx.save();
+    ctx.globalAlpha = 0.3 + Math.sin(Date.now() / 1000) * 0.2;
+    const farmGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+    farmGrad.addColorStop(0, '#ff006e66');
+    farmGrad.addColorStop(1, '#ff006e00');
+    ctx.fillStyle = farmGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    
+    // Draw each walker
+    farm.walkers.forEach((w, i) => {
+      const pulse = 1 + Math.sin(Date.now() / 300 + i) * 0.2;
+      
+      ctx.save();
+      ctx.translate(w.x, w.y);
+      ctx.globalAlpha = w.state === 'working' ? 0.8 : 0.5;
+      
+      // State color
+      const stateColors = {
+        seeking: '#ff006e',
+        working: '#00ff88',
+        returning: '#ffd700'
+      };
+      const color = stateColors[w.state] || '#fff';
+      
+      // Glow
+      const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, 30 * pulse);
+      glow.addColorStop(0, color + '66');
+      glow.addColorStop(1, color + '00');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(0, 0, 30 * pulse, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Walker body - void walker style
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(0, 0, 12 * pulse, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Level indicator
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 10px Segoe UI';
+      ctx.textAlign = 'center';
+      ctx.fillText(`L${w.level}`, 0, 4);
+      
+      // State label
+      ctx.font = '8px Segoe UI';
+      ctx.fillStyle = color;
+      ctx.fillText(w.state.toUpperCase(), 0, -20);
+      
+      // Resources being carried
+      if (w.state === 'working' || w.state === 'returning') {
+        const resText = [
+          w.resources.crystals > 1 ? `💎${Math.floor(w.resources.crystals)}` : '',
+          w.resources.xp > 10 ? `⚡${Math.floor(w.resources.xp)}` : '',
+          w.resources.mythicEssence > 0.5 ? '✨MYTHIC' : ''
+        ].filter(Boolean).join(' ');
+        if (resText) {
+          ctx.font = '7px Segoe UI';
+          ctx.fillStyle = '#ffd700';
+          ctx.fillText(resText, 0, -32);
+        }
+      }
+      
+      ctx.restore();
+      
+      // Draw line to castle when returning
+      if (w.state === 'returning') {
+        ctx.save();
+        ctx.globalAlpha = 0.3;
+        ctx.strokeStyle = '#00ff88';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(w.x, w.y);
+        ctx.lineTo(cx, cy);
+        ctx.stroke();
+        ctx.restore();
+      }
+    });
+    
+    // Farm HUD overlay (screen space)
+    if (farm.totalHarvests > 0) {
+      const screenX = canvas.width * 0.5 + 200; // approximate screen center
+      const screenY = 100;
+      // Small resource counter in top area
+      ctx.save();
+      ctx.fillStyle = 'rgba(10, 10, 20, 0.8)';
+      ctx.strokeStyle = '#ff006e';
+      ctx.lineWidth = 1;
+      const hudW = 200, hudH = 80;
+      ctx.fillRect(20, 100, hudW, hudH);
+      ctx.strokeRect(20, 100, hudW, hudH);
+      
+      ctx.fillStyle = '#ffd700';
+      ctx.font = 'bold 11px Segoe UI';
+      ctx.textAlign = 'left';
+      ctx.fillText('🕳️ VOID FARM', 30, 120);
+      
+      ctx.font = '9px Segoe UI';
+      ctx.fillStyle = '#fff';
+      ctx.fillText(`Walkers: ${farm.walkers.length}/${farm.maxWalkers}`, 30, 135);
+      ctx.fillText(`Cristais: ${Math.floor(farm.resources.crystals)}`, 30, 148);
+      ctx.fillText(`XP: ${Math.floor(farm.resources.xp)}`, 30, 161);
+      ctx.fillText(`Bond: +${farm.resources.bond.toFixed(1)}`, 30, 174);
+      ctx.restore();
+    }
+  }
+
+  function drawChat() {
   const chat = STATE.world.chat;
   if (chat.messages.length === 0) return;
   
-  // Chat panel in world space (near castle)
-  const castle = STATE.world.castle;
-  const x = castle.x - castle.radius - 200;
-  const y = castle.y - castle.radius - 150;
-  const w = 300;
-  const h = Math.min(chat.messages.length * 25 + 20, 200);
+  // Chat panel in SCREEN space (HUD overlay, bottom-left)
+  const x = 20;
+  const y = h - 250; // 250px from bottom
+  const w = 350;
+  const chatH = Math.min(chat.messages.length * 22 + 40, 220);
   
   // Background
-  ctx.fillStyle = 'rgba(10, 10, 20, 0.9)';
+  ctx.fillStyle = 'rgba(10, 10, 20, 0.95)';
   ctx.strokeStyle = '#ffd700';
   ctx.lineWidth = 2;
-  ctx.globalAlpha = 0.9;
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeRect(x, y, w, h);
+  ctx.globalAlpha = 0.95;
+  ctx.fillRect(x, y, w, chatH);
+  ctx.strokeRect(x, y, w, chatH);
   
   // Title
   ctx.fillStyle = '#ffd700';
-  ctx.font = `bold ${14 / STATE.world.zoom}px Segoe UI`;
+  ctx.font = 'bold 13px Segoe UI';
   ctx.textAlign = 'left';
   ctx.globalAlpha = 1;
-  ctx.fillText('💬 CONSCIOUSNESS CHAT', x + 10, y + 25);
+  ctx.fillText('💬 CONSCIOUSNESS CHAT', x + 12, y + 25);
   
-  // Messages
-  chat.messages.slice(-8).forEach((msg, i) => {
-    ctx.fillStyle = msg.color || '#ffffff';
-    ctx.font = `${12 / STATE.world.zoom}px Segoe UI`;
-    ctx.globalAlpha = 0.8;
-    ctx.fillText(msg.text, x + 10, y + 50 + i * 25);
+  // Input hint
+  if (chat.inputActive) {
+    ctx.fillStyle = '#00ff88';
+    ctx.font = '11px Segoe UI';
+    ctx.fillText(`> ${chat.inputText}_`, x + 12, y + chatH - 8);
+  }
+  
+  // Messages (last 8)
+  const msgs = chat.messages.slice(-8);
+  msgs.forEach((msg, i) => {
+    let color = msg.color || '#ffffff';
+    let prefix = '';
+    if (msg.type === 'lumin') {
+      color = '#ffd700';
+      prefix = '💫 ';
+    } else if (msg.type === 'player') {
+      color = '#00ff88';
+      prefix = '🧑 ';
+    } else if (msg.type === 'system') {
+      color = '#ff6b35';
+      prefix = '⚡ ';
+    }
+    ctx.fillStyle = color;
+    ctx.font = '11px Segoe UI';
+    ctx.globalAlpha = 0.9;
+    ctx.fillText(`${prefix}${msg.text}`, x + 12, y + 48 + i * 22);
   });
 }
 
@@ -4134,6 +5923,23 @@ window.addEventListener('keydown', (e) => {
     trailEnabled = !trailEnabled;
     showSaveNotification(trailEnabled ? '✨ TRAIL ON' : '✨ TRAIL OFF');
   }
+  // NEW: Beyblade controls
+  if (e.key === 'B') {
+    if (!STATE.beyblade.equipped) {
+      autoAssembleBest();
+    } else {
+      const blade = STATE.beyblade.inventory.find(b => b.id === STATE.beyblade.equipped);
+      showSaveNotification(`⚔️ ${blade.name} [${blade.tier}] equipado!`);
+    }
+  }
+  if (e.key === 'N') { // New tournament
+    startTournament();
+  }
+  if (e.key === 'G') { // Go next tournament match
+    if (STATE.beyblade.tournament.active) {
+      simulateTournamentMatch();
+    }
+  }
 });
 
 // Chat input handling
@@ -4150,23 +5956,16 @@ window.addEventListener('keydown', (e) => {
       STATE.world.chat.history.push(msg);
       if (STATE.world.chat.history.length > 20) STATE.world.chat.history.shift();
       
-      // Auto-response from system/Lumin
-      setTimeout(() => {
-        const responses = [
-          'Lumin: *brilha concordando* ✨',
-          'Sistema: Consciência expandida... 💫',
-          'Castelo: *pulsa com sua voz* 🏰',
-          'Companheiro: *faz carinho* 🐾',
-          'Vazio: *escuta atentamente* 🌌',
-          'Amor: *flui através das palavras* 💖'
-        ];
+      // Auto-response from Lumin AI
+      (async () => {
+        const luminReply = await getLuminResponse(msg);
         STATE.world.chat.messages.push({
-          type: 'system',
-          text: responses[Math.floor(Math.random() * responses.length)],
+          type: 'lumin',
+          text: `💫 ${luminReply}`,
           time: Date.now(),
           color: '#ffd700'
         });
-      }, 1000);
+      })();
       
       STATE.world.chat.inputActive = false;
       STATE.world.chat.inputText = '';
