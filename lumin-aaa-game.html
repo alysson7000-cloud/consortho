@@ -263,6 +263,7 @@ window.addEventListener('keydown', e => {
     resetGame();
   }
   if (e.key === 'Shift') player.sprinting = true;
+  if (e.key === ' ' || e.key === 'Space') triggerBombManually();
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;

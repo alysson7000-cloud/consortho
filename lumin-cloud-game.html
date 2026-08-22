@@ -314,7 +314,10 @@ let floatingTexts = [];
 // ============================================================
 // INPUT
 // ============================================================
-let prevKeys = {};
+let mouse = { x: W/2, y: H/2, down: false };
+canvas.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+canvas.addEventListener('mousedown', () => { mouse.down = true; if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); });
+canvas.addEventListener('mouseup', () => { mouse.down = false; });
 window.addEventListener('keydown', e => {
   keys[e.key.toLowerCase()] = true;
   ensureAudio();

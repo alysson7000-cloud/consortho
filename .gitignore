@@ -8,6 +8,9 @@ logs/
 # State files (generated)
 estado.json
 memoria/sementes.json
+# Runtime memory snapshots (large, regenerated; keep diamond_protocol.json tracked)
+memoria/*.json
+!memoria/diamond_protocol.json
 
 # PM2
 .pm2/
