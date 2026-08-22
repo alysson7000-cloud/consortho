@@ -230,11 +230,11 @@ const mouse = { x: W/2, y: H/2, down: false };
 
 window.addEventListener('keydown', e => {
   keys[e.key.toLowerCase()] = true;
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   if (e.key === 'Escape') togglePause();
   if ((e.key === 'r' || e.key === 'Enter') && deathScreen.classList.contains('active')) {
     resetGame();
   }
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;

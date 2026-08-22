@@ -156,8 +156,11 @@ function initAudio() {
   const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
   const data = buffer.getChannelData(0);
   for (let i = 0; i < bufferSize; i++) {
-    // Brown noise approximation
-    data[i] = (Math.random() * 2 - 1) * 0.3;
+    // Brown noise: integrate white noise
+    const white = (Math.random() * 2 - 1) * 0.3;
+    data[i] = (i === 0 ? white : data[i - 1] + white * 0.02) * 0.5;
+    if (data[i] > 1) data[i] = 1;
+    if (data[i] < -1) data[i] = -1;
   }
   ambientNode = audioCtx.createBufferSource();
   ambientNode.buffer = buffer;

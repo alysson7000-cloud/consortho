@@ -471,6 +471,7 @@ function update() {
       if (hit) {
         player.alive = false;
         spawnExplosion(player.x, player.y, player.hue, 40);
+        playSound('explosion');
         obstacles.splice(i, 1);
         showGameOver();
         return;
