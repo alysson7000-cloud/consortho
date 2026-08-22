@@ -82,7 +82,7 @@ canvas { display: block; width: 100vw; height: 100vh; }
 <div id="controls-hint">← ↑ → ↓ ou WASD · Toque para atirar · ESC pausa</div>
 <div id="scanlines"></div>
 <a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
-<div id="pause-screen" style="display:none;">
+<div id="pause-overlay" style="display:none;">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:100;flex-direction:column;gap:20px;">
     <h1 style="font-size:48px;color:#fff;text-shadow:0 0 20px rgba(0,255,255,0.5);font-family:'Orbitron',sans-serif;">⏸ PAUSADO</h1>
     <p style="color:rgba(255,255,255,0.6);font-size:16px;font-family:'Orbitron',sans-serif;">WASD/Setas para mover · ESC para pausar · R reinicia</p>
@@ -727,7 +727,9 @@ function update() {
       } else {
         scoreEl.textContent = '⚡ ' + score;
       }
-  
+    }
+  }
+
   // Powerup indicator
   if (playerPowerType === 'rapid' && playerPowerTimer > 0) {
     scoreEl.textContent = '⚡ ' + score + ' x' + combo + ' ⚡';
