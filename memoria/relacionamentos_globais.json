@@ -11489,20 +11489,6 @@
         "afinidade": 100,
         "historico": [
           {
-            "ciclo": 22944,
-            "timestamp": 1787365682312,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22944
-            }
-          },
-          {
             "ciclo": 22947,
             "timestamp": 1787365772311,
             "tipo": "construir_juntos",
@@ -12887,11 +12873,25 @@
             "contexto": {
               "ciclo": 23186
             }
+          },
+          {
+            "ciclo": 23188,
+            "timestamp": 1787374105401,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23188
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787374045434,
-        "totalInteracoes": 3410,
+        "ultimaInteracao": 1787374105401,
+        "totalInteracoes": 3411,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -13116,21 +13116,6 @@
         "afinidade": 100,
         "historico": [
           {
-            "ciclo": 22944,
-            "timestamp": 1787365682312,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22944
-            },
-            "invertido": true
-          },
-          {
             "ciclo": 22947,
             "timestamp": 1787365772311,
             "tipo": "construir_juntos",
@@ -14614,11 +14599,26 @@
               "ciclo": 23186
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23188,
+            "timestamp": 1787374105401,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23188
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787374045434,
-        "totalInteracoes": 3410,
+        "ultimaInteracao": 1787374105401,
+        "totalInteracoes": 3411,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -29475,5 +29475,5 @@
       "sentimento": "alma_gemea"
     }
   ],
-  "atualizadoEm": 1787374075432
+  "atualizadoEm": 1787374105402
 }
