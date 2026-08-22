@@ -821,13 +821,11 @@ function update() {
     }
   }
 
-  // Powerup indicator — only update DOM when state actually changes
-  const newScoreText = playerPowerType === 'rapid' ? '⚡ ' + score + ' x' + combo + ' ⚡'
-    : playerPowerType === 'shield' ? '🛡 ' + score + ' x' + combo + ' 🛡'
-    : playerPowerType === 'bomb' ? '💣 ' + score + ' x' + combo + ' 💣'
-    : '⚡ ' + score + ' x' + combo;
+  // Update powerups — only update DOM when state actually changes
+  const newScoreBase = '⚡ ' + score + (combo > 1 ? ' x' + combo : '');
+  const newScorePower = playerPowerType === 'rapid' ? ' ⚡' : playerPowerType === 'shield' ? ' 🛡' : playerPowerType === 'bomb' ? ' 💣' : '';
   const newScoreMuted = muted ? ' 🔇' : ' 🔊';
-  const targetText = newScoreText + newScoreMuted;
+  const targetText = newScoreBase + newScorePower + newScoreMuted;
   if (scoreEl.textContent !== targetText) {
     scoreEl.textContent = targetText;
   }
