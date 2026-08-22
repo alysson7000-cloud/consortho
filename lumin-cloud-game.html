@@ -1138,7 +1138,7 @@ function render() {
   }
   
   // Player
-  if (player.alive || !player.invincible) {
+  if (player.alive) {
     const p = player.alive ? player : { x: player.x, y: player.y };
     
     ctx.save();

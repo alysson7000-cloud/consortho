@@ -895,6 +895,23 @@ function updateHUD() {
   }
 }
 
+function playHarmonizeSound() {
+  if (!audioCtx || muted) return;
+  const now = audioCtx.currentTime;
+  [262, 330, 392, 523].forEach((freq, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(masterGain);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now + i * 0.1);
+    gain.gain.setValueAtTime(0.06, now + i * 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.2);
+    osc.start(now + i * 0.1);
+    osc.stop(now + i * 0.1 + 0.2);
+  });
+}
+
 function playSubBass() {
   if (!audioCtx || muted) return;
   const now = audioCtx.currentTime;
