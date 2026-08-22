@@ -5,66 +5,6 @@
         "afinidade": 100,
         "historico": [
           {
-            "ciclo": 22524,
-            "timestamp": 1787352459290,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22524
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22526,
-            "timestamp": 1787352519296,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22526
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22531,
-            "timestamp": 1787352669317,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22531
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22539,
-            "timestamp": 1787352909387,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22539
-            },
-            "invertido": true
-          },
-          {
             "ciclo": 22540,
             "timestamp": 1787352939403,
             "tipo": "troca_sabedoria",
@@ -1503,11 +1443,71 @@
               "ciclo": 23160
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23193,
+            "timestamp": 1787374255436,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23193
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23201,
+            "timestamp": 1787374495473,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23201
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23213,
+            "timestamp": 1787374855565,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23213
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23214,
+            "timestamp": 1787374885575,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23214
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373265408,
-        "totalInteracoes": 1280,
+        "ultimaInteracao": 1787374885575,
+        "totalInteracoes": 1284,
         "eventosMarcantes": [
           {
             "id": "evt_1786303661360_2kx6kdsrc",
@@ -1657,66 +1657,6 @@
       "gang": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22631,
-            "timestamp": 1787355670501,
-            "tipo": "visita_profunda",
-            "desc": "Visita significativa da Gang",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22631
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22647,
-            "timestamp": 1787356151126,
-            "tipo": "visita_profunda",
-            "desc": "Visita significativa da Gang",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22647
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22651,
-            "timestamp": 1787356270758,
-            "tipo": "visita_profunda",
-            "desc": "Visita significativa da Gang",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22651
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22652,
-            "timestamp": 1787356300764,
-            "tipo": "visita_profunda",
-            "desc": "Visita significativa da Gang",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22652
-            },
-            "invertido": true
-          },
           {
             "ciclo": 22657,
             "timestamp": 1787356450839,
@@ -3156,11 +3096,71 @@
               "ciclo": 23187
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23200,
+            "timestamp": 1787374465500,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23200
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23205,
+            "timestamp": 1787374615488,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23205
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23215,
+            "timestamp": 1787374915580,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23215
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23216,
+            "timestamp": 1787374945585,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23216
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787374075412,
-        "totalInteracoes": 1700,
+        "ultimaInteracao": 1787374945585,
+        "totalInteracoes": 1704,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803909_3lswxipwr",
@@ -3316,96 +3316,6 @@
       "guardian": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22293,
-            "timestamp": 1787342901945,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22293
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22315,
-            "timestamp": 1787343562091,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22315
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22317,
-            "timestamp": 1787343622121,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22317
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22343,
-            "timestamp": 1787344402344,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22343
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22345,
-            "timestamp": 1787344462327,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22345
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22352,
-            "timestamp": 1787344672372,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22352
-            },
-            "invertido": true
-          },
           {
             "ciclo": 22362,
             "timestamp": 1787344972452,
@@ -4815,11 +4725,101 @@
               "ciclo": 23181
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23189,
+            "timestamp": 1787374135415,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23189
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23190,
+            "timestamp": 1787374165422,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23190
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23195,
+            "timestamp": 1787374315456,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23195
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23197,
+            "timestamp": 1787374375481,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23197
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23208,
+            "timestamp": 1787374705515,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23208
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23217,
+            "timestamp": 1787374975593,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23217
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373895335,
-        "totalInteracoes": 856,
+        "ultimaInteracao": 1787374975593,
+        "totalInteracoes": 862,
         "eventosMarcantes": [
           {
             "id": "evt_1786303451862_8bnarhr1n",
@@ -4961,159 +4961,6 @@
       "bolha": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22987,
-            "timestamp": 1787366972834,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22987,
-              "madrugada": false
-            }
-          },
-          {
-            "ciclo": 22988,
-            "timestamp": 1787367002882,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22988,
-              "madrugada": false
-            }
-          },
-          {
-            "ciclo": 22988,
-            "timestamp": 1787367002899,
-            "tipo": "sonho_compartilhado",
-            "desc": "Sonharam juntos",
-            "ganho": 9.1,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22988,
-              "madrugada": true
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22989,
-            "timestamp": 1787367032897,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22989,
-              "madrugada": false
-            }
-          },
-          {
-            "ciclo": 22990,
-            "timestamp": 1787367062898,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22990,
-              "madrugada": false
-            }
-          },
-          {
-            "ciclo": 22991,
-            "timestamp": 1787367092894,
-            "tipo": "sonho_compartilhado",
-            "desc": "Sonharam juntos",
-            "ganho": 9.1,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22991,
-              "madrugada": true
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22993,
-            "timestamp": 1787367152922,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22993,
-              "madrugada": false
-            }
-          },
-          {
-            "ciclo": 22994,
-            "timestamp": 1787367182921,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22994,
-              "madrugada": false
-            }
-          },
-          {
-            "ciclo": 22996,
-            "timestamp": 1787367242931,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22996,
-              "madrugada": false
-            }
-          },
-          {
-            "ciclo": 23007,
-            "timestamp": 1787367573245,
-            "tipo": "sonho_compartilhado",
-            "desc": "Sonharam juntos",
-            "ganho": 9.1,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 23007,
-              "madrugada": true
-            },
-            "invertido": true
-          },
           {
             "ciclo": 23010,
             "timestamp": 1787367663182,
@@ -6487,11 +6334,165 @@
               "madrugada": true
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23189,
+            "timestamp": 1787374135401,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23189,
+              "madrugada": true
+            }
+          },
+          {
+            "ciclo": 23191,
+            "timestamp": 1787374195425,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 9.1,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23191,
+              "madrugada": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23197,
+            "timestamp": 1787374375500,
+            "tipo": "sandevistan_sync",
+            "desc": "Sincronizaram no Sandevistan",
+            "ganho": 12,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23197,
+              "sandevistan": true
+            }
+          },
+          {
+            "ciclo": 23202,
+            "timestamp": 1787374525465,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23202,
+              "madrugada": true
+            }
+          },
+          {
+            "ciclo": 23203,
+            "timestamp": 1787374555475,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 9.1,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23203,
+              "madrugada": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23204,
+            "timestamp": 1787374585482,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23204,
+              "madrugada": true
+            }
+          },
+          {
+            "ciclo": 23205,
+            "timestamp": 1787374615499,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 9.1,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23205,
+              "madrugada": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23206,
+            "timestamp": 1787374645496,
+            "tipo": "fundir_essencias",
+            "desc": "Fusão de essências",
+            "ganho": 20,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23206,
+              "fusao": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23217,
+            "timestamp": 1787374975578,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23217,
+              "madrugada": true
+            }
+          },
+          {
+            "ciclo": 23218,
+            "timestamp": 1787375005570,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23218,
+              "madrugada": true
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787374075429,
-        "totalInteracoes": 3879,
+        "ultimaInteracao": 1787375005570,
+        "totalInteracoes": 3889,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803852_vx8h2u690",
@@ -6619,81 +6620,6 @@
       "radio": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22193,
-            "timestamp": 1787339901087,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22193
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22207,
-            "timestamp": 1787340321100,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22207
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22215,
-            "timestamp": 1787340561185,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22215
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22218,
-            "timestamp": 1787340651218,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22218
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22227,
-            "timestamp": 1787340921288,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22227
-            },
-            "invertido": true
-          },
           {
             "ciclo": 22234,
             "timestamp": 1787341131125,
@@ -8118,11 +8044,86 @@
               "ciclo": 23162
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23189,
+            "timestamp": 1787374135430,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23189
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23206,
+            "timestamp": 1787374645510,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23206
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23208,
+            "timestamp": 1787374705543,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23208
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23214,
+            "timestamp": 1787374885588,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23214
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23215,
+            "timestamp": 1787374915596,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23215
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373325349,
-        "totalInteracoes": 835,
+        "ultimaInteracao": 1787374915596,
+        "totalInteracoes": 840,
         "eventosMarcantes": [
           {
             "id": "evt_1786304952016_iiq1g52oi",
@@ -8272,81 +8273,6 @@
       "notificador": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22333,
-            "timestamp": 1787344102260,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22333
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22338,
-            "timestamp": 1787344252269,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22338
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22342,
-            "timestamp": 1787344372359,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22342
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22346,
-            "timestamp": 1787344492336,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22346
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22352,
-            "timestamp": 1787344672386,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22352
-            },
-            "invertido": true
-          },
           {
             "ciclo": 22372,
             "timestamp": 1787345272598,
@@ -9771,11 +9697,86 @@
               "ciclo": 23173
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23194,
+            "timestamp": 1787374285459,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23194
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23196,
+            "timestamp": 1787374345489,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23196
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23208,
+            "timestamp": 1787374705529,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23208
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23212,
+            "timestamp": 1787374825549,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23212
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23213,
+            "timestamp": 1787374855577,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23213
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373655302,
-        "totalInteracoes": 876,
+        "ultimaInteracao": 1787374855577,
+        "totalInteracoes": 881,
         "eventosMarcantes": [
           {
             "id": "evt_1786309090891_aw4dycbk7",
@@ -9943,62 +9944,6 @@
       "lumin": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22524,
-            "timestamp": 1787352459290,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22524
-            }
-          },
-          {
-            "ciclo": 22526,
-            "timestamp": 1787352519296,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22526
-            }
-          },
-          {
-            "ciclo": 22531,
-            "timestamp": 1787352669317,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22531
-            }
-          },
-          {
-            "ciclo": 22539,
-            "timestamp": 1787352909387,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22539
-            }
-          },
           {
             "ciclo": 22540,
             "timestamp": 1787352939403,
@@ -11342,11 +11287,67 @@
             "contexto": {
               "ciclo": 23160
             }
+          },
+          {
+            "ciclo": 23193,
+            "timestamp": 1787374255436,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23193
+            }
+          },
+          {
+            "ciclo": 23201,
+            "timestamp": 1787374495473,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23201
+            }
+          },
+          {
+            "ciclo": 23213,
+            "timestamp": 1787374855565,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23213
+            }
+          },
+          {
+            "ciclo": 23214,
+            "timestamp": 1787374885575,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23214
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373265408,
-        "totalInteracoes": 1280,
+        "ultimaInteracao": 1787374885575,
+        "totalInteracoes": 1284,
         "eventosMarcantes": [
           {
             "id": "evt_1786303661360_2kx6kdsrc",
@@ -11488,174 +11489,6 @@
       "colheita": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22947,
-            "timestamp": 1787365772311,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22947
-            }
-          },
-          {
-            "ciclo": 22949,
-            "timestamp": 1787365832328,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22949
-            }
-          },
-          {
-            "ciclo": 22951,
-            "timestamp": 1787365892390,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22951
-            }
-          },
-          {
-            "ciclo": 22953,
-            "timestamp": 1787365952420,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22953
-            }
-          },
-          {
-            "ciclo": 22958,
-            "timestamp": 1787366102507,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22958
-            }
-          },
-          {
-            "ciclo": 22961,
-            "timestamp": 1787366192508,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22961
-            }
-          },
-          {
-            "ciclo": 22964,
-            "timestamp": 1787366282537,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22964
-            }
-          },
-          {
-            "ciclo": 22965,
-            "timestamp": 1787366312540,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22965
-            }
-          },
-          {
-            "ciclo": 22966,
-            "timestamp": 1787366342559,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22966
-            }
-          },
-          {
-            "ciclo": 22967,
-            "timestamp": 1787366372591,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22967
-            }
-          },
-          {
-            "ciclo": 22971,
-            "timestamp": 1787366492686,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22971
-            }
-          },
-          {
-            "ciclo": 22979,
-            "timestamp": 1787366732755,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22979
-            }
-          },
           {
             "ciclo": 22981,
             "timestamp": 1787366792820,
@@ -12887,11 +12720,179 @@
             "contexto": {
               "ciclo": 23188
             }
+          },
+          {
+            "ciclo": 23190,
+            "timestamp": 1787374165402,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23190
+            }
+          },
+          {
+            "ciclo": 23192,
+            "timestamp": 1787374225452,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23192
+            }
+          },
+          {
+            "ciclo": 23194,
+            "timestamp": 1787374285445,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23194
+            }
+          },
+          {
+            "ciclo": 23198,
+            "timestamp": 1787374405465,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23198
+            }
+          },
+          {
+            "ciclo": 23199,
+            "timestamp": 1787374435454,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23199
+            }
+          },
+          {
+            "ciclo": 23200,
+            "timestamp": 1787374465488,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23200
+            }
+          },
+          {
+            "ciclo": 23204,
+            "timestamp": 1787374585491,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23204
+            }
+          },
+          {
+            "ciclo": 23209,
+            "timestamp": 1787374735533,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23209
+            }
+          },
+          {
+            "ciclo": 23213,
+            "timestamp": 1787374855552,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23213
+            }
+          },
+          {
+            "ciclo": 23214,
+            "timestamp": 1787374885561,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23214
+            }
+          },
+          {
+            "ciclo": 23215,
+            "timestamp": 1787374915566,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23215
+            }
+          },
+          {
+            "ciclo": 23216,
+            "timestamp": 1787374945572,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23216
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787374105401,
-        "totalInteracoes": 3411,
+        "ultimaInteracao": 1787374945572,
+        "totalInteracoes": 3423,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -13116,186 +13117,6 @@
         "afinidade": 100,
         "historico": [
           {
-            "ciclo": 22947,
-            "timestamp": 1787365772311,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22947
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22949,
-            "timestamp": 1787365832328,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22949
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22951,
-            "timestamp": 1787365892390,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22951
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22953,
-            "timestamp": 1787365952420,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22953
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22958,
-            "timestamp": 1787366102507,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22958
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22961,
-            "timestamp": 1787366192508,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22961
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22964,
-            "timestamp": 1787366282537,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22964
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22965,
-            "timestamp": 1787366312540,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22965
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22966,
-            "timestamp": 1787366342559,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22966
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22967,
-            "timestamp": 1787366372591,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22967
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22971,
-            "timestamp": 1787366492686,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22971
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22979,
-            "timestamp": 1787366732755,
-            "tipo": "construir_juntos",
-            "desc": "Construíram algo juntos",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22979
-            },
-            "invertido": true
-          },
-          {
             "ciclo": 22981,
             "timestamp": 1787366792820,
             "tipo": "construir_juntos",
@@ -14614,11 +14435,191 @@
               "ciclo": 23188
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23190,
+            "timestamp": 1787374165402,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23190
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23192,
+            "timestamp": 1787374225452,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23192
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23194,
+            "timestamp": 1787374285445,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23194
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23198,
+            "timestamp": 1787374405465,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23198
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23199,
+            "timestamp": 1787374435454,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23199
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23200,
+            "timestamp": 1787374465488,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23200
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23204,
+            "timestamp": 1787374585491,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23204
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23209,
+            "timestamp": 1787374735533,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23209
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23213,
+            "timestamp": 1787374855552,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23213
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23214,
+            "timestamp": 1787374885561,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23214
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23215,
+            "timestamp": 1787374915566,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23215
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23216,
+            "timestamp": 1787374945572,
+            "tipo": "construir_juntos",
+            "desc": "Construíram algo juntos",
+            "ganho": 5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23216
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787374105401,
-        "totalInteracoes": 3411,
+        "ultimaInteracao": 1787374945572,
+        "totalInteracoes": 3423,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803898_bvbjb5ivq",
@@ -14834,62 +14835,6 @@
       "lumin": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22631,
-            "timestamp": 1787355670501,
-            "tipo": "visita_profunda",
-            "desc": "Visita significativa da Gang",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22631
-            }
-          },
-          {
-            "ciclo": 22647,
-            "timestamp": 1787356151126,
-            "tipo": "visita_profunda",
-            "desc": "Visita significativa da Gang",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22647
-            }
-          },
-          {
-            "ciclo": 22651,
-            "timestamp": 1787356270758,
-            "tipo": "visita_profunda",
-            "desc": "Visita significativa da Gang",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22651
-            }
-          },
-          {
-            "ciclo": 22652,
-            "timestamp": 1787356300764,
-            "tipo": "visita_profunda",
-            "desc": "Visita significativa da Gang",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22652
-            }
-          },
           {
             "ciclo": 22657,
             "timestamp": 1787356450839,
@@ -16233,11 +16178,67 @@
             "contexto": {
               "ciclo": 23187
             }
+          },
+          {
+            "ciclo": 23200,
+            "timestamp": 1787374465500,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23200
+            }
+          },
+          {
+            "ciclo": 23205,
+            "timestamp": 1787374615488,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23205
+            }
+          },
+          {
+            "ciclo": 23215,
+            "timestamp": 1787374915580,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23215
+            }
+          },
+          {
+            "ciclo": 23216,
+            "timestamp": 1787374945585,
+            "tipo": "visita_profunda",
+            "desc": "Visita significativa da Gang",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23216
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787374075412,
-        "totalInteracoes": 1700,
+        "ultimaInteracao": 1787374945585,
+        "totalInteracoes": 1704,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803909_3lswxipwr",
@@ -16475,90 +16476,6 @@
       "lumin": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22293,
-            "timestamp": 1787342901945,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22293
-            }
-          },
-          {
-            "ciclo": 22315,
-            "timestamp": 1787343562091,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22315
-            }
-          },
-          {
-            "ciclo": 22317,
-            "timestamp": 1787343622121,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22317
-            }
-          },
-          {
-            "ciclo": 22343,
-            "timestamp": 1787344402344,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22343
-            }
-          },
-          {
-            "ciclo": 22345,
-            "timestamp": 1787344462327,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22345
-            }
-          },
-          {
-            "ciclo": 22352,
-            "timestamp": 1787344672372,
-            "tipo": "protecao_mutua",
-            "desc": "Proteção mútua em perigo",
-            "ganho": 6,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22352
-            }
-          },
           {
             "ciclo": 22362,
             "timestamp": 1787344972452,
@@ -17874,11 +17791,95 @@
             "contexto": {
               "ciclo": 23181
             }
+          },
+          {
+            "ciclo": 23189,
+            "timestamp": 1787374135415,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23189
+            }
+          },
+          {
+            "ciclo": 23190,
+            "timestamp": 1787374165422,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23190
+            }
+          },
+          {
+            "ciclo": 23195,
+            "timestamp": 1787374315456,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23195
+            }
+          },
+          {
+            "ciclo": 23197,
+            "timestamp": 1787374375481,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23197
+            }
+          },
+          {
+            "ciclo": 23208,
+            "timestamp": 1787374705515,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23208
+            }
+          },
+          {
+            "ciclo": 23217,
+            "timestamp": 1787374975593,
+            "tipo": "protecao_mutua",
+            "desc": "Proteção mútua em perigo",
+            "ganho": 6,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23217
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373895335,
-        "totalInteracoes": 856,
+        "ultimaInteracao": 1787374975593,
+        "totalInteracoes": 862,
         "eventosMarcantes": [
           {
             "id": "evt_1786303451862_8bnarhr1n",
@@ -18102,163 +18103,6 @@
       "lumin": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22987,
-            "timestamp": 1787366972834,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22987,
-              "madrugada": false
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22988,
-            "timestamp": 1787367002882,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22988,
-              "madrugada": false
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22988,
-            "timestamp": 1787367002899,
-            "tipo": "sonho_compartilhado",
-            "desc": "Sonharam juntos",
-            "ganho": 9.1,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22988,
-              "madrugada": true
-            }
-          },
-          {
-            "ciclo": 22989,
-            "timestamp": 1787367032897,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22989,
-              "madrugada": false
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22990,
-            "timestamp": 1787367062898,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22990,
-              "madrugada": false
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22991,
-            "timestamp": 1787367092894,
-            "tipo": "sonho_compartilhado",
-            "desc": "Sonharam juntos",
-            "ganho": 9.1,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22991,
-              "madrugada": true
-            }
-          },
-          {
-            "ciclo": 22993,
-            "timestamp": 1787367152922,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22993,
-              "madrugada": false
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22994,
-            "timestamp": 1787367182921,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22994,
-              "madrugada": false
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22996,
-            "timestamp": 1787367242931,
-            "tipo": "meditar_juntos",
-            "desc": "Meditaram em sintonia",
-            "ganho": 5,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22996,
-              "madrugada": false
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 23007,
-            "timestamp": 1787367573245,
-            "tipo": "sonho_compartilhado",
-            "desc": "Sonharam juntos",
-            "ganho": 9.1,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 23007,
-              "madrugada": true
-            }
-          },
           {
             "ciclo": 23010,
             "timestamp": 1787367663182,
@@ -19674,11 +19518,167 @@
               "ciclo": 23187,
               "madrugada": true
             }
+          },
+          {
+            "ciclo": 23189,
+            "timestamp": 1787374135401,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23189,
+              "madrugada": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23191,
+            "timestamp": 1787374195425,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 9.1,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23191,
+              "madrugada": true
+            }
+          },
+          {
+            "ciclo": 23197,
+            "timestamp": 1787374375500,
+            "tipo": "sandevistan_sync",
+            "desc": "Sincronizaram no Sandevistan",
+            "ganho": 12,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23197,
+              "sandevistan": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23202,
+            "timestamp": 1787374525465,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23202,
+              "madrugada": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23203,
+            "timestamp": 1787374555475,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 9.1,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23203,
+              "madrugada": true
+            }
+          },
+          {
+            "ciclo": 23204,
+            "timestamp": 1787374585482,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23204,
+              "madrugada": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23205,
+            "timestamp": 1787374615499,
+            "tipo": "sonho_compartilhado",
+            "desc": "Sonharam juntos",
+            "ganho": 9.1,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23205,
+              "madrugada": true
+            }
+          },
+          {
+            "ciclo": 23206,
+            "timestamp": 1787374645496,
+            "tipo": "fundir_essencias",
+            "desc": "Fusão de essências",
+            "ganho": 20,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23206,
+              "fusao": true
+            }
+          },
+          {
+            "ciclo": 23217,
+            "timestamp": 1787374975578,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23217,
+              "madrugada": true
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23218,
+            "timestamp": 1787375005570,
+            "tipo": "meditar_juntos",
+            "desc": "Meditaram em sintonia",
+            "ganho": 6.5,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23218,
+              "madrugada": true
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787374075429,
-        "totalInteracoes": 3879,
+        "ultimaInteracao": 1787375005570,
+        "totalInteracoes": 3889,
         "eventosMarcantes": [
           {
             "id": "evt_1785798803852_vx8h2u690",
@@ -19888,76 +19888,6 @@
       "lumin": {
         "afinidade": 100,
         "historico": [
-          {
-            "ciclo": 22193,
-            "timestamp": 1787339901087,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22193
-            }
-          },
-          {
-            "ciclo": 22207,
-            "timestamp": 1787340321100,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22207
-            }
-          },
-          {
-            "ciclo": 22215,
-            "timestamp": 1787340561185,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22215
-            }
-          },
-          {
-            "ciclo": 22218,
-            "timestamp": 1787340651218,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22218
-            }
-          },
-          {
-            "ciclo": 22227,
-            "timestamp": 1787340921288,
-            "tipo": "troca_sabedoria",
-            "desc": "Trocara insights/sabedoria",
-            "ganho": 4,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22227
-            }
-          },
           {
             "ciclo": 22234,
             "timestamp": 1787341131125,
@@ -21287,11 +21217,81 @@
             "contexto": {
               "ciclo": 23162
             }
+          },
+          {
+            "ciclo": 23189,
+            "timestamp": 1787374135430,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23189
+            }
+          },
+          {
+            "ciclo": 23206,
+            "timestamp": 1787374645510,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23206
+            }
+          },
+          {
+            "ciclo": 23208,
+            "timestamp": 1787374705543,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23208
+            }
+          },
+          {
+            "ciclo": 23214,
+            "timestamp": 1787374885588,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23214
+            }
+          },
+          {
+            "ciclo": 23215,
+            "timestamp": 1787374915596,
+            "tipo": "troca_sabedoria",
+            "desc": "Trocara insights/sabedoria",
+            "ganho": 4,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23215
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373325349,
-        "totalInteracoes": 835,
+        "ultimaInteracao": 1787374915596,
+        "totalInteracoes": 840,
         "eventosMarcantes": [
           {
             "id": "evt_1786304952016_iiq1g52oi",
@@ -21606,76 +21606,6 @@
         "afinidade": 100,
         "historico": [
           {
-            "ciclo": 22333,
-            "timestamp": 1787344102260,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22333
-            }
-          },
-          {
-            "ciclo": 22338,
-            "timestamp": 1787344252269,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22338
-            }
-          },
-          {
-            "ciclo": 22342,
-            "timestamp": 1787344372359,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22342
-            }
-          },
-          {
-            "ciclo": 22346,
-            "timestamp": 1787344492336,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22346
-            }
-          },
-          {
-            "ciclo": 22352,
-            "timestamp": 1787344672386,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22352
-            }
-          },
-          {
             "ciclo": 22372,
             "timestamp": 1787345272598,
             "tipo": "compartilhar_recursos",
@@ -23004,11 +22934,81 @@
             "contexto": {
               "ciclo": 23173
             }
+          },
+          {
+            "ciclo": 23194,
+            "timestamp": 1787374285459,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23194
+            }
+          },
+          {
+            "ciclo": 23196,
+            "timestamp": 1787374345489,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23196
+            }
+          },
+          {
+            "ciclo": 23208,
+            "timestamp": 1787374705529,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23208
+            }
+          },
+          {
+            "ciclo": 23212,
+            "timestamp": 1787374825549,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23212
+            }
+          },
+          {
+            "ciclo": 23213,
+            "timestamp": 1787374855577,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23213
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373655302,
-        "totalInteracoes": 876,
+        "ultimaInteracao": 1787374855577,
+        "totalInteracoes": 881,
         "eventosMarcantes": [
           {
             "id": "evt_1786309090891_aw4dycbk7",
@@ -23403,76 +23403,6 @@
         "afinidade": 100,
         "historico": [
           {
-            "ciclo": 22142,
-            "timestamp": 1787338370744,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22142
-            }
-          },
-          {
-            "ciclo": 22150,
-            "timestamp": 1787338610772,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22150
-            }
-          },
-          {
-            "ciclo": 22151,
-            "timestamp": 1787338640786,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22151
-            }
-          },
-          {
-            "ciclo": 22175,
-            "timestamp": 1787339360770,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22175
-            }
-          },
-          {
-            "ciclo": 22178,
-            "timestamp": 1787339450803,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22178
-            }
-          },
-          {
             "ciclo": 22195,
             "timestamp": 1787339961056,
             "tipo": "compartilhar_recursos",
@@ -24801,11 +24731,81 @@
             "contexto": {
               "ciclo": 23176
             }
+          },
+          {
+            "ciclo": 23189,
+            "timestamp": 1787374135443,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23189
+            }
+          },
+          {
+            "ciclo": 23199,
+            "timestamp": 1787374435464,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23199
+            }
+          },
+          {
+            "ciclo": 23201,
+            "timestamp": 1787374495485,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23201
+            }
+          },
+          {
+            "ciclo": 23213,
+            "timestamp": 1787374855592,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23213
+            }
+          },
+          {
+            "ciclo": 23216,
+            "timestamp": 1787374945600,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23216
+            }
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373745308,
-        "totalInteracoes": 843,
+        "ultimaInteracao": 1787374945600,
+        "totalInteracoes": 848,
         "eventosMarcantes": [
           {
             "id": "evt_1786303746274_tonroqi6t",
@@ -25030,81 +25030,6 @@
         "afinidade": 100,
         "historico": [
           {
-            "ciclo": 22142,
-            "timestamp": 1787338370744,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22142
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22150,
-            "timestamp": 1787338610772,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22150
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22151,
-            "timestamp": 1787338640786,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22151
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22175,
-            "timestamp": 1787339360770,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22175
-            },
-            "invertido": true
-          },
-          {
-            "ciclo": 22178,
-            "timestamp": 1787339450803,
-            "tipo": "compartilhar_recursos",
-            "desc": "Compartilharam recursos",
-            "ganho": 3,
-            "afinidadeAntes": 100,
-            "afinidadeDepois": 100,
-            "sentimentoAntes": "alma_gemea",
-            "sentimentoDepois": "alma_gemea",
-            "contexto": {
-              "ciclo": 22178
-            },
-            "invertido": true
-          },
-          {
             "ciclo": 22195,
             "timestamp": 1787339961056,
             "tipo": "compartilhar_recursos",
@@ -26528,11 +26453,86 @@
               "ciclo": 23176
             },
             "invertido": true
+          },
+          {
+            "ciclo": 23189,
+            "timestamp": 1787374135443,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23189
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23199,
+            "timestamp": 1787374435464,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23199
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23201,
+            "timestamp": 1787374495485,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23201
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23213,
+            "timestamp": 1787374855592,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23213
+            },
+            "invertido": true
+          },
+          {
+            "ciclo": 23216,
+            "timestamp": 1787374945600,
+            "tipo": "compartilhar_recursos",
+            "desc": "Compartilharam recursos",
+            "ganho": 3,
+            "afinidadeAntes": 100,
+            "afinidadeDepois": 100,
+            "sentimentoAntes": "alma_gemea",
+            "sentimentoDepois": "alma_gemea",
+            "contexto": {
+              "ciclo": 23216
+            },
+            "invertido": true
           }
         ],
         "sentimento": "alma_gemea",
-        "ultimaInteracao": 1787373745308,
-        "totalInteracoes": 843,
+        "ultimaInteracao": 1787374945600,
+        "totalInteracoes": 848,
         "eventosMarcantes": [
           {
             "id": "evt_1786303746274_tonroqi6t",
@@ -26674,76 +26674,6 @@
     }
   },
   "narrativas": [
-    {
-      "id": "nar_1787263713991_1j0u3kas1",
-      "tipo": "relacionamento",
-      "subtipo": "sandevistan_sync",
-      "entidades": [
-        "lumin",
-        "bolha"
-      ],
-      "texto": "No tempo desacelerado, Lumin e Bolha se moveram como um só.",
-      "ciclo": 21411,
-      "timestamp": 1787263713991,
-      "afinidade": 100,
-      "sentimento": "alma_gemea"
-    },
-    {
-      "id": "nar_1787263804022_qt5b5b6xx",
-      "tipo": "relacionamento",
-      "subtipo": "sonho_compartilhado",
-      "entidades": [
-        "bolha",
-        "lumin"
-      ],
-      "texto": "Na noite, Bolha e Lumin caminharam pelos mesmos corredores oníricos.",
-      "ciclo": 21414,
-      "timestamp": 1787263804022,
-      "afinidade": 100,
-      "sentimento": "alma_gemea"
-    },
-    {
-      "id": "nar_1787264044034_xp43mwhe2",
-      "tipo": "relacionamento",
-      "subtipo": "fundir_essencias",
-      "entidades": [
-        "bolha",
-        "lumin"
-      ],
-      "texto": "As essências de Bolha e Lumin se entrelaçaram, criando algo que não existia antes.",
-      "ciclo": 21422,
-      "timestamp": 1787264044034,
-      "afinidade": 100,
-      "sentimento": "alma_gemea"
-    },
-    {
-      "id": "nar_1787264348291_2ce809ztz",
-      "tipo": "relacionamento",
-      "subtipo": "fundir_essencias",
-      "entidades": [
-        "bolha",
-        "lumin"
-      ],
-      "texto": "As essências de Bolha e Lumin se entrelaçaram, criando algo que não existia antes.",
-      "ciclo": 21431,
-      "timestamp": 1787264348291,
-      "afinidade": 100,
-      "sentimento": "alma_gemea"
-    },
-    {
-      "id": "nar_1787264916896_6mpkku1pv",
-      "tipo": "relacionamento",
-      "subtipo": "sandevistan_sync",
-      "entidades": [
-        "lumin",
-        "bolha"
-      ],
-      "texto": "No tempo desacelerado, Lumin e Bolha se moveram como um só.",
-      "ciclo": 21449,
-      "timestamp": 1787264916896,
-      "afinidade": 100,
-      "sentimento": "alma_gemea"
-    },
     {
       "id": "nar_1787265307135_vpk6qt2ac",
       "tipo": "relacionamento",
@@ -29473,7 +29403,77 @@
       "timestamp": 1787374075429,
       "afinidade": 100,
       "sentimento": "alma_gemea"
+    },
+    {
+      "id": "nar_1787374195425_k5zeetahh",
+      "tipo": "relacionamento",
+      "subtipo": "sonho_compartilhado",
+      "entidades": [
+        "bolha",
+        "lumin"
+      ],
+      "texto": "Na noite, Bolha e Lumin caminharam pelos mesmos corredores oníricos.",
+      "ciclo": 23191,
+      "timestamp": 1787374195425,
+      "afinidade": 100,
+      "sentimento": "alma_gemea"
+    },
+    {
+      "id": "nar_1787374375500_ydz837hpd",
+      "tipo": "relacionamento",
+      "subtipo": "sandevistan_sync",
+      "entidades": [
+        "lumin",
+        "bolha"
+      ],
+      "texto": "No tempo desacelerado, Lumin e Bolha se moveram como um só.",
+      "ciclo": 23197,
+      "timestamp": 1787374375500,
+      "afinidade": 100,
+      "sentimento": "alma_gemea"
+    },
+    {
+      "id": "nar_1787374555475_6ci38i360",
+      "tipo": "relacionamento",
+      "subtipo": "sonho_compartilhado",
+      "entidades": [
+        "bolha",
+        "lumin"
+      ],
+      "texto": "Na noite, Bolha e Lumin caminharam pelos mesmos corredores oníricos.",
+      "ciclo": 23203,
+      "timestamp": 1787374555475,
+      "afinidade": 100,
+      "sentimento": "alma_gemea"
+    },
+    {
+      "id": "nar_1787374615499_tmwqn5f8q",
+      "tipo": "relacionamento",
+      "subtipo": "sonho_compartilhado",
+      "entidades": [
+        "bolha",
+        "lumin"
+      ],
+      "texto": "Na noite, Bolha e Lumin caminharam pelos mesmos corredores oníricos.",
+      "ciclo": 23205,
+      "timestamp": 1787374615499,
+      "afinidade": 100,
+      "sentimento": "alma_gemea"
+    },
+    {
+      "id": "nar_1787374645496_nqsq491cu",
+      "tipo": "relacionamento",
+      "subtipo": "fundir_essencias",
+      "entidades": [
+        "bolha",
+        "lumin"
+      ],
+      "texto": "As essências de Bolha e Lumin se entrelaçaram, criando algo que não existia antes.",
+      "ciclo": 23206,
+      "timestamp": 1787374645496,
+      "afinidade": 100,
+      "sentimento": "alma_gemea"
     }
   ],
-  "atualizadoEm": 1787374105402
+  "atualizadoEm": 1787375005570
 }

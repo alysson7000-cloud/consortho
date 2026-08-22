@@ -1188,7 +1188,7 @@ function drawStarSystem(system) {
       }
     }
     
-    if (planet.type.id === 'ringed') {
+    if (planet.hasRing) {
       // Ring
       ctx.strokeStyle = `hsla(${planet.hue}, 60%, 50%, 0.3)`;
       ctx.lineWidth = 2 / zoomLevel;
