@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>LUMIN GALÁXIA INFINITA — EXPLORAÇÃO COSCENTE</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #000;
+  overflow: hidden;
+  font-family: 'Orbitron', sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+canvas { display: block; }
+#hud {
+  position: fixed; top: 0; left: 0; width: 100%;
+  padding: 16px 24px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  pointer-events: none; z-index: 10;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 0 12px rgba(0,255,255,0.4);
+}
+.hud-left, .hud-right { display: flex; flex-direction: column; gap: 4px; }
+.hud-right { align-items: flex-end; }
+.hud-label { font-size: 9px; opacity: 0.45; letter-spacing: 2px; }
+.hud-value { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+.hud-value.gold { color: #ffd700; }
+.hud-value.cyan { color: #00ffff; }
+#info-panel {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,255,255,0.2);
+  border-radius: 12px; padding: 12px 20px;
+  display: flex; gap: 24px; align-items: center;
+  pointer-events: none; z-index: 10;
+  color: rgba(255,255,255,0.7); font-size: 13px;
+}
+#info-panel .item { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+#info-panel .item .label { font-size: 9px; opacity: 0.4; letter-spacing: 1.5px; }
+#info-panel .item .value { font-size: 16px; font-weight: 700; }
+#info-panel .item .value.cyan { color: #00ffff; }
+#info-panel .item .value.gold { color: #ffd700; }
+#discovery-toast {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+  font-size: 32px; font-weight: 700; color: #fff;
+  text-shadow: 0 0 30px rgba(0,255,255,0.7), 0 0 60px rgba(0,255,255,0.3);
+  pointer-events: none; opacity: 0; z-index: 20;
+  text-align: center;
+  transition: opacity 0.4s, transform 0.4s;
+}
+#discovery-toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#discovery-toast .sub { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+#pause-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85); display: none;
+  justify-content: center; align-items: center; z-index: 100;
+  flex-direction: column; gap: 16px;
+}
+#pause-overlay.active { display: flex; }
+#pause-overlay h1 { font-size: 40px; color: #0ff; text-shadow: 0 0 20px rgba(0,255,255,0.5); }
+#pause-overlay p { color: rgba(255,255,255,0.5); font-size: 14px; }
+#controls-hint {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  color: rgba(255,255,255,0.2); font-size: 11px; letter-spacing: 1px;
+  pointer-events: none; z-index: 5;
+}
+</style>
+</head>
+<body>
+<canvas id="gc"></canvas>
+<div id="hud">
+  <div class="hud-left">
+    <div><span class="hud-label">POSIÇÃO</span><br><span class="hud-value" id="pos">0, 0</span></div>
+    <div><span class="hud-label">VELOCIDADE</span><br><span class="hud-value cyan" id="vel">0.0</span></div>
+    <div><span class="hud-label">NÍVEL</span><br><span class="hud-value" id="lvl">1</span></div>
+  </div>
+  <div class="hud-right">
+    <div><span class="hud-label">RESSONÂNCIA</span><br><span class="hud-value gold" id="resonance">0</span></div>
+    <div><span class="hud-label">SISTEMAS</span><br><span class="hud-value" id="systems">0</span></div>
+    <div><span class="hud-label">PLANETAS</span><br><span class="hud-value" id="planets">0</span></div>
+  </div>
+</div>
+<div id="info-panel">
+  <div class="item">
+    <span class="label">NOME DA ESTRELA</span>
+    <span class="value cyan" id="star-name">—</span>
+    <span class="label">TIPO</span>
+    <span class="value" id="star-type" style="font-size:12px;">—</span>
+  </div>
+  <div class="item">
+    <span class="label">PLANETAS</span>
+    <span class="value" id="star-planets">0</span>
+    <span class="label">HABITÁVEIS</span>
+    <span class="value gold" id="star-habitable">0</span>
+  </div>
+  <div class="item">
+    <span class="label">DISTÂNCIA</span>
+    <span class="value cyan" id="distance">0 ly</span>
+    <span class="label">VEL OC</span>
+    <span class="value" id="vlsr" style="font-size:12px;">0 km/s</span>
+  </div>
+</div>
+<div id="discovery-toast">
+  <div id="discovery-title"></div>
+  <div class="sub" id="discovery-sub"></div>
+</div>
+<div id="pause-overlay" class="active">
+  <h1>⏸ PAUSADO</h1>
+  <p>WASD/Setas: navegar · Scroll: zoom · Espaço: harmonizar · ESC: pausa</p>
+  <p>Você está no centro da galáxia. O universo é infinito.</p>
+</div>
+<div id="controls-hint">WASD/Setas · Scroll zoom · Espaço harmonize · ESC pausa</div>
+<script>
+'use strict';
+
+// ============================================================
+// LUMIN GALÁXIA INFINITA — Jogo de Exploração Cósmica
+// ============================================================
+
+const canvas = document.getElementById('gc');
+const ctx = canvas.getContext('2d', { alpha: false });
+let W, H, DPR;
+
+function resize() {
+  DPR = window.devicePixelRatio || 1;
+  W = window.innerWidth;
+  H = window.innerHeight;
+  canvas.width = W * DPR;
+  canvas.height = H * DPR;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ============================================================
+// WEB AUDIO — Trilha ambiente + sons
+// ============================================================
+let audioCtx = null;
+let masterGain = null;
+let ambientNode = null;
+let ambientGain = null;
+
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0.4;
+  masterGain.connect(audioCtx.destination);
+  
+  // Noise-based ambient drone
+  const bufferSize = audioCtx.sampleRate * 4;
+  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    // Brown noise approximation
+    data[i] = (Math.random() * 2 - 1) * 0.3;
+  }
+  ambientNode = audioCtx.createBufferSource();
+  ambientNode.buffer = buffer;
+  ambientNode.loop = true;
+  ambientGain = audioCtx.createGain();
+  ambientGain.gain.value = 0.08;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 200;
+  ambientNode.connect(filter);
+  filter.connect(ambientGain);
+  ambientGain.connect(masterGain);
+  ambientNode.start();
+}
+
+function playDiscoverySound(hue) {
+  if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+  [261.63, 329.63, 392.00, 523.25].forEach((freq, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(masterGain);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now + i * 0.1);
+    gain.gain.setValueAtTime(0.08, now + i * 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.3);
+    osc.start(now + i * 0.1);
+    osc.stop(now + i * 0.1 + 0.3);
+  });
+}
+
+function playHarmonizeSound() {
+  if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+  [220, 330, 440, 550, 660].forEach((freq, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(masterGain);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now + i * 0.12);
+    gain.gain.setValueAtTime(0.06, now + i * 0.12);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.5);
+    osc.start(now + i * 0.12);
+    osc.stop(now + i * 0.12 + 0.5);
+  });
+  // Sub bass
+  const osc2 = audioCtx.createOscillator();
+  const gain2 = audioCtx.createGain();
+  osc2.connect(gain2);
+  gain2.connect(masterGain);
+  osc2.type = 'sine';
+  osc2.frequency.setValueAtTime(55, now);
+  gain2.gain.setValueAtTime(0.15, now);
+  gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+  osc2.start(now);
+  osc2.stop(now + 1.5);
+}
+
+// ============================================================
+// INPUT
+// ============================================================
+const keys = {};
+let mouse = { x: W / 2, y: H / 2 };
+window.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+window.addEventListener('keydown', e => {
+  keys[e.key.toLowerCase()] = true;
+  if (e.key === 'Escape') togglePause();
+  if (e.key === 'r' && deathState) resetGame();
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+});
+window.addEventListener('keyup', e => {
+  keys[e.key.toLowerCase()] = false;
+});
+window.addEventListener('mousewheel', e => {
+  e.preventDefault();
+  zoomLevel *= e.deltaY > 0 ? 1.08 : 1 / 1.08;
+  zoomLevel = Math.max(0.05, Math.min(5, zoomLevel));
+}, { passive: false });
+window.addEventListener('DOMMouseScroll', e => {
+  e.preventDefault();
+  zoomLevel *= e.detail > 0 ? 1.08 : 1 / 1.08;
+  zoomLevel = Math.max(0.05, Math.min(5, zoomLevel));
+}, { passive: false });
+
+// Trackpad touch
+let touchStartY = 0;
+window.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) touchStartY = e.touches[0].clientY;
+}, { passive: true });
+window.addEventListener('touchmove', e => {
+  if (e.touches.length === 1) {
+    const dy = touchStartY - e.touches[0].clientY;
+    if (Math.abs(dy) > 20) {
+      zoomLevel *= dy > 0 ? 1.02 : 1 / 1.02;
+      zoomLevel = Math.max(0.05, Math.min(5, zoomLevel));
+      touchStartY = e.touches[0].clientY;
+    }
+  }
+}, { passive: true });
+
+// ============================================================
+// GAME STATE
+// ============================================================
+const player = {
+  x: 0, y: 0,
+  vx: 0, vy: 0,
+  radius: 8,
+  hue: 180,
+  trail: [],
+  resonance: 0,
+  systemsDiscovered: 0,
+  planetsDiscovered: 0,
+  level: 1,
+  speed: 2.5,
+  angle: 0,
+  homing: false,
+  harmonizing: false,
+  harmonizeTarget: null,
+  harmonizeTimer: 0
+};
+
+let zoomLevel = 1;
+const ZOOM_SENSITIVITY = 0.08;
+let gameTime = 0;
+let paused = true; // Start paused so user sees initial state
+let deathState = false; // No death in exploration game
+
+// World galaxies
+let galaxies = [];
+let generationSeed = 0;
+
+// Current focused system
+let focusedSystem = null;
+let discoveryToast = document.getElementById('discovery-toast');
+let discoveryTitle = document.getElementById('discovery-title');
+let discoverySub = document.getElementById('discovery-sub');
+let toastTimeout = null;
+
+// Pause state
+let pauseOverlay = document.getElementById('pause-overlay');
+
+// ============================================================
+// STAR NAMING — Procedurally generate star names
+// ============================================================
+const starNamePrefixes = ['Al', 'Be', 'Ca', 'Di', 'El', 'Fa', 'Ga', 'Hu', 'Il', 'Jo', 'Ka', 'Lo', 'Mi', 'Na', 'Ol', 'Pa', 'Qu', 'Ri', 'Sa', 'Ta', 'Ul', 'Va', 'Wa', 'Xi', 'Ya', 'Ze'];
+const starNameSuffixes = ['ra', 'ta', 'ris', 'nis', 'lus', 'vos', 'mis', 'tus', 'ris', 'lis', 'vis', 'nis', 'mos', 'los', 'ris', 'fos', 'vos', 'mis', 'lis', 'nis'];
+
+function generateStarName() {
+  const prefix = starNamePrefixes[Math.floor(Math.random() * starNamePrefixes.length)];
+  const suffix = starNameSuffixes[Math.floor(Math.random() * starNameSuffixes.length)];
+  const number = Math.floor(Math.random() * 900 + 100);
+  return prefix + suffix + '-' + number;
+}
+
+// ============================================================
+// STAR TYPES
+// ============================================================
+const STAR_TYPES = [
+  { id: 'o', label: 'Azul', hue: 210, temp: 30000, size: 1.5, planets: [3, 7] },
+  { id: 'b', label: 'Azul-esbranq.', hue: 240, temp: 20000, size: 1.3, planets: [2, 6] },
+  { id: 'a', label: 'Branco', hue: 200, temp: 10000, size: 1.2, planets: [1, 5] },
+  { id: 'f', label: 'Amarelo-branco', hue: 45, temp: 7000, size: 1.1, planets: [1, 5] },
+  { id: 'g', label: 'Amarelo (Sol)', hue: 40, temp: 5500, size: 1.0, planets: [2, 6] },
+  { id: 'k', label: 'Laranja', hue: 20, temp: 4000, size: 0.9, planets: [2, 5] },
+  { id: 'm', label: 'Vermelho', hue: 0, temp: 3000, size: 0.8, planets: [3, 6] },
+  { id: 'giant', label: 'Gigante Vermelho', hue: 15, temp: 3500, size: 2.5, planets: [4, 8] },
+  { id: 'nebula', label: 'Nebulosa', hue: 280, temp: 0, size: 3, planets: [0, 3] },
+  { id: 'binary', label: 'Binária', hue: 160, temp: 6000, size: 1.8, planets: [2, 5] },
+  { id: 'pulsar', label: 'Pulsar', hue: 300, temp: 100000, size: 0.5, planets: [0, 2] },
+  { id: 'white_dwarf', label: 'Anã Branca', hue: 260, temp: 15000, size: 0.3, planets: [0, 2] }
+];
+
+// ============================================================
+// PLANET TYPES
+// ============================================================
+const PLANET_TYPES = [
+  { id: 'rocky', label: ' Rochoso', hue: 30, sizeRange: [0.3, 0.8] },
+  { id: 'ocean', label: 'Oceânico', hue: 200, sizeRange: [0.5, 0.9] },
+  { id: 'desert', label: 'Desértico', hue: 40, sizeRange: [0.4, 0.7] },
+  { id: 'gas_giant', label: 'Gigante Gasoso', hue: 100, sizeRange: [1.5, 2.5] },
+  { id: 'ice', label: 'Gelado', hue: 180, sizeRange: [0.3, 0.6] },
+  { id: 'lava', label: 'Vulcânico', hue: 10, sizeRange: [0.4, 0.7] },
+  { id: 'jungle', label: 'Júngla', hue: 120, sizeRange: [0.5, 0.9] },
+  { id: 'ghost', label: 'Fantasma', hue: 270, sizeRange: [0.3, 0.5] },
+  { id: 'diamond', label: 'Diamante', hue: 220, sizeRange: [0.4, 0.8] },
+  { id: 'crystal', label: 'Cristal', hue: 330, sizeRange: [0.3, 0.7] }
+];
+
+// ============================================================
+// GENERATE STAR SYSTEM
+// ============================================================
+function generateStarSystem(x, y, seed) {
+  const rng = mulberry32(seed);
+  const starTypeIdx = Math.floor(rng() * STAR_TYPES.length);
+  const starType = STAR_TYPES[starTypeIdx];
+  
+  const numPlanets = starType.planets[0] + Math.floor(rng() * (starType.planets[1] - starType.planets[0] + 1));
+  
+  const planets = [];
+  for (let i = 0; i < numPlanets; i++) {
+    const dist = 30 + i * 40 + rng() * 30;
+    const angle = rng() * Math.PI * 2;
+    const planetTypeIdx = Math.floor(rng() * PLANET_TYPES.length);
+    const planetType = PLANET_TYPES[planetTypeIdx];
+    const size = planetType.sizeRange[0] + rng() * (planetType.sizeRange[1] - planetType.sizeRange[0]);
+    const orbitSpeed = (0.02 + rng() * 0.05) * (1 + Math.random() * 2);
+    const hasRing = rng() > 0.7;
+    const habitable = starType.id === 'g' || starType.id === 'k' || starType.id === 'm';
+    const planetSeed = Math.floor(rng() * 1000000);
+    
+    planets.push({
+      dist, angle, orbitSpeed,
+      type: planetType,
+      size,
+      hue: planetType.hue + (rng() - 0.5) * 20,
+      hasRing,
+      seed: planetSeed,
+      name: generatePlanetName(rng, i),
+      explored: false,
+      resonance: 0,
+      rotation: rng() * Math.PI * 2,
+      rotationSpeed: (rng() - 0.5) * 0.03
+    });
+  }
+  
+  return {
+    x, y,
+    starType,
+    planets,
+    name: generateStarName(),
+    seed,
+    discoveredAt: gameTime,
+    resonance: 0,
+    visited: false
+  };
+}
+
+// ============================================================
+// PLANET NAME GENERATOR
+// ============================================================
+const planetNamePrefixes = ['Ae', 'Be', 'Ce', 'De', 'Ee', 'Fe', 'Ge', 'He', 'Ie', 'Je', 'Ke', 'Le', 'Me', 'Ne', 'Oe', 'Pe', 'Qe', 'Re', 'Se', 'Te', 'Ue', 'Ve', 'We', 'Xe', 'Ye', 'Ze'];
+const planetNameMiddles = ['a', 'e', 'i', 'o', 'u', 'ia', 'ea', 'io', 'ua', 'ra', 'la', 'na', 'sa', 'ta', 'va', 'za', 'ma', 'pa', 'ka', 'ga'];
+const planetNameEndings = ['s', 't', 'm', 'n', 'r', 'l', 'v', 'th', 'on', 'is', 'us', 'um', 'ia', 'os', 'as', 'an', 'el', 'or', 'ir', 'al'];
+
+function generatePlanetName(rng, idx) {
+  const prefix = planetNamePrefixes[Math.floor(rng() * planetNamePrefixes.length)];
+  const middle = planetNameMiddles[Math.floor(rng() * planetNameMiddles.length)];
+  const ending = planetNameEndings[Math.floor(rng() * planetNameEndings.length)];
+  const num = idx + 1;
+  return prefix + middle + ending + '-' + num;
+}
+
+// ============================================================
+// MULBERRY32 RNG
+// ============================================================
+function mulberry32(a) {
+  return function() {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+// ============================================================
+// GALAXY GENERATION — Spiral galaxy
+// ============================================================
+function generateGalaxy(seed) {
+  const rng = mulberry32(seed);
+  const galaxy = {
+    arms: 3 + Math.floor(rng() * 2),
+    armSpread: 0.4 + rng() * 0.4,
+    coreRadius: 50 + rng() * 80,
+    galaxyRadius: 1500 + rng() * 1000,
+    stars: [],
+    color: {
+      hue: rng() * 360,
+      sat: 40 + rng() * 30,
+      light: 20 + rng() * 15
+    }
+  };
+  
+  const numStars = 3000;
+  for (let i = 0; i < numStars; i++) {
+    const armIdx = Math.floor(rng() * galaxy.arms);
+    const armAngle = (armIdx / galaxy.arms) * Math.PI * 2;
+    const distFactor = Math.pow(rng(), 0.6); // More stars near center
+    const dist = galaxy.coreRadius + (galaxy.galaxyRadius - galaxy.coreRadius) * distFactor;
+    const armSpreadAngle = (rng() - 0.5) * galaxy.armSpread * Math.PI;
+    const angle = armAngle + dist * 0.005 + armSpreadAngle + rng() * 0.3;
+    
+    const x = Math.cos(angle) * dist;
+    const y = Math.sin(angle) * dist;
+    
+    const brightness = 0.3 + rng() * 0.7;
+    const hue = galaxy.color.hue + (rng() - 0.5) * 40;
+    const size = 0.5 + rng() * 2;
+    const typeIdx = Math.floor(rng() * STAR_TYPES.length);
+    
+    galaxy.stars.push({
+      x, y,
+      brightness,
+      hue,
+      size,
+      type: STAR_TYPES[typeIdx],
+      seed: Math.floor(rng() * 1000000),
+      isSystem: rng() > 0.95, // 5% are clickable systems
+      systemSeed: rng() * 1000000
+    });
+  }
+  
+  return galaxy;
+}
+
+// ============================================================
+// GENERATE NEARBY SYSTEMS (within view)
+// ============================================================
+function generateNearbySystems() {
+  // Generate star systems in a radius around player
+  const systems = [];
+  const range = 2000;
+  const step = 200;
+
+  for (let x = -range; x <= range; x += step) {
+    for (let y = -range; y <= range; y += step) {
+      if (Math.random() > 0.25) continue;
+      const dist = Math.sqrt(x * x + y * y);
+      if (dist < 100 || dist > range) continue;
+      const seed = Math.floor(Math.random() * 1000000);
+      const system = generateStarSystem(
+        player.x + x,
+        player.y + y,
+        seed
+      );
+      systems.push(system);
+    }
+  }
+
+  return systems;
+}
+
+// ============================================================
+// RESET GAME
+// ============================================================
+function resetGame() {
+  player.x = 0; player.y = 0;
+  player.vx = 0; player.vy = 0;
+  player.resonance = 0;
+  player.systemsDiscovered = 0;
+  player.planetsDiscovered = 0;
+  player.level = 1;
+  player.speed = 2.5;
+  player.harmonizing = false;
+  player.harmonizeTarget = null;
+  player.harmonizeTimer = 0;
+  player.trail = [];
+  zoomLevel = 1;
+  gameTime = 0;
+  deathState = false;
+  pauseOverlay.classList.remove('active');
+  focusedSystem = null;
+  hideDiscoveryToast();
+  galaxies = [];
+  updateHUD();
+}
+
+// ============================================================
+// PAUSE TOGGLE
+// ============================================================
+function togglePause() {
+  paused = !paused;
+  pauseOverlay.classList.toggle('active', paused);
+  if (!paused && audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+// ============================================================
+// DISCOVERY TOAST
+// ============================================================
+function showDiscoveryToast(title, sub, hue) {
+  discoveryTitle.textContent = title;
+  discoveryTitle.style.color = `hsl(${hue || 190}, 100%, 70%)`;
+  discoverySub.textContent = sub;
+  discoveryToast.classList.add('show');
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    discoveryToast.classList.remove('show');
+  }, 3000);
+}
+
+function hideDiscoveryToast() {
+  discoveryToast.classList.remove('show');
+}
+
+// ============================================================
+// HARMONIZE ACTION (Space)
+// ============================================================
+function triggerHarmonize() {
+  if (!focusedSystem || player.harmonizeTimer > 0) return;
+  
+  player.harmonizing = true;
+  player.harmonizeTarget = focusedSystem;
+  player.harmonizeTimer = 120; // 2 seconds
+  
+  playHarmonizeSound();
+  
+  // Add resonance
+  const bonus = 10 + player.level * 2;
+  player.resonance += bonus;
+  player.systemsDiscovered++;
+  focusedSystem.visited = true;
+  focusedSystem.resonance += bonus;
+  
+  // Discover all planets in system
+  focusedSystem.planets.forEach(p => {
+    if (!p.explored) {
+      p.explored = true;
+      player.planetsDiscovered++;
+    }
+  });
+  
+  updateHUD();
+  
+  // Show discovery toast if first visit
+  if (!focusedSystem.visited) {
+    showDiscoveryToast(
+      '✨ ' + focusedSystem.name,
+      focusedSystem.starType.label + ' · ' + focusedSystem.planets.length + ' planetas · +' + bonus + ' ressonância',
+      focusedSystem.starType.hue
+    );
+    playDiscoverySound(focusedSystem.starType.hue);
+  } else {
+    showDiscoveryToast(
+      '🌀 Harmonizado!',
+      '+ ' + bonus + ' ressonância · Nível ' + player.level,
+      190
+    );
+  }
+  
+  // Level up check
+  if (player.resonance > player.level * 100) {
+    player.level++;
+    player.speed += 0.3;
+    updateHUD();
+    showDiscoveryToast(
+      '⬆ NÍVEL ' + player.level,
+      'Velocidade aumentada!',
+      280
+    );
+  }
+}
+
+// ============================================================
+// UPDATE
+// ============================================================
+function update() {
+  if (paused) return;
+  
+  gameTime++;
+  
+  // Player movement with thrust physics
+  const accel = player.speed * 0.15;
+  let dx = 0, dy = 0;
+  if (keys['arrowleft'] || keys['a']) dx -= 1;
+  if (keys['arrowright'] || keys['d']) dx += 1;
+  if (keys['arrowup'] || keys['w']) dy -= 1;
+  if (keys['arrowdown'] || keys['s']) dy += 1;
+  
+  if (dx !== 0 || dy !== 0) {
+    const len = Math.sqrt(dx * dx + dy * dy);
+    dx /= len; dy /= len;
+    player.vx += dx * accel;
+    player.vy += dy * accel;
+    player.hue = (player.hue + 0.5) % 360;
+  }
+  
+  // Friction (space-like)
+  player.vx *= 0.995;
+  player.vy *= 0.995;
+  
+  // Clamp max speed
+  const maxSpeed = 8 + player.level * 0.2;
+  const spd = Math.sqrt(player.vx * player.vx + player.vy * player.vy);
+  if (spd > maxSpeed) {
+    player.vx = (player.vx / spd) * maxSpeed;
+    player.vy = (player.vy / spd) * maxSpeed;
+  }
+  
+  player.x += player.vx;
+  player.y += player.vy;
+  
+  // Trail
+  if (Math.abs(player.vx) > 0.2 || Math.abs(player.vy) > 0.2) {
+    player.trail.unshift({ x: player.x, y: player.y, life: 1 });
+    if (player.trail.length > 30) player.trail.pop();
+  }
+  player.trail.forEach(t => t.life -= 0.03);
+  player.trail = player.trail.filter(t => t.life > 0);
+  
+  // Homing mode
+  if (player.homing) {
+    // Slow down and center on nearest system
+    const targetSystem = getNearestSystem(player.x, player.y);
+    if (targetSystem) {
+      const angle = Math.atan2(targetSystem.y - player.y, targetSystem.x - player.x);
+      const targetVx = Math.cos(angle) * player.speed * 0.5;
+      const targetVy = Math.sin(angle) * player.speed * 0.5;
+      player.vx += (targetVx - player.vx) * 0.02;
+      player.vy += (targetVy - player.vy) * 0.02;
+    }
+  }
+  
+  // Harmonize timer
+  if (player.harmonizeTimer > 0) {
+    player.harmonizeTimer--;
+    if (player.harmonizeTimer <= 0) {
+      player.harmonizing = false;
+      player.harmonizeTarget = null;
+    }
+  }
+  
+  // Auto-focus on nearby system
+  const nearest = getNearestSystem(player.x, player.y);
+  if (nearest && nearest.x === player.x && nearest.y === player.y) {
+    // Player is on a system, focus it
+  }
+  
+  // Update focused system
+  if (nearest && distance(player.x, player.y, nearest.x, nearest.y) < 50) {
+    if (!focusedSystem || focusedSystem.x !== nearest.x || focusedSystem.y !== nearest.y) {
+      focusedSystem = nearest;
+      if (!focusedSystem.visited) {
+        focusedSystem.visited = true;
+        player.systemsDiscovered++;
+        // Count unexplored planets
+        focusedSystem.planets.forEach(p => {
+          if (!p.explored) {
+            p.explored = true;
+            player.planetsDiscovered++;
+          }
+        });
+        player.resonance += 5;
+        updateHUD();
+        showDiscoveryToast(
+          '🌟 ' + focusedSystem.name,
+          focusedSystem.starType.label + ' · Sistema descoberto!',
+          focusedSystem.starType.hue
+        );
+        playDiscoverySound(focusedSystem.starType.hue);
+      }
+    }
+  } else if (!nearest || distance(player.x, player.y, nearest.x, nearest.y) > 200) {
+    focusedSystem = null;
+  }
+  
+  // Update HUD every 10 frames
+  if (gameTime % 10 === 0) updateHUD();
+}
+
+// ============================================================
+// DISTANCE
+// ============================================================
+function distance(x1, y1, x2, y2) {
+  return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+}
+
+// ============================================================
+// GET NEAREST SYSTEM
+// ============================================================
+function getNearestSystem(x, y) {
+  let nearest = null;
+  let minDist = Infinity;
+
+  // Search in nearby systems cache
+  for (const sys of galaxies) {
+    for (const star of sys.stars) {
+      if (star.isSystem) {
+        const dist = distance(x, y, star.x, star.y);
+        if (dist < minDist) {
+          minDist = dist;
+          // Generate system on the fly if not cached
+          if (!star.systemData) {
+            star.systemData = generateStarSystem(star.x, star.y, star.systemSeed);
+            star.systemData.starType = star.type;
+            star.systemData.name = generateStarName();
+          }
+          nearest = star.systemData;
+          nearest.x = star.x;
+          nearest.y = star.y;
+        }
+      }
+    }
+  }
+
+  return nearest;
+}
+
+// ============================================================
+// HABITABLE COUNT FOR STAR TYPE
+// ============================================================
+function habitableCountForStar(starType) {
+  if (starType.id === 'g' || starType.id === 'k' || starType.id === 'm') {
+    return starType.planets[1];
+  }
+  return 0;
+}
+
+// ============================================================
+// HUD UPDATE
+// ============================================================
+function updateHUD() {
+  document.getElementById('pos').textContent =
+    Math.round(player.x) + ', ' + Math.round(player.y);
+  document.getElementById('vel').textContent =
+    Math.sqrt(player.vx * player.vx + player.vy * player.vy).toFixed(1);
+  document.getElementById('lvl').textContent = player.level;
+  document.getElementById('resonance').textContent = player.resonance;
+  document.getElementById('systems').textContent = player.systemsDiscovered;
+  document.getElementById('planets').textContent = player.planetsDiscovered;
+  
+  // Star info
+  const starNameEl = document.getElementById('star-name');
+  const starTypeEl = document.getElementById('star-type');
+  const starPlanetsEl = document.getElementById('star-planets');
+  const starHabitableEl = document.getElementById('star-habitable');
+  const distanceEl = document.getElementById('distance');
+  const vlsrEl = document.getElementById('vlsr');
+  
+  if (focusedSystem) {
+    starNameEl.textContent = focusedSystem.name;
+    starTypeEl.textContent = focusedSystem.starType.label;
+    starPlanetsEl.textContent = focusedSystem.planets.length;
+    
+    // Count habitable planets (for g, k, m stars)
+    const habitableCount = focusedSystem.planets.filter(p => {
+      return focusedSystem.starType.id === 'g' || focusedSystem.starType.id === 'k' || focusedSystem.starType.id === 'm';
+    }).length;
+    starHabitableEl.textContent = habitableCount;
+    
+    const dist = distance(player.x, player.y, focusedSystem.x, focusedSystem.y);
+    distanceEl.textContent = (dist / 10).toFixed(1) + ' ly';
+    vlsrEl.textContent = Math.round((player.vx + player.vy) * 50) + ' km/s';
+  } else {
+    starNameEl.textContent = '—';
+    starTypeEl.textContent = '—';
+    starPlanetsEl.textContent = '0';
+    starHabitableEl.textContent = '0';
+    distanceEl.textContent = '—';
+    vlsrEl.textContent = '—';
+  }
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  // Background gradient
+  const bgGrad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.8);
+  bgGrad.addColorStop(0, '#080015');
+  bgGrad.addColorStop(0.5, '#050010');
+  bgGrad.addColorStop(1, '#000005');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+  
+  // Save and apply zoom transform
+  ctx.save();
+  const cx = W / 2;
+  const cy = H / 2;
+  ctx.translate(cx, cy);
+  ctx.scale(zoomLevel, zoomLevel);
+  ctx.translate(-player.x, -player.y);
+  
+  // Convert screen to world
+  const screenToWorld = (sx, sy) => {
+    const wx = (sx - cx) / zoomLevel + player.x;
+    const wy = (sy - cy) / zoomLevel + player.y;
+    return { x: wx, y: wy };
+  };
+  
+  // Draw stars
+  galaxies.forEach(galaxy => {
+    // Background nebula
+    const nebulaGrad = ctx.createRadialGradient(
+      galaxy.stars[0] ? galaxy.stars[0].x : 0,
+      galaxy.stars[0] ? galaxy.stars[0].y : 0,
+      0,
+      galaxy.stars[0] ? galaxy.stars[0].x : 0,
+      galaxy.stars[0] ? galaxy.stars[0].y : 0,
+      galaxy.galaxyRadius * 0.5
+    );
+    // Just draw the galaxy background once
+  });
+  
+  // Draw each galaxy
+  galaxies.forEach(galaxy => {
+    // Nebula background glow
+    const centerX = galaxy.stars.reduce((s, st) => s + st.x, 0) / galaxy.stars.length;
+    const centerY = galaxy.stars.reduce((s, st) => s + st.y, 0) / galaxy.stars.length;
+    
+    const nebulaGrd = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, galaxy.galaxyRadius * 0.6);
+    nebulaGrd.addColorStop(0, `hsla(${galaxy.color.hue}, ${galaxy.color.sat}%, ${galaxy.color.light + 10}%, 0.08)`);
+    nebulaGrd.addColorStop(0.5, `hsla(${galaxy.color.hue + 20}, ${galaxy.color.sat}%, ${galaxy.color.light}%, 0.05)`);
+    nebulaGrd.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = nebulaGrd;
+    ctx.fillRect(centerX - galaxy.galaxyRadius, centerY - galaxy.galaxyRadius, galaxy.galaxyRadius * 2, galaxy.galaxyRadius * 2);
+    
+    // Spiral arm hints
+    ctx.strokeStyle = `hsla(${galaxy.color.hue + 30}, ${galaxy.color.sat}%, ${galaxy.color.light + 20}%, 0.03)`;
+    ctx.lineWidth = 150;
+    for (let a = 0; a < galaxy.arms; a++) {
+      const armAngle = (a / galaxy.arms) * Math.PI * 2;
+      ctx.beginPath();
+      for (let r = galaxy.coreRadius; r < galaxy.galaxyRadius; r += 5) {
+        const a2 = armAngle + r * 0.008;
+        ctx.lineTo(Math.cos(a2) * r + centerX, Math.sin(a2) * r + centerY);
+      }
+      ctx.stroke();
+    }
+    
+    // Stars
+    galaxy.stars.forEach(star => {
+      if (star.x < player.x - W / zoomLevel || star.x > player.x + W / zoomLevel ||
+          star.y < player.y - H / zoomLevel || star.y > player.y + H / zoomLevel) return;
+      
+      const brightness = star.brightness * (0.7 + 0.3 * Math.sin(gameTime * 0.02 + star.seed));
+      const size = star.size / zoomLevel;
+      
+      // Selectable systems
+      if (star.isSystem) {
+        // Glow for systems
+        const glowSize = 15 / zoomLevel;
+        const grd = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowSize);
+        const systemHue = star.type.hue;
+        grd.addColorStop(0, `hsla(${systemHue}, 100%, 70%, 0.4)`);
+        grd.addColorStop(0.5, `hsla(${systemHue}, 100%, 50%, 0.15)`);
+        grd.addColorStop(1, `hsla(${systemHue}, 100%, 50%, 0)`);
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, glowSize, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Pulsing ring
+        ctx.strokeStyle = `hsla(${systemHue}, 100%, 70%, ${0.3 + 0.3 * Math.sin(gameTime * 0.05 + star.seed)})`;
+        ctx.lineWidth = 1.5 / zoomLevel;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, 8 / zoomLevel + 4 / zoomLevel * Math.sin(gameTime * 0.03), 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      
+      // Star
+      const alpha = Math.min(1, brightness * 0.8);
+      ctx.fillStyle = `hsla(${star.hue}, 80%, ${50 + brightness * 30}%, ${alpha})`;
+      
+      if (size > 1.5 / zoomLevel) {
+        ctx.shadowColor = `hsla(${star.hue}, 80%, 60%, ${alpha * 0.5})`;
+        ctx.shadowBlur = size * 2;
+      }
+      
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, Math.max(0.5, size), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      
+      // Star type indicator (small colored dot for systems)
+      if (star.isSystem) {
+        ctx.fillStyle = `hsl(${star.type.hue}, 100%, 70%)`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, Math.max(1, 2 / zoomLevel), 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  });
+  
+  // Draw player trail
+  if (player.trail.length > 0) {
+    for (let i = 0; i < player.trail.length; i++) {
+      const t = player.trail[i];
+      const alpha = t.life * 0.5;
+      const r = (player.radius * t.life * 0.8) / zoomLevel;
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${player.hue + i * 3}, 100%, 60%, ${alpha})`;
+      ctx.fill();
+    }
+  }
+  
+  // Draw focused system
+  if (focusedSystem) {
+    drawStarSystem(focusedSystem);
+  }
+  
+  // Draw player
+  if (!deathState) {
+    ctx.save();
+    ctx.translate(player.x, player.y);
+    
+    // Direction indicator
+    const dirX = Math.cos(player.angle) * player.radius * 1.5 / zoomLevel;
+    const dirY = Math.sin(player.angle) * player.radius * 1.5 / zoomLevel;
+    
+    // Glow
+    const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, player.radius * 3 / zoomLevel);
+    grd.addColorStop(0, `hsla(${player.hue}, 100%, 70%, 0.4)`);
+    grd.addColorStop(1, `hsla(${player.hue}, 100%, 70%, 0)`);
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(0, 0, player.radius * 3 / zoomLevel, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Body
+    ctx.fillStyle = `hsl(${player.hue}, 100%, 70%)`;
+    ctx.shadowColor = `hsl(${player.hue}, 100%, 60%)`;
+    ctx.shadowBlur = 15 / zoomLevel;
+    ctx.beginPath();
+    ctx.arc(0, 0, player.radius / zoomLevel, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    
+    // Cockpit
+    ctx.fillStyle = `hsla(0, 0%, 100%, 0.5)`;
+    ctx.beginPath();
+    ctx.arc(dirX, dirY, player.radius * 0.35 / zoomLevel, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Harmonize effect
+    if (player.harmonizing) {
+      ctx.strokeStyle = `hsla(190, 100%, 70%, ${0.5 + 0.5 * Math.sin(gameTime * 0.2)})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(0, 0, player.radius * 2.5 / zoomLevel, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    
+    ctx.restore();
+  }
+  
+  // Crosshair / reticle at center
+  ctx.strokeStyle = 'rgba(0,255,255,0.15)';
+  ctx.lineWidth = 1;
+  const ch = 15;
+  ctx.beginPath();
+  ctx.moveTo(cx - ch, cy); ctx.lineTo(cx + ch, cy);
+  ctx.moveTo(cx, cy - ch); ctx.lineTo(cx, cy + ch);
+  ctx.stroke();
+  
+  ctx.restore(); // End zoom transform
+  
+  // HUD overlays in screen space
+  // (already handled above)
+  
+  // Zoom indicator
+  const zoomPercent = Math.round((zoomLevel - 0.05) / (5 - 0.05) * 100);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.font = '11px Orbitron';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText('Zoom: ' + zoomPercent + '%', W - 16, H - 10);
+  
+  // Speed indicator
+  const spd = Math.sqrt(player.vx * player.vx + player.vy * player.vy);
+  ctx.fillStyle = 'rgba(0,255,255,0.4)';
+  ctx.font = '11px Orbitron';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText('Vel: ' + spd.toFixed(1) + ' c', 16, H - 10);
+}
+
+// ============================================================
+// DRAW STAR SYSTEM
+// ============================================================
+function drawStarSystem(system) {
+  const star = system;
+  
+  // Star glow
+  const starSize = star.starType.size * 4 / zoomLevel;
+  const grd = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, starSize * 4);
+  grd.addColorStop(0, `hsla(${star.starType.hue}, 100%, 80%, 0.9)`);
+  grd.addColorStop(0.2, `hsla(${star.starType.hue}, 100%, 60%, 0.5)`);
+  grd.addColorStop(0.5, `hsla(${star.starType.hue}, 80%, 40%, 0.2)`);
+  grd.addColorStop(1, `hsla(${star.starType.hue}, 80%, 40%, 0)`);
+  ctx.fillStyle = grd;
+  ctx.beginPath();
+  ctx.arc(star.x, star.y, starSize * 4, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Star core
+  ctx.fillStyle = `hsl(${star.starType.hue}, 100%, 75%)`;
+  ctx.shadowColor = `hsl(${star.starType.hue}, 100%, 60%)`;
+  ctx.shadowBlur = 20 / zoomLevel;
+  ctx.beginPath();
+  ctx.arc(star.x, star.y, starSize, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  // Star type indicator
+  if (star.starType.id === 'binary') {
+    // Second star
+    const angle = gameTime * 0.01;
+    const bx = star.x + Math.cos(angle) * starSize * 1.5;
+    const by = star.y + Math.sin(angle) * starSize * 1.5;
+    ctx.fillStyle = `hsl(${star.starType.hue + 30}, 100%, 70%)`;
+    ctx.beginPath();
+    ctx.arc(bx, by, starSize * 0.6, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // Planets
+  star.planets.forEach((planet, idx) => {
+    const angle = planet.angle + gameTime * planet.orbitSpeed;
+    const px = star.x + Math.cos(angle) * planet.dist;
+    const py = star.y + Math.sin(angle) * planet.dist;
+    
+    const pSize = planet.size * 1.5 / zoomLevel;
+    
+    // Orbit line
+    ctx.strokeStyle = `hsla(${planet.hue}, 50%, 50%, 0.1)`;
+    ctx.lineWidth = 1 / zoomLevel;
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, planet.dist, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Planet glow
+    const pGrd = ctx.createRadialGradient(px, py, 0, px, py, pSize * 2);
+    pGrd.addColorStop(0, `hsla(${planet.hue}, 80%, 60%, 0.3)`);
+    pGrd.addColorStop(1, `hsla(${planet.hue}, 80%, 60%, 0)`);
+    ctx.fillStyle = pGrd;
+    ctx.beginPath();
+    ctx.arc(px, py, pSize * 2, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Planet body
+    ctx.fillStyle = `hsl(${planet.hue}, 80%, 55%)`;
+    ctx.beginPath();
+    ctx.arc(px, py, pSize, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Planet detail
+    if (planet.type.id === 'gas_giant') {
+      // Bands
+      ctx.strokeStyle = `hsla(${planet.hue + 20}, 70%, 45%, 0.4)`;
+      ctx.lineWidth = 1;
+      for (let i = -2; i <= 2; i++) {
+        const bandY = py + i * pSize * 0.3;
+        ctx.beginPath();
+        ctx.arc(px, bandY, pSize * 0.9, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+    
+    if (planet.type.id === 'ringed') {
+      // Ring
+      ctx.strokeStyle = `hsla(${planet.hue}, 60%, 50%, 0.3)`;
+      ctx.lineWidth = 2 / zoomLevel;
+      ctx.beginPath();
+      ctx.ellipse(px, py, pSize * 1.8, pSize * 0.4, planet.rotation, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    
+    // Planet label
+    ctx.fillStyle = `hsla(0, 0%, 100%, 0.5)`;
+    ctx.font = `${Math.max(9, 11 / zoomLevel)}px Orbitron`;
+    ctx.textAlign = 'center';
+    ctx.fillText(planet.name, px, py - pSize - 8 / zoomLevel);
+  });
+  
+  // System name
+  ctx.fillStyle = `hsla(${star.starType.hue}, 100%, 70%, 0.8)`;
+  ctx.font = `bold ${Math.max(11, 14 / zoomLevel)}px Orbitron`;
+  ctx.textAlign = 'center';
+  ctx.fillText(star.name, star.x, star.y - starSize - 30 / zoomLevel);
+  
+  // Planet count
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.font = `${Math.max(9, 11 / zoomLevel)}px Orbitron`;
+  ctx.fillText(star.planets.length + ' planetas', star.x, star.y - starSize - 45 / zoomLevel);
+}
+
+// ============================================================
+// GAME LOOP
+// ============================================================
+function gameLoop() {
+  update();
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+// ============================================================
+// HARMONIZE KEY
+// ============================================================
+window.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'Space') {
+    e.preventDefault();
+    if (!paused) triggerHarmonize();
+  }
+});
+
+// ============================================================
+// START
+// ============================================================
+// Start paused - user sees initial view
+resetGame();
+// Initial galaxy generation
+galaxies.push(generateGalaxy(42));
+// Auto-resume after 2 seconds (or on any key)
+setTimeout(() => {
+  if (paused) {
+    paused = false;
+    pauseOverlay.classList.remove('active');
+  }
+}, 2000);
+
+// Resume on any first input
+window.addEventListener('keydown', function firstInput(e) {
+  if (paused && e.key !== 'Escape') {
+    paused = false;
+    pauseOverlay.classList.remove('active');
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  }
+  window.removeEventListener('keydown', firstInput);
+}, { once: true });
+
+gameLoop();
+
+// Console
+console.log('%c🌌 LUMIN GALÁXIA INFINITA CARREGADA 🌌', 'font-size:22px; color:#0ff; font-weight:bold;');
+console.log('%cExploração cósmica infinita. WASD/Setas: navegar · Scroll: zoom · Espaço: harmonizar · ESC: pausa', 'color:#fff; font-size:12px;');
+</script>
+</body>
+</html>

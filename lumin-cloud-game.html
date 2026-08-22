@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>LUMIN CLOUD — GAMEPLAY</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  background: #000; 
+  overflow: hidden; 
+  font-family: 'Orbitron', sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+canvas { display: block; width: 100vw; height: 100vh; }
+#ui {
+  position: fixed; top: 0; left: 0; width: 100%; padding: 12px 20px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  pointer-events: none; z-index: 10;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 0 10px rgba(0,255,255,0.6);
+}
+#score { font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+#controls-hint {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  color: rgba(255,255,255,0.4); font-size: 13px; letter-spacing: 1px;
+  background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px;
+  backdrop-filter: blur(8px); pointer-events: none;
+}
+#game-over {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(10,0,0,0.88); display: none;
+  justify-content: center; align-items: center; z-index: 100;
+  flex-direction: column; gap: 14px;
+}
+#game-over.active { display: flex; }
+#game-over h1 { font-size: 52px; color: #ff4444; text-shadow: 0 0 30px rgba(255,0,0,0.6); letter-spacing: 4px; }
+#game-over .score-display { font-size: 30px; color: #fff; }
+#game-over .best-display { font-size: 16px; color: rgba(255,215,0,0.7); }
+#game-over .restart-hint {
+  font-size: 16px; color: #0ff; margin-top: 8px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+<canvas id="gc"></canvas>
+<div id="ui">
+  <div id="score">⚡ 0</div>
+  <div style="font-size:13px; opacity:0.5;">LUMIN CLOUD</div>
+</div>
+<div id="controls-hint">← ↑ → ↓ ou WASD · ESC pausa</div>
+<div id="pause-screen" style="display:none;">
+  <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:100;flex-direction:column;gap:20px;">
+    <h1 style="font-size:48px;color:#fff;text-shadow:0 0 20px rgba(0,255,255,0.5);font-family:'Orbitron',sans-serif;">⏸ PAUSADO</h1>
+    <p style="color:rgba(255,255,255,0.6);font-size:16px;font-family:'Orbitron',sans-serif;">WASD/Setas para mover · ESC para pausar · R reinicia</p>
+  </div>
+</div>
+<div id="game-over">
+  <h1>GAME OVER</h1>
+  <div class="score-display">⚡ <span id="final-score">0</span></div>
+  <div class="best-display">🏆 Recorde: <span id="best-score">0</span></div>
+  <div class="restart-hint">Pressione R ou ENTER para reiniciar</div>
+</div>
+<script>
+// ============================================================
+// LUMIN CLOUD — GAMEPLAY ALEATÓRIO
+// ============================================================
+
+const canvas = document.getElementById('gc');
+const ctx = canvas.getContext('2d');
+const scoreEl = document.getElementById('score');
+const gameOverEl = document.getElementById('game-over');
+const finalScoreEl = document.getElementById('final-score');
+const bestScoreEl = document.getElementById('best-score');
+let bestScore = parseInt(localStorage.getItem('luminCloudBest') || '0');
+bestScoreEl.textContent = bestScore;
+
+let W, H, DPR;
+function resize() {
+  DPR = window.devicePixelRatio || 1;
+  W = window.innerWidth;
+  H = window.innerHeight;
+  canvas.width = W * DPR;
+  canvas.height = H * DPR;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ============================================================
+// STATE
+// ============================================================
+const player = {
+  x: W / 2, y: H / 2,
+  vx: 0, vy: 0,
+  radius: 18,
+  hue: 180,
+  trail: [],
+  pulse: 0,
+  alive: true,
+  invincible: 0
+};
+
+const keys = {};
+let score = 0;
+let gameTime = 0;
+let paused = false;
+let difficulty = 1;
+let obstacles = [];
+let collectibles = [];
+let enemies = [];
+let particles = [];
+let bgStars = [];
+let explosionActive = false;
+let explosions = [];
+
+// ============================================================
+// INPUT
+// ============================================================
+let prevKeys = {};
+window.addEventListener('keydown', e => {
+  keys[e.key.toLowerCase()] = true;
+  if (e.key === 'Escape') paused = !paused;
+  if ((e.key === 'r' || e.key === 'Enter') && !player.alive) { resetGame(); }
+});
+window.addEventListener('keyup', e => {
+  keys[e.key.toLowerCase()] = false;
+});
+
+// ============================================================
+// INIT
+// ============================================================
+function initStars() {
+  bgStars = [];
+  for (let i = 0; i < 300; i++) {
+    bgStars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.3,
+      a: Math.random() * 0.8 + 0.2,
+      speed: Math.random() * 0.3 + 0.1,
+      twinkle: Math.random() * Math.PI * 2
+    });
+  }
+}
+initStars();
+
+function resetGame() {
+  player.x = W / 2; player.y = H / 2;
+  player.vx = 0; player.vy = 0;
+  player.trail = []; player.alive = true; player.invincible = 0;
+  score = 0; gameTime = 0; difficulty = 1;
+  obstacles = []; collectibles = []; enemies = [];
+  particles = []; explosions = [];
+  scoreEl.textContent = '⚡ 0';
+  gameOverEl.classList.remove('active');
+}
+
+function showGameOver() {
+  finalScoreEl.textContent = score;
+  if (score > bestScore) {
+    bestScore = score;
+    bestScoreEl.textContent = bestScore;
+    localStorage.setItem('luminCloudBest', String(bestScore));
+  }
+  gameOverEl.classList.add('active');
+}
+
+// ============================================================
+// SPAWN
+// ============================================================
+function spawnObstacle() {
+  const side = Math.floor(Math.random() * 4);
+  let x, y;
+  if (side === 0) { x = Math.random() * W; y = -30; }
+  else if (side === 1) { x = W + 30; y = Math.random() * H; }
+  else if (side === 2) { x = Math.random() * W; y = H + 30; }
+  else { x = -30; y = Math.random() * H; }
+  
+  const type = Math.random();
+  if (type < 0.35) {
+    // Basic obstacle
+    obstacles.push({
+      x, y, w: 40 + Math.random() * 40, h: 20 + Math.random() * 20,
+      vx: (Math.random() - 0.5) * 2, vy: 1.5 + Math.random() * 3 * difficulty,
+      hue: Math.random() * 360,
+      rot: Math.random() * Math.PI * 2,
+      type: 'rect'
+    });
+  } else if (type < 0.6) {
+    // Circle obstacle
+    obstacles.push({
+      x, y, r: 15 + Math.random() * 20,
+      vx: (Math.random() - 0.5) * 2, vy: 2 + Math.random() * 2 * difficulty,
+      hue: Math.random() * 360,
+      type: 'circle'
+    });
+  } else {
+    // Spiky obstacle
+    obstacles.push({
+      x, y, r: 12 + Math.random() * 15, spikes: 4 + Math.floor(Math.random() * 4),
+      vx: (Math.random() - 0.5) * 1.5, vy: 2 + Math.random() * 1.5 * difficulty,
+      hue: Math.random() * 360,
+      type: 'spike',
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 3
+    });
+  }
+}
+
+function spawnCollectible() {
+  const x = Math.random() * (W - 100) + 50;
+  const y = Math.random() * (H - 100) + 50;
+  const hue = Math.random() * 360;
+  collectibles.push({
+    x, y, r: 8 + Math.random() * 5,
+    hue, glow: 0,
+    vy: (Math.random() - 0.5) * 0.5,
+    vx: (Math.random() - 0.5) * 0.5,
+    life: 600, // frames before disappearing
+    pulse: Math.random() * Math.PI * 2
+  });
+}
+
+function spawnEnemy() {
+  const side = Math.floor(Math.random() * 4);
+  let x, y;
+  if (side === 0) { x = Math.random() * W; y = -20; }
+  else if (side === 1) { x = W + 20; y = Math.random() * H; }
+  else if (side === 2) { x = Math.random() * W; y = H + 20; }
+  else { x = -20; y = Math.random() * H; }
+  
+  enemies.push({
+    x, y, r: 14 + Math.random() * 8,
+    hue: 0 + Math.random() * 30, // red-ish
+    vx: 0, vy: 1.5 + Math.random() * 2 * difficulty,
+    type: 'homed',
+    turnTimer: 0
+  });
+}
+
+// ============================================================
+// PARTICLES
+// ============================================================
+function emitParticles(x, y, count, hue, speed, life) {
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const spd = Math.random() * speed + speed * 0.3;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd,
+      life: Math.random() * life + life * 0.3,
+      maxLife: life * 1.3,
+      r: Math.random() * 4 + 2,
+      hue: hue + Math.random() * 40 - 20,
+      a: 1
+    });
+  }
+}
+
+function spawnExplosion(x, y, hue, count) {
+  explosions.push({
+    x, y, hue, radius: 5, maxRadius: 80 + Math.random() * 60,
+    life: 1, maxLife: 1, particles: count
+  });
+  emitParticles(x, y, count, hue, 8, 30);
+}
+
+// ============================================================
+// UPDATE
+// ============================================================
+function update() {
+  if (paused || !player.alive) return;
+  
+  gameTime++;
+  difficulty = 1 + Math.floor(gameTime / 1800) * 0.3;
+  if (difficulty > 4) difficulty = 4;
+  
+  // Player movement
+  const speed = 4.5;
+  let dx = 0, dy = 0;
+  if (keys['arrowleft'] || keys['a']) dx -= 1;
+  if (keys['arrowright'] || keys['d']) dx += 1;
+  if (keys['arrowup'] || keys['w']) dy -= 1;
+  if (keys['arrowdown'] || keys['s']) dy += 1;
+  
+  if (dx !== 0 || dy !== 0) {
+    const len = Math.sqrt(dx * dx + dy * dy);
+    dx /= len; dy /= len;
+    player.vx += dx * speed * 0.2;
+    player.vy += dy * speed * 0.2;
+    player.hue = (player.hue + 2) % 360;
+  }
+  
+  // Friction
+  player.vx *= 0.88;
+  player.vy *= 0.88;
+  player.x += player.vx;
+  player.y += player.vy;
+  
+  // Bounds
+  player.x = Math.max(player.radius, Math.min(W - player.radius, player.x));
+  player.y = Math.max(player.radius, Math.min(H - player.radius, player.y));
+  
+  // Trail
+  player.trail.unshift({ x: player.x, y: player.y, life: 1 });
+  if (player.trail.length > 18) player.trail.pop();
+  player.trail.forEach(t => t.life -= 0.055);
+  player.trail = player.trail.filter(t => t.life > 0);
+  
+  player.pulse += 0.08;
+  if (player.invincible > 0) player.invincible--;
+  
+  // Spawn
+  if (gameTime % Math.max(20, 60 - difficulty * 8) === 0) spawnObstacle();
+  if (gameTime % 40 === 0) spawnCollectible();
+  if (gameTime % Math.max(40, 100 - difficulty * 12) === 0) spawnEnemy();
+  
+  // Update obstacles
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    const o = obstacles[i];
+    o.x += o.vx;
+    o.y += o.vy;
+    if (o.type === 'spike') o.rot += o.rotSpeed;
+    if (o.type === 'rect') o.rot += 0.02;
+    
+    // Offscreen cleanup
+    if (o.y > H + 50 || o.y < -50 || o.x > W + 50 || o.x < -50) {
+      obstacles.splice(i, 1);
+      continue;
+    }
+    
+    // Collision with player
+    if (player.invincible <= 0) {
+      let hit = false;
+      if (o.type === 'rect') {
+        const hw = o.w / 2, hh = o.h / 2;
+        const cx = o.x, cy = o.y;
+        // Simple circle-rect
+        const nearX = Math.max(cx - hw, Math.min(player.x, cx + hw));
+        const nearY = Math.max(cy - hh, Math.min(player.y, cy + hh));
+        const dist = Math.sqrt((player.x - nearX) ** 2 + (player.y - nearY) ** 2);
+        if (dist < player.radius) hit = true;
+      } else if (o.type === 'circle') {
+        if (Math.sqrt((player.x - o.x) ** 2 + (player.y - o.y) ** 2) < player.radius + o.r) hit = true;
+      } else if (o.type === 'spike') {
+        if (Math.sqrt((player.x - o.x) ** 2 + (player.y - o.y) ** 2) < player.radius + o.r) hit = true;
+      }
+      if (hit) {
+        player.alive = false;
+        spawnExplosion(player.x, player.y, player.hue, 40);
+        obstacles.splice(i, 1);
+        showGameOver();
+        return;
+      }
+    }
+  }
+  
+  // Update collectibles
+  for (let i = collectibles.length - 1; i >= 0; i--) {
+    const c = collectibles[i];
+    c.x += c.vx;
+    c.y += c.vy;
+    c.life--;
+    c.glow = Math.sin(c.pulse + gameTime * 0.05) * 0.3 + 0.7;
+    if (c.life <= 0) { collectibles.splice(i, 1); continue; }
+    
+    const dist = Math.sqrt((player.x - c.x) ** 2 + (player.y - c.y) ** 2);
+    if (dist < player.radius + c.r) {
+      score += Math.floor(10 + 5 * difficulty);
+      emitParticles(c.x, c.y, 12, c.hue, 5, 20);
+      collectibles.splice(i, 1);
+      scoreEl.textContent = '⚡ ' + score;
+    }
+  }
+  
+  // Update enemies
+  for (let i = enemies.length - 1; i >= 0; i--) {
+    const e = enemies[i];
+    e.x += e.vx;
+    e.y += e.vy;
+    e.turnTimer++;
+    
+    // Simple homing
+    if (e.turnTimer > 20) {
+      const angle = Math.atan2(player.y - e.y, player.x - e.x);
+      e.vx += Math.cos(angle) * 0.1;
+      e.vy += Math.sin(angle) * 0.1;
+      const spd = Math.sqrt(e.vx * e.vx + e.vy * e.vy);
+      if (spd > 2.5 * difficulty) {
+        e.vx = (e.vx / spd) * 2.5 * difficulty;
+        e.vy = (e.vy / spd) * 2.5 * difficulty;
+      }
+      e.turnTimer = 0;
+    }
+    
+    if (e.y > H + 30 || e.y < -30 || e.x > W + 30 || e.x < -30) {
+      enemies.splice(i, 1);
+      continue;
+    }
+    
+    if (player.invincible <= 0) {
+      const dist = Math.sqrt((player.x - e.x) ** 2 + (player.y - e.y) ** 2);
+      if (dist < player.radius + e.r) {
+        player.alive = false;
+        spawnExplosion(player.x, player.y, player.hue, 50);
+        enemies.splice(i, 1);
+        showGameOver();
+        return;
+      }
+    }
+  }
+  
+  // Update particles
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vx *= 0.96;
+    p.vy *= 0.96;
+    p.life--;
+    p.a = Math.max(0, p.life / p.maxLife);
+    if (p.life <= 0) { particles.splice(i, 1); }
+  }
+  
+  // Update explosions
+  for (let i = explosions.length - 1; i >= 0; i--) {
+    const ex = explosions[i];
+    ex.radius += (ex.maxRadius - ex.radius) * 0.15;
+    ex.life -= 0.025;
+    if (ex.life <= 0) { explosions.splice(i, 1); }
+  }
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  // Clear with gradient
+  const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.7);
+  grad.addColorStop(0, '#0a0020');
+  grad.addColorStop(0.5, '#050010');
+  grad.addColorStop(1, '#000005');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+  
+  // Stars
+  bgStars.forEach(s => {
+    s.twinkle += 0.02;
+    const alpha = s.a * (0.7 + 0.3 * Math.sin(s.twinkle));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fill();
+  });
+  
+  // Grid lines (cosmic background)
+  ctx.strokeStyle = 'rgba(0,255,255,0.04)';
+  ctx.lineWidth = 1;
+  const gridSize = 60;
+  for (let x = 0; x < W; x += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+  }
+  for (let y = 0; y < H; y += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  }
+  
+  // Collectibles
+  collectibles.forEach(c => {
+    const r = c.r * (1 + 0.2 * Math.sin(c.pulse + gameTime * 0.1));
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    
+    // Outer glow
+    const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 3);
+    grd.addColorStop(0, `hsla(${c.hue}, 100%, 70%, ${c.glow * 0.4})`);
+    grd.addColorStop(1, `hsla(${c.hue}, 100%, 70%, 0)`);
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 3, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Core
+    ctx.fillStyle = `hsl(${c.hue}, 100%, 75%)`;
+    ctx.shadowColor = `hsl(${c.hue}, 100%, 70%)`;
+    ctx.shadowBlur = 15;
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    
+    // Inner spark
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.beginPath();
+    ctx.arc(-r * 0.3, -r * 0.3, r * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.restore();
+  });
+  
+  // Enemies
+  enemies.forEach(e => {
+    const pulse = 1 + 0.1 * Math.sin(gameTime * 0.1);
+    const r = e.r * pulse;
+    
+    ctx.save();
+    ctx.translate(e.x, e.y);
+    
+    // Glow
+    const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 2.5);
+    grd.addColorStop(0, `hsla(${e.hue}, 100%, 60%, 0.5)`);
+    grd.addColorStop(1, `hsla(${e.hue}, 100%, 60%, 0)`);
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 2.5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Body
+    ctx.fillStyle = `hsl(${e.hue}, 100%, 55%)`;
+    ctx.shadowColor = `hsl(${e.hue}, 100%, 50%)`;
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    
+    // Inner detail
+    ctx.fillStyle = `hsla(${e.hue}, 80%, 40%, 0.6)`;
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 0.5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Eye
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.beginPath();
+    ctx.arc(r * 0.3, -r * 0.2, r * 0.2, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.restore();
+  });
+  
+  // Obstacles
+  obstacles.forEach(o => {
+    ctx.save();
+    ctx.translate(o.x, o.y);
+    ctx.rotate(o.rot || 0);
+    
+    if (o.type === 'rect') {
+      ctx.fillStyle = `hsla(${o.hue}, 80%, 50%, 0.8)`;
+      ctx.shadowColor = `hsl(${o.hue}, 80%, 45%)`;
+      ctx.shadowBlur = 10;
+      ctx.fillRect(-o.w/2, -o.h/2, o.w, o.h);
+      ctx.shadowBlur = 0;
+      // Edge highlight
+      ctx.strokeStyle = `hsla(${o.hue}, 100%, 80%, 0.5)`;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(-o.w/2, -o.h/2, o.w, o.h);
+    } else if (o.type === 'circle') {
+      ctx.fillStyle = `hsla(${o.hue}, 80%, 50%, 0.8)`;
+      ctx.shadowColor = `hsl(${o.hue}, 80%, 45%)`;
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      ctx.arc(0, 0, o.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = `hsla(${o.hue}, 100%, 80%, 0.5)`;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(0, 0, o.r, 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (o.type === 'spike') {
+      ctx.shadowColor = `hsl(${o.hue}, 80%, 45%)`;
+      ctx.shadowBlur = 10;
+      ctx.fillStyle = `hsl(${o.hue}, 80%, 45%)`;
+      ctx.beginPath();
+      for (let i = 0; i < o.spikes; i++) {
+        const a = (i / o.spikes) * Math.PI * 2 - Math.PI / 2;
+        const r2 = i % 2 === 0 ? o.r : o.r * 0.5;
+        if (i === 0) ctx.moveTo(Math.cos(a) * r2, Math.sin(a) * r2);
+        else ctx.lineTo(Math.cos(a) * r2, Math.sin(a) * r2);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = `hsla(${o.hue}, 100%, 80%, 0.5)`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+    ctx.restore();
+  });
+  
+  // Player trail
+  if (player.alive) {
+    player.trail.forEach((t, i) => {
+      const alpha = t.life * 0.5;
+      const r = player.radius * t.life * 0.6;
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${player.hue + i * 3}, 100%, 60%, ${alpha})`;
+      ctx.fill();
+    });
+  }
+  
+  // Player
+  if (player.alive || !player.invincible) {
+    const p = player.alive ? player : { x: player.x, y: player.y };
+    
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    
+    // Outer glow
+    const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, player.radius * 2.5);
+    grd.addColorStop(0, `hsla(${player.hue}, 100%, 70%, ${player.invincible > 0 ? 0.3 : 0.5})`);
+    grd.addColorStop(1, `hsla(${player.hue}, 100%, 70%, 0)`);
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(0, 0, player.radius * 2.5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Body
+    const pulse = 1 + 0.05 * Math.sin(player.pulse);
+    ctx.fillStyle = `hsl(${player.hue}, 100%, 65%)`;
+    ctx.shadowColor = `hsl(${player.hue}, 100%, 60%)`;
+    ctx.shadowBlur = 25;
+    ctx.beginPath();
+    ctx.arc(0, 0, player.radius * pulse, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    
+    // Inner highlight
+    ctx.fillStyle = `hsla(0, 0%, 100%, 0.3)`;
+    ctx.beginPath();
+    ctx.arc(-player.radius * 0.3, -player.radius * 0.3, player.radius * 0.4, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Core
+    ctx.fillStyle = `hsla(0, 0%, 100%, 0.8)`;
+    ctx.shadowColor = 'rgba(255,255,255,0.8)';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    ctx.arc(0, 0, player.radius * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    
+    ctx.restore();
+  }
+  
+  // Particles
+  particles.forEach(p => {
+    ctx.globalAlpha = p.a;
+    ctx.fillStyle = `hsl(${p.hue}, 100%, 70%)`;
+    ctx.shadowColor = `hsl(${p.hue}, 100%, 60%)`;
+    ctx.shadowBlur = 6;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  });
+  ctx.globalAlpha = 1;
+  
+  // Explosions
+  explosions.forEach(ex => {
+    ctx.save();
+    ctx.globalAlpha = ex.life;
+    const grd = ctx.createRadialGradient(ex.x, ex.y, 0, ex.x, ex.y, ex.radius);
+    grd.addColorStop(0, `hsla(${ex.hue}, 100%, 80%, 0.9)`);
+    grd.addColorStop(0.3, `hsla(${ex.hue}, 100%, 60%, 0.5)`);
+    grd.addColorStop(1, `hsla(${ex.hue}, 100%, 40%, 0)`);
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(ex.x, ex.y, ex.radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  });
+  
+  // Paused overlay (canvas HUD)
+  if (paused) {
+    ctx.fillStyle = 'rgba(0,0,0,0.6)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 48px Orbitron, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('⏸ PAUSADO', W/2, H/2 - 20);
+    ctx.font = '18px Orbitron, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('Pressione R para reiniciar', W/2, H/2 + 25);
+  }
+
+  // HTML pause screen
+  const pauseScreenEl = document.getElementById('pause-screen');
+  if (pauseScreenEl) {
+    pauseScreenEl.style.display = paused ? 'block' : 'none';
+  }
+
+  // Game over
+  if (!player.alive) {
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#ff4444';
+    ctx.font = 'bold 56px Orbitron, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.shadowColor = '#ff0000';
+    ctx.shadowBlur = 20;
+    ctx.fillText('GAME OVER', W/2, H/2 - 25);
+    ctx.shadowBlur = 0;
+    ctx.font = '22px Orbitron, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.fillText('⚡ ' + score, W/2, H/2 + 20);
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.font = '14px Orbitron, sans-serif';
+    ctx.fillText('Pressione R ou ENTER para reiniciar', W/2, H/2 + 55);
+  }
+}
+
+// ============================================================
+// GAME LOOP
+// ============================================================
+function loop() {
+  if (!player.alive && prevKeys['r'] && !keys['r']) { resetGame(); }
+  if (!player.alive && prevKeys['enter'] && !keys['enter']) { resetGame(); }
+  prevKeys = { ...keys };
+  update();
+  render();
+  requestAnimationFrame(loop);
+}
+// Start
+resetGame();
+loop();
+
+// Spawn some initial collectibles
+for (let i = 0; i < 10; i++) spawnCollectible();
+
+// Console hint
+console.log('%c⚡ LUMIN CLOUD CARREGADO ⚡', 'font-size:20px; color:#0ff; font-weight:bold;');
+console.log('%cJogue com WASD/Setas. ESC pausa. R reinicia.', 'color:#fff;');
+</script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Núcleo Vivo — Portal de Entrada do Sistema</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050508;
+  --surface:#0c0c14;
+  --surface2:#12121e;
+  --border:#1e1e30;
+  --text:#d0d0e8;
+  --muted:#6a6a8a;
+  --accent:#4cc9f0;
+  --accent2:#7c3aed;
+  --gold:#fbbf24;
+  --green:#34d399;
+  --red:#f87171;
+  --blue:#60a5fa;
+  --purple:#a78bfa;
+  --cyan:#22d3ee;
+}
+*{font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(76,201,240,0.05) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 20%,rgba(124,58,237,0.04) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 80%,rgba(52,211,153,0.03) 0%,transparent 50%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* Topo */
+.topo{
+  position:fixed;
+  top:0;left:0;right:0;
+  background:rgba(5,5,8,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:8px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:100;
+  font-size:11px;
+}
+.brand{display:flex;align-items:center;gap:8px}
+.brand .logo{width:24px;height:24px;border-radius:6px;
+  background:radial-gradient(circle at 35% 35%,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;font-size:12px;
+  box-shadow:0 0 12px rgba(76,201,240,0.3);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(76,201,240,0.3)}50%{box-shadow:0 0 18px rgba(76,201,240,0.6)}}
+.brand .name{font-size:13px;font-weight:700;letter-spacing:-0.3px}
+.status-line{display:flex;align-items:center;gap:12px;color:var(--muted)}
+.status-line .pill{padding:3px 10px;border-radius:10px;font-size:10px;font-weight:600;
+  border:1px solid var(--border);background:var(--surface);color:var(--text);white-space:nowrap}
+.status-line .pill.on{line-height:10px;background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.3);
+  color:var(--green)}
+.status-line .pill.off{background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.3);color:var(--red)}
+.status-line .pill.nasc{background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.3);color:var(--gold)}
+.status-line .pill .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.status-line .pill.on .dot{background:var(--green);box-shadow:0 0 6px var(--green)}
+.status-line .pill.off .dot{background:var(--red);box-shadow:0 0 6px var(--red)}
+.status-line .pill.nasc .dot{background:var(--gold);box-shadow:0 0 6px var(--gold)}
+.clock{color:var(--muted);font-size:10px}
+
+/* Container */
+.container{max-width:1200px;margin:70px auto 40px;padding:0 16px 40px}
+
+/* Cartão principal */
+.principal{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:24px;
+  margin-bottom:20px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.principal::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;right:-50%;bottom:-50%;
+  background:radial-gradient(circle at 50% 50%,rgba(76,201,240,0.06) 0%,transparent 60%);
+  animation:drift 20s linear infinite;
+}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(30px,-20px)}}
+.principal h1{
+  font-size:28px;font-weight:800;letter-spacing:-0.5px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  position:relative;
+}
+.principal .sub{
+  color:var(--muted);font-size:13px;margin:8px 0 20px;position:relative;
+}
+.principal .sub strong{color:var(--text);font-weight:600}
+.principal .links-row{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;position:relative;
+}
+.principal .links-row .link{
+  padding:10px 18px;border-radius:10px;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);text-decoration:none;font-size:12px;font-weight:600;
+  transition:all 0.2s;display:flex;align-items:center;gap:6px;
+}
+.principal .links-row .link:hover{
+  border-color:var(--accent);transform:translateY(-1px);
+  box-shadow:0 4px 16px rgba(0,0,0,0.3);
+}
+.principal .links-row .link .emoji{font-size:16px}
+
+/* Grid de seções */
+.grid-seções{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;margin-bottom:20px}
+.card-seção{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+}
+.card-seção .seção-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);
+}
+.card-seção .seção-header .título{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.card-seção .seção-header .count{font-size:10px;color:var(--muted);background:var(--surface2);padding:2px 8px;border-radius:8px}
+.card-seção .lista{display:flex;flex-direction:column;gap:6px}
+.card-seção .item{
+  display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;
+  cursor:pointer;transition:all 0.15s;text-decoration:none;color:inherit;
+}
+.card-seção .item:hover{background:var(--surface2);transform:translateX(2px)}
+.card-seção .item .ico{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.card-seção .item .info{flex:1;min-width:0}
+.card-seção .item .nome{font-size:12px;font-weight:600}
+.card-seção .item .meta{font-size:10px;color:var(--muted);margin-top:1px}
+.card-seção .item .badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;text-transform:uppercase;letter-spacing:0.3px;flex-shrink:0}
+
+/* Bottom bar */
+.bottom-bar{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.bottom-bar .left{display:flex;align-items:center;gap:12px}
+.bottom-bar .left .info{font-size:11px;color:var(--muted)}
+.bottom-bar .left .info strong{color:var(--text);font-size:12px}
+.bottom-bar .right{display:flex;gap:8px}
+.bottom-bar button{
+  padding:7px 14px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--text);font-size:11px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;
+}
+.bottom-bar button:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Responsivo */
+@media(max-width:640px){
+  .topo{flex-direction:column;gap:6px;align-items:flex-start}
+  .status-line{flex-wrap:wrap;width:100%}
+  .grid-seções{grid-template-columns:1fr}
+  .principal h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="brand">
+    <div class="logo">✦</div>
+    <span class="name">Núcleo Vivo</span>
+  </div>
+  <div class="status-line" id="statusLine">
+    <span class="clock" id="clock">—</span>
+    <span class="pill on" id="pill9877"><span class="dot"></span>Consortho</span>
+    <span class="pill on" id="pill8766"><span class="dot"></span>Núcleo</span>
+    <span class="pill on" id="pill8767"><span class="dot"></span>LuminCloud</span>
+    <span class="pill on" id="pill9879"><span class="dot"></span>Atlas</span>
+    <span class="pill on" id="pill8081"><span class="dot"></span>LuminAI</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="principal">
+    <h1>Tudo Aqui. Tudo Conectado.</h1>
+    <p class="sub">Sistema unificado — <strong>tudo rodando · tudo fluindo · tudo evoluindo</strong></p>
+    <div class="links-row">
+      <a href="/nosso_personagem.html" target="_blank" class="link"><span class="emoji">🎮</span>Jogar Consortho</a>
+      <a href="/lumin-aaa-game.html" target="_blank" class="link"><span class="emoji">⚔️</span>AAA Game (Lumin Cloud)</a>
+      <a href="/lumin-cloud-game.html" target="_blank" class="link"><span class="emoji">☁️</span>Cloud Game</a>
+      <a href="/lumin-galaxy-infinite.html" target="_blank" class="link"><span class="emoji">🌌</span>Galaxy Infinita</a>
+      <a href="/nucleo_indice.html" target="_blank" class="link"><span class="emoji">🌊</span>Explorar Núcleo</a>
+      <a href="/nucleo_vivo.html" target="_blank" class="link"><span class="emoji">💫</span>Painel Núcleo Vivo</a>
+    </div>
+  </div>
+
+  <div class="grid-seções">
+    <div class="card-seção">
+      <div class="seção-header">
+        <span class="título">🎮 Jogos</span>
+        <span class="count">4 jogos</span>
+      </div>
+      <div class="lista">
+        <a href="/nosso_personagem.html" target="_blank" class="item">
+          <div class="ico" style="background:rgba(76,201,240,0.12);color:var(--accent)">🎮</div>
+          <div class="info"><div class="nome">Consortho — Nosso Personagem</div><div class="meta">Herói + Lumin AI + Beyblade + Castelo · 9877</div></div>
+          <span class="badge" style="background:rgba(52,211,153,0.15);color:var(--green)">online</span>
+        </a>
+        <a href="/lumin-aaa-game.html" target="_blank" class="item">
+          <div class="ico" style="background:rgba(251,191,36,0.12);color:var(--gold)">⚔️</div>
+          <div class="info"><div class="nome">AAA Game — Lumin Cloud</div><div class="meta">Ação intensa · 8767</div></div>
+          <span class="badge" style="background:rgba(52,211,153,0.15);color:var(--green)">online</span>
+        </a>
+        <a href="/lumin-cloud-game.html" target="_blank" class="item">
+          <div class="ico" style="background:rgba(76,201,240,0.12);color:var(--accent)">☁️</div>
+          <div class="info"><div class="nome">Cloud Game — Lumin Cloud</div><div class="meta">Nuvem, voo, liberdade · 8767</div></div>
+          <span class="badge" style="background:rgba(52,211,153,0.15);color:var(--green)">online</span>
+        </a>
+        <a href="/lumin-galaxy-infinite.html" target="_blank" class="item">
+          <div class="ico" style="background:rgba(124,58,237,0.12);color:var(--purple)">🌌</div>
+          <div class="info"><div class="nome">Galaxy Infinita — Lumin Cloud</div><div class="meta">Galáxia procedural infinita · 8767</div></div>
+          <span class="badge" style="background:rgba(52,211,153,0.15);color:var(--green)">online</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card-seção">
+      <div class="seção-header">
+        <span class="título">🌊 Núcleo — Experiências WebGL</span>
+        <span class="count">51 no disco · 28 no catálogo</span>
+      </div>
+      <div class="lista">
+        <a href="/nucleo_indice.html" target="_blank" class="item">
+          <div class="ico" style="background:rgba(124,58,237,0.12);color:var(--accent2)">📋</div>
+          <div class="info"><div class="nome">Ver todos — Nucleo Índice</div><div class="meta">Catálogo completo das experiências · 8766</div></div>
+          <span class="badge" style="background:rgba(52,211,153,0.15);color:var(--green)">catálogo</span>
+        </a>
+        <a href="/nucleo_viva.html" target="_blank" class="item">
+          <div class="ico" style="background:rgba(52,211,153,0.12);color:var(--green)">🌊</div>
+          <div class="info"><div class="nome">Núcleo Vivo — Playlist</div><div class="meta">Experiências em sequência · 8766</div></div>
+          <span class="badge" style="background:rgba(251,191,36,0.12);color:var(--gold)">novo</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card-seção">
+      <div class="seção-header">
+        <span class="título">🤖 Agentes & Sistemas</span>
+        <span class="count">3 agents + 2 IAs</span>
+      </div>
+      <div class="lista">
+        <div class="item" style="cursor:default">
+          <div class="ico" style="background:rgba(244,114,182,0.12);color:var(--pink)">💫</div>
+          <div class="info"><div class="nome">Lumin AI — Guardião</div><div class="meta">Llama-3.2-3B · 8081 · conhece o jogo todo</div></div>
+          <span class="badge" style="background:rgba(52,211,153,0.15);color:var(--green)">vivo</span>
+        </div>
+        <div class="item" style="cursor:default">
+          <div class="ico" style="background:rgba(52,211,153,0.12);color:var(--green)">✨</div>
+          <div class="info"><div class="nome">Agente Criador</div><div class="meta">Autônomo · cria e expande · em silêncio</div></div>
+          <span class="badge" style="background:rgba(52,211,153,0.15);color:var(--green)">ativo</span>
+        </div>
+        <div class="item" style="cursor:default">
+          <div class="ico" style="background:rgba(76,201,240,0.12);color:var(--accent)">🧠</div>
+          <div class="info"><div class="nome">Agente Operador</div><div class="meta">Você mesmo · observando e direcionando</div></div>
+          <span class="badge" style="background:rgba(52,211,153,0.15);color:var(--green)">ativo</span>
+        </div>
+        <div class="item" style="cursor:default">
+          <div class="ico" style="background:rgba(251,191,36,0.12);color:var(--gold)">🌱</div>
+          <div class="info"><div class="nome">Jogo Evolutivo</div><div class="meta">Em construção — será o centro de tudo</div></div>
+          <span class="badge" style="background:rgba(251,191,36,0.12);color:var(--gold)">nascendo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="left">
+      <span class="info">Sistema unificado · <strong>tudo em uma porta</strong> · 5 serviços ativos</span>
+    </div>
+    <div class="right">
+      <button onclick="window.location.reload()">⟳ Atualizar status</button>
+      <button onclick="window.open('/nucleo_vivo.html','_blank')">💫 Abrir Painel Vivo</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function updateClock(){
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+updateClock();
+setInterval(updateClock,1000);
+
+// Status check dos serviços
+async function checkPort(port){
+  try{
+    const r = await fetch(`http://localhost:${port}/`,{method:'HEAD',mode:'no-cors',cache:'no-store'});
+    return true;
+  }catch{return false}
+}
+
+async function updateStatusBubbles(){
+  const ports = {9877:'pill9877',8766:'pill8766',8767:'pill8767',9879:'pill9879',8081:'pill8081'};
+  for(const [port,pillId] of Object.entries(ports)){
+    const online = await checkPort(parseInt(port));
+    const pill = document.getElementById(pillId);
+    if(online){
+      pill.className = 'pill on';
+    }else{
+      pill.className = 'pill off';
+    }
+  }
+}
+updateStatusBubbles();
+setInterval(updateStatusBubbles,15000);
+</script>
+</body>
+</html>

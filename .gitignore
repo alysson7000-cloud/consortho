@@ -36,6 +36,10 @@ coverage/
 # Radio transmissions (too many, regenerated)
 prototipos/radio/transmissoes/
 
+# Models (large binary files)
+models/
+llama-3.2-3b-instruct-q4_k_m.gguf
+
 # Backup server files
 server_broken.js
 server_corrupted.js

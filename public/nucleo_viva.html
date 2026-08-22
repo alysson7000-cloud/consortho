@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Núcleo Vivo — Playlist de Experiências</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050508;
+  --surface:#0c0c14;
+  --surface2:#12121e;
+  --border:#1e1e30;
+  --text:#d0d0e8;
+  --muted:#6a6a8a;
+  --accent:#4cc9f0;
+  --accent2:#7c3aed;
+  --gold:#fbbf24;
+  --green:#34d399;
+  --blue:#60a5fa;
+  --purple:#a78bfa;
+  --cyan:#22d3ee;
+}
+*{font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{
+  background:
+    radial-gradient(ellipse at 30% 40%,rgba(76,201,240,0.06) 0%,transparent 60%),
+    radial-gradient(ellipse at 70% 60%,rgba(52,211,153,0.04) 0%,transparent 50%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+.topo{
+  position:fixed;top:0;left:0;right:0;
+  background:rgba(5,5,8,0.8);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+  padding:8px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:100;font-size:11px;
+}
+.brand{display:flex;align-items:center;gap:8px}
+.brand .logo{width:24px;height:24px;border-radius:6px;
+  background:radial-gradient(circle at 35% 35%,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;font-size:12px;
+  box-shadow:0 0 10px rgba(76,201,240,0.3)}
+.brand .name{font-size:13px;font-weight:700}
+.status-line{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:10px}
+.status-line span{padding:2px 8px;border-radius:6px;background:var(--surface2);border:1px solid var(--border)}
+.status-line .live{color:var(--green);border-color:rgba(52,211,153,0.3)}
+
+.container{max-width:1100px;margin:80px auto 40px;padding:0 16px 40px}
+
+.principal{text-align:center;padding:30px 0 20px}
+.principal h1{font-size:26px;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2),var(--green));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.principal p{color:var(--muted);font-size:13px}
+
+.grid-experiências{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:24px}
+
+.exp{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  text-decoration:none;
+  color:inherit;
+  transition:all 0.2s;
+  cursor:pointer;
+  display:block;
+}
+.exp:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+  box-shadow:0 6px 24px rgba(0,0,0,0.3);
+}
+.exp:hover .thumb{opacity:0.8}
+.exp .thumb{
+  width:100%;height:90px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;margin-bottom:8px;
+  position:relative;overflow:hidden;
+  transition:opacity 0.3s;
+}
+.exp .info h4{font-size:13px;font-weight:700;margin-bottom:2px}
+.exp .info p{font-size:10px;color:var(--muted);line-height:1.4}
+.exp .tag{font-size:9px;color:var(--muted);margin-top:4px}
+
+.footer{
+  text-align:center;padding:20px 0 30px;
+  color:var(--muted);font-size:11px;
+  border-top:1px solid var(--border);
+  margin-top:10px;
+}
+.footer .fe{color:var(--gold);font-weight:700}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="brand"><div class="logo">✦</div><span class="name">Núcleo Vivo — Playlist</span></div>
+  <div class="status-line">
+    <span class="live" id="liveBadge">● vivo</span>
+    <span id="clock">—</span>
+  </div>
+</header>
+
+<div class="container">
+  <div class="principal">
+    <h1>Experiências em Fluxo</h1>
+    <p>Tudo azul. Tudo vivo. Tudo se movendo — escolhe e entra no fluxo</p>
+  </div>
+
+  <div class="grid-experiências" id="grid">
+    <!-- preenchido pelo script -->
+  </div>
+
+  <div class="footer">
+    Núcleo Vivo · playlist auto-atualizando · <span class="fe">fe</span>
+  </div>
+</div>
+
+<script>
+// Lista de experiências
+const exps = [
+  {url:'nucleo_azul_extremo.html', nome:'Azul Extremo', cat:'intensidade', emoji:'🔷', bg:'linear-gradient(135deg,#0a1a3a,#1a0a4a)'},
+  {url:'nucleo_bola.html', nome:'Bola', cat:'movimento', emoji:'🔵', bg:'linear-gradient(135deg,#0a1a2a,#1a2a3a)'},
+  {url:'nucleo_borboleta.html', nome:'Borboleta', cat:'natureza', emoji:'🦋', bg:'linear-gradient(135deg,#0a2a1a,#1a3a2a)'},
+  {url:'nucleo_chuva.html', nome:'Chuva', cat:'tempo', emoji:'🌧️', bg:'linear-gradient(135deg,#0a1a2a,#1a2a3a)'},
+  {url:'nucleo_chip.html', nome:'Chip', cat:'digital', emoji:'💠', bg:'linear-gradient(135deg,#1a0a2a,#2a1a3a)'},
+  {url:'nucleo_corrente.html', nome:'Corrente', cat:'conexão', emoji:'🔗', bg:'linear-gradient(135deg,#0a2a2a,#1a3a3a)'},
+  {url:'nucleo_destello.html', nome:'Destello', cat:'luz', emoji:'✨', bg:'linear-gradient(135deg,#1a1a3a,#2a2a4a)'},
+  {url:'nucleo_energia.html', nome:'Energia', cat:'potência', emoji:'⚡', bg:'linear-gradient(135deg,#2a1a0a,#3a2a1a)'},
+  {url:'nucleo_estrela.html', nome:'Estrela', cat:'céu', emoji:'⭐', bg:'linear-gradient(135deg,#0a0a2a,#1a1a3a)'},
+  {url:'nucleo_flor.html', nome:'Flor', cat:'beleza', emoji:'🌸', bg:'linear-gradient(135deg,#1a0a2a,#2a1a3a)'},
+  {url:'nucleo_intensidade.html', nome:'Intensidade', cat:'força', emoji:'💥', bg:'linear-gradient(135deg,#2a0a1a,#3a1a2a)'},
+  {url:'nucleo_luz.html', nome:'Luz', cat:'iluminação', emoji:'💡', bg:'linear-gradient(135deg,#1a1a0a,#2a2a1a)'},
+  {url:'nucleo_luz2.html', nome:'Luz 2', cat:'iluminação', emoji:'🫧', bg:'linear-gradient(135deg,#1a2a1a,#2a3a2a)'},
+  {url:'nucleo_memoria.html', nome:'Memória', cat:'tempo', emoji:'💾', bg:'linear-gradient(135deg,#0a1a1a,#1a2a2a)'},
+  {url:'nucleo_neve.html', nome:'Neve', cat:'inverno', emoji:'❄️', bg:'linear-gradient(135deg,#1a2a3a,#2a3a4a)'},
+  {url:'nucleo_nuvem.html', nome:'Nuvem', cat:'céu', emoji:'☁️', bg:'linear-gradient(135deg,#1a1a2a,#2a2a3a)'},
+  {url:'nucleo_onda.html', nome:'Onda', cat:'fluir', emoji:'🌊', bg:'linear-gradient(135deg,#0a1a2a,#1a2a3a)'},
+  {url:'nucleo_onda2.html', nome:'Onda 2', cat:'fluir', emoji:'🌊', bg:'linear-gradient(135deg,#0a2a1a,#1a3a2a)'},
+  {url:'nucleo_orbita.html', nome:'Ôrbita', cat:'círculo', emoji:'🔄', bg:'linear-gradient(135deg,#1a0a2a,#2a1a3a)'},
+  {url:'nucleo_pulsar.html', nome:'Pulsar', cat:'ritmo', emoji:'💫', bg:'linear-gradient(135deg,#2a1a1a,#3a2a2a)'},
+  {url:'nucleo_raio.html', nome:'Raio', cat:'energia', emoji:'⚡', bg:'linear-gradient(135deg,#1a1a0a,#2a2a1a)'},
+  {url:'nucleo_ripple.html', nome:'Ripple', cat:'onda', emoji:'💧', bg:'linear-gradient(135deg,#0a1a2a,#1a2a3a)'},
+  {url:'nucleo_singular.html', nome:'Singular', cat:'foco', emoji:'🕳️', bg:'linear-gradient(135deg,#0a0a1a,#1a1a2a)'},
+  {url:'nucleo_vortex.html', nome:'Vórtice', cat:'giro', emoji:'🌀', bg:'linear-gradient(135deg,#1a0a0a,#2a1a1a)'},
+  {url:'nucleo_zap.html', nome:'Zap', cat:'rápido', emoji:'⚡', bg:'linear-gradient(135deg,#1a1a0a,#2a2a1a)'},
+  {url:'nucleo_agua.html', nome:'Água', cat:'fluir', emoji:'💧', bg:'linear-gradient(135deg,#0a1a2a,#1a2a3a)'},
+  {url:'nucleo_horizonte.html', nome:'Horizonte', cat:'distância', emoji:'🌅', bg:'linear-gradient(135deg,#1a1a2a,#2a2a3a)'},
+  {url:'nucleo_gota.html', nome:'Gota', cat:'puro', emoji:'💎', bg:'linear-gradient(135deg,#0a2a3a,#1a3a4a)'},
+];
+
+function renderGrid(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for(const e of exps){
+    const a = document.createElement('a');
+    a.href = `/${e.url}`;
+    a.target = '_blank';
+    a.className = 'exp';
+    a.innerHTML = `
+      <div class="thumb" style="background:${e.bg}">${e.emoji}</div>
+      <div class="info">
+        <h4>${e.nome}</h4>
+        <p>${e.cat}</p>
+      </div>
+    `;
+    grid.appendChild(a);
+  }
+}
+renderGrid();
+
+// Clock
+function updateClock(){
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+updateClock();
+setInterval(updateClock,1000);
+
+// Auto refresh badge
+setInterval(()=>{
+  const badge = document.getElementById('liveBadge');
+  badge.style.opacity = '0.5';
+  setTimeout(()=>{badge.style.opacity = '1'},200);
+},5000);
+</script>
+</body>
+</html>
