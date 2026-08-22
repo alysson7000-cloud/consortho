@@ -137,6 +137,10 @@ const canvas = document.getElementById('gc');
 const ctx = canvas.getContext('2d', { alpha: false });
 let W, H, DPR;
 
+// Stars parallax state (declared before resize to avoid TDZ)
+let stars = [];
+let starLayers = 3;
+
 function resize() {
   DPR = window.devicePixelRatio || 1;
   W = window.innerWidth;
@@ -148,6 +152,7 @@ function resize() {
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   if (stars) initStars();
 }
+
 window.addEventListener('resize', resize);
 resize();
 
@@ -352,9 +357,8 @@ let floatingTexts = [];
 let bgLayers = [];
 
 function initStars() {
-  const starLayers = 3;
   stars = [];
-    const layer = { depth: l + 1, stars: [] };
+  for (let l = 0; l < starLayers; l++) {
     const count = 100 + l * 80;
     for (let i = 0; i < count; i++) {
       layer.stars.push({

@@ -125,11 +125,23 @@ const bestScoreEl = document.getElementById('best-score');
 let bestScore = parseInt(localStorage.getItem('luminCloudBest') || '0');
 bestScoreEl.textContent = bestScore;
 
+function updateScoreDisplay() {
+  if (muted) {
+    scoreEl.textContent = '🔇 ' + score;
+  } else {
+    scoreEl.textContent = '⚡ ' + score;
+  }
+}
+
 // Click score to toggle mute
 scoreEl.style.cursor = 'pointer';
 scoreEl.addEventListener('click', () => {
   muted = !muted;
+  updateScoreDisplay();
 });
+
+// Initial display
+updateScoreDisplay();
 
 let W, H, DPR;
 function resize() {
