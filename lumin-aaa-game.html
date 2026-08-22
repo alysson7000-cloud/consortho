@@ -796,11 +796,12 @@ function updateHUD() {
     muteInd.style.cursor = 'pointer';
   }
 }
+}
 
 // Click on mute indicator to toggle
 const muteIndEl = document.getElementById('mute-indicator');
 if (muteIndEl) {
-  muteIndEl.addEventListener('click', () => { muted = !muted; updateHUD(); });
+muteIndEl.addEventListener('click', () => { muted = !muted; updateHUD(); });
 }
 
 // ============================================================
@@ -836,6 +837,9 @@ function update() {
     if (player.powerTimer <= 0) {
       player.powerType = 'normal';
       player.powerDuration = 0;
+      // Hide bomb indicator when power expires
+      const bombInd = document.getElementById('powerup-indicator');
+      if (bombInd) bombInd.style.opacity = 0;
     }
   }
   
