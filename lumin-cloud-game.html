@@ -81,7 +81,7 @@ canvas { display: block; width: 100vw; height: 100vh; }
 </div>
 <div id="controls-hint">← ↑ → ↓ ou WASD · Toque para atirar · ESC pausa</div>
 <div id="scanlines"></div>
-<a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
+<a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
 <div id="intro-overlay" style="display:flex;">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);display:flex;justify-content:center;align-items:center;z-index:200;flex-direction:column;gap:16px;font-family:'Orbitron',sans-serif;color:#fff;">
     <h1 style="font-size:42px;color:#0ff;text-shadow:0 0 30px rgba(0,255,255,0.6);letter-spacing:3px;">
@@ -252,6 +252,7 @@ let comboTimer = 0;
 let obstacles = [];
 let collectibles = [];
 let enemies = [];
+let projectiles = [];
 let particles = [];
 let bgStars = [];
 let explosionActive = false;
@@ -1206,11 +1207,8 @@ function render() {
 // ============================================================
 // GAME LOOP
 // ============================================================
-let prevKeys = {};
 function loop() {
-  if (!player.alive && prevKeys['r'] && !keys['r']) { resetGame(); }
-  if (!player.alive && prevKeys['enter'] && !keys['enter']) { resetGame(); }
-  prevKeys = { ...keys };
+  if (!player.alive && (keys['r'] || keys['enter'])) { resetGame(); }
   update();
   render();
   requestAnimationFrame(loop);

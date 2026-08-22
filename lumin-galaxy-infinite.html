@@ -124,7 +124,7 @@ canvas { display: block; }
   <p>Você está no centro da galáxia. O universo é infinito.</p>
 </div>
 <div id="controls-hint">WASD/Setas · Scroll zoom · Espaço harmonize · ESC pausa · Toque para interagir</div>
-<a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
+<a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
 <script>
 'use strict';
 
@@ -1095,6 +1095,52 @@ function render() {
   ctx.textAlign = 'left';
   ctx.textBaseline = 'bottom';
   ctx.fillText('Vel: ' + spd.toFixed(1) + ' c', 16, H - 10);
+
+  // ============================================================
+  // MINIMAP — top-right corner
+  // ============================================================
+  const mmSize = 120;
+  const mmX = W - mmSize - 16;
+  const mmY = 16;
+  const mmScale = mmSize / (4000);
+
+  // Background
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.strokeStyle = 'rgba(0,255,255,0.2)';
+  ctx.lineWidth = 1;
+  ctx.fillRect(mmX, mmY, mmSize, mmSize);
+  ctx.strokeRect(mmX, mmY, mmSize, mmSize);
+
+  // Draw systems on minimap
+  galaxies.forEach(galaxy => {
+    galaxy.stars.forEach(star => {
+      if (!star.isSystem) return;
+      const mx = mmX + (star.x - player.x) * mmScale + mmSize / 2;
+      const my = mmY + (star.y - player.y) * mmScale + mmSize / 2;
+      if (mx < mmX || mx > mmX + mmSize || my < mmY || my > mmY + mmSize) return;
+      const isFocused = focusedSystem && focusedSystem.x === star.x && focusedSystem.y === star.y;
+      ctx.fillStyle = isFocused ? '#0ff' : `hsla(${star.type.hue}, 100%, 70%, 0.8)`;
+      ctx.beginPath();
+      ctx.arc(mx, my, isFocused ? 3 : 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  });
+
+  // Player dot on minimap
+  const px = mmX + mmSize / 2;
+  const py = mmY + mmSize / 2;
+  ctx.strokeStyle = '#0ff';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(px, py, 3, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Border label
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.font = '8px Orbitron';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'top';
+  ctx.fillText('MAPA', mmX + mmSize, mmY + 2);
 }
 
 // ============================================================
@@ -1232,6 +1278,47 @@ window.addEventListener('keydown', e => {
   if (e.key === ' ' || e.key === 'Space') {
     e.preventDefault();
     if (!paused) triggerHarmonize();
+  }
+});
+
+// ============================================================
+// CLICK TO SELECT / HARMONIZE SYSTEM
+// ============================================================
+canvas.addEventListener('click', (e) => {
+  if (paused) return;
+  const rect = canvas.getBoundingClientRect();
+  const sx = e.clientX - rect.left;
+  const sy = e.clientY - rect.top;
+  // Convert screen to world coords
+  const world = screenToWorld(sx, sy);
+  // Find system near click
+  for (const galaxy of galaxies) {
+    for (const star of galaxy.stars) {
+      if (!star.isSystem) continue;
+      if (!star.systemData) {
+        star.systemData = generateStarSystem(star.x, star.y, star.systemSeed);
+        star.systemData.starType = star.type;
+        star.systemData.name = generateStarName();
+      }
+      const sd = star.systemData;
+      const dist = distance(world.x, world.y, sd.x, sd.y);
+      if (dist < 30 / zoomLevel) {
+        focusedSystem = sd;
+        if (!sd.visited) {
+          sd.visited = true;
+          player.systemsDiscovered++;
+          sd.planets.forEach(p => { if (!p.explored) { p.explored = true; player.planetsDiscovered++; } });
+          player.resonance += 5;
+          updateHUD();
+          showDiscoveryToast('🌟 ' + sd.name, sd.starType.label + ' · Sistema descoberto!', sd.starType.hue);
+          playDiscoverySound(sd.starType.hue);
+        } else {
+          // Harmonize on click
+          triggerHarmonize();
+        }
+        return;
+      }
+    }
   }
 });
 

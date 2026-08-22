@@ -109,7 +109,7 @@ canvas { display: block; }
   </div>
 </div>
 <div id="scanlines"></div>
-<a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
+<a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
 <div id="combo-display"></div>
 <div id="powerup-indicator"></div>
 <div id="pause-screen" class="active">
@@ -1558,7 +1558,26 @@ function render() {
     ctx.arc(0, 0, player.radius * 0.28, 0, Math.PI * 2);
     ctx.fill();
     ctx.shadowBlur = 0;
-    
+
+    // Bomb indicator - orbiting bomb icon when bomb is ready
+    if (player.powerType === 'bomb' && player.powerTimer > 0) {
+      const bombAngle = gameTime * 0.06;
+      const bombDist = player.radius * 1.8;
+      const bx = Math.cos(bombAngle) * bombDist;
+      const by = Math.sin(bombAngle) * bombDist;
+      // Bomb orbit glow
+      ctx.fillStyle = `hsla(50, 100%, 70%, ${0.2 + 0.2 * Math.sin(gameTime * 0.1)})`;
+      ctx.beginPath();
+      ctx.arc(bx, by, player.radius * 0.7, 0, Math.PI * 2);
+      ctx.fill();
+      // Bomb icon
+      ctx.fillStyle = '#ffaa00';
+      ctx.font = `bold ${player.radius * 0.7}px Orbitron`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('💣', bx, by);
+    }
+
     ctx.globalAlpha = 1;
     ctx.restore();
   }
