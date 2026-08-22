@@ -1208,7 +1208,8 @@ function render() {
 // GAME LOOP
 // ============================================================
 function loop() {
-  if (!player.alive && (keys['r'] || keys['enter'])) { resetGame(); }
+  if (!player.alive && (keys['r'] || keys['enter']) && !prevKeys['r'] && !prevKeys['enter']) { resetGame(); }
+  prevKeys = { ...keys };
   update();
   render();
   requestAnimationFrame(loop);
