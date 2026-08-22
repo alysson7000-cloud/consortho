@@ -272,13 +272,6 @@ let muted = false;
 
 const keys = {};
 
-function updateScoreDisplay() {
-  if (muted) {
-    scoreEl.textContent = '🔇 ' + score;
-  } else {
-    scoreEl.textContent = '⚡ ' + score;
-  }
-}
 let paused = false;
 let difficulty = 1;
 let combo = 1;
@@ -291,6 +284,9 @@ let particles = [];
 let bgStars = [];
 let explosionActive = false;
 let explosions = [];
+
+// Floating texts for combo display
+let floatingTexts = [];
 
 // ============================================================
 // POWERUPS
@@ -342,9 +338,6 @@ function collectPowerup(pu) {
   }
 }
 
-
-// Floating texts for combo display
-let floatingTexts = [];
 
 // ============================================================
 // INPUT
@@ -1200,25 +1193,23 @@ function render() {
     ctx.shadowBlur = 0;
   });
   ctx.globalAlpha = 1;
-  
+
   // Explosions
   explosions.forEach(ex => {
-    ctx.save();
-    ctx.globalAlpha = ex.life;
-    const grd = ctx.createRadialGradient(ex.x, ex.y, 0, ex.x, ex.y, ex.radius);
-    grd.addColorStop(0, `hsla(${ex.hue}, 100%, 80%, 0.9)`);
-    grd.addColorStop(0.3, `hsla(${ex.hue}, 100%, 60%, 0.5)`);
-    grd.addColorStop(1, `hsla(${ex.hue}, 100%, 40%, 0)`);
-    ctx.fillStyle = grd;
+    const alpha = ex.life;
+    ctx.strokeStyle = `hsla(${ex.hue}, 100%, 70%, ${alpha * 0.5})`;
+    ctx.lineWidth = 2 * alpha;
+    ctx.shadowColor = `hsla(${ex.hue}, 100%, 70%, ${alpha * 0.3})`;
+    ctx.shadowBlur = 10;
     ctx.beginPath();
     ctx.arc(ex.x, ex.y, ex.radius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-    ctx.restore();
+    ctx.stroke();
+    ctx.shadowBlur = 0;
   });
-  
+
   // Floating texts
   floatingTexts.forEach(ft => {
+    ctx.save();
     ctx.globalAlpha = ft.life;
     ctx.font = `bold ${ft.size}px Orbitron`;
     ctx.textAlign = 'center';
@@ -1231,72 +1222,23 @@ function render() {
     ctx.fillText(ft.text, ft.x, ft.y);
     ctx.shadowBlur = 0;
     ctx.globalAlpha = 1;
+    ctx.restore();
   });
-  
-  // Paused overlay (canvas HUD)
-  if (paused) {
-    ctx.fillStyle = 'rgba(0,0,0,0.6)';
-    ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 48px Orbitron, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('⏸ PAUSADO', W/2, H/2 - 20);
-    ctx.font = '18px Orbitron, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.fillText('Pressione R para reiniciar', W/2, H/2 + 25);
-  }
-
-  // HTML pause screen
-  const pauseOverlayEl = document.getElementById('pause-overlay');
-  if (pauseOverlayEl) {
-    pauseOverlayEl.style.display = paused ? 'block' : 'none';
-  }
-
-  // Game over
-  if (!player.alive) {
-    ctx.fillStyle = 'rgba(0,0,0,0.7)';
-    ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = '#ff4444';
-    ctx.font = 'bold 56px Orbitron, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.shadowColor = '#ff0000';
-    ctx.shadowBlur = 20;
-    ctx.fillText('GAME OVER', W/2, H/2 - 25);
-    ctx.shadowBlur = 0;
-    ctx.font = '22px Orbitron, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('⚡ ' + score, W/2, H/2 + 20);
-    ctx.fillStyle = 'rgba(255,255,255,0.4)';
-    ctx.font = '14px Orbitron, sans-serif';
-    ctx.fillText('Pressione R ou ENTER para reiniciar', W/2, H/2 + 55);
-  }
-
-  // Update mute indicator icon
-  const mi = document.getElementById('mute-indicator');
-  if (mi) mi.textContent = muted ? '🔇' : '🔊';
 }
 
 // ============================================================
 // GAME LOOP
 // ============================================================
-let prevKeys = {};
 function loop() {
-  if (!player.alive && (keys['r'] || keys['enter']) && !prevKeys['r'] && !prevKeys['enter']) { resetGame(); }
-  prevKeys = { ...keys };
   update();
   render();
   requestAnimationFrame(loop);
 }
-// Start
-resetGame();
-// Intro overlay dismissal
-const introOverlay = document.getElementById('intro-overlay');
+
+// Dismiss intro on first interaction
 function dismissIntro() {
-  if (!introOverlay) return;
-  introOverlay.style.transition = 'opacity 0.5s';
-  introOverlay.style.opacity = '0';
-  setTimeout(() => { if (introOverlay) introOverlay.remove(); }, 500);
-  paused = false;
+  const introOverlay = document.getElementById('intro-overlay');
+  if (introOverlay) introOverlay.style.display = 'none';
   const pauseEl = document.getElementById('pause-overlay');
   if (pauseEl) pauseEl.style.display = 'none';
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
