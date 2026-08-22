@@ -82,6 +82,23 @@ canvas { display: block; width: 100vw; height: 100vh; }
 <div id="controls-hint">← ↑ → ↓ ou WASD · Toque para atirar · ESC pausa</div>
 <div id="scanlines"></div>
 <a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
+<div id="intro-overlay" style="display:flex;">
+  <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);display:flex;justify-content:center;align-items:center;z-index:200;flex-direction:column;gap:16px;font-family:'Orbitron',sans-serif;color:#fff;">
+    <h1 style="font-size:42px;color:#0ff;text-shadow:0 0 30px rgba(0,255,255,0.6);letter-spacing:3px;">
+      ⚡ LUMIN CLOUD
+    </h1>
+    <p style="color:rgba(255,255,255,0.6);font-size:15px;">
+      WASD/Setas: mover · Clique/Touch: atirar · ESC: pausa
+    </p>
+    <p style="color:rgba(255,255,255,0.3);font-size:13px;">
+      Colete itens · Evite obstáculos · Encontre power-ups
+    </p>
+    <p style="color:#0ff;font-size:18px;animation:pulse 1.5s ease-in-out infinite;margin-top:10px;">
+      pressione qualquer tecla ou clique para começar
+    </p>
+    <style>@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }</style>
+  </div>
+</div>
 <div id="pause-overlay" style="display:none;">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:100;flex-direction:column;gap:20px;">
     <h1 style="font-size:48px;color:#fff;text-shadow:0 0 20px rgba(0,255,255,0.5);font-family:'Orbitron',sans-serif;">⏸ PAUSADO</h1>
@@ -1151,9 +1168,9 @@ function render() {
   }
 
   // HTML pause screen
-  const pauseScreenEl = document.getElementById('pause-screen');
-  if (pauseScreenEl) {
-    pauseScreenEl.style.display = paused ? 'block' : 'none';
+  const pauseOverlayEl = document.getElementById('pause-overlay');
+  if (pauseOverlayEl) {
+    pauseOverlayEl.style.display = paused ? 'block' : 'none';
   }
 
   // Game over
@@ -1189,6 +1206,32 @@ function loop() {
 }
 // Start
 resetGame();
+// Intro overlay dismissal
+const introOverlay = document.getElementById('intro-overlay');
+function dismissIntro() {
+  if (!introOverlay) return;
+  introOverlay.style.transition = 'opacity 0.5s';
+  introOverlay.style.opacity = '0';
+  setTimeout(() => { if (introOverlay) introOverlay.remove(); }, 500);
+  paused = false;
+  const pauseEl = document.getElementById('pause-overlay');
+  if (pauseEl) pauseEl.style.display = 'none';
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}
+window.addEventListener('keydown', function dismissOnKey(e) {
+  if (introOverlay) dismissIntro();
+  window.removeEventListener('keydown', dismissOnKey);
+}, { once: true });
+canvas.addEventListener('click', function dismissOnClick() {
+  if (introOverlay) dismissIntro();
+  canvas.removeEventListener('click', dismissOnClick);
+});
+canvas.addEventListener('touchstart', function dismissOnTouch() {
+  if (introOverlay) dismissIntro();
+  canvas.removeEventListener('touchstart', dismissOnTouch);
+}, { once: true });
+setTimeout(() => { if (introOverlay) dismissIntro(); }, 8000);
+
 loop();
 
 // Spawn some initial collectibles
