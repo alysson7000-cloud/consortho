@@ -107,6 +107,7 @@ canvas { display: block; }
     <div><span class="hud-label">KILLS</span><br><span class="hud-value" id="kills">0</span></div>
     <div><span class="hud-label">POWER</span><br><span class="hud-value" id="power">NORMAL</span></div>
     <div><span class="hud-label">RECORDE</span><br><span class="hud-value" id="best-score" style="font-size:14px;">0</span></div>
+    <div><span class="hud-label">SOM</span><br><span class="hud-value" id="mute-indicator" style="font-size:14px;cursor:pointer;">🔊</span></div>
   </div>
 </div>
 <div id="scanlines"></div>
@@ -155,6 +156,7 @@ resize();
 // ============================================================
 let audioCtx = null;
 let masterGain = null;
+let muted = false;
 
 function initAudio() {
   if (audioCtx) return;
@@ -165,7 +167,7 @@ function initAudio() {
 }
 
 function playSound(type) {
-  if (!audioCtx) return;
+  if (!audioCtx || muted) return;
   const now = audioCtx.currentTime;
   
   if (type === 'shoot') {
@@ -265,6 +267,7 @@ window.addEventListener('keydown', e => {
     resetGame();
   }
   if (e.key === 'Shift') player.sprinting = true;
+  if (e.key === 'm' || e.key === 'M') { muted = !muted; updateHUD(); }
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;
@@ -348,14 +351,9 @@ let shockwaves = [];
 let floatingTexts = [];
 let bgLayers = [];
 
-// ============================================================
-// INIT STARS — PARALLAX BACKGROUND
-// ============================================================
-const starLayers = 3;
-
 function initStars() {
+  const starLayers = 3;
   stars = [];
-  for (let l = 0; l < starLayers; l++) {
     const layer = { depth: l + 1, stars: [] };
     const count = 100 + l * 80;
     for (let i = 0; i < count; i++) {
@@ -777,6 +775,19 @@ function updateHUD() {
   
   document.getElementById('power').textContent = powerLabel;
   document.getElementById('power').style.color = powerColor;
+  
+  // Mute indicator
+  const muteInd = document.getElementById('mute-indicator');
+  if (muteInd) {
+    muteInd.textContent = muted ? '🔇' : '🔊';
+    muteInd.style.opacity = muted ? '1' : '0.4';
+  }
+}
+
+// Click on mute indicator to toggle
+const muteIndEl = document.getElementById('mute-indicator');
+if (muteIndEl) {
+  muteIndEl.addEventListener('click', () => { muted = !muted; updateHUD(); });
 }
 
 // ============================================================

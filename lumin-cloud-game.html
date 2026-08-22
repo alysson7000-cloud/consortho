@@ -125,6 +125,12 @@ const bestScoreEl = document.getElementById('best-score');
 let bestScore = parseInt(localStorage.getItem('luminCloudBest') || '0');
 bestScoreEl.textContent = bestScore;
 
+// Click score to toggle mute
+scoreEl.style.cursor = 'pointer';
+scoreEl.addEventListener('click', () => {
+  muted = !muted;
+});
+
 let W, H, DPR;
 function resize() {
   DPR = window.devicePixelRatio || 1;
@@ -154,7 +160,7 @@ function initAudio() {
 }
 
 function playSound(type) {
-  if (!audioCtx) return;
+  if (!audioCtx || muted) return;
   const now = audioCtx.currentTime;
   if (type === 'shoot') {
     const osc = audioCtx.createOscillator();
@@ -241,6 +247,8 @@ const player = {
   sprinting: false,
   shootCooldown: 0
 };
+
+let muted = false;
 
 const keys = {};
 let score = 0;
@@ -352,6 +360,9 @@ window.addEventListener('keydown', e => {
   if (e.key === 'Escape') paused = !paused;
   if ((e.key === 'r' || e.key === 'Enter') && !player.alive) { resetGame(); }
   if (e.key === 'Shift') player.sprinting = true;
+
+  // Mute toggle
+  if (e.key === 'm' || e.key === 'M') { muted = !muted; updateScoreDisplay(); }
 
   // Bomb trigger
   if (e.key === ' ' || e.key === 'Space') {
@@ -782,11 +793,13 @@ function update() {
 
   // Powerup indicator
   if (playerPowerType === 'rapid' && playerPowerTimer > 0) {
-    scoreEl.textContent = '⚡ ' + score + ' x' + combo + ' ⚡';
+    scoreEl.textContent = '⚡ ' + score + ' x' + combo + ' ⚡ ' + (muted ? '🔇' : '🔊');
   } else if (playerPowerType === 'shield' && playerPowerTimer > 0) {
-    scoreEl.textContent = '🛡 ' + score + ' x' + combo;
+    scoreEl.textContent = '🛡 ' + score + ' x' + combo + ' ' + (muted ? '🔇' : '🔊');
   } else if (playerPowerType === 'bomb' && playerPowerTimer > 0) {
-    scoreEl.textContent = '💣 ' + score + ' x' + combo;
+    scoreEl.textContent = '💣 ' + score + ' x' + combo + ' ' + (muted ? '🔇' : '🔊');
+  } else {
+    scoreEl.textContent = '⚡ ' + score + ' x' + combo + ' ' + (muted ? '🔇' : '🔊');
   }
 
   // Update powerups
