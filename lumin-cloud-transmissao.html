@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMIN CLOUD — TRANSMISSÃO DE JOGOS</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #050008;
+  font-family: 'Orbitron', monospace;
+  color: rgba(255,255,255,0.85);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+#header {
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,255,255,0.15);
+  background: rgba(5,0,8,0.95);
+  flex-shrink: 0;
+}
+#header h1 { font-size: 18px; letter-spacing: 3px; color: #0ff; text-shadow: 0 0 15px rgba(0,255,255,0.5); }
+#header .sub { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 1px; }
+#main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+}
+.card {
+  background: rgba(10,5,20,0.85);
+  border: 1px solid rgba(0,255,255,0.2);
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover {
+  border-color: #0ff;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2);
+  transform: translateY(-2px);
+}
+.card h2 {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+.card .desc {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.card .controls {
+  background: rgba(0,0,0,0.4);
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+}
+.card .controls span { color: #0ff; }
+.card .status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(0,255,0,0.2);
+  color: #0f0;
+  border: 1px solid rgba(0,255,0,0.3);
+}
+.card .status.offline { background: rgba(255,0,0,0.2); color: #f44; border-color: rgba(255,0,0,0.3); }
+#footer {
+  padding: 8px 24px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  border-top: 1px solid rgba(0,255,255,0.1);
+  text-align: center;
+  flex-shrink: 0;
+  background: rgba(5,0,8,0.95);
+}
+#toast {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  border: 1px solid #0ff;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  color: #fff;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+#toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="header">
+  <div>
+    <h1>⚡ LUMIN CLOUD — TRANSMISSÃO</h1>
+    <div class="sub">JOGOS DISPONÍVEIS · ACESSE E JOGUE</div>
+  </div>
+  <div class="sub">servidor: localhost · nucleo: 8766</div>
+</div>
+<div id="main">
+  <!-- Cards serão injetados aqui -->
+</div>
+<div id="footer">todos os jogos já criados e rodando · acesso imediato · sem espera</div>
+<div id="toast"></div>
+<script>
+const games = [
+  {
+    name: '⚡ NÚCLEO VOLTA',
+    file: 'nucleo_volta.html',
+    desc: 'Cenas interativas com clique e teclas. ESPAÇO para pulsar, R para sortear, setas para navegar entre cenas.',
+    controls: '<span>ESPAÇO</span> pulsar · <span>R</span> sortear · <span>↑↓</span> cenas',
+    url: 'http://localhost:8766/nucleo_volta.html',
+    online: true
+  },
+  {
+    name: '🌟 NÚCLEO SINGULAR',
+    file: 'nucleo_singular.html',
+    desc: 'Experiência única de convergência. Espaço navegável com interação e partículas.',
+    controls: '<span>CLIQUE</span> interagir · <span>ESPAÇO</span> pulsar',
+    url: 'http://localhost:8766/nucleo_singular.html',
+    online: true
+  },
+  {
+    name: '🔮 NÚCLEO SISTEMA',
+    file: 'nucleo_sistema.html',
+    desc: 'Navegação entre sistemas interconectados. Espaço 3D com partículas e vozes.',
+    controls: '<span>CLIQUE</span> interagir · <span>ESP</span> pulsar · <span>R</span> resetar',
+    url: 'http://localhost:8766/nucleo_sistema.html',
+    online: true
+  },
+  {
+    name: '🧬 NÚCLEO ORGANISMO',
+    file: 'nucleo_organismo.html',
+    desc: 'Camadas de consciência interativas. Setas navegam entre camadas, P para pulsar.',
+    controls: '<span>↑↓</span> camadas · <span>P</span> pulsar · <span>R</span> sortear',
+    url: 'http://localhost:8766/nucleo_organismo.html',
+    online: true
+  },
+  {
+    name: '💫 NÚCLEO CONEXOES',
+    file: 'nucleo_conexoes.html',
+    desc: 'Espaço 3D onde você clica e coisas nascem — semente, descoberta, conexão.',
+    controls: '<span>CLIQUE</span> criar · <span>C</span> criar coisa · <span>R</span> resetar · <span>ESP</span> explosão',
+    url: 'http://localhost:8766/nucleo_conexoes.html',
+    online: true
+  },
+  {
+    name: '🌌 NÚCLEO ESPACO',
+    file: 'nucleo_espaco.html',
+    desc: 'Espaço navegável 3D com partículas movendo as coisas, vozes quando se aproxima.',
+    controls: '<span>CLIQUE</span> interagir · <span>ESP</span> pulsar · <span>R</span> resetar',
+    url: 'http://localhost:8766/nucleo_espaco.html',
+    online: true
+  },
+  {
+    name: '🎮 NÚCLEO JOGUINHO',
+    file: 'nucleo_joguinho.html',
+    desc: 'Jogo simples interativo com teclas e clique. Explorar e interagir.',
+    controls: '<span>CLIQUE</span> interagir · <span>TECLAS</span> controlar',
+    url: 'http://localhost:8766/nucleo_joguinho.html',
+    online: true
+  },
+  {
+    name: '🔥 NÚCLEO BATTLE FOFURA',
+    file: 'nucleo_batalha_fofa.html',
+    desc: 'Batalha fofa com interação e animações. Divertido e leve.',
+    controls: '<span>CLIQUE</span> interagir · <span>TECLAS</span> controlar',
+    url: 'http://localhost:8766/nucleo_batalha_fofa.html',
+    online: true
+  },
+  {
+    name: '🌱 NÚCLEO SEMENTES',
+    file: 'nucleo_sementes.html',
+    desc: 'Espaço de sementes e crescimento. Você clica e as coisas nascem e crescem.',
+    controls: '<span>CLIQUE</span> plantar · <span>TECLAS</span> interagir',
+    url: 'http://localhost:8766/nucleo_sementes.html',
+    online: true
+  },
+  {
+    name: '🎲 NÚCLEO SPAWN',
+    file: 'nucleo_spawn.html',
+    desc: 'Spawn de coisas aleatórias na tela. Clique e veja o que nasce.',
+    controls: '<span>CLIQUE</span> spawnar · <span>TECLAS</span> controlar',
+    url: 'http://localhost:8766/nucleo_spawn.html',
+    online: true
+  }
+];
+
+const main = document.getElementById('main');
+
+games.forEach(g => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="status ${g.online ? '' : 'offline'}">${g.online ? '● ONLINE' : '○ OFFLINE'}</div>
+    <h2>${g.name}</h2>
+    <div class="desc">${g.desc}</div>
+    <div class="controls">${g.controls}</div>
+  `;
+  card.addEventListener('click', () => {
+    window.open(g.url, '_blank');
+    showToast(`Abrindo ${g.name}...`);
+  });
+  main.appendChild(card);
+});
+
+const toast = document.getElementById('toast');
+let toastTimeout;
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// Tenta verificar quais URLs realmente respondem
+games.forEach(g => {
+  fetch(g.url, { method: 'HEAD', mode: 'no-cors' })
+    .then(() => {
+      const card = main.querySelector(`[data-game="${g.file}"]`);
+      if (card) {
+        const status = card.querySelector('.status');
+        status.textContent = '● ONLINE';
+        status.className = 'status';
+      }
+    })
+    .catch(() => {});
+});
+</script>
+</body>
+</html>
