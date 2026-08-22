@@ -1,33 +1,33 @@
 {
   "entropyAccount": {
-    "disorderDebits": 2094.3408220659558,
-    "orderCredits": 1452.6937680211497,
-    "netEntropy": 628.6059217953156,
-    "entropyRate": 630.8295250967927,
-    "reversalRate": 0.6957531195192114,
+    "disorderDebits": 2098.706738699409,
+    "orderCredits": 1463.9303263105053,
+    "netEntropy": 621.9392750954016,
+    "entropyRate": 630.6364598396799,
+    "reversalRate": 0.6975392508710953,
     "accounts": {
       "thermal": {
-        "debit": 308.73854647767496,
+        "debit": 309.26304646716943,
         "credit": 0
       },
       "informational": {
-        "debit": 307.6701301445921,
-        "credit": 1430
+        "debit": 308.26071583645256,
+        "credit": 1440
       },
       "structural": {
-        "debit": 401.4281087806494,
-        "credit": 22.693768021149634
+        "debit": 401.9621512842804,
+        "credit": 23.93032631050519
       },
       "computational": {
-        "debit": 451.7371673452035,
+        "debit": 453.3747309043502,
         "credit": 0
       },
       "semantic": {
-        "debit": 309.1798271026145,
+        "debit": 309.77455765944825,
         "credit": 0
       },
       "emotional": {
-        "debit": 311.61945000431825,
+        "debit": 312.14745822869,
         "credit": 0
       }
     },
@@ -4018,10 +4018,48 @@
         },
         "timestamp": 1787367369399,
         "cycle": 0
+      },
+      {
+        "id": "tx_1787371169419_7e0b2c",
+        "type": "credit",
+        "account": "structural",
+        "amount": 1.2365582893555578,
+        "source": "antifragility",
+        "metadata": {
+          "stressId": "stress_1787367369399",
+          "growth": 0.12365582893555578
+        },
+        "timestamp": 1787371169419,
+        "cycle": 0
+      },
+      {
+        "id": "tx_1787371472992_iymlao",
+        "type": "credit",
+        "account": "informational",
+        "amount": 10,
+        "source": "maxwell_demon",
+        "metadata": {
+          "cycle": 0,
+          "particlesSorted": 1
+        },
+        "timestamp": 1787371472992,
+        "cycle": 0
+      },
+      {
+        "id": "tx_1787371472993_q9jboy",
+        "type": "debit",
+        "account": "computational",
+        "amount": 1,
+        "source": "maxwell_demon",
+        "metadata": {
+          "cyclesOperated": 144
+        },
+        "timestamp": 1787371472993,
+        "cycle": 0
       }
     ],
     "totalReversed": 0,
-    "reversalEfficiency": 0.6957531195192114,
+    "reversalEfficiency": 0.6975392508710953,
     "maxwellDemonEfficiency": 0
   },
   "compostHeap": {
@@ -4442,10 +4480,11 @@
               "action": "restructure_component"
             }
           ],
-          "startedAt": 1787367369400
+          "startedAt": 1787367369400,
+          "completedAt": 1787371169417
         },
-        "recoveryTime": null,
-        "growth": 0
+        "recoveryTime": 3800018,
+        "growth": 0.12365582893555578
       }
     ],
     "antibodies": [
@@ -4672,6 +4711,20 @@
         "createdFrom": "stress_1787351756632",
         "createdAt": 1787351764053,
         "createdCycle": 0
+      },
+      {
+        "id": "antibody_1787371169418",
+        "trigger": "load",
+        "threshold": 0.5117208553222212,
+        "response": {
+          "strategy": "adapt",
+          "preemptive": true
+        },
+        "effectiveness": 0,
+        "deployments": 0,
+        "createdFrom": "stress_1787367369399",
+        "createdAt": 1787371169418,
+        "createdCycle": 0
       }
     ],
     "chaosExperiments": [
@@ -4822,10 +4875,10 @@
   "maxwellDemon": {
     "hotReservoir": [],
     "coldReservoir": [],
-    "knowledge": 14.299999999999965,
-    "workExtracted": 1430,
-    "entropyReduced": 14.299999999999965,
-    "cyclesOperated": 143,
+    "knowledge": 14.399999999999965,
+    "workExtracted": 1440,
+    "entropyReduced": 14.399999999999965,
+    "cyclesOperated": 144,
     "sortingAccuracy": 0.25,
     "params": {
       "gateThreshold": 0.5,
@@ -4848,83 +4901,6 @@
   },
   "history": {
     "entropy": [
-      {
-        "cycle": 21813,
-        "netEntropy": 515.5300223064608,
-        "entropyRate": 515.2622707132356,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787275973935
-      },
-      {
-        "cycle": 21814,
-        "netEntropy": 515.6950416183635,
-        "entropyRate": 515.5300223064608,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276003936
-      },
-      {
-        "cycle": 21815,
-        "netEntropy": 515.8891005593325,
-        "entropyRate": 515.6950416183635,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276033974
-      },
-      {
-        "cycle": 21816,
-        "netEntropy": 516.3617153244438,
-        "entropyRate": 515.8891005593325,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276063955
-      },
-      {
-        "cycle": 21817,
-        "netEntropy": 516.5729719031413,
-        "entropyRate": 516.3617153244438,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276093956
-      },
-      {
-        "cycle": 21818,
-        "netEntropy": 516.7496959262069,
-        "entropyRate": 516.5729719031413,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276123958
-      },
-      {
-        "cycle": 21819,
-        "netEntropy": 517.1049837640973,
-        "entropyRate": 516.7496959262069,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276153958
-      },
-      {
-        "cycle": 21820,
-        "netEntropy": 517.2428787017466,
-        "entropyRate": 517.1049837640973,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276183976
-      },
-      {
-        "cycle": 21821,
-        "netEntropy": 517.4404604603021,
-        "entropyRate": 517.2428787017466,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276213978
-      },
-      {
-        "cycle": 21822,
-        "netEntropy": 517.5773756453422,
-        "entropyRate": 517.4404604603021,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276243991
-      },
-      {
-        "cycle": 21823,
-        "netEntropy": 517.8383841251887,
-        "entropyRate": 517.5773756453422,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276274000
-      },
       {
         "cycle": 21824,
         "netEntropy": 518.2359670944218,
@@ -11847,75 +11823,86 @@
         "entropyRate": 630.8295250967927,
         "reversalRate": 0.6957531195192114,
         "timestamp": 1787367369400
+      },
+      {
+        "cycle": 23090,
+        "netEntropy": 627.7176400188284,
+        "entropyRate": 628.6059217953156,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371169419
+      },
+      {
+        "cycle": 23091,
+        "netEntropy": 628.1191013291523,
+        "entropyRate": 627.7176400188284,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371200379
+      },
+      {
+        "cycle": 23092,
+        "netEntropy": 628.3763602262158,
+        "entropyRate": 628.1191013291523,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371230374
+      },
+      {
+        "cycle": 23093,
+        "netEntropy": 628.6199542657538,
+        "entropyRate": 628.3763602262158,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371260375
+      },
+      {
+        "cycle": 23094,
+        "netEntropy": 628.8784263373049,
+        "entropyRate": 628.6199542657538,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371290373
+      },
+      {
+        "cycle": 23095,
+        "netEntropy": 629.3835268088715,
+        "entropyRate": 628.8784263373049,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371320376
+      },
+      {
+        "cycle": 23096,
+        "netEntropy": 629.7598764774037,
+        "entropyRate": 629.3835268088715,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371350379
+      },
+      {
+        "cycle": 23097,
+        "netEntropy": 630.0343303541212,
+        "entropyRate": 629.7598764774037,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371380667
+      },
+      {
+        "cycle": 23098,
+        "netEntropy": 630.2610068100314,
+        "entropyRate": 630.0343303541212,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371410653
+      },
+      {
+        "cycle": 23099,
+        "netEntropy": 630.6364598396799,
+        "entropyRate": 630.2610068100314,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371440744
+      },
+      {
+        "cycle": 23100,
+        "netEntropy": 621.9392750954016,
+        "entropyRate": 630.6364598396799,
+        "reversalRate": 0.6975392508710953,
+        "timestamp": 1787371472995
       }
     ],
     "order": [
-      {
-        "cycle": 21813,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787275973935
-      },
-      {
-        "cycle": 21814,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276003936
-      },
-      {
-        "cycle": 21815,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276033974
-      },
-      {
-        "cycle": 21816,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276063955
-      },
-      {
-        "cycle": 21817,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276093956
-      },
-      {
-        "cycle": 21818,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276123958
-      },
-      {
-        "cycle": 21819,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276153958
-      },
-      {
-        "cycle": 21820,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276183976
-      },
-      {
-        "cycle": 21821,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276213978
-      },
-      {
-        "cycle": 21822,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276243991
-      },
-      {
-        "cycle": 21823,
-        "orderCredits": 1229.7496211812634,
-        "reversalRate": 0.7012667995048871,
-        "timestamp": 1787276274000
-      },
       {
         "cycle": 21824,
         "orderCredits": 1229.7496211812634,
@@ -17849,75 +17836,75 @@
         "orderCredits": 1452.6937680211497,
         "reversalRate": 0.6957531195192114,
         "timestamp": 1787367369400
+      },
+      {
+        "cycle": 23090,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371169419
+      },
+      {
+        "cycle": 23091,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371200379
+      },
+      {
+        "cycle": 23092,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371230374
+      },
+      {
+        "cycle": 23093,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371260375
+      },
+      {
+        "cycle": 23094,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371290373
+      },
+      {
+        "cycle": 23095,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371320376
+      },
+      {
+        "cycle": 23096,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371350379
+      },
+      {
+        "cycle": 23097,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371380667
+      },
+      {
+        "cycle": 23098,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371410653
+      },
+      {
+        "cycle": 23099,
+        "orderCredits": 1453.9303263105053,
+        "reversalRate": 0.6940949734420032,
+        "timestamp": 1787371440744
+      },
+      {
+        "cycle": 23100,
+        "orderCredits": 1463.9303263105053,
+        "reversalRate": 0.6975392508710953,
+        "timestamp": 1787371472995
       }
     ],
     "reversal": [
-      {
-        "cycle": 21813,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787275973935
-      },
-      {
-        "cycle": 21814,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276003936
-      },
-      {
-        "cycle": 21815,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276033974
-      },
-      {
-        "cycle": 21816,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276063955
-      },
-      {
-        "cycle": 21817,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276093956
-      },
-      {
-        "cycle": 21818,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276123958
-      },
-      {
-        "cycle": 21819,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276153958
-      },
-      {
-        "cycle": 21820,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276183976
-      },
-      {
-        "cycle": 21821,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276213978
-      },
-      {
-        "cycle": 21822,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276243991
-      },
-      {
-        "cycle": 21823,
-        "efficiency": 0.7012667995048871,
-        "maxwellEfficiency": 100.00000000000023,
-        "timestamp": 1787276274000
-      },
       {
         "cycle": 21824,
         "efficiency": 0.7012667995048871,
@@ -23824,6 +23811,72 @@
         "efficiency": 0.6957531195192114,
         "maxwellEfficiency": 100.00000000000024,
         "timestamp": 1787367369400
+      },
+      {
+        "cycle": 23090,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371169419
+      },
+      {
+        "cycle": 23091,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371200379
+      },
+      {
+        "cycle": 23092,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371230374
+      },
+      {
+        "cycle": 23093,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371260375
+      },
+      {
+        "cycle": 23094,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371290373
+      },
+      {
+        "cycle": 23095,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371320376
+      },
+      {
+        "cycle": 23096,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371350379
+      },
+      {
+        "cycle": 23097,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371380667
+      },
+      {
+        "cycle": 23098,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371410653
+      },
+      {
+        "cycle": 23099,
+        "efficiency": 0.6940949734420032,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371440744
+      },
+      {
+        "cycle": 23100,
+        "efficiency": 0.6975392508710953,
+        "maxwellEfficiency": 100.00000000000024,
+        "timestamp": 1787371472995
       }
     ],
     "compost": [
@@ -28271,86 +28324,23 @@
         "decomposing": 0,
         "fertilizer": 0,
         "timestamp": 1787367367513
+      },
+      {
+        "cycle": 0,
+        "rawWaste": 0,
+        "decomposing": 0,
+        "fertilizer": 0,
+        "timestamp": 1787371169416
+      },
+      {
+        "cycle": 0,
+        "rawWaste": 0,
+        "decomposing": 0,
+        "fertilizer": 0,
+        "timestamp": 1787371470765
       }
     ],
     "antifragility": [
-      {
-        "cycle": 21813,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787275973938
-      },
-      {
-        "cycle": 21814,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276003938
-      },
-      {
-        "cycle": 21815,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276033980
-      },
-      {
-        "cycle": 21816,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276063957
-      },
-      {
-        "cycle": 21817,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276093957
-      },
-      {
-        "cycle": 21818,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276123960
-      },
-      {
-        "cycle": 21819,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276153960
-      },
-      {
-        "cycle": 21820,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276183977
-      },
-      {
-        "cycle": 21821,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276213980
-      },
-      {
-        "cycle": 21822,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276243993
-      },
-      {
-        "cycle": 21823,
-        "stressors": 14,
-        "antibodies": 14,
-        "growth": 1.9749621181263253,
-        "timestamp": 1787276274002
-      },
       {
         "cycle": 21824,
         "stressors": 14,
@@ -35273,86 +35263,86 @@
         "antibodies": 16,
         "growth": 2.2693768021149636,
         "timestamp": 1787367369402
+      },
+      {
+        "cycle": 23090,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371169423
+      },
+      {
+        "cycle": 23091,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371200390
+      },
+      {
+        "cycle": 23092,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371230379
+      },
+      {
+        "cycle": 23093,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371260378
+      },
+      {
+        "cycle": 23094,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371290376
+      },
+      {
+        "cycle": 23095,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371320378
+      },
+      {
+        "cycle": 23096,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371350383
+      },
+      {
+        "cycle": 23097,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371380674
+      },
+      {
+        "cycle": 23098,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371410658
+      },
+      {
+        "cycle": 23099,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371440748
+      },
+      {
+        "cycle": 23100,
+        "stressors": 17,
+        "antibodies": 17,
+        "growth": 2.393032631050519,
+        "timestamp": 1787371472998
       }
     ],
     "maxwell": [
-      {
-        "cycle": 21813,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787275973938
-      },
-      {
-        "cycle": 21814,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276003938
-      },
-      {
-        "cycle": 21815,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276033980
-      },
-      {
-        "cycle": 21816,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276063957
-      },
-      {
-        "cycle": 21817,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276093957
-      },
-      {
-        "cycle": 21818,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276123960
-      },
-      {
-        "cycle": 21819,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276153960
-      },
-      {
-        "cycle": 21820,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276183977
-      },
-      {
-        "cycle": 21821,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276213980
-      },
-      {
-        "cycle": 21822,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276243993
-      },
-      {
-        "cycle": 21823,
-        "workExtracted": 1210,
-        "efficiency": 100.00000000000023,
-        "knowledge": 12.099999999999973,
-        "timestamp": 1787276274002
-      },
       {
         "cycle": 21824,
         "workExtracted": 1210,
@@ -42248,6 +42238,83 @@
         "efficiency": 100.00000000000024,
         "knowledge": 14.299999999999965,
         "timestamp": 1787367369402
+      },
+      {
+        "cycle": 23090,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371169423
+      },
+      {
+        "cycle": 23091,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371200390
+      },
+      {
+        "cycle": 23092,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371230379
+      },
+      {
+        "cycle": 23093,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371260378
+      },
+      {
+        "cycle": 23094,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371290376
+      },
+      {
+        "cycle": 23095,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371320378
+      },
+      {
+        "cycle": 23096,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371350383
+      },
+      {
+        "cycle": 23097,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371380674
+      },
+      {
+        "cycle": 23098,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371410658
+      },
+      {
+        "cycle": 23099,
+        "workExtracted": 1430,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.299999999999965,
+        "timestamp": 1787371440748
+      },
+      {
+        "cycle": 23100,
+        "workExtracted": 1440,
+        "efficiency": 100.00000000000024,
+        "knowledge": 14.399999999999965,
+        "timestamp": 1787371472998
       }
     ]
   },
@@ -42264,6 +42331,6 @@
     "extractionBatchSize": 50,
     "historyRetention": 10000
   },
-  "savedAt": 1787367373322,
+  "savedAt": 1787371472999,
   "version": "1.0.0"
 }

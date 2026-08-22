@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>LUMIN GALÁXIA INFINITA — EXPLORAÇÃO COSCENTE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<title>LUMIN GALÁXIA INFINITA — EXPLORAÇÃO COSMOS</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -42,6 +45,15 @@ canvas { display: block; }
 #info-panel .item .value { font-size: 16px; font-weight: 700; }
 #info-panel .item .value.cyan { color: #00ffff; }
 #info-panel .item .value.gold { color: #ffd700; }
+#cloud-nav {
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  color: rgba(255,255,255,0.25); font-size: 11px; letter-spacing: 1px;
+  background: rgba(0,0,0,0.5); padding: 6px 14px; border-radius: 16px;
+  backdrop-filter: blur(8px); pointer-events: auto; z-index: 30;
+  text-decoration: none; border: 1px solid rgba(0,255,255,0.1);
+  transition: all 0.2s;
+}
+#cloud-nav:hover { color: #0ff; border-color: rgba(0,255,255,0.3); }
 #discovery-toast {
   position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
   font-size: 32px; font-weight: 700; color: #fff;
@@ -112,6 +124,7 @@ canvas { display: block; }
   <p>Você está no centro da galáxia. O universo é infinito.</p>
 </div>
 <div id="controls-hint">WASD/Setas · Scroll zoom · Espaço harmonize · ESC pausa · Toque para interagir</div>
+<a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
 <script>
 'use strict';
 
