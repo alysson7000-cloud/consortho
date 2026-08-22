@@ -79,7 +79,7 @@ canvas { display: block; width: 100vw; height: 100vh; }
   <div style="font-size:13px; opacity:0.5;">LUMIN CLOUD</div>
   <div id="combo-display" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;font-weight:900;color:#ffd700;text-shadow:0 0 30px rgba(255,215,0,0.8);pointer-events:none;opacity:0;transition:opacity 0.3s;z-index:20;"></div>
 </div>
-<div id="controls-hint">← ↑ → ↓ ou WASD · Toque para atirar · ESC pausa</div>
+<div id="controls-hint">← ↑ → ↓ ou WASD · Clique/Touch: atirar · Click direito: bomba · ESC pausa</div>
 <div id="scanlines"></div>
 <a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
 <div id="intro-overlay" style="display:flex;">
@@ -88,8 +88,8 @@ canvas { display: block; width: 100vw; height: 100vh; }
       ⚡ LUMIN CLOUD
     </h1>
     <p style="color:rgba(255,255,255,0.6);font-size:15px;">
-      WASD/Setas: mover · Clique/Touch: atirar · ESC: pausa
-    </p>
+          WASD/Setas: mover · Clique/Touch: atirar · Click direito: bomba · ESC: pausa
+        </p>
     <p style="color:rgba(255,255,255,0.3);font-size:13px;">
       Colete itens · Evite obstáculos · Encontre power-ups
     </p>
@@ -319,6 +319,33 @@ let mouse = { x: W/2, y: H/2, down: false };
 canvas.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 canvas.addEventListener('mousedown', () => { mouse.down = true; if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); });
 canvas.addEventListener('mouseup', () => { mouse.down = false; });
+canvas.addEventListener('contextmenu', e => {
+  e.preventDefault();
+  if (playerPowerType === 'bomb' && playerPowerTimer > 0 && player.alive) {
+    playerPowerType = 'normal';
+    playerPowerTimer = 0;
+    spawnExplosion(player.x, player.y, 50, 40);
+    for (let i = enemies.length - 1; i >= 0; i--) {
+      const e = enemies[i];
+      const dist = Math.sqrt((player.x - e.x) ** 2 + (player.y - e.y) ** 2);
+      if (dist < 250) {
+        emitParticles(e.x, e.y, 15, e.hue, 5, 20);
+        score += 25 * combo;
+        enemies.splice(i, 1);
+      }
+    }
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+      const o = obstacles[i];
+      const dist = Math.sqrt((player.x - o.x) ** 2 + (player.y - o.y) ** 2);
+      if (dist < 250) {
+        emitParticles(o.x, o.y, 10, o.hue || 0, 4, 15);
+        obstacles.splice(i, 1);
+      }
+    }
+    addFloatingText(player.x, player.y - 40, '💥 BOMBA!', 50, 36, '#ffaa00');
+    playSound('explosion');
+  }
+});
 window.addEventListener('keydown', e => {
   keys[e.key.toLowerCase()] = true;
   ensureAudio();
@@ -1207,6 +1234,7 @@ function render() {
 // ============================================================
 // GAME LOOP
 // ============================================================
+let prevKeys = {};
 function loop() {
   if (!player.alive && (keys['r'] || keys['enter']) && !prevKeys['r'] && !prevKeys['enter']) { resetGame(); }
   prevKeys = { ...keys };
