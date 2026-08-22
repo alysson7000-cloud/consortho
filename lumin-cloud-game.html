@@ -12,6 +12,7 @@ body {
   font-family: 'Orbitron', sans-serif;
   user-select: none;
   -webkit-user-select: none;
+  cursor: crosshair;
 }
 canvas { display: block; width: 100vw; height: 100vh; }
 #ui {
@@ -27,6 +28,17 @@ canvas { display: block; width: 100vw; height: 100vh; }
   color: rgba(255,255,255,0.4); font-size: 13px; letter-spacing: 1px;
   background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px;
   backdrop-filter: blur(8px); pointer-events: none;
+}
+#scanlines {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 50;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.03) 0px,
+    rgba(0,0,0,0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
 }
 #game-over {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -56,6 +68,7 @@ canvas { display: block; width: 100vw; height: 100vh; }
   <div id="combo-display" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;font-weight:900;color:#ffd700;text-shadow:0 0 30px rgba(255,215,0,0.8);pointer-events:none;opacity:0;transition:opacity 0.3s;z-index:20;"></div>
 </div>
 <div id="controls-hint">← ↑ → ↓ ou WASD · ESC pausa</div>
+<div id="scanlines"></div>
 <div id="pause-screen" style="display:none;">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:100;flex-direction:column;gap:20px;">
     <h1 style="font-size:48px;color:#fff;text-shadow:0 0 20px rgba(0,255,255,0.5);font-family:'Orbitron',sans-serif;">⏸ PAUSADO</h1>
@@ -194,7 +207,8 @@ const player = {
   trail: [],
   pulse: 0,
   alive: true,
-  invincible: 0
+  invincible: 0,
+  sprinting: false
 };
 
 const keys = {};
@@ -275,6 +289,7 @@ window.addEventListener('keydown', e => {
   ensureAudio();
   if (e.key === 'Escape') paused = !paused;
   if ((e.key === 'r' || e.key === 'Enter') && !player.alive) { resetGame(); }
+  if (e.key === 'Shift') player.sprinting = true;
 
   // Bomb trigger
   if (e.key === ' ' || e.key === 'Space') {
@@ -304,10 +319,10 @@ window.addEventListener('keydown', e => {
       playSound('explosion');
     }
   }
-
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;
+  if (e.key === 'Shift') player.sprinting = false;
 });
 
 // ============================================================
@@ -486,7 +501,7 @@ function update() {
   }
   
   // Player movement
-  const speed = 4.5;
+  const speed = 4.5 * (player.sprinting ? 1.5 : 1);
   let dx = 0, dy = 0;
   if (keys['arrowleft'] || keys['a']) dx -= 1;
   if (keys['arrowright'] || keys['d']) dx += 1;
@@ -628,15 +643,16 @@ function update() {
       collectibles.splice(i, 1);
       playSound('pickup');
       // Combo display in HUD
-  const comboEl = document.getElementById('combo-display');
-  if (combo > 1) {
-    scoreEl.textContent = '⚡ ' + score + ' x' + combo;
-    comboEl.textContent = 'x' + combo + ' COMBO!';
-    comboEl.style.opacity = 1;
-    setTimeout(() => { comboEl.style.opacity = 0; }, 1500);
-  } else {
-    scoreEl.textContent = '⚡ ' + score;
-  }
+      const comboEl = document.getElementById('combo-display');
+      if (combo > 1) {
+        scoreEl.textContent = '⚡ ' + score + ' x' + combo;
+        comboEl.textContent = 'x' + combo + ' COMBO!';
+        comboEl.style.opacity = 1;
+        comboEl.style.transform = 'translate(-50%, -50%) scale(1.3)';
+        setTimeout(() => { comboEl.style.opacity = 0; }, 1500);
+      } else {
+        scoreEl.textContent = '⚡ ' + score;
+      }
   
   // Powerup indicator
   if (playerPowerType === 'rapid' && playerPowerTimer > 0) {

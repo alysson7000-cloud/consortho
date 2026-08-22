@@ -236,9 +236,16 @@ window.addEventListener('keydown', e => {
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   if (e.key === 'Escape') togglePause();
   if (e.key === 'r' && deathState) resetGame();
+  // Warp speed with Shift
+  if (e.key === 'Shift') {
+    player.warpSpeed = true;
+  }
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;
+  if (e.key === 'Shift') {
+    player.warpSpeed = false;
+  }
 });
 window.addEventListener('mousewheel', e => {
   e.preventDefault();
@@ -285,7 +292,8 @@ const player = {
   homing: false,
   harmonizing: false,
   harmonizeTarget: null,
-  harmonizeTimer: 0
+  harmonizeTimer: 0,
+  warpSpeed: false
 };
 
 let zoomLevel = 1;
@@ -628,8 +636,9 @@ function update() {
   
   gameTime++;
   
-  // Player movement with thrust physics
-  const accel = player.speed * 0.15;
+  // Warp speed boost
+  const currentSpeed = player.warpSpeed ? player.speed * 2.5 : player.speed;
+  const accel = currentSpeed * 0.15;
   let dx = 0, dy = 0;
   if (keys['arrowleft'] || keys['a']) dx -= 1;
   if (keys['arrowright'] || keys['d']) dx += 1;
@@ -992,7 +1001,7 @@ function render() {
     ctx.beginPath();
     ctx.arc(dirX, dirY, player.radius * 0.35 / zoomLevel, 0, Math.PI * 2);
     ctx.fill();
-    
+
     // Harmonize effect
     if (player.harmonizing) {
       ctx.strokeStyle = `hsla(190, 100%, 70%, ${0.5 + 0.5 * Math.sin(gameTime * 0.2)})`;
@@ -1001,7 +1010,23 @@ function render() {
       ctx.arc(0, 0, player.radius * 2.5 / zoomLevel, 0, Math.PI * 2);
       ctx.stroke();
     }
-    
+
+    // Warp speed effect
+    if (player.warpSpeed && (Math.abs(player.vx) > 1 || Math.abs(player.vy) > 1)) {
+      const spd = Math.sqrt(player.vx * player.vx + player.vy * player.vy);
+      const angle = Math.atan2(player.vy, player.vx);
+      for (let i = 0; i < 6; i++) {
+        const t = i / 6;
+        const trailLen = spd * 6;
+        const wx = player.x - Math.cos(angle) * t * trailLen;
+        const wy = player.y - Math.sin(angle) * t * trailLen;
+        ctx.fillStyle = `hsla(${player.hue}, 100%, 70%, ${0.3 * (1 - t)})`;
+        ctx.beginPath();
+        ctx.arc(wx, wy, (player.radius * 0.6 * (1 - t)) / zoomLevel, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
     ctx.restore();
   }
   

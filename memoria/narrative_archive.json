@@ -586,7 +586,10 @@
         "resplandecer",
         "silenciar",
         "bramar",
-        "efulger"
+        "efulger",
+        "efêmero",
+        "perene",
+        "florescer"
       ]
     },
     "rhythms": {
@@ -600,8 +603,8 @@
       },
       "metaphorDensity": 0.3
     },
-    "evolution": 0.028000000000000018,
-    "lastEvolution": 1787364365624
+    "evolution": 0.12800000000000009,
+    "lastEvolution": 1787367367506
   },
   "params": {
     "maxChronicleEntries": 10000,
@@ -626,6 +629,6 @@
     ],
     "voiceEvolutionRate": 0.001
   },
-  "savedAt": 1787364365624,
+  "savedAt": 1787367373317,
   "version": "1.0.0"
 }

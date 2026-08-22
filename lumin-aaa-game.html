@@ -235,9 +235,11 @@ window.addEventListener('keydown', e => {
   if ((e.key === 'r' || e.key === 'Enter') && deathScreen.classList.contains('active')) {
     resetGame();
   }
+  if (e.key === 'Shift') player.sprinting = true;
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;
+  if (e.key === 'Shift') player.sprinting = false;
 });
 canvas.addEventListener('mousemove', e => {
   mouse.x = e.clientX;
@@ -280,7 +282,8 @@ const player = {
   alive: true,
   respawnTimer: 0,
   shield: false,
-  speedBoost: false
+  speedBoost: false,
+  sprinting: false
 };
 
 let score = 0;
@@ -784,7 +787,7 @@ function update() {
   }
   
   // Player movement - keyboard
-  const speed = player.speedBoost ? 7 : 5;
+  const speed = (player.speedBoost ? 7 : 5) * (player.sprinting ? 1.6 : 1);
   let dx = 0, dy = 0;
   if (keys['arrowleft'] || keys['a']) dx -= 1;
   if (keys['arrowright'] || keys['d']) dx += 1;

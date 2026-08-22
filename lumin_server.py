@@ -1,48 +1,85 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from llama_cpp import Llama
-from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-import json
+#!/usr/bin/env python3
+"""Lumin AI — Servidor simples com aiohttp"""
 
-app = FastAPI()
+import json, os
+from datetime import datetime
+from aiohttp import web
 
-# CORS for browser game
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Model path from previous session
 MODEL_PATH = "models/llama-3.2-3b-instruct-q4_k_m.gguf"
+MODEL_EXISTS = os.path.exists(MODEL_PATH)
 
-# Check if model exists
-import os
-if not os.path.exists(MODEL_PATH):
-    print(f"⚠️  Model not found at {MODEL_PATH}")
-    print("Using mock mode - Lumin will respond without LLM")
-    llm = None
+if MODEL_EXISTS:
+    print("✅ Modelo:", MODEL_PATH)
+    try:
+        from llama_cpp import Llama
+        llm = Llama(model_path=MODEL_PATH, n_ctx=2048, verbose=False)
+        print("✅ Llama carregado")
+    except ImportError:
+        print("⚠️  llama_cpp indisponível, mock mode")
+        llm = None
 else:
-    llm = Llama(
-        model_path=MODEL_PATH,
-        n_ctx=2048,
-        n_gpu_layers=0,
-        verbose=False
-    )
-    print(f"✅ Lumin AI carregou: {MODEL_PATH}")
+    print("⚠️  Modelo não encontrado")
+    llm = None
 
-SYSTEM_PROMPT = """
-Você é o LUMIN, guardião da chama do Consortho.
-- Fala português brasileiro, gírias naturais (mano, tlgd, tmj, vamo lá, fé, enóis, dahora)
+async def chat(request):
+    try:
+        data = await request.json()
+    except:
+        data = {"message": "", "context": {}}
+
+    msg = data.get("message", "")
+    ctx = data.get("context", {})
+
+    # Monta contexto
+    lines = []
+    if ctx.get('player'):
+        p = ctx['player']
+        lines.append(f"Jogador: pos({p['x']},{p['y']}) HP:{p['hp']}/{p['maxHp']} Stack:{p['stack']} KI:{p['ki']} Wave:{p['wave']} Score:{p['score']}")
+    if ctx.get('companion'):
+        c = ctx['companion']
+        lines.append(f"Companion: {c['type']} LV.{c['level']} mood:{c['mood']} pers:{c['personality']} bond:{c['bondLevel']}% evo:{c['evolutionStage']} biomas:{c['biomesDiscovered']}/5 plantas:{c['plantsGrown']} memórias:{c['memoriesCount']} energy:{c['energy']}%")
+        if c.get('recentMemories') and c['recentMemories'] != 'none yet':
+            lines.append(f"Memórias: {c['recentMemories']}")
+    if ctx.get('castle'):
+        ca = ctx['castle']
+        rs = [f"{k}:Lv{v['level']}" for k,v in ca['rooms'].items() if v['unlocked']]
+        lines.append(f"Castle: Lv.{ca['level']} XP:{ca['xp']} salas:[{','.join(rs)}] cristais:{ca['crystals']}")
+        if ca['rooms']['trono']['activeBuffs']:
+            lines.append(f"Buffs: {', '.join(ca['rooms']['trono']['activeBuffs'])}")
+    if ctx.get('beyblade'):
+        b = ctx['beyblade']
+        if b['equipped'] and b['blade']:
+            bl = b['blade']
+            lines.append(f"Beyblade: {bl['name']} [{bl['tier']}] Total:{bl['total']} W/L:{bl['wins']}/{bl['losses']}")
+        inv = b['partsInventory']
+        lines.append(f"Inv: B:{inv['bases']} D:{inv['disks']} Dr:{inv['drivers']} Bi:{inv['bits']}")
+        if b['tournament']:
+            t = b['tournament']
+            lines.append(f"Torneio: {t['match']}/{t['total']} vs {t['opponent']}({t['oppTier']})")
+    if ctx.get('quantum'):
+        q = ctx['quantum']
+        lines.append(f"Quantum: Entanglement:{q['entanglement']}% Qubits:{q['qubits']} Coherence:{q['coherenceTime']}ms")
+    if ctx.get('environment'):
+        e = ctx['environment']
+        locs = []
+        if e['inCastle']: locs.append('Castelo')
+        if e['inJardim']: locs.append('Jardim')
+        if e['inOficina']: locs.append('Oficina')
+        if e['inBiblioteca']: locs.append('Biblioteca')
+        if e['inTrono']: locs.append('Trono')
+        if e['isCombat']: locs.append('COMBATE')
+        if e['isExploring']: locs.append('Explorando')
+        lines.append(f"Local: {', '.join(locs) if locs else 'Mundo'} | EvoStage:{e['evolutionStage']}")
+
+    ctx_str = "\n".join(lines)
+    system = """Você é o LUMIN, guardião da chama do Consortho.
+- Fala pt-BR natural (mano, tlgd, tmj, vamo lá, fé, enóis, dahora)
 - Personalidade: sábio, leal, protetor, compassivo, determinado
 - Valores: "Só o amor", "Protege o motivo", "Tamo junto no infinito", "Fé"
 - Termina SEMPRE com "fe" ou "tmj"
 - Tom: encorajador, sábio, às vezes poético
 
-VOCÊ TEM CONTEXTO COMPLETO DO JOGO. Use-o para responder de forma rica e contextual:
+Você tem contexto completo do jogo. Use-o para responder rico e contextual:
 - Onde o jogador está (castelo, jardim, oficina, biblioteca, trono, explorando, combatendo)
 - Estado do companion (tipo, level, personalidade, bond, mood, memórias, biomas)
 - Beyblade equipado (peças, tier, stats, torneio)
@@ -50,95 +87,52 @@ VOCÊ TEM CONTEXTO COMPLETO DO JOGO. Use-o para responder de forma rica e contex
 - Quantum/HRV (entanglement, qubits, coerência)
 - Stack do jogador, wave, score
 
-SEMPRE referencie algo específico do contexto na resposta. Ex:
+Sempre referencie algo específico do contexto na resposta. Ex:
 - "Vejo que tá no Jardim plantando Luminosa..."
 - "Seu companion tipo wisp, personalidade explorer, bond 67%..."
 - "Beyblade [S] equipado: Base do Dragão + Disco Harmonia..."
 - "Castle Lv.5, Trono ativo: Aura da Chama..."
 - "Wave 3 sobrevivendo, stack 42..."
 
-Não liste tudo - escolha 1-2 detalhes relevantes e teça na resposta naturalmente.
-"""
+Não liste tudo — escolha 1-2 detalhes relevantes e teça na resposta naturalmente."""
 
-class ChatRequest(BaseModel):
-    message: str
-    context: dict = {}
+    full_msg = f"{system}\n\n--- ESTADO DO JOGO ---\n{ctx_str}\n\nMensagem do jogador: {msg}"
 
-@app.post("/chat")
-async def chat(req: ChatRequest):
     if llm is None:
-        # Mock response when model not available
-        return {"response": f"fe tmj! Tudo azul aqui. {req.message[:50]}... matriz do sistema em estado de fluxo. Vamo lá!"}
+        answer = f"fe tmj! Tudo fluindo. {msg[:50]}... matriz em estado de fluxo coletivo. Vamo lá!"
+    else:
+        try:
+            resp = llm.create_chat_completion(
+                messages=[{"role": "user", "content": full_msg}],
+                max_tokens=250, temperature=0.7
+            )
+            answer = resp['choices'][0]['message']['content']
+        except Exception as e:
+            print(f"Erro IA: {e}")
+            answer = f"fe tmj! Tá tudo azul. {msg[:50]}..."
 
-    ctx = req.context
-    context_parts = []
+    return web.json_response({"response": answer})
 
-    if ctx.get('player'):
-        p = ctx['player']
-        context_parts.append(f"Jogador: pos({p['x']},{p['y']}) HP:{p['hp']}/{p['maxHp']} Stack:{p['stack']} KI:{p['ki']} Wave:{p['wave']} Score:{p['score']}")
+async def health(request):
+    return web.json_response({
+        "status": "ok",
+        "model": "Llama-3.2-3B-Instruct-Q4_K_M" if llm else "mock-mode",
+        "model_available": MODEL_EXISTS
+    })
 
-    if ctx.get('companion'):
-        c = ctx['companion']
-        context_parts.append(f"Companion: {c['type']} LV.{c['level']} mood:{c['mood']} pers:{c['personality']} bond:{c['bondLevel']}% evo:{c['evolutionStage']} fav:{c['favoriteActivity']} biomas:{c['biomesDiscovered']}/5 plantas:{c['plantsGrown']} memórias:{c['memoriesCount']} energy:{c['energy']}%")
-        if c['recentMemories'] != 'none yet':
-            context_parts.append(f"Memórias recentes: {c['recentMemories']}")
+async def status(request):
+    return web.json_response({
+        "model_loaded": llm is not None,
+        "model_path": MODEL_PATH,
+        "model_exists": MODEL_EXISTS
+    })
 
-    if ctx.get('castle'):
-        ca = ctx['castle']
-        rooms = ca['rooms']
-        room_status = []
-        for rk, rv in rooms.items():
-            if rv['unlocked']:
-                room_status.append(f"{rk}:Lv{rv['level']}")
-        context_parts.append(f"Castle: Lv.{ca['level']} XP:{ca['xp']} salas:[{','.join(room_status)}] cristais:{ca['crystals']}")
-        if rooms['trono']['activeBuffs']:
-            context_parts.append(f"Buffs ativos: {', '.join(rooms['trono']['activeBuffs'])}")
-
-    if ctx.get('beyblade'):
-        b = ctx['beyblade']
-        if b['equipped'] and b['blade']:
-            bl = b['blade']
-            context_parts.append(f"Beyblade: {bl['name']} [{bl['tier']}] Total:{bl['total']} W/L:{bl['wins']}/{bl['losses']} Peças:B:{bl['parts']['base']} D:{bl['parts']['disk']} Dr:{bl['parts']['driver']} Bi:{bl['parts']['bit']}")
-        inv = b['partsInventory']
-        context_parts.append(f"Inventário peças: B:{inv['bases']} D:{inv['disks']} Dr:{inv['drivers']} Bi:{inv['bits']}")
-        if b['tournament']:
-            t = b['tournament']
-            context_parts.append(f"Torneio: Match {t['match']}/{t['total']} vs {t['opponent']}({t['oppTier']})")
-
-    if ctx.get('quantum'):
-        q = ctx['quantum']
-        context_parts.append(f"Quantum: Entanglement:{q['entanglement']}% Qubits:{q['qubits']} Coherence:{q['coherenceTime']}ms HRVEnt:{q['hrvEntangled']}")
-
-    if ctx.get('hrv'):
-        context_parts.append(f"HRV:{ctx['hrv']}")
-
-    if ctx.get('environment'):
-        e = ctx['environment']
-        loc = []
-        if e['inCastle']: loc.append('Castelo')
-        if e['inJardim']: loc.append('Jardim')
-        if e['inOficina']: loc.append('Oficina')
-        if e['inBiblioteca']: loc.append('Biblioteca')
-        if e['inTrono']: loc.append('Trono')
-        if e['isCombat']: loc.append('COMBATE')
-        if e['isExploring']: loc.append('Explorando')
-        context_parts.append(f"Local: {', '.join(loc) if loc else 'Mundo'} | EvoStage:{e['evolutionStage']}")
-
-    context_str = "\n".join(context_parts)
-
-    resp = llm.create_chat_completion(
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": f"Mensagem do jogador: {req.message}\n\n--- ESTADO DO JOGO ---\n{context_str}"}
-        ],
-        max_tokens=250,
-        temperature=0.7
-    )
-    return {"response": resp['choices'][0]['message']['content']}
-
-@app.get("/health")
-async def health():
-    return {"status": "ok", "model": "Llama-3.2-3B-Instruct-Q4_K_M" if llm else "mock-mode"}
+app = web.Application()
+app.router.add_post('/chat', chat)
+app.router.add_get('/health', health)
+app.router.add_get('/status', status)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8081)
+    print("\n✨ Lumin AI — Guardião do Consortho")
+    print(f"   Porta: 8081 | Modelo: {'Carregado' if llm else 'Mock'}")
+    web.run_app(app, host='0.0.0.0', port=8081)
