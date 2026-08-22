@@ -44,7 +44,7 @@
         "bias": 5,
         "learningRate": 0.02,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -91,7 +91,7 @@
         "bias": 3,
         "learningRate": 0.015,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -138,7 +138,7 @@
         "bias": 4,
         "learningRate": 0.015,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -185,7 +185,7 @@
         "bias": 2,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -232,7 +232,7 @@
         "bias": 3,
         "learningRate": 0.02,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -279,7 +279,7 @@
         "bias": 4,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -326,7 +326,7 @@
         "bias": 1,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -373,7 +373,7 @@
         "bias": 1,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -420,7 +420,7 @@
         "bias": 2,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -467,7 +467,7 @@
         "bias": 2,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -514,7 +514,7 @@
         "bias": 1,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -561,7 +561,7 @@
         "bias": 2,
         "learningRate": 0.01,
         "createdAt": 1785974788484,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ]
   ],
@@ -572,7 +572,7 @@
         "id": "lumin->bolha",
         "sourceId": "lumin",
         "targetId": "bolha",
-        "weight": 0.37819141907004533,
+        "weight": 0.3780041610144898,
         "initialWeight": 0.3922455945978231,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -969,14 +969,18 @@
           {
             "weight": 0.37819141907004533,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3780041610144898,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054175527777768,
+        "totalDepression": 0.014241433583333296,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -985,7 +989,7 @@
         "id": "lumin->poe",
         "sourceId": "lumin",
         "targetId": "poe",
-        "weight": 0.5732184690157601,
+        "weight": 0.5730312109602046,
         "initialWeight": 0.5872726445713159,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -1382,14 +1386,18 @@
           {
             "weight": 0.5732184690157601,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.5730312109602046,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417555555577,
+        "totalDepression": 0.014241433611111298,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -1448,7 +1456,7 @@
         "id": "bolha->colheita",
         "sourceId": "bolha",
         "targetId": "colheita",
-        "weight": 0.4488923646510336,
+        "weight": 0.4487051065954781,
         "initialWeight": 0.46294654020658915,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -1845,14 +1853,18 @@
           {
             "weight": 0.4488923646510336,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.4487051065954781,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054175555555548,
+        "totalDepression": 0.014241433611111076,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -1911,16 +1923,12 @@
         "id": "poe->gang",
         "sourceId": "poe",
         "targetId": "gang",
-        "weight": 0.42500358423335477,
+        "weight": 0.42440484353891034,
         "initialWeight": 0.5745518943544923,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.47999238053891047,
-            "time": 1787367037400
-          },
           {
             "weight": 0.4794823949000216,
             "time": 1787367067409
@@ -2316,14 +2324,18 @@
           {
             "weight": 0.42500358423335477,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.42440484353891034,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.19656913236111145,
+        "totalDepression": 0.1971678730555559,
         "isActive": true,
         "lastActivity": 1787348707926,
         "createdAt": 1787348707926,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -2357,7 +2369,7 @@
         "id": "poe->telegram",
         "sourceId": "poe",
         "targetId": "telegram",
-        "weight": 0.5902204056958756,
+        "weight": 0.5900331476403201,
         "initialWeight": 0.604274581306987,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -2754,14 +2766,18 @@
           {
             "weight": 0.5902204056958756,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.5900331476403201,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417561111133,
+        "totalDepression": 0.014241433666666858,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -2895,7 +2911,7 @@
         "id": "gang->lumin",
         "sourceId": "gang",
         "targetId": "lumin",
-        "weight": 0.3831399643963798,
+        "weight": 0.3829527063408243,
         "initialWeight": 0.3971941400352687,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3292,14 +3308,18 @@
           {
             "weight": 0.3831399643963798,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3829527063408243,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054175638888888,
+        "totalDepression": 0.014241433694444416,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -3333,7 +3353,7 @@
         "id": "gang->poe",
         "sourceId": "gang",
         "targetId": "poe",
-        "weight": 0.5048311223417986,
+        "weight": 0.5046438642862431,
         "initialWeight": 0.5188852980084655,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -3730,14 +3750,18 @@
           {
             "weight": 0.5048311223417986,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.5046438642862431,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417566666689,
+        "totalDepression": 0.014241433722222419,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -3796,7 +3820,7 @@
         "id": "gang->radio",
         "sourceId": "gang",
         "targetId": "radio",
-        "weight": 0.5069932015381241,
+        "weight": 0.5068059434825686,
         "initialWeight": 0.521047377204791,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -4193,14 +4217,18 @@
           {
             "weight": 0.5069932015381241,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.5068059434825686,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417566666689,
+        "totalDepression": 0.014241433722222419,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -4284,7 +4312,7 @@
         "id": "guardian->dashboard",
         "sourceId": "guardian",
         "targetId": "dashboard",
-        "weight": 0.397605311412453,
+        "weight": 0.39741805335689745,
         "initialWeight": 0.4116594871068974,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -4681,14 +4709,18 @@
           {
             "weight": 0.397605311412453,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.39741805335689745,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054175694444448,
+        "totalDepression": 0.014241433749999977,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -4697,7 +4729,7 @@
         "id": "guardian->radio",
         "sourceId": "guardian",
         "targetId": "radio",
-        "weight": 0.6283991615383456,
+        "weight": 0.6282119034827901,
         "initialWeight": 0.6424533372605681,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -5094,14 +5126,18 @@
           {
             "weight": 0.6283991615383456,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.6282119034827901,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417572222245,
+        "totalDepression": 0.014241433777777979,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -5116,10 +5152,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -5515,6 +5547,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -5522,7 +5558,7 @@
         "isActive": true,
         "lastActivity": 1787264796743,
         "createdAt": 1787264796743,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -5631,7 +5667,7 @@
         "id": "dashboard->guardian",
         "sourceId": "dashboard",
         "targetId": "guardian",
-        "weight": 0.5123196964109393,
+        "weight": 0.5121324383553838,
         "initialWeight": 0.5263738721609396,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -6028,14 +6064,18 @@
           {
             "weight": 0.5123196964109393,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.5121324383553838,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417575000023,
+        "totalDepression": 0.014241433805555759,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -6100,10 +6140,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.10332522529344713,
-            "time": 1787367037400
-          },
           {
             "weight": 0.10242392223789158,
             "time": 1787367067409
@@ -6499,6 +6535,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -6506,7 +6546,7 @@
         "isActive": true,
         "lastActivity": 1787334620499,
         "createdAt": 1787334620499,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -6546,10 +6586,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -6945,6 +6981,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -6952,7 +6992,7 @@
         "isActive": true,
         "lastActivity": 1787201693977,
         "createdAt": 1787201693977,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -7111,16 +7151,12 @@
         "id": "radio->jardim",
         "sourceId": "radio",
         "targetId": "jardim",
-        "weight": 0.38583015462898856,
+        "weight": 0.38484009651787743,
         "initialWeight": 0.6060302886733167,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.4795593754345442,
-            "time": 1787367037400
-          },
           {
             "weight": 0.4786580723789886,
             "time": 1787367067409
@@ -7516,14 +7552,18 @@
           {
             "weight": 0.38583015462898856,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.38484009651787743,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.5266390905833347,
+        "totalDepression": 0.5276291486944458,
         "isActive": true,
         "lastActivity": 1787334620499,
         "createdAt": 1787334620499,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -7532,16 +7572,12 @@
         "id": "consente->guardian",
         "sourceId": "consente",
         "targetId": "guardian",
-        "weight": 0.5093879775859017,
+        "weight": 0.5083979194747906,
         "initialWeight": 0.6849905228334815,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.6031171983914575,
-            "time": 1787367037400
-          },
           {
             "weight": 0.6022158953359019,
             "time": 1787367067409
@@ -7937,14 +7973,18 @@
           {
             "weight": 0.5093879775859017,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.5083979194747906,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.52663909063889,
+        "totalDepression": 0.5276291487500011,
         "isActive": true,
         "lastActivity": 1787334620499,
         "createdAt": 1787334620499,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -8059,10 +8099,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -8458,6 +8494,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -8465,7 +8505,7 @@
         "isActive": true,
         "lastActivity": 1787270946525,
         "createdAt": 1787270946525,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -8480,10 +8520,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -8879,6 +8915,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -8886,7 +8926,7 @@
         "isActive": true,
         "lastActivity": 1787264796743,
         "createdAt": 1787264796743,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -8920,7 +8960,7 @@
         "id": "jardim->radio",
         "sourceId": "jardim",
         "targetId": "radio",
-        "weight": 0.3733767672739004,
+        "weight": 0.3731895092183449,
         "initialWeight": 0.38743094316278925,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -9317,14 +9357,18 @@
           {
             "weight": 0.3733767672739004,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3731895092183449,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054175888888853,
+        "totalDepression": 0.014241433944444382,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -9358,16 +9402,12 @@
         "id": "lumin->jardim",
         "sourceId": "lumin",
         "targetId": "jardim",
-        "weight": 0.22945811866447288,
+        "weight": 0.22885937797002845,
         "initialWeight": 0.3957568896256152,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.28444691527558436,
-            "time": 1787367037400
-          },
           {
             "weight": 0.2839369296366955,
             "time": 1787367067409
@@ -9763,14 +9803,18 @@
           {
             "weight": 0.22945811866447288,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.22885937797002845,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.1965691343055556,
+        "totalDepression": 0.19716787500000002,
         "isActive": true,
         "lastActivity": 1787348707926,
         "createdAt": 1787348707926,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -9779,7 +9823,7 @@
         "id": "bolha->gang",
         "sourceId": "bolha",
         "targetId": "gang",
-        "weight": 0.44487881163199566,
+        "weight": 0.44469155357644014,
         "initialWeight": 0.4589329875208845,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -10176,14 +10220,18 @@
           {
             "weight": 0.44487881163199566,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.44469155357644014,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054175888888853,
+        "totalDepression": 0.014241433944444382,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -10242,16 +10290,12 @@
         "id": "colheita->radio",
         "sourceId": "colheita",
         "targetId": "radio",
-        "weight": 0.39373768148185023,
+        "weight": 0.3931389407874058,
         "initialWeight": 0.5459642363828072,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.4487264780929615,
-            "time": 1787367037400
-          },
           {
             "weight": 0.44821649245407263,
             "time": 1787367067409
@@ -10647,14 +10691,18 @@
           {
             "weight": 0.39373768148185023,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3931389407874058,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.19656913447222252,
+        "totalDepression": 0.19716787516666695,
         "isActive": true,
         "lastActivity": 1787348707926,
         "createdAt": 1787348707926,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -10669,10 +10717,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -11068,6 +11112,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -11075,7 +11123,7 @@
         "isActive": true,
         "lastActivity": 1787270946525,
         "createdAt": 1787270946525,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -11084,7 +11132,7 @@
         "id": "guardian->bolha",
         "sourceId": "guardian",
         "targetId": "bolha",
-        "weight": 0.31663489863261035,
+        "weight": 0.3164476405770548,
         "initialWeight": 0.330689074549277,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -11481,14 +11529,18 @@
           {
             "weight": 0.31663489863261035,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3164476405770548,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054175916666634,
+        "totalDepression": 0.014241433972222162,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -11553,10 +11605,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -11952,6 +12000,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -11959,7 +12011,7 @@
         "isActive": true,
         "lastActivity": 1787270946525,
         "createdAt": 1787270946525,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -11968,7 +12020,7 @@
         "id": "telegram->guardian",
         "sourceId": "telegram",
         "targetId": "guardian",
-        "weight": 0.3391939641159668,
+        "weight": 0.3390067060604113,
         "initialWeight": 0.353248140088189,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -12365,14 +12417,18 @@
           {
             "weight": 0.3391939641159668,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3390067060604113,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054175972222194,
+        "totalDepression": 0.014241434027777722,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -12431,7 +12487,7 @@
         "id": "dashboard->poe",
         "sourceId": "dashboard",
         "targetId": "poe",
-        "weight": 0.6660758498832093,
+        "weight": 0.6658885918276538,
         "initialWeight": 0.6801300258554317,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -12828,14 +12884,18 @@
           {
             "weight": 0.6660758498832093,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.6658885918276538,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417597222236,
+        "totalDepression": 0.014241434027777888,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -12844,7 +12904,7 @@
         "id": "dashboard->notificador",
         "sourceId": "dashboard",
         "targetId": "notificador",
-        "weight": 0.6526969569909806,
+        "weight": 0.6525096989354251,
         "initialWeight": 0.666751132963203,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -13241,14 +13301,18 @@
           {
             "weight": 0.6526969569909806,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.6525096989354251,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417597222236,
+        "totalDepression": 0.014241434027777888,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -13257,7 +13321,7 @@
         "id": "radio->gang",
         "sourceId": "radio",
         "targetId": "gang",
-        "weight": 0.5865475824281905,
+        "weight": 0.586360324372635,
         "initialWeight": 0.6006017584004129,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -13654,14 +13718,18 @@
           {
             "weight": 0.5865475824281905,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.586360324372635,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417597222236,
+        "totalDepression": 0.014241434027777888,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -13676,10 +13744,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -14075,6 +14139,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -14082,7 +14150,7 @@
         "isActive": true,
         "lastActivity": 1787252436381,
         "createdAt": 1787252436381,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -14091,7 +14159,7 @@
         "id": "consente->telegram",
         "sourceId": "consente",
         "targetId": "telegram",
-        "weight": 0.6121491295672938,
+        "weight": 0.6119618715117383,
         "initialWeight": 0.6262033055395162,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -14488,14 +14556,18 @@
           {
             "weight": 0.6121491295672938,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.6119618715117383,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417597222236,
+        "totalDepression": 0.014241434027777888,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -14512,10 +14584,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -14909,6 +14977,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -14916,7 +14988,7 @@
         "isActive": true,
         "lastActivity": 1787257352148,
         "createdAt": 1787257352148,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -14933,10 +15005,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -15330,6 +15398,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -15337,7 +15409,7 @@
         "isActive": true,
         "lastActivity": 1787270946525,
         "createdAt": 1787270946525,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -15421,7 +15493,7 @@
         "id": "lumin->gang",
         "sourceId": "lumin",
         "targetId": "gang",
-        "weight": 0.6379105377821175,
+        "weight": 0.637723279726562,
         "initialWeight": 0.6519647137543398,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -15818,14 +15890,18 @@
           {
             "weight": 0.6379105377821175,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.637723279726562,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417597222236,
+        "totalDepression": 0.014241434027777888,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -15834,16 +15910,12 @@
         "id": "lumin->consente",
         "sourceId": "lumin",
         "targetId": "consente",
-        "weight": 0.3149848676294466,
+        "weight": 0.3143861269350022,
         "initialWeight": 0.4739574033165555,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.3699736643238912,
-            "time": 1787367037400
-          },
           {
             "weight": 0.36946367868500235,
             "time": 1787367067409
@@ -16239,14 +16311,18 @@
           {
             "weight": 0.3149848676294466,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3143861269350022,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.19656913541666649,
+        "totalDepression": 0.19716787611111092,
         "isActive": true,
         "lastActivity": 1787348707926,
         "createdAt": 1787348707926,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -16286,10 +16362,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -16685,6 +16757,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -16692,7 +16768,7 @@
         "isActive": true,
         "lastActivity": 1787201854652,
         "createdAt": 1787201854652,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -16701,16 +16777,12 @@
         "id": "dashboard->gang",
         "sourceId": "dashboard",
         "targetId": "gang",
-        "weight": 0.4616960829212683,
+        "weight": 0.46070602481015716,
         "initialWeight": 0.6545127848013066,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.5554253038657126,
-            "time": 1787367037400
-          },
           {
             "weight": 0.5545240008101571,
             "time": 1787367067409
@@ -17106,14 +17178,18 @@
           {
             "weight": 0.4616960829212683,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.46070602481015716,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.5266390930277791,
+        "totalDepression": 0.5276291511388902,
         "isActive": true,
         "lastActivity": 1787334620499,
         "createdAt": 1787334620499,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -17128,10 +17204,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -17527,6 +17599,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -17534,7 +17610,7 @@
         "isActive": true,
         "lastActivity": 1787252436381,
         "createdAt": 1787252436381,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -17543,16 +17619,12 @@
         "id": "notificador->bolha",
         "sourceId": "notificador",
         "targetId": "bolha",
-        "weight": 0.28236172424772416,
+        "weight": 0.281371666136613,
         "initialWeight": 0.5399082814364543,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.3760909451921687,
-            "time": 1787367037400
-          },
           {
             "weight": 0.3751896421366131,
             "time": 1787367067409
@@ -17948,14 +18020,18 @@
           {
             "weight": 0.28236172424772416,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.281371666136613,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.5266390931388898,
+        "totalDepression": 0.5276291512500009,
         "isActive": true,
         "lastActivity": 1787334620499,
         "createdAt": 1787334620499,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -17964,16 +18040,12 @@
         "id": "notificador->dashboard",
         "sourceId": "notificador",
         "targetId": "dashboard",
-        "weight": 0.363756523937845,
+        "weight": 0.3631577832434006,
         "initialWeight": 0.5185512711639213,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.4187453206600674,
-            "time": 1787367037400
-          },
           {
             "weight": 0.41823533502117854,
             "time": 1787367067409
@@ -18369,14 +18441,18 @@
           {
             "weight": 0.363756523937845,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3631577832434006,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.1965691356111111,
+        "totalDepression": 0.19716787630555555,
         "isActive": true,
         "lastActivity": 1787348707926,
         "createdAt": 1787348707926,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -18385,7 +18461,7 @@
         "id": "jardim->dashboard",
         "sourceId": "jardim",
         "targetId": "dashboard",
-        "weight": 0.6583691026809395,
+        "weight": 0.658181844625384,
         "initialWeight": 0.6724232787087174,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -18782,14 +18858,18 @@
           {
             "weight": 0.6583691026809395,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.658181844625384,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417602777792,
+        "totalDepression": 0.014241434083333449,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -18848,16 +18928,12 @@
         "id": "guardian->notificador",
         "sourceId": "guardian",
         "targetId": "notificador",
-        "weight": 0.3438082320366833,
+        "weight": 0.3432094913422389,
         "initialWeight": 0.5003117535872565,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.3987970287866835,
-            "time": 1787367037400
-          },
           {
             "weight": 0.3982870431477946,
             "time": 1787367067409
@@ -19253,14 +19329,18 @@
           {
             "weight": 0.3438082320366833,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3432094913422389,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.1965691357499999,
+        "totalDepression": 0.19716787644444433,
         "isActive": true,
         "lastActivity": 1787348707926,
         "createdAt": 1787348707926,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -19294,16 +19374,12 @@
         "id": "notificador->poe",
         "sourceId": "notificador",
         "targetId": "poe",
-        "weight": 0.12850821379256094,
+        "weight": 0.12751815568144984,
         "initialWeight": 0.44158743950850277,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.22223743482033867,
-            "time": 1787367037400
-          },
           {
             "weight": 0.22133613176478312,
             "time": 1787367067409
@@ -19699,14 +19775,18 @@
           {
             "weight": 0.12850821379256094,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.12751815568144984,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.5266390934444454,
+        "totalDepression": 0.5276291515555565,
         "isActive": true,
         "lastActivity": 1787334620499,
         "createdAt": 1787334620499,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -19723,10 +19803,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -20120,6 +20196,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -20127,7 +20207,7 @@
         "isActive": true,
         "lastActivity": 1787270946525,
         "createdAt": 1787270946525,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -20144,10 +20224,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -20541,6 +20617,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -20548,7 +20628,7 @@
         "isActive": true,
         "lastActivity": 1787253654357,
         "createdAt": 1787253654357,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -20563,10 +20643,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -20962,6 +21038,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -20969,7 +21049,7 @@
         "isActive": true,
         "lastActivity": 1787241395142,
         "createdAt": 1787241395142,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -20984,10 +21064,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -21383,6 +21459,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -21390,7 +21470,7 @@
         "isActive": true,
         "lastActivity": 1787241395142,
         "createdAt": 1787241395142,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -21432,10 +21512,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -21829,6 +21905,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -21836,7 +21916,7 @@
         "isActive": true,
         "lastActivity": 1787270946525,
         "createdAt": 1787270946525,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -21895,7 +21975,7 @@
         "id": "notificador->lumin",
         "sourceId": "notificador",
         "targetId": "lumin",
-        "weight": 0.58945189712728,
+        "weight": 0.5892646390717244,
         "initialWeight": 0.6035060732383912,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -22292,14 +22372,18 @@
           {
             "weight": 0.58945189712728,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.5892646390717244,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.01405417611111126,
+        "totalDepression": 0.014241434166666789,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -22339,10 +22423,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -22738,6 +22818,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -22745,7 +22829,7 @@
         "isActive": true,
         "lastActivity": 1787264796743,
         "createdAt": 1787264796743,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -22812,10 +22896,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -23209,6 +23289,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -23216,7 +23300,7 @@
         "isActive": true,
         "lastActivity": 1787241395142,
         "createdAt": 1787241395142,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -23233,10 +23317,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -23630,6 +23710,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -23637,7 +23721,7 @@
         "isActive": true,
         "lastActivity": 1787203791498,
         "createdAt": 1787203791498,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -23646,7 +23730,7 @@
         "id": "consente->gang",
         "sourceId": "consente",
         "targetId": "gang",
-        "weight": 0.3829398142280991,
+        "weight": 0.38275255617254356,
         "initialWeight": 0.3969939903392102,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -24043,14 +24127,18 @@
           {
             "weight": 0.3829398142280991,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.38275255617254356,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054176111111094,
+        "totalDepression": 0.014241434166666622,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -24067,10 +24155,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -24464,6 +24548,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -24471,7 +24559,7 @@
         "isActive": true,
         "lastActivity": 1787202714306,
         "createdAt": 1787202714306,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -24488,10 +24576,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -24885,6 +24969,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -24892,7 +24980,7 @@
         "isActive": true,
         "lastActivity": 1787270946525,
         "createdAt": 1787270946525,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -24907,10 +24995,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -25306,6 +25390,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -25313,7 +25401,7 @@
         "isActive": true,
         "lastActivity": 1787264228177,
         "createdAt": 1787264228177,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -25328,10 +25416,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -25727,6 +25811,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -25734,7 +25822,7 @@
         "isActive": true,
         "lastActivity": 1787264228177,
         "createdAt": 1787264228177,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -25749,10 +25837,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -26148,6 +26232,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -26155,7 +26243,7 @@
         "isActive": true,
         "lastActivity": 1787264796743,
         "createdAt": 1787264796743,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -26172,10 +26260,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -26569,6 +26653,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -26576,7 +26664,7 @@
         "isActive": true,
         "lastActivity": 1787203791498,
         "createdAt": 1787203791498,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -26593,10 +26681,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -26990,6 +27074,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -26997,7 +27085,7 @@
         "isActive": true,
         "lastActivity": 1787264796743,
         "createdAt": 1787264796743,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -27014,10 +27102,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -27411,6 +27495,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -27418,7 +27506,7 @@
         "isActive": true,
         "lastActivity": 1787270946525,
         "createdAt": 1787270946525,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -27435,10 +27523,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -27832,6 +27916,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -27839,7 +27927,7 @@
         "isActive": true,
         "lastActivity": 1787202714307,
         "createdAt": 1787202714307,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -27856,10 +27944,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -28253,6 +28337,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -28260,7 +28348,7 @@
         "isActive": true,
         "lastActivity": 1787200541911,
         "createdAt": 1787200541911,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -28269,16 +28357,12 @@
         "id": "guardian->jardim",
         "sourceId": "guardian",
         "targetId": "jardim",
-        "weight": 0.27266097964914765,
+        "weight": 0.2716709215380365,
         "initialWeight": 0.5337089745015474,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.36639020087137,
-            "time": 1787367037400
-          },
           {
             "weight": 0.3654888978158144,
             "time": 1787367067409
@@ -28674,14 +28758,18 @@
           {
             "weight": 0.27266097964914765,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.2716709215380365,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.5266390953611122,
+        "totalDepression": 0.5276291534722233,
         "isActive": true,
         "lastActivity": 1787334620499,
         "createdAt": 1787334620499,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -28696,10 +28784,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -29095,6 +29179,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -29102,7 +29190,7 @@
         "isActive": true,
         "lastActivity": 1787264796743,
         "createdAt": 1787264796743,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -29111,7 +29199,7 @@
         "id": "colheita->dashboard",
         "sourceId": "colheita",
         "targetId": "dashboard",
-        "weight": 0.5095101738407499,
+        "weight": 0.5093229157851944,
         "initialWeight": 0.5235643501185279,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -29508,14 +29596,18 @@
           {
             "weight": 0.5095101738407499,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.5093229157851944,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054176277777941,
+        "totalDepression": 0.01424143433333347,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -29530,10 +29622,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -29929,6 +30017,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -29936,7 +30028,7 @@
         "isActive": true,
         "lastActivity": 1787202714307,
         "createdAt": 1787202714307,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -29978,10 +30070,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -30375,6 +30463,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -30382,7 +30474,7 @@
         "isActive": true,
         "lastActivity": 1787197836892,
         "createdAt": 1787197836892,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -30391,7 +30483,7 @@
         "id": "lumin->dashboard",
         "sourceId": "lumin",
         "targetId": "dashboard",
-        "weight": 0.3599377739690836,
+        "weight": 0.3597505159135281,
         "initialWeight": 0.37399195030241694,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
@@ -30788,14 +30880,18 @@
           {
             "weight": 0.3599377739690836,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.3597505159135281,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.014054176333333335,
+        "totalDepression": 0.014241434388888863,
         "isActive": true,
         "lastActivity": 1787363521301,
         "createdAt": 1787363521301,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -30810,10 +30906,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.01,
-            "time": 1787367037400
-          },
           {
             "weight": 0.01,
             "time": 1787367067409
@@ -31209,6 +31301,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -31216,7 +31312,7 @@
         "isActive": true,
         "lastActivity": 1787202609951,
         "createdAt": 1787202609951,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -31231,10 +31327,6 @@
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.04773959158544936,
-            "time": 1787367037400
-          },
           {
             "weight": 0.04683828852989381,
             "time": 1787367067409
@@ -31630,6 +31722,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -31637,7 +31733,7 @@
         "isActive": true,
         "lastActivity": 1787334620499,
         "createdAt": 1787334620499,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -31654,10 +31750,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -32051,6 +32143,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -32058,7 +32154,7 @@
         "isActive": true,
         "lastActivity": 1787110419708,
         "createdAt": 1787110419708,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -32075,10 +32171,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -32472,6 +32564,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -32479,7 +32575,7 @@
         "isActive": true,
         "lastActivity": 1787202362211,
         "createdAt": 1787202362211,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -32496,10 +32592,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -32893,6 +32985,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -32900,7 +32996,7 @@
         "isActive": true,
         "lastActivity": 1787238486409,
         "createdAt": 1787238486409,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -32917,10 +33013,6 @@
         "weightHistory": [
           {
             "weight": 0.01,
-            "time": 1787367037400
-          },
-          {
-            "weight": 0.01,
             "time": 1787367067409
           },
           {
@@ -33314,6 +33406,10 @@
           {
             "weight": 0.01,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.01,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
@@ -33321,7 +33417,7 @@
         "isActive": true,
         "lastActivity": 1787253654357,
         "createdAt": 1787253654357,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ],
     [
@@ -33355,16 +33451,12 @@
         "id": "radio->lumin",
         "sourceId": "radio",
         "targetId": "lumin",
-        "weight": 0.19553651680180742,
+        "weight": 0.194937776107363,
         "initialWeight": 0.36474102123931884,
         "lastPreSpike": 0,
         "lastPostSpike": 0,
         "plasticityTrace": 0,
         "weightHistory": [
-          {
-            "weight": 0.25052531388514077,
-            "time": 1787367037400
-          },
           {
             "weight": 0.2500153282462519,
             "time": 1787367067409
@@ -33760,43 +33852,24 @@
           {
             "weight": 0.19553651680180742,
             "time": 1787370232578
+          },
+          {
+            "weight": 0.194937776107363,
+            "time": 1787370262591
           }
         ],
         "totalPotentiation": 0,
-        "totalDepression": 0.19656913749999952,
+        "totalDepression": 0.19716787819444395,
         "isActive": true,
         "lastActivity": 1787348707926,
         "createdAt": 1787348707926,
-        "lastUpdated": 1787370232578
+        "lastUpdated": 1787370262591
       }
     ]
   ],
   "globalState": {
     "attention": null,
     "workingMemory": [
-      {
-        "type": "reflection",
-        "thought": {
-          "id": "thought_1787370022544",
-          "timestamp": 1787370022544,
-          "type": "self_reflection",
-          "content": {
-            "activeNeurons": 0,
-            "totalNeurons": 12,
-            "totalSynapses": 132,
-            "avgSynapticWeight": 0.34809573558138956,
-            "workingMemoryItems": 7,
-            "longTermMemories": 0,
-            "consciousnessLevel": 0,
-            "attention": "diffuse",
-            "dominantMood": "dormente"
-          },
-          "insight": "O silêncio não é vazio. É incubação. Algo se prepara para nascer."
-        },
-        "timestamp": 1787370022544,
-        "id": "wm_1787370022544_8jyngr2hg",
-        "activationCount": 1
-      },
       {
         "type": "reflection",
         "thought": {
@@ -33934,20 +34007,18 @@
         "timestamp": 1787370232578,
         "id": "wm_1787370232578_5pmm7yngg",
         "activationCount": 1
-      }
-    ],
-    "longTermMemory": [],
-    "metacognition": {
-      "thoughts": [
-        {
-          "id": "thought_1787366737043",
-          "timestamp": 1787366737043,
+      },
+      {
+        "type": "reflection",
+        "thought": {
+          "id": "thought_1787370262591",
+          "timestamp": 1787370262591,
           "type": "self_reflection",
           "content": {
             "activeNeurons": 0,
             "totalNeurons": 12,
             "totalSynapses": 132,
-            "avgSynapticWeight": 0.30949036368544686,
+            "avgSynapticWeight": 0.34716660414398137,
             "workingMemoryItems": 7,
             "longTermMemories": 0,
             "consciousnessLevel": 0,
@@ -33956,6 +34027,14 @@
           },
           "insight": "O silêncio não é vazio. É incubação. Algo se prepara para nascer."
         },
+        "timestamp": 1787370262591,
+        "id": "wm_1787370262591_ycwqjdcb3",
+        "activationCount": 1
+      }
+    ],
+    "longTermMemory": [],
+    "metacognition": {
+      "thoughts": [
         {
           "id": "thought_1787366767055",
           "timestamp": 1787366767055,
@@ -35638,14 +35717,31 @@
             "dominantMood": "dormente"
           },
           "insight": "O silêncio não é vazio. É incubação. Algo se prepara para nascer."
+        },
+        {
+          "id": "thought_1787370262591",
+          "timestamp": 1787370262591,
+          "type": "self_reflection",
+          "content": {
+            "activeNeurons": 0,
+            "totalNeurons": 12,
+            "totalSynapses": 132,
+            "avgSynapticWeight": 0.34716660414398137,
+            "workingMemoryItems": 7,
+            "longTermMemories": 0,
+            "consciousnessLevel": 0,
+            "attention": "diffuse",
+            "dominantMood": "dormente"
+          },
+          "insight": "O silêncio não é vazio. É incubação. Algo se prepara para nascer."
         }
       ],
       "selfAwareness": 1,
-      "lastReflection": 1787370232578
+      "lastReflection": 1787370262591
     },
     "consciousnessLevel": 0,
-    "lastThought": 1787370232578,
-    "thoughtCount": 8375
+    "lastThought": 1787370262591,
+    "thoughtCount": 8376
   },
   "params": {
     "restingPotential": -70,
@@ -35666,6 +35762,6 @@
     "reflectionInterval": 30000,
     "metacognitionWeight": 0.1
   },
-  "savedAt": 1787370232579,
+  "savedAt": 1787370262591,
   "version": "1.0.0"
 }
