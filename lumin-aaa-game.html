@@ -345,9 +345,7 @@ let comboDisplay = document.getElementById('combo-display');
 let powerupIndicator = document.getElementById('powerup-indicator');
 
 // Systems
-let stars = [];
 let obstacles = [];
-let enemies = [];
 let projectiles = [];
 let enemyProjectiles = [];
 let powerups = [];
@@ -359,6 +357,7 @@ let bgLayers = [];
 function initStars() {
   stars = [];
   for (let l = 0; l < starLayers; l++) {
+    const layer = { depth: l + 1, stars: [] };
     const count = 100 + l * 80;
     for (let i = 0; i < count; i++) {
       layer.stars.push({
@@ -1150,6 +1149,11 @@ function hitPlayer(x, y) {
       document.getElementById('best-score').textContent = score;
       document.getElementById('death-best-score').textContent = score;
       try { localStorage.setItem('luminAAABest', String(score)); } catch(e) {}
+      // New record celebration
+      addFloatingText(W/2, H/2 - 80, '🏆 NOVO RECORDE!', 45, 38, '#ffd700');
+      playSound('powerup');
+      setTimeout(() => playSound('powerup'), 150);
+      setTimeout(() => playSound('powerup'), 300);
     }
     deathScreen.classList.add('active');
     pauseScreen.classList.remove('active');

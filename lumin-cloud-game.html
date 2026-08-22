@@ -25,7 +25,8 @@ canvas { display: block; width: 100vw; height: 100vh; }
   color: rgba(255,255,255,0.85);
   text-shadow: 0 0 10px rgba(0,255,255,0.6);
 }
-#score { font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+#score { font-size: 24px; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: color 0.2s; }
+#score:hover { color: #0ff; }
 #controls-hint {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
   color: rgba(255,255,255,0.4); font-size: 13px; letter-spacing: 1px;
@@ -139,9 +140,6 @@ scoreEl.addEventListener('click', () => {
   muted = !muted;
   updateScoreDisplay();
 });
-
-// Initial display
-updateScoreDisplay();
 
 let W, H, DPR;
 function resize() {
@@ -263,8 +261,14 @@ const player = {
 let muted = false;
 
 const keys = {};
-let score = 0;
-let gameTime = 0;
+
+function updateScoreDisplay() {
+  if (muted) {
+    scoreEl.textContent = '🔇 ' + score;
+  } else {
+    scoreEl.textContent = '⚡ ' + score;
+  }
+}
 let paused = false;
 let difficulty = 1;
 let combo = 1;
@@ -495,9 +499,13 @@ function resetGame() {
 function showGameOver() {
   finalScoreEl.textContent = score;
   if (score > bestScore) {
-    bestScore = score;
-    bestScoreEl.textContent = bestScore;
-    localStorage.setItem('luminCloudBest', String(bestScore));
+  bestScore = score;
+  bestScoreEl.textContent = bestScore;
+  localStorage.setItem('luminCloudBest', String(bestScore));
+  // New record celebration
+  addFloatingText(W/2, H/2 - 60, '🏆 NOVO RECORDE!', 45, 36, '#ffd700');
+  playSound('powerup');
+  setTimeout(() => playSound('powerup'), 200);
   }
   gameOverEl.classList.add('active');
 }
@@ -803,15 +811,15 @@ function update() {
     }
   }
 
-  // Powerup indicator
-  if (playerPowerType === 'rapid' && playerPowerTimer > 0) {
-    scoreEl.textContent = '⚡ ' + score + ' x' + combo + ' ⚡ ' + (muted ? '🔇' : '🔊');
-  } else if (playerPowerType === 'shield' && playerPowerTimer > 0) {
-    scoreEl.textContent = '🛡 ' + score + ' x' + combo + ' ' + (muted ? '🔇' : '🔊');
-  } else if (playerPowerType === 'bomb' && playerPowerTimer > 0) {
-    scoreEl.textContent = '💣 ' + score + ' x' + combo + ' ' + (muted ? '🔇' : '🔊');
-  } else {
-    scoreEl.textContent = '⚡ ' + score + ' x' + combo + ' ' + (muted ? '🔇' : '🔊');
+  // Powerup indicator — only update DOM when state actually changes
+  const newScoreText = playerPowerType === 'rapid' ? '⚡ ' + score + ' x' + combo + ' ⚡'
+    : playerPowerType === 'shield' ? '🛡 ' + score + ' x' + combo + ' 🛡'
+    : playerPowerType === 'bomb' ? '💣 ' + score + ' x' + combo + ' 💣'
+    : '⚡ ' + score + ' x' + combo;
+  const newScoreMuted = muted ? ' 🔇' : ' 🔊';
+  const targetText = newScoreText + newScoreMuted;
+  if (scoreEl.textContent !== targetText) {
+    scoreEl.textContent = targetText;
   }
 
   // Update powerups
