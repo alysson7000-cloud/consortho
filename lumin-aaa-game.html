@@ -1691,9 +1691,9 @@ function startGameOnInput() {
   }
 }
 
-window.addEventListener('keydown', startGameOnInput, { once: true });
-canvas.addEventListener('mousedown', startGameOnInput, { once: true });
-canvas.addEventListener('touchstart', startGameOnInput, { once: true });
+window.addEventListener('keydown', startGameOnInput);
+canvas.addEventListener('mousedown', startGameOnInput);
+canvas.addEventListener('touchstart', startGameOnInput);
 
 gameLoop();
 

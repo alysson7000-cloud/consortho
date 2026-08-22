@@ -567,7 +567,8 @@ app.get('/api/diamond/status', (req, res) => {
 });
 
 app.get('/api/diamond/layers', (req, res) => {
-  res.json(diamondProtocol.getAllLayersStatus());
+  const status = diamondProtocol.getDiamondStatus();
+  res.json(status.layers);
 });
 
 app.post('/api/diamond/trigger-evolution', (req, res) => {
