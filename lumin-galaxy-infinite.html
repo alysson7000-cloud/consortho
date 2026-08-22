@@ -864,8 +864,9 @@ function render() {
     const centerY = galaxy.stars.reduce((s, st) => s + st.y, 0) / galaxy.stars.length;
     
     const nebulaGrd = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, galaxy.galaxyRadius * 0.6);
-    nebulaGrd.addColorStop(0, `hsla(${galaxy.color.hue}, ${galaxy.color.sat}%, ${galaxy.color.light + 10}%, 0.08)`);
-    nebulaGrd.addColorStop(0.5, `hsla(${galaxy.color.hue + 20}, ${galaxy.color.sat}%, ${galaxy.color.light}%, 0.05)`);
+    nebulaGrd.addColorStop(0, `hsla(${galaxy.color.hue}, ${galaxy.color.sat}%, ${galaxy.color.light + 25}%, 0.12)`);
+    nebulaGrd.addColorStop(0.3, `hsla(${galaxy.color.hue + 15}, ${galaxy.color.sat + 10}%, ${galaxy.color.light + 15}%, 0.08)`);
+    nebulaGrd.addColorStop(0.6, `hsla(${galaxy.color.hue + 30}, ${galaxy.color.sat}%, ${galaxy.color.light}%, 0.04)`);
     nebulaGrd.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = nebulaGrd;
     ctx.fillRect(centerX - galaxy.galaxyRadius, centerY - galaxy.galaxyRadius, galaxy.galaxyRadius * 2, galaxy.galaxyRadius * 2);
@@ -1049,14 +1050,23 @@ function drawStarSystem(system) {
   ctx.arc(star.x, star.y, starSize * 4, 0, Math.PI * 2);
   ctx.fill();
   
-  // Star core
-  ctx.fillStyle = `hsl(${star.starType.hue}, 100%, 75%)`;
-  ctx.shadowColor = `hsl(${star.starType.hue}, 100%, 60%)`;
-  ctx.shadowBlur = 20 / zoomLevel;
+  // Core - brighter, more prominent
+  ctx.fillStyle = `hsl(${star.starType.hue}, 100%, 85%)`;
+  ctx.shadowColor = `hsl(${star.starType.hue}, 100%, 70%)`;
+  ctx.shadowBlur = 30 / zoomLevel;
   ctx.beginPath();
-  ctx.arc(star.x, star.y, starSize, 0, Math.PI * 2);
+  ctx.arc(star.x, star.y, starSize * 1.2, 0, Math.PI * 2);
   ctx.fill();
   ctx.shadowBlur = 0;
+  
+  // Bright white core center
+  const coreGrad = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, starSize * 0.6);
+  coreGrad.addColorStop(0, 'rgba(255,255,255,0.9)');
+  coreGrad.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = coreGrad;
+  ctx.beginPath();
+  ctx.arc(star.x, star.y, starSize * 0.6, 0, Math.PI * 2);
+  ctx.fill();
   
   // Star type indicator
   if (star.starType.id === 'binary') {

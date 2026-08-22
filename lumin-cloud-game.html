@@ -114,6 +114,8 @@ let score = 0;
 let gameTime = 0;
 let paused = false;
 let difficulty = 1;
+let combo = 1;
+let comboTimer = 0;
 let obstacles = [];
 let collectibles = [];
 let enemies = [];
@@ -121,6 +123,9 @@ let particles = [];
 let bgStars = [];
 let explosionActive = false;
 let explosions = [];
+
+// Floating texts for combo display
+let floatingTexts = [];
 
 // ============================================================
 // INPUT
@@ -158,8 +163,9 @@ function resetGame() {
   player.vx = 0; player.vy = 0;
   player.trail = []; player.alive = true; player.invincible = 0;
   score = 0; gameTime = 0; difficulty = 1;
+  combo = 1; comboTimer = 0;
   obstacles = []; collectibles = []; enemies = [];
-  particles = []; explosions = [];
+  particles = []; explosions = []; floatingTexts = [];
   scoreEl.textContent = '⚡ 0';
   gameOverEl.classList.remove('active');
 }
@@ -177,6 +183,17 @@ function showGameOver() {
 // ============================================================
 // SPAWN
 // ============================================================
+function addFloatingText(x, y, text, hue, size, color) {
+  // Simple floating text via canvas - stored for render
+  floatingTexts.push({
+    x, y, text, hue: hue || 190, size: size || 24,
+    color: color || '#fff',
+    life: 1, maxLife: 1,
+    vy: -2,
+    glow: true
+  });
+}
+
 function spawnObstacle() {
   const side = Math.floor(Math.random() * 4);
   let x, y;
@@ -285,6 +302,12 @@ function update() {
   difficulty = 1 + Math.floor(gameTime / 1800) * 0.3;
   if (difficulty > 4) difficulty = 4;
   
+  // Combo timer decay
+  if (comboTimer > 0) {
+    comboTimer--;
+    if (comboTimer <= 0) combo = 1;
+  }
+  
   // Player movement
   const speed = 4.5;
   let dx = 0, dy = 0;
@@ -376,10 +399,22 @@ function update() {
     
     const dist = Math.sqrt((player.x - c.x) ** 2 + (player.y - c.y) ** 2);
     if (dist < player.radius + c.r) {
-      score += Math.floor(10 + 5 * difficulty);
+      const basePoints = Math.floor(10 + 5 * difficulty);
+      score += basePoints * combo;
+      combo++;
+      comboTimer = 120; // 2 seconds to next pickup
       emitParticles(c.x, c.y, 12, c.hue, 5, 20);
+      if (combo > 1) {
+        addFloatingText(c.x, c.y - 15, 'x' + combo + ' COMBO!', c.hue, 20, '#ffd700');
+      }
       collectibles.splice(i, 1);
-      scoreEl.textContent = '⚡ ' + score;
+      // Combo display in HUD
+  const comboEl = document.getElementById('combo-display');
+  if (combo > 1) {
+    scoreEl.textContent = '⚡ ' + score + ' x' + combo;
+  } else {
+    scoreEl.textContent = '⚡ ' + score;
+  }
     }
   }
   
@@ -687,6 +722,22 @@ function render() {
     ctx.fill();
     ctx.globalAlpha = 1;
     ctx.restore();
+  });
+  
+  // Floating texts
+  floatingTexts.forEach(ft => {
+    ctx.globalAlpha = ft.life;
+    ctx.font = `bold ${ft.size}px Orbitron`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (ft.glow) {
+      ctx.shadowColor = `hsla(${ft.hue}, 100%, 60%, 0.6)`;
+      ctx.shadowBlur = 15;
+    }
+    ctx.fillStyle = ft.color;
+    ctx.fillText(ft.text, ft.x, ft.y);
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
   });
   
   // Paused overlay (canvas HUD)
