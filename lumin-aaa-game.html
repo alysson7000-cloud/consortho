@@ -784,8 +784,9 @@ function updateHUD() {
   if (muteInd) {
     muteInd.textContent = muted ? '🔇' : '🔊';
     muteInd.style.opacity = muted ? '1' : '0.4';
+    muteInd.style.cursor = 'pointer';
   }
-}
+};
 
 // Click on mute indicator to toggle
 const muteIndEl = document.getElementById('mute-indicator');
@@ -924,19 +925,19 @@ function update() {
           player.comboTimer = 180; // 3 seconds
           addFloatingText(e.x, e.y - 20, '+' + (e.score * player.combo), e.hue, 28, '#ffd700');
           if (player.combo > 1) {
-            comboDisplay.textContent = 'x' + player.combo + ' COMBO!';
-            comboDisplay.style.opacity = 1;
-            comboDisplay.style.transform = 'translate(-50%, -50%) scale(1.2)';
-            setTimeout(() => {
-              comboDisplay.style.transform = 'translate(-50%, -50%) scale(1)';
-              setTimeout(() => { comboDisplay.style.opacity = 0; }, 300);
-            }, 500);
-            playSound('combo');
-          }
-          spawnExplosionRing(e.x, e.y, e.hue, 80, 20);
-          enemies.splice(j, 1);
-          updateHUD();
-        } else {
+                comboDisplay.textContent = 'x' + player.combo + ' COMBO!';
+                comboDisplay.style.opacity = 1;
+                comboDisplay.style.transform = 'translate(-50%, -50%) scale(1.2)';
+                setTimeout(() => {
+                  comboDisplay.style.transform = 'translate(-50%, -50%) scale(1)';
+                  setTimeout(() => { comboDisplay.style.opacity = 0; }, 300);
+                }, 500);
+                playSound('combo');
+              }
+              spawnExplosionRing(e.x, e.y, e.hue, 80, 20);
+              enemies.splice(j, 1);
+              updateHUD();
+            } else {
           addFloatingText(e.x, e.y - 10, '💥', e.hue, 16, '#fff');
         }
         projectiles.splice(i, 1);
