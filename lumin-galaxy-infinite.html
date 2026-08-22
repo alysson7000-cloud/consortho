@@ -232,9 +232,10 @@ window.addEventListener('mousemove', e => {
 });
 window.addEventListener('keydown', e => {
   keys[e.key.toLowerCase()] = true;
+  if (!audioCtx) initAudio();
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   if (e.key === 'Escape') togglePause();
   if (e.key === 'r' && deathState) resetGame();
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;

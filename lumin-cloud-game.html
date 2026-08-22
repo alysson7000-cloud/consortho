@@ -97,6 +97,93 @@ window.addEventListener('resize', resize);
 resize();
 
 // ============================================================
+// WEB AUDIO — Sons
+// ============================================================
+let audioCtx = null;
+let masterGain = null;
+
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0.3;
+  masterGain.connect(audioCtx.destination);
+}
+
+function playSound(type) {
+  if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+  if (type === 'shoot') {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(masterGain);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(600, now);
+    osc.frequency.exponentialRampToValueAtTime(200, now + 0.08);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+    osc.start(now); osc.stop(now + 0.08);
+  }
+  if (type === 'explosion') {
+    const bufferSize = audioCtx.sampleRate * 0.4;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2);
+    }
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    const gain = audioCtx.createGain();
+    const filter = audioCtx.createBiquadFilter();
+    noise.connect(filter); filter.connect(gain); gain.connect(masterGain);
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(800, now);
+    filter.frequency.exponentialRampToValueAtTime(80, now + 0.4);
+    gain.gain.setValueAtTime(0.25, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+    noise.start(now); noise.stop(now + 0.4);
+  }
+  if (type === 'powerup') {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(masterGain);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(500, now);
+    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.15);
+    gain.gain.setValueAtTime(0.1, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+    osc.start(now); osc.stop(now + 0.15);
+  }
+  if (type === 'pickup') {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(masterGain);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, now);
+    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+    osc.start(now); osc.stop(now + 0.1);
+  }
+  if (type === 'hit') {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(masterGain);
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(120, now);
+    osc.frequency.exponentialRampToValueAtTime(40, now + 0.12);
+    gain.gain.setValueAtTime(0.15, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc.start(now); osc.stop(now + 0.12);
+  }
+}
+
+// Auto-start audio on first interaction
+function ensureAudio() {
+  if (!audioCtx) initAudio();
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+// ============================================================
 // STATE
 // ============================================================
 const player = {
@@ -185,6 +272,7 @@ let floatingTexts = [];
 let prevKeys = {};
 window.addEventListener('keydown', e => {
   keys[e.key.toLowerCase()] = true;
+  ensureAudio();
   if (e.key === 'Escape') paused = !paused;
   if ((e.key === 'r' || e.key === 'Enter') && !player.alive) { resetGame(); }
 
@@ -428,6 +516,43 @@ function update() {
   if (player.trail.length > 18) player.trail.pop();
   player.trail.forEach(t => t.life -= 0.055);
   player.trail = player.trail.filter(t => t.life > 0);
+
+  // Shooting (spacebar or mouse)
+  if (player.alive && (keys[' '] || keys['space'] || mouse.down)) {
+    const angle = Math.atan2(player.vy || 0.01, player.vx || 0.01);
+    if (player.vx === 0 && player.vy === 0) {
+      // Default shoot direction: toward mouse or down
+      const aimAngle = Math.atan2((mouse.y || H/2) - player.y, (mouse.x || W/2) - player.x) || 0;
+      projectiles.push({
+        x: player.x + Math.cos(aimAngle) * player.radius,
+        y: player.y + Math.sin(aimAngle) * player.radius,
+        vx: Math.cos(aimAngle) * 6,
+        vy: Math.sin(aimAngle) * 6,
+        r: 4, hue: player.hue, life: 80, damage: 1
+      });
+      playSound('shoot');
+    } else {
+      projectiles.push({
+        x: player.x + Math.cos(angle) * player.radius,
+        y: player.y + Math.sin(angle) * player.radius,
+        vx: Math.cos(angle) * 6,
+        vy: Math.sin(angle) * 6,
+        r: 4, hue: player.hue, life: 80, damage: 1
+      });
+      playSound('shoot');
+    }
+    // Rapid fire when powerup active
+    if (playerPowerType === 'rapid' && playerPowerTimer > 0) {
+      const spreadAngle = angle + (Math.random() - 0.5) * 0.3;
+      projectiles.push({
+        x: player.x + Math.cos(spreadAngle) * player.radius,
+        y: player.y + Math.sin(spreadAngle) * player.radius,
+        vx: Math.cos(spreadAngle) * 6,
+        vy: Math.sin(spreadAngle) * 6,
+        r: 3, hue: player.hue + 30, life: 60, damage: 1
+      });
+    }
+  }
   
   player.pulse += 0.08;
   if (player.invincible > 0) player.invincible--;
@@ -501,6 +626,7 @@ function update() {
         addFloatingText(c.x, c.y - 15, 'x' + combo + ' COMBO!', c.hue, 20, '#ffd700');
       }
       collectibles.splice(i, 1);
+      playSound('pickup');
       // Combo display in HUD
   const comboEl = document.getElementById('combo-display');
   if (combo > 1) {
@@ -744,7 +870,30 @@ function render() {
     
     ctx.restore();
   });
-  
+
+  // Player projectiles
+  projectiles.forEach(p => {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    // Glow trail
+    const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, p.r * 3);
+    grd.addColorStop(0, `hsla(${p.hue}, 100%, 80%, 0.6)`);
+    grd.addColorStop(1, `hsla(${p.hue}, 100%, 60%, 0)`);
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(0, 0, p.r * 3, 0, Math.PI * 2);
+    ctx.fill();
+    // Bullet core
+    ctx.fillStyle = `hsl(${p.hue}, 100%, 80%)`;
+    ctx.shadowColor = `hsl(${p.hue}, 100%, 60%)`;
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    ctx.arc(0, 0, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  });
+
   // Obstacles
   obstacles.forEach(o => {
     ctx.save();
