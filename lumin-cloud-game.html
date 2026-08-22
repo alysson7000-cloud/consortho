@@ -611,11 +611,13 @@ function update() {
   player.x = Math.max(player.radius, Math.min(W - player.radius, player.x));
   player.y = Math.max(player.radius, Math.min(H - player.radius, player.y));
   
-  // Trail
-  player.trail.unshift({ x: player.x, y: player.y, life: 1 });
-  if (player.trail.length > 18) player.trail.pop();
-  player.trail.forEach(t => t.life -= 0.055);
-  player.trail = player.trail.filter(t => t.life > 0);
+  // Sprint trail effect
+  if (player.sprinting && (Math.abs(player.vx) > 0.3 || Math.abs(player.vy) > 0.3)) {
+    player.trail.unshift({ x: player.x, y: player.y, life: 1, sprint: true });
+    if (player.trail.length > 25) player.trail.pop();
+    player.trail.forEach(t => t.life -= 0.06);
+    player.trail = player.trail.filter(t => t.life > 0);
+  }
 
   // Shooting cooldown
   if (player.shootCooldown > 0) player.shootCooldown--;
@@ -1059,10 +1061,17 @@ function render() {
     player.trail.forEach((t, i) => {
       const alpha = t.life * 0.5;
       const r = player.radius * t.life * 0.6;
-      ctx.beginPath();
-      ctx.arc(t.x, t.y, r, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${player.hue + i * 3}, 100%, 60%, ${alpha})`;
-      ctx.fill();
+      if (t.sprint) {
+        ctx.beginPath();
+        ctx.arc(t.x, t.y, r * 1.3, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(50, 100%, 70%, ${alpha * 0.6})`;
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.arc(t.x, t.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${player.hue + i * 3}, 100%, 60%, ${alpha})`;
+        ctx.fill();
+      }
     });
   }
   
@@ -1197,6 +1206,7 @@ function render() {
 // ============================================================
 // GAME LOOP
 // ============================================================
+let prevKeys = {};
 function loop() {
   if (!player.alive && prevKeys['r'] && !keys['r']) { resetGame(); }
   if (!player.alive && prevKeys['enter'] && !keys['enter']) { resetGame(); }
