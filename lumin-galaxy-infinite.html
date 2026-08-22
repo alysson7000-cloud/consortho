@@ -812,7 +812,7 @@ function getNearestSystem(x, y) {
           if (!star.systemData) {
             star.systemData = generateStarSystem(star.x, star.y, star.systemSeed);
             star.systemData.starType = star.type;
-            star.systemData.name = generateStarName();
+            // Keep the name generated during galaxy generation — don't regenerate
           }
           nearest = star.systemData;
           nearest.x = star.x;
@@ -1356,7 +1356,7 @@ canvas.addEventListener('click', (e) => {
       if (!star.systemData) {
         star.systemData = generateStarSystem(star.x, star.y, star.systemSeed);
         star.systemData.starType = star.type;
-        star.systemData.name = generateStarName();
+        // Name already set in generateStarSystem — don't regenerate
       }
       const sd = star.systemData;
       const dist = distance(world.x, world.y, sd.x, sd.y);
