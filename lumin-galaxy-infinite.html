@@ -352,6 +352,14 @@ let discoverySub = document.getElementById('discovery-sub');
 let toastTimeout = null;
 
 // Pause state
+let muteIndicatorGalaxy = document.getElementById('mute-indicator');
+if (muteIndicatorGalaxy) {
+  muteIndicatorGalaxy.style.cursor = 'pointer';
+  muteIndicatorGalaxy.addEventListener('click', () => {
+    muted = !muted;
+    updateHUD();
+  });
+}
 let pauseOverlay = document.getElementById('pause-overlay');
 
 // ============================================================

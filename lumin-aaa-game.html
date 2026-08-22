@@ -340,6 +340,15 @@ try {
   const saved = localStorage.getItem('luminAAABest');
   if (saved) document.getElementById('best-score').textContent = saved;
 } catch(e) {}
+// Click mute indicator to toggle
+const muteIndicatorAAA = document.getElementById('mute-indicator');
+if (muteIndicatorAAA) {
+  muteIndicatorAAA.addEventListener('click', () => {
+    muted = !muted;
+    updateHUD();
+  });
+}
+
 let pauseScreen = document.getElementById('pause-screen');
 let comboDisplay = document.getElementById('combo-display');
 let powerupIndicator = document.getElementById('powerup-indicator');
