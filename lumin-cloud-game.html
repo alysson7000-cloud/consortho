@@ -755,9 +755,7 @@ function update() {
   } else if (playerPowerType === 'bomb' && playerPowerTimer > 0) {
     scoreEl.textContent = '💣 ' + score + ' x' + combo;
   }
-    }
-  }
-  
+
   // Update powerups
   for (let i = powerups.length - 1; i >= 0; i--) {
     const pu = powerups[i];
