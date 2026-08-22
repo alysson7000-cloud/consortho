@@ -289,6 +289,11 @@ let level = 1;
 let difficulty = 1;
 let paused = false;
 let deathScreen = document.getElementById('death-screen');
+// Load best score from localStorage
+try {
+  const saved = localStorage.getItem('luminAAABest');
+  if (saved) document.getElementById('best-score').textContent = saved;
+} catch(e) {}
 let pauseScreen = document.getElementById('pause-screen');
 let comboDisplay = document.getElementById('combo-display');
 let powerupIndicator = document.getElementById('powerup-indicator');
@@ -1090,6 +1095,7 @@ function hitPlayer(x, y) {
     document.getElementById('final-score').textContent = score;
     if (score > parseInt(document.getElementById('best-score').textContent) || document.getElementById('best-score').textContent === '0') {
       document.getElementById('best-score').textContent = score;
+      try { localStorage.setItem('luminAAABest', String(score)); } catch(e) {}
     }
     deathScreen.classList.add('active');
     pauseScreen.classList.remove('active');

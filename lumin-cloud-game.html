@@ -53,6 +53,7 @@ canvas { display: block; width: 100vw; height: 100vh; }
 <div id="ui">
   <div id="score">⚡ 0</div>
   <div style="font-size:13px; opacity:0.5;">LUMIN CLOUD</div>
+  <div id="combo-display" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;font-weight:900;color:#ffd700;text-shadow:0 0 30px rgba(255,215,0,0.8);pointer-events:none;opacity:0;transition:opacity 0.3s;z-index:20;"></div>
 </div>
 <div id="controls-hint">← ↑ → ↓ ou WASD · ESC pausa</div>
 <div id="pause-screen" style="display:none;">
@@ -124,6 +125,57 @@ let bgStars = [];
 let explosionActive = false;
 let explosions = [];
 
+// ============================================================
+// POWERUPS
+// ============================================================
+const POWERUP_TYPES = [
+  { id: 'rapid', label: 'RAPIDEZ', hue: 190, color: '#00ffff', symbol: '⚡' },
+  { id: 'shield', label: 'ESCUDO', hue: 120, color: '#00ff64', symbol: '🛡' },
+  { id: 'bomb', label: 'BOMBA', hue: 50, color: '#ffaa00', symbol: '💣' },
+  { id: 'life', label: 'VIDA EXTRA', hue: 0, color: '#ff4444', symbol: '❤' }
+];
+
+let powerups = [];
+let playerPowerType = 'normal';
+let playerPowerTimer = 0;
+
+function spawnPowerup() {
+  const type = POWERUP_TYPES[Math.floor(Math.random() * POWERUP_TYPES.length)];
+  powerups.push({
+    x: Math.random() * (W - 100) + 50,
+    y: Math.random() * (H - 100) + 50,
+    r: 16,
+    hue: type.hue,
+    symbol: type.symbol,
+    type: type.id,
+    life: 800,
+    pulse: Math.random() * Math.PI * 2
+  });
+}
+
+function collectPowerup(pu) {
+  playSound('powerup');
+  emitParticles(pu.x, pu.y, 20, pu.hue, 6, 25);
+  addFloatingText(pu.x, pu.y - 20, pu.symbol + ' ' + pu.label, pu.hue, 22, '#fff');
+  
+  if (pu.type === 'rapid') {
+    playerPowerType = 'rapid';
+    playerPowerTimer = 600;
+  } else if (pu.type === 'shield') {
+    player.invincible = 300;
+    playerPowerType = 'shield';
+    playerPowerTimer = 300;
+  } else if (pu.type === 'bomb') {
+    playerPowerType = 'bomb';
+    playerPowerTimer = 90;
+    addFloatingText(pu.x, pu.y - 30, '💣 BOMBA! Pressione ESPACO', 50, 18, '#ffaa00');
+  } else if (pu.type === 'life') {
+    score += 100;
+    addFloatingText(pu.x, pu.y - 20, '+100 PUNSO', 0, 20, '#ff4444');
+  }
+}
+
+
 // Floating texts for combo display
 let floatingTexts = [];
 
@@ -135,6 +187,36 @@ window.addEventListener('keydown', e => {
   keys[e.key.toLowerCase()] = true;
   if (e.key === 'Escape') paused = !paused;
   if ((e.key === 'r' || e.key === 'Enter') && !player.alive) { resetGame(); }
+
+  // Bomb trigger
+  if (e.key === ' ' || e.key === 'Space') {
+    e.preventDefault();
+    if (playerPowerType === 'bomb' && playerPowerTimer > 0 && player.alive) {
+      playerPowerType = 'normal';
+      playerPowerTimer = 0;
+      spawnExplosion(player.x, player.y, 50, 40);
+      for (let i = enemies.length - 1; i >= 0; i--) {
+        const e = enemies[i];
+        const dist = Math.sqrt((player.x - e.x) ** 2 + (player.y - e.y) ** 2);
+        if (dist < 250) {
+          emitParticles(e.x, e.y, 15, e.hue, 5, 20);
+          score += 25 * combo;
+          enemies.splice(i, 1);
+        }
+      }
+      for (let i = obstacles.length - 1; i >= 0; i--) {
+        const o = obstacles[i];
+        const dist = Math.sqrt((player.x - o.x) ** 2 + (player.y - o.y) ** 2);
+        if (dist < 250) {
+          emitParticles(o.x, o.y, 10, o.hue || 0, 4, 15);
+          obstacles.splice(i, 1);
+        }
+      }
+      addFloatingText(player.x, player.y - 40, '💥 BOMBA!', 50, 36, '#ffaa00');
+      playSound('explosion');
+    }
+  }
+
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;
@@ -166,6 +248,7 @@ function resetGame() {
   combo = 1; comboTimer = 0;
   obstacles = []; collectibles = []; enemies = [];
   particles = []; explosions = []; floatingTexts = [];
+  powerups = []; playerPowerType = 'normal'; playerPowerTimer = 0;
   scoreEl.textContent = '⚡ 0';
   gameOverEl.classList.remove('active');
 }
@@ -302,6 +385,12 @@ function update() {
   difficulty = 1 + Math.floor(gameTime / 1800) * 0.3;
   if (difficulty > 4) difficulty = 4;
   
+  // Power timer decay
+  if (playerPowerTimer > 0) {
+    playerPowerTimer--;
+    if (playerPowerTimer <= 0) playerPowerType = 'normal';
+  }
+  
   // Combo timer decay
   if (comboTimer > 0) {
     comboTimer--;
@@ -346,6 +435,7 @@ function update() {
   // Spawn
   if (gameTime % Math.max(20, 60 - difficulty * 8) === 0) spawnObstacle();
   if (gameTime % 40 === 0) spawnCollectible();
+  if (gameTime % 500 === 0 && player.alive) spawnPowerup();
   if (gameTime % Math.max(40, 100 - difficulty * 12) === 0) spawnEnemy();
   
   // Update obstacles
@@ -400,7 +490,9 @@ function update() {
     const dist = Math.sqrt((player.x - c.x) ** 2 + (player.y - c.y) ** 2);
     if (dist < player.radius + c.r) {
       const basePoints = Math.floor(10 + 5 * difficulty);
-      score += basePoints * combo;
+      let bonus = 1;
+      if (playerPowerType === 'rapid') bonus = 2;
+      score += basePoints * combo * bonus;
       combo++;
       comboTimer = 120; // 2 seconds to next pickup
       emitParticles(c.x, c.y, 12, c.hue, 5, 20);
@@ -412,12 +504,41 @@ function update() {
   const comboEl = document.getElementById('combo-display');
   if (combo > 1) {
     scoreEl.textContent = '⚡ ' + score + ' x' + combo;
+    comboEl.textContent = 'x' + combo + ' COMBO!';
+    comboEl.style.opacity = 1;
+    setTimeout(() => { comboEl.style.opacity = 0; }, 1500);
   } else {
     scoreEl.textContent = '⚡ ' + score;
+  }
+  
+  // Powerup indicator
+  if (playerPowerType === 'rapid' && playerPowerTimer > 0) {
+    scoreEl.textContent = '⚡ ' + score + ' x' + combo + ' ⚡';
+  } else if (playerPowerType === 'shield' && playerPowerTimer > 0) {
+    scoreEl.textContent = '🛡 ' + score + ' x' + combo;
+  } else if (playerPowerType === 'bomb' && playerPowerTimer > 0) {
+    scoreEl.textContent = '💣 ' + score + ' x' + combo;
   }
     }
   }
   
+  // Update powerups
+  for (let i = powerups.length - 1; i >= 0; i--) {
+    const pu = powerups[i];
+    pu.life--;
+    pu.pulse += 0.06;
+    if (pu.life <= 0 || pu.x < -50 || pu.x > W + 50 || pu.y < -50 || pu.y > H + 50) {
+      powerups.splice(i, 1);
+      continue;
+    }
+    
+    const dist = Math.sqrt((player.x - pu.x) ** 2 + (player.y - pu.y) ** 2);
+    if (dist < player.radius + pu.r && player.alive) {
+      collectPowerup(pu);
+      powerups.splice(i, 1);
+    }
+  }
+
   // Update enemies
   for (let i = enemies.length - 1; i >= 0; i--) {
     const e = enemies[i];
@@ -548,6 +669,40 @@ function render() {
     ctx.restore();
   });
   
+  // Powerups
+  powerups.forEach(pu => {
+    const r = pu.r * (1 + 0.15 * Math.sin(pu.pulse + gameTime * 0.1));
+    ctx.save();
+    ctx.translate(pu.x, pu.y);
+    
+    // Outer glow
+    const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 3);
+    grd.addColorStop(0, `hsla(${pu.hue}, 100%, 70%, ${0.3 + 0.2 * Math.sin(pu.pulse + gameTime * 0.08)})`);
+    grd.addColorStop(1, `hsla(${pu.hue}, 100%, 70%, 0)`);
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 3, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Body
+    ctx.fillStyle = `hsl(${pu.hue}, 100%, 65%)`;
+    ctx.shadowColor = `hsl(${pu.hue}, 100%, 60%)`;
+    ctx.shadowBlur = 20;
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    
+    // Symbol
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 16px Orbitron';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(pu.symbol, 0, 0);
+    
+    ctx.restore();
+  });
+
   // Enemies
   enemies.forEach(e => {
     const pulse = 1 + 0.1 * Math.sin(gameTime * 0.1);
