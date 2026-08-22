@@ -263,15 +263,10 @@ canvas.addEventListener('touchmove', e => {
   mouse.y = t.clientY;
 }, { passive: false });
 
-// Mouse wheel zoom
-window.addEventListener('mousewheel', e => {
+// Mouse wheel zoom (modern 'wheel' event, replaces deprecated mousewheel/DOMMouseScroll)
+window.addEventListener('wheel', e => {
   e.preventDefault();
   targetZoom *= e.deltaY > 0 ? 1.08 : 1 / 1.08;
-  targetZoom = Math.max(0.05, Math.min(5, targetZoom));
-}, { passive: false });
-window.addEventListener('DOMMouseScroll', e => {
-  e.preventDefault();
-  targetZoom *= e.detail > 0 ? 1.08 : 1 / 1.08;
   targetZoom = Math.max(0.05, Math.min(5, targetZoom));
 }, { passive: false });
 
