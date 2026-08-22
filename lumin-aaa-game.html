@@ -88,8 +88,10 @@ canvas { display: block; }
 <div id="combo-display"></div>
 <div id="powerup-indicator"></div>
 <div id="pause-screen" class="active">
-  <h1>⏸ PAUSADO</h1>
-  <p>WASD/Setas para mover · ESC pausa · R reinicia</p>
+  <h1>⏸ AGUARDANDO</h1>
+  <p>WASD/Setas para mover · Mouse para apontar · Clique/Touch para atirar</p>
+  <p>ESC pausa · Espaço/Clique: bomba · R reinicia</p>
+  <p style="color:#0ff; font-size:14px; margin-top:8px; animation:pulse 1.5s ease-in-out infinite;">PRESSIONE QUALQUER TECLA PARA INICIAR</p>
 </div>
 <div id="death-screen">
   <h1>GAME OVER</h1>
@@ -1626,7 +1628,22 @@ function gameLoop() {
 }
 
 // Start
+let gameStarted = false;
 resetGame();
+
+function startGameOnInput() {
+  if (!gameStarted) {
+    gameStarted = true;
+    paused = false;
+    pauseScreen.classList.remove('active');
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  }
+}
+
+window.addEventListener('keydown', startGameOnInput, { once: true });
+canvas.addEventListener('mousedown', startGameOnInput, { once: true });
+canvas.addEventListener('touchstart', startGameOnInput, { once: true });
+
 gameLoop();
 
 console.log('%c⚡ LUMIN AAA CARREGADO ⚡', 'font-size:22px; color:#0ff; font-weight:bold;');

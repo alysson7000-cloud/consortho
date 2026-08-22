@@ -67,7 +67,7 @@ canvas { display: block; width: 100vw; height: 100vh; }
   <div style="font-size:13px; opacity:0.5;">LUMIN CLOUD</div>
   <div id="combo-display" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;font-weight:900;color:#ffd700;text-shadow:0 0 30px rgba(255,215,0,0.8);pointer-events:none;opacity:0;transition:opacity 0.3s;z-index:20;"></div>
 </div>
-<div id="controls-hint">← ↑ → ↓ ou WASD · ESC pausa</div>
+<div id="controls-hint">← ↑ → ↓ ou WASD · Toque para atirar · ESC pausa</div>
 <div id="scanlines"></div>
 <div id="pause-screen" style="display:none;">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:center;align-items:center;z-index:100;flex-direction:column;gap:20px;">
@@ -325,6 +325,56 @@ window.addEventListener('keyup', e => {
   if (e.key === 'Shift') player.sprinting = false;
 });
 
+// Touch/mobile controls
+let touchPos = { x: W/2, y: H/2, active: false };
+let touchId = null;
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  ensureAudio();
+  const t = e.changedTouches[0];
+  touchPos.x = t.clientX;
+  touchPos.y = t.clientY;
+  touchPos.active = true;
+  touchId = t.identifier;
+  // Tap = shoot
+  if (player.alive) {
+    const angle = Math.atan2(touchPos.y - player.y, touchPos.x - player.x);
+    projectiles.push({
+      x: player.x + Math.cos(angle) * player.radius,
+      y: player.y + Math.sin(angle) * player.radius,
+      vx: Math.cos(angle) * 6,
+      vy: Math.sin(angle) * 6,
+      r: 4, hue: player.hue, life: 80, damage: 1
+    });
+    playSound('shoot');
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  for (const t of e.changedTouches) {
+    if (t.identifier === touchId) {
+      touchPos.x = t.clientX;
+      touchPos.y = t.clientY;
+    }
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+  for (const t of e.changedTouches) {
+    if (t.identifier === touchId) {
+      touchPos.active = false;
+      touchId = null;
+    }
+  }
+});
+
+canvas.addEventListener('touchcancel', () => {
+  touchPos.active = false;
+  touchId = null;
+});
+
 // ============================================================
 // INIT
 // ============================================================
@@ -532,11 +582,13 @@ function update() {
   player.trail.forEach(t => t.life -= 0.055);
   player.trail = player.trail.filter(t => t.life > 0);
 
-  // Shooting (spacebar or mouse)
-  if (player.alive && (keys[' '] || keys['space'] || mouse.down)) {
-    const angle = Math.atan2(player.vy || 0.01, player.vx || 0.01);
+  // Shooting (spacebar, mouse, or touch)
+  if (player.alive && (keys[' '] || keys['space'] || mouse.down || touchPos.active)) {
+    const aimAngle = touchPos.active
+      ? Math.atan2(touchPos.y - player.y, touchPos.x - player.x)
+      : (mouse.y !== undefined ? Math.atan2((mouse.y || H/2) - player.y, (mouse.x || W/2) - player.x) : 0);
     if (player.vx === 0 && player.vy === 0) {
-      // Default shoot direction: toward mouse or down
+      // Default shoot direction: toward mouse/touch or down
       const aimAngle = Math.atan2((mouse.y || H/2) - player.y, (mouse.x || W/2) - player.x) || 0;
       projectiles.push({
         x: player.x + Math.cos(aimAngle) * player.radius,
@@ -548,17 +600,17 @@ function update() {
       playSound('shoot');
     } else {
       projectiles.push({
-        x: player.x + Math.cos(angle) * player.radius,
-        y: player.y + Math.sin(angle) * player.radius,
-        vx: Math.cos(angle) * 6,
-        vy: Math.sin(angle) * 6,
+        x: player.x + Math.cos(aimAngle) * player.radius,
+        y: player.y + Math.sin(aimAngle) * player.radius,
+        vx: Math.cos(aimAngle) * 6,
+        vy: Math.sin(aimAngle) * 6,
         r: 4, hue: player.hue, life: 80, damage: 1
       });
       playSound('shoot');
     }
     // Rapid fire when powerup active
     if (playerPowerType === 'rapid' && playerPowerTimer > 0) {
-      const spreadAngle = angle + (Math.random() - 0.5) * 0.3;
+      const spreadAngle = aimAngle + (Math.random() - 0.5) * 0.3;
       projectiles.push({
         x: player.x + Math.cos(spreadAngle) * player.radius,
         y: player.y + Math.sin(spreadAngle) * player.radius,
