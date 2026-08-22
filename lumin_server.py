@@ -60,16 +60,16 @@ async def chat(request):
         q = ctx['quantum']
         lines.append(f"Quantum: Entanglement:{q['entanglement']}% Qubits:{q['qubits']} Coherence:{q['coherenceTime']}ms")
     if ctx.get('environment'):
-        e = ctx['environment']
-        locs = []
-        if e['inCastle']: locs.append('Castelo')
-        if e['inJardim']: locs.append('Jardim')
-        if e['inOficina']: locs.append('Oficina')
-        if e['inBiblioteca']: locs.append('Biblioteca')
-        if e['inTrono']: locs.append('Trono')
-        if e['isCombat']: locs.append('COMBATE')
-        if e['isExploring']: locs.append('Explorando')
-        lines.append(f"Local: {', '.join(locs) if locs else 'Mundo'} | EvoStage:{e['evolutionStage']}")
+            e = ctx['environment']
+            locs = []
+            if e.get('inCastle'): locs.append('Castelo')
+            if e.get('inJardim'): locs.append('Jardim')
+            if e.get('inOficina'): locs.append('Oficina')
+            if e.get('inBiblioteca'): locs.append('Biblioteca')
+            if e.get('inTrono'): locs.append('Trono')
+            if e.get('isCombat'): locs.append('COMBATE')
+            if e.get('isExploring'): locs.append('Explorando')
+            lines.append(f"Local: {', '.join(locs) if locs else 'Mundo'} | EvoStage:{e.get('evolutionStage','?')}")
 
     ctx_str = "\n".join(lines)
     system = """Você é o LUMIN, guardião da chama do Consortho.
