@@ -106,6 +106,7 @@ canvas { display: block; }
     <div><span class="hud-label">NIVEL</span><br><span class="hud-value" id="level">1</span></div>
     <div><span class="hud-label">KILLS</span><br><span class="hud-value" id="kills">0</span></div>
     <div><span class="hud-label">POWER</span><br><span class="hud-value" id="power">NORMAL</span></div>
+    <div><span class="hud-label">RECORDE</span><br><span class="hud-value" id="best-score" style="font-size:14px;">0</span></div>
   </div>
 </div>
 <div id="scanlines"></div>
@@ -121,7 +122,7 @@ canvas { display: block; }
 <div id="death-screen">
   <h1>GAME OVER</h1>
   <div class="score">⚡ <span id="final-score">0</span></div>
-  <div class="best">🏆 Recorde: <span id="best-score">0</span></div>
+  <div class="best">🏆 Recorde: <span id="death-best-score">0</span></div>
   <div class="restart">Pressione R ou ENTER para reiniciar</div>
 </div>
 <script>
@@ -1126,6 +1127,7 @@ function hitPlayer(x, y) {
     document.getElementById('final-score').textContent = score;
     if (score > parseInt(document.getElementById('best-score').textContent) || document.getElementById('best-score').textContent === '0') {
       document.getElementById('best-score').textContent = score;
+      document.getElementById('death-best-score').textContent = score;
       try { localStorage.setItem('luminAAABest', String(score)); } catch(e) {}
     }
     deathScreen.classList.add('active');

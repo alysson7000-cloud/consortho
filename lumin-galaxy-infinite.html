@@ -332,6 +332,8 @@ let zoomLevel = 1;
 let targetZoom = 1;
 const ZOOM_SENSITIVITY = 0.08;
 let gameTime = 0;
+let bestResonance = 0;
+try { bestResonance = parseInt(localStorage.getItem('luminGalaxyBest') || '0'); } catch(e) {}
 let paused = true; // Start paused so user sees initial state
 let deathState = false; // No death in exploration game
 
@@ -572,7 +574,8 @@ function resetGame() {
   hideDiscoveryToast();
   galaxies = [];
   updateHUD();
-}
+  // Restore best resonance
+  try { bestResonance = parseInt(localStorage.getItem('luminGalaxyBest') || '0'); } catch(e) {}
 
 // ============================================================
 // PAUSE TOGGLE
@@ -829,9 +832,9 @@ function updateHUD() {
   document.getElementById('vel').textContent =
     Math.sqrt(player.vx * player.vx + player.vy * player.vy).toFixed(1);
   document.getElementById('lvl').textContent = player.level;
-  document.getElementById('resonance').textContent = player.resonance;
   document.getElementById('systems').textContent = player.systemsDiscovered;
   document.getElementById('planets').textContent = player.planetsDiscovered;
+  document.getElementById('resonance').textContent = player.resonance + ' 🌟 ' + bestResonance;
   
   // Star info
   const starNameEl = document.getElementById('star-name');
