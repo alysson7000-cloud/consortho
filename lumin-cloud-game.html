@@ -208,7 +208,8 @@ const player = {
   pulse: 0,
   alive: true,
   invincible: 0,
-  sprinting: false
+  sprinting: false,
+  shootCooldown: 0
 };
 
 const keys = {};
@@ -397,6 +398,7 @@ function resetGame() {
   player.x = W / 2; player.y = H / 2;
   player.vx = 0; player.vy = 0;
   player.trail = []; player.alive = true; player.invincible = 0;
+  player.shootCooldown = 0;
   score = 0; gameTime = 0; difficulty = 1;
   combo = 1; comboTimer = 0;
   obstacles = []; collectibles = []; enemies = [];
@@ -582,34 +584,40 @@ function update() {
   player.trail.forEach(t => t.life -= 0.055);
   player.trail = player.trail.filter(t => t.life > 0);
 
+  // Shooting cooldown
+  if (player.shootCooldown > 0) player.shootCooldown--;
+
   // Shooting (spacebar, mouse, or touch)
   if (player.alive && (keys[' '] || keys['space'] || mouse.down || touchPos.active)) {
     const aimAngle = touchPos.active
       ? Math.atan2(touchPos.y - player.y, touchPos.x - player.x)
       : (mouse.y !== undefined ? Math.atan2((mouse.y || H/2) - player.y, (mouse.x || W/2) - player.x) : 0);
-    if (player.vx === 0 && player.vy === 0) {
-      // Default shoot direction: toward mouse/touch or down
-      const aimAngle = Math.atan2((mouse.y || H/2) - player.y, (mouse.x || W/2) - player.x) || 0;
-      projectiles.push({
-        x: player.x + Math.cos(aimAngle) * player.radius,
-        y: player.y + Math.sin(aimAngle) * player.radius,
-        vx: Math.cos(aimAngle) * 6,
-        vy: Math.sin(aimAngle) * 6,
-        r: 4, hue: player.hue, life: 80, damage: 1
-      });
-      playSound('shoot');
-    } else {
-      projectiles.push({
-        x: player.x + Math.cos(aimAngle) * player.radius,
-        y: player.y + Math.sin(aimAngle) * player.radius,
-        vx: Math.cos(aimAngle) * 6,
-        vy: Math.sin(aimAngle) * 6,
-        r: 4, hue: player.hue, life: 80, damage: 1
-      });
-      playSound('shoot');
+    if (player.shootCooldown <= 0) {
+      if (player.vx === 0 && player.vy === 0) {
+        // Default shoot direction: toward mouse/touch or down
+        const a = aimAngle || 0;
+        projectiles.push({
+          x: player.x + Math.cos(a) * player.radius,
+          y: player.y + Math.sin(a) * player.radius,
+          vx: Math.cos(a) * 6,
+          vy: Math.sin(a) * 6,
+          r: 4, hue: player.hue, life: 80, damage: 1
+        });
+        playSound('shoot');
+      } else {
+        projectiles.push({
+          x: player.x + Math.cos(aimAngle) * player.radius,
+          y: player.y + Math.sin(aimAngle) * player.radius,
+          vx: Math.cos(aimAngle) * 6,
+          vy: Math.sin(aimAngle) * 6,
+          r: 4, hue: player.hue, life: 80, damage: 1
+        });
+        playSound('shoot');
+      }
+      player.shootCooldown = playerPowerType === 'rapid' ? 8 : 18;
     }
     // Rapid fire when powerup active
-    if (playerPowerType === 'rapid' && playerPowerTimer > 0) {
+    if (playerPowerType === 'rapid' && playerPowerTimer > 0 && player.shootCooldown <= 0) {
       const spreadAngle = aimAngle + (Math.random() - 0.5) * 0.3;
       projectiles.push({
         x: player.x + Math.cos(spreadAngle) * player.radius,
@@ -618,6 +626,7 @@ function update() {
         vy: Math.sin(spreadAngle) * 6,
         r: 3, hue: player.hue + 30, life: 60, damage: 1
       });
+      player.shootCooldown = 6;
     }
   }
   

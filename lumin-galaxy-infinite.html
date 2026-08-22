@@ -268,13 +268,13 @@ canvas.addEventListener('touchmove', e => {
 // Mouse wheel zoom
 window.addEventListener('mousewheel', e => {
   e.preventDefault();
-  zoomLevel *= e.deltaY > 0 ? 1.08 : 1 / 1.08;
-  zoomLevel = Math.max(0.05, Math.min(5, zoomLevel));
+  targetZoom *= e.deltaY > 0 ? 1.08 : 1 / 1.08;
+  targetZoom = Math.max(0.05, Math.min(5, targetZoom));
 }, { passive: false });
 window.addEventListener('DOMMouseScroll', e => {
   e.preventDefault();
-  zoomLevel *= e.detail > 0 ? 1.08 : 1 / 1.08;
-  zoomLevel = Math.max(0.05, Math.min(5, zoomLevel));
+  targetZoom *= e.detail > 0 ? 1.08 : 1 / 1.08;
+  targetZoom = Math.max(0.05, Math.min(5, targetZoom));
 }, { passive: false });
 
 // Trackpad touch for zoom
@@ -316,6 +316,7 @@ const player = {
 };
 
 let zoomLevel = 1;
+let targetZoom = 1;
 const ZOOM_SENSITIVITY = 0.08;
 let gameTime = 0;
 let paused = true; // Start paused so user sees initial state
@@ -716,6 +717,9 @@ function update() {
       player.harmonizeTarget = null;
     }
   }
+
+  // Smooth zoom interpolation
+  zoomLevel += (targetZoom - zoomLevel) * 0.15;
   
   // Auto-focus on nearby system
   const nearest = getNearestSystem(player.x, player.y);

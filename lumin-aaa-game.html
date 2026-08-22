@@ -1147,7 +1147,7 @@ function collectPowerup(pu) {
 }
 
 // ============================================================
-// TRIGGER BOMB MANUALLY
+// TRIGGER BOMB MANUALLY (called from main keydown handler)
 // ============================================================
 function triggerBombManually() {
   if (player.powerType === 'bomb' && player.powerTimer > 0) {
@@ -1157,12 +1157,6 @@ function triggerBombManually() {
     updateHUD();
   }
 }
-window.addEventListener('keydown', e => {
-  if (e.key === ' ' || e.key === 'Space') {
-    e.preventDefault();
-    triggerBombManually();
-  }
-});
 
 // ============================================================
 // RENDER
@@ -1637,6 +1631,8 @@ function startGameOnInput() {
     paused = false;
     pauseScreen.classList.remove('active');
     if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    addFloatingText(W/2, H/2 - 40, '⚡ LUMIN AAA', 190, 42, '#0ff');
+    addFloatingText(W/2, H/2 + 10, 'VAMOS BRINCAR!', 0, 24, '#ffd700');
   }
 }
 
