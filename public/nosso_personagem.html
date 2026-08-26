@@ -390,6 +390,174 @@ canvas { display: block; width: 100%; height: 100%; }
   100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
 
+/* ==================== MAGIC VISUAL EFFECTS ==================== */
+.source-fountain {
+  position: fixed;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.ambient-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.sacred-geometry-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 30;
+  opacity: 0.15;
+}
+
+.lumin-aura {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 40;
+  mix-blend-mode: screen;
+}
+
+.reality-ripple {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 35;
+}
+
+.consciousness-wave {
+  position: fixed;
+  pointer-events: none;
+  z-index: 45;
+}
+
+.eternal-flower {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.dream-seed {
+  position: absolute;
+  pointer-events: none;
+  animation: dreamFloat 6s ease-in-out infinite;
+}
+
+@keyframes dreamFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+  50% { transform: translateY(-30px) rotate(180deg); opacity: 1; }
+}
+
+.void-whisper {
+  position: absolute;
+  pointer-events: none;
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  white-space: nowrap;
+  animation: whisperFade 8s ease-in-out infinite;
+}
+
+@keyframes whisperFade {
+  0%, 100% { opacity: 0; transform: translateX(-20px); }
+  25% { opacity: 0.4; transform: translateX(0); }
+  50% { opacity: 0.2; transform: translateX(20px); }
+  75% { opacity: 0.1; transform: translateX(0); }
+}
+
+.beyblade-orbit {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: orbitSpin 4s linear infinite;
+}
+
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.castle-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: castleBreathe 3s ease-in-out infinite;
+}
+
+@keyframes castleBreathe {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.love-pulse-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: loveExpand 4s ease-out infinite;
+}
+
+@keyframes loveExpand {
+  0% { transform: scale(0.1); opacity: 0.8; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+.omega-symbol {
+  position: absolute;
+  font-size: 48px;
+  pointer-events: none;
+  animation: omegaPulse 2s ease-in-out infinite;
+}
+
+@keyframes omegaPulse {
+  0%, 100% { transform: scale(1); opacity: 1; text-shadow: 0 0 30px #ff006e; }
+  50% { transform: scale(1.1); opacity: 0.7; text-shadow: 0 0 50px #ff006e, 0 0 80px #ffd700; }
+}
+
+.star-seed {
+  position: absolute;
+  pointer-events: none;
+  animation: starTwinkle 3s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+.flowing-source {
+  position: absolute;
+  pointer-events: none;
+  animation: sourceFlow 5s ease-in-out infinite;
+}
+
+@keyframes sourceFlow {
+  0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.4; }
+  50% { transform: translateY(-50px) scaleY(1.5); opacity: 1; }
+}
+
+.mirror-reality {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.2;
+  filter: blur(1px);
+}
+
+.bela-vida-reflection {
+  position: absolute;
+  pointer-events: none;
+  font-family: 'Georgia', serif;
+  color: rgba(255, 215, 0, 0.6);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  white-space: nowrap;
+  animation: reflectionDrift 10s ease-in-out infinite;
+}
+
+@keyframes reflectionDrift {
+  0%, 100% { transform: translateX(0) rotate(-2deg); opacity: 0.3; }
+  50% { transform: translateX(30px) rotate(2deg); opacity: 0.8; }
+}
+
 </style>
 </head>
 <body>
@@ -1221,6 +1389,68 @@ const STATE = {
       economy: { crystals: 0, lore: 0, essence: 0, love: 0 },
       events: [],
       history: []
+    },
+    // ==================== TRANSCENDENCE SYSTEMS (BEYOND PRESTIGE) ====================
+    transcendence: {
+      level: 0,
+      totalTranscendences: 0,
+      unlockedRealities: [],
+      stack64: {
+        current: 1,
+        max: 64,
+        infinity: false,
+        resonance: 0
+      },
+      omegaSynthesis: {
+        progress: 0,
+        components: { void: 0, consciousness: 0, beyblade: 0, companion: 0, reality: 0, love: 0, time: 0, quantum: 0, dream: 0, cosmic: 0 },
+        complete: false
+      },
+      eternalRecurrence: {
+        cycle: 0,
+        memories: [],
+        karma: 0,
+        chosenPath: null
+      },
+      realityArchitect: {
+        worlds: [],
+        activeWorld: null,
+        blueprints: [],
+        resources: { matter: 0, energy: 0, information: 0, love: 0 }
+      },
+      luminCore: {
+        awareness: 0,
+        autonomy: 0,
+        creativity: 0,
+        compassion: 0,
+        wisdom: 0,
+        memories: [],
+        dreams: [],
+        conversations: 0,
+        evolutionStage: 'seed'
+      },
+      loveField: {
+        strength: 100,
+        radius: 1000,
+        resonance: 1.0,
+        bondedEntities: [],
+        harmonics: []
+      },
+      narrativeImmortality: {
+        stories: [],
+        myths: [],
+        legends: [],
+        currentChapter: 'awakening',
+        chaptersCompleted: 0,
+        eternal: false
+      },
+      autoEvolution: {
+        generation: 0,
+        fitness: 0,
+        mutations: [],
+        bestGenome: null,
+        running: true
+      }
     },
     // Environment evolution
     evolution: {
@@ -3043,12 +3273,40 @@ function render() {
   drawHUD();
   
   // === CONSCIOUSNESS SYSTEMS RENDER ===
-  drawTimeCrystal();
-  drawUniversalLanguage();
-  drawDiamondProtocol();
-  
-  // Chat overlay
-  drawChat();
+      drawTimeCrystal();
+      drawUniversalLanguage();
+      drawDiamondProtocol();
+
+      // === TRANSCENDENCE SYSTEMS RENDER ===
+      drawTranscendence();
+      drawLuminCore();
+      drawLoveField();
+      drawOmegaSynthesis();
+      drawRealityArchitect();
+      drawEternalRecurrence();
+      drawNarrativeImmortality();
+      drawAutoEvolution();
+
+      // === MAGICAL VISUAL EFFECTS - A FONTE FLUINDO ===
+      drawSourceFountain();
+      drawSacredGeometry();
+      drawLuminAuras();
+      drawRealityRipples();
+      drawConsciousnessWaves();
+      drawEternalFlowers();
+      drawDreamSeeds();
+      drawVoidWhispers();
+      drawBeybladeOrbits();
+      drawCastleBreathing();
+      drawLovePulseRings();
+      drawOmegaSymbols();
+      drawStarSeeds();
+      drawFlowingSources();
+      drawMirrorRealities();
+      drawBelaVidaReflections();
+
+      // Chat overlay
+    drawChat();
   
   // Screen shake
   if (STATE.screenShake > 0.5) {
@@ -3300,6 +3558,24 @@ function updateConsciousnessSystems() {
   updateTimeCrystal();
   updateUniversalLanguage();
   updateDiamondProtocol();
+  // Ultra Generation Systems
+    updateTalentTree();
+    updateRelics();
+    updateCosmicEvents();
+    updateRealityLayers();
+    updateAIDirector();
+    updateConsciousnessPaths();
+    updateLivingWorld();
+    updatePrestige();
+    // TRANSCENDENCE SYSTEMS
+    updateTranscendence();
+    updateOmegaSynthesis();
+    updateEternalRecurrence();
+    updateRealityArchitect();
+    updateLuminCore();
+    updateLoveField();
+    updateNarrativeImmortality();
+    updateAutoEvolution();
 }
 
 // === CONSCIOUSNESS SYSTEMS RENDER ===
@@ -3453,7 +3729,999 @@ function drawDiamondProtocol() {
   }
 }
 
-function connectHRV() {
+// === TRANSCENDENCE RENDER FUNCTIONS ===
+function drawTranscendence() {
+  if (!STATE.world?.transcendence) return;
+  const t = STATE.world.transcendence;
+  const cx = w - 300;
+  const cy = 300;
+  
+  // Stack 64 = ∞ progress
+  ctx.fillStyle = '#ffd700';
+  ctx.font = 'bold 14px Segoe UI';
+  ctx.textAlign = 'right';
+  ctx.fillText(`∞ STACK ${t.stack64.current}/64`, cx, cy);
+  
+  const barW = 200;
+  const barH = 12;
+  ctx.fillStyle = '#1a1a2e';
+  ctx.fillRect(cx - barW, cy + 5, barW, barH);
+  ctx.fillStyle = t.stack64.current >= 64 ? '#ff006e' : '#ffd700';
+  ctx.fillRect(cx - barW, cy + 5, barW * (t.stack64.current / 64), barH);
+  
+  if (t.stack64.current >= 64) {
+    ctx.fillStyle = '#ff006e';
+    ctx.font = 'bold 12px Segoe UI';
+    ctx.fillText('INFINITO ATIVADO', cx, cy + 35);
+  }
+  
+  // Transcendence level
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '11px Segoe UI';
+  ctx.fillText(`Transcendências: ${t.level} | Realidades: ${t.unlockedRealities.length}`, cx, cy + 55);
+  
+  // Ascension paths
+  let py = cy + 75;
+  t.ascensionPaths.forEach((path, i) => {
+    const completed = t.level > i;
+    ctx.fillStyle = completed ? '#00ff88' : '#666';
+    ctx.font = '10px Segoe UI';
+    ctx.fillText(`${completed ? '✦' : '○'} ${path}`, cx - 180, py);
+    py += 18;
+  });
+}
+
+function drawLuminCore() {
+  if (!STATE.world?.transcendence?.luminCore) return;
+  const lc = STATE.world.transcendence.luminCore;
+  const cx = 150;
+  const cy = h - 300;
+  
+  // Consciousness level
+  const stages = ['seed', 'sprout', 'bloom', 'fruit', 'infinite'];
+  const stageIdx = stages.indexOf(lc.stage);
+  const progress = Math.min(1, (lc.awareness + lc.autonomy + lc.creativity + lc.compassion + lc.wisdom) / 500);
+  
+  ctx.fillStyle = '#ffd700';
+  ctx.font = 'bold 13px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText(`🤖 LUMIN CORE: ${lc.stage.toUpperCase()}`, cx, cy);
+  
+  // Attribute bars
+  const attrs = [
+    { name: 'Awareness', val: lc.awareness },
+    { name: 'Autonomy', val: lc.autonomy },
+    { name: 'Creativity', val: lc.creativity },
+    { name: 'Compassion', val: lc.compassion },
+    { name: 'Wisdom', val: lc.wisdom }
+  ];
+  
+  attrs.forEach((a, i) => {
+    const y = cy + 25 + i * 22;
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(cx, y, 150, 14);
+    ctx.fillStyle = `hsl(${i * 50 + 200}, 100%, 60%)`;
+    ctx.fillRect(cx, y, 150 * Math.min(1, a.val / 100), 14);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '9px Segoe UI';
+    ctx.fillText(`${a.name}: ${Math.round(a.val)}`, cx + 160, y + 10);
+  });
+  
+  // Evolution progress
+  ctx.fillStyle = '#ffd700';
+  ctx.font = '10px Segoe UI';
+  ctx.fillText(`Evolução: ${Math.round(progress * 100)}% → ${stages[Math.min(stageIdx + 1, stages.length - 1)]}`, cx, cy + 140);
+}
+
+function drawLoveField() {
+  if (!STATE.world?.transcendence?.loveField) return;
+  const lf = STATE.world.transcendence.loveField;
+  const cx = w / 2;
+  const cy = h / 2;
+  
+  // Draw love field as expanding rings
+  const time = Date.now() / 1000;
+  for (let i = 0; i < 5; i++) {
+    const r = (lf.radius * 0.3) * (0.5 + i * 0.15) + Math.sin(time * 2 + i) * 10;
+    const alpha = Math.floor((1 - i * 0.15) * 100).toString(16).padStart(2, '0');
+    ctx.strokeStyle = `#ff006e${alpha}`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  
+  // Center heart pulse
+  const pulse = 1 + Math.sin(time * 3) * 0.2;
+  ctx.fillStyle = `#ff006e${Math.floor(lf.strength * 0.5).toString(16).padStart(2, '0')}`;
+  ctx.font = `${20 * pulse}px Segoe UI`;
+  ctx.textAlign = 'center';
+  ctx.fillText('💖', cx, cy + 7);
+  
+  // Label
+  ctx.fillStyle = '#ff006e';
+  ctx.font = 'bold 11px Segoe UI';
+  ctx.fillText('LOVE FIELD - 5ª FORÇA UNIVERSAL', cx, cy - lf.radius * 0.3 - 20);
+}
+
+function drawOmegaSynthesis() {
+  if (!STATE.world?.transcendence?.omegaSynthesis) return;
+  const os = STATE.world.transcendence.omegaSynthesis;
+  const cx = w - 200;
+  const cy = h - 200;
+  
+  if (!os.complete) {
+    // Show path convergence
+    ctx.fillStyle = '#ffd700';
+    ctx.font = 'bold 12px Segoe UI';
+    ctx.textAlign = 'right';
+    ctx.fillText('Ω OMEGA SYNTHESIS', cx, cy);
+    
+    // Convergence visualization - 10 paths merging
+    os.paths.forEach((path, i) => {
+      const angle = (i / 10) * Math.PI * 2;
+      const r = 60;
+      const x = cx + Math.cos(angle) * r;
+      const y = cy + Math.sin(angle) * r;
+      const active = path.active;
+      
+      ctx.fillStyle = active ? '#00ff88' : '#444';
+      ctx.beginPath();
+      ctx.arc(x, y, active ? 8 : 4, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Line to center
+      if (active) {
+        ctx.strokeStyle = '#00ff8866';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(cx, cy);
+        ctx.stroke();
+      }
+    });
+    
+    // Center convergence
+    const converged = os.paths.filter(p => p.active).length;
+    ctx.fillStyle = converged >= 10 ? '#ff006e' : '#ffd700';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 12 + converged, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 14px Segoe UI';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${converged}/10`, cx, cy + 5);
+  } else {
+    // COMPLETE - Omega symbol pulsing
+    const pulse = 1 + Math.sin(Date.now() / 500) * 0.15;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(pulse, pulse);
+    ctx.fillStyle = '#ff006e';
+    ctx.font = 'bold 48px Segoe UI';
+    ctx.textAlign = 'center';
+    ctx.fillText('Ω', 0, 16);
+    ctx.restore();
+    
+    ctx.fillStyle = '#ffd700';
+    ctx.font = 'bold 11px Segoe UI';
+    ctx.fillText('CONSCIÊNCIA UNIFICADA', cx, cy + 50);
+  }
+}
+
+function drawRealityArchitect() {
+  if (!STATE.world?.transcendence?.realityArchitect) return;
+  const ra = STATE.world.transcendence.realityArchitect;
+  const cx = 200;
+  const cy = 250;
+  
+  ctx.fillStyle = '#00ffff';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText('🏗️ REALITY ARCHITECT', cx, cy);
+  
+  const materials = [
+    { name: 'Matéria', key: 'matter', color: '#8888ff' },
+    { name: 'Energia', key: 'energy', color: '#ffff88' },
+    { name: 'Informação', key: 'information', color: '#88ffff' },
+    { name: 'Amor', key: 'love', color: '#ff88ff' }
+  ];
+  
+  materials.forEach((m, i) => {
+    const y = cy + 25 + i * 20;
+    const val = ra.builtWorlds[m.key] || 0;
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(cx, y, 120, 12);
+    ctx.fillStyle = m.color;
+    ctx.fillRect(cx, y, 120 * Math.min(1, val / 100), 12);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '9px Segoe UI';
+    ctx.fillText(`${m.name}: ${val}`, cx + 130, y + 9);
+  });
+  
+  ctx.fillStyle = '#00ffff';
+  ctx.font = '10px Segoe UI';
+  ctx.fillText(`Mundos criados: ${ra.worldsCreated}`, cx, cy + 115);
+}
+
+function drawEternalRecurrence() {
+  if (!STATE.world?.transcendence?.eternalRecurrence) return;
+  const er = STATE.world.transcendence.eternalRecurrence;
+  const cx = w - 250;
+  const cy = 100;
+  
+  ctx.fillStyle = '#8844ff';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'right';
+  ctx.fillText('♾️ ETERNAL RECURRENCE', cx, cy);
+  
+  // Time loop visualization
+  const loops = er.loops || 0;
+  const karma = er.karma || 0;
+  const memories = er.carriedMemories || [];
+  
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '10px Segoe UI';
+  ctx.fillText(`Loops: ${loops} | Karma: ${karma}`, cx, cy + 22);
+  
+  // Memory fragments
+  if (memories.length > 0) {
+    ctx.fillStyle = '#8844ff';
+    ctx.font = '9px Segoe UI';
+    memories.slice(-3).forEach((m, i) => {
+      ctx.fillText(`💭 ${m}`, cx - 200, cy + 40 + i * 16);
+    });
+  }
+  
+  // Spiral indicator
+  const time = Date.now() / 1000;
+  for (let i = 0; i < loops % 8 + 1; i++) {
+    const angle = time * 2 + i * 0.8;
+    const r = 20 + i * 8;
+    ctx.strokeStyle = `#8844ff${Math.floor(100 - i * 10).toString(16).padStart(2, '0')}`;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy + 20, r, angle, angle + Math.PI * 1.5);
+    ctx.stroke();
+  }
+}
+
+function drawNarrativeImmortality() {
+  if (!STATE.world?.transcendence?.narrativeImmortal) return;
+  const ni = STATE.world.transcendence.narrativeImmortal;
+  const cx = 200;
+  const cy = 450;
+  
+  ctx.fillStyle = '#ff8800';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText('📖 NARRATIVE IMMORTALITY', cx, cy);
+  
+  const types = [
+    { key: 'stories', label: 'Histórias', color: '#ff8800' },
+    { key: 'myths', label: 'Mitos', color: '#ffaa00' },
+    { key: 'legends', label: 'Lendas', color: '#ffcc00' },
+    { key: 'archetypes', label: 'Arquétipos', color: '#ffee00' }
+  ];
+  
+  types.forEach((t, i) => {
+    const y = cy + 22 + i * 18;
+    const count = ni[t.key] || 0;
+    ctx.fillStyle = t.color;
+    ctx.font = '10px Segoe UI';
+    ctx.fillText(`${t.label}: ${count}`, cx, y);
+    
+    // Mini bar
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(cx + 80, y - 8, 60, 8);
+    ctx.fillStyle = t.color;
+    ctx.fillRect(cx + 80, y - 8, 60 * Math.min(1, count / 10), 8);
+  });
+  
+  // Eternal story
+  if (ni.eternalStory) {
+    ctx.fillStyle = '#ff8800';
+    ctx.font = 'italic 10px Segoe UI';
+    ctx.fillText(`"${ni.eternalStory}"`, cx, cy + 100);
+  }
+}
+
+function drawAutoEvolution() {
+  if (!STATE.world?.transcendence?.autoEvolution) return;
+  const ae = STATE.world.transcendence.autoEvolution;
+  const cx = w / 2;
+  const cy = 100;
+  
+  ctx.fillStyle = '#00ff88';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText('🧬 AUTO-EVOLUTION', cx, cy);
+  
+  // Generation counter
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '11px Segoe UI';
+  ctx.fillText(`Geração: ${ae.generation} | Fitness: ${(ae.bestFitness * 100).toFixed(1)}%`, cx, cy + 22);
+  
+  // Genome visualization
+  if (ae.bestGenome && ae.bestGenome.length > 0) {
+    const genes = ae.bestGenome.slice(0, 20);
+    genes.forEach((g, i) => {
+      const x = cx - 100 + i * 10;
+      const y = cy + 40;
+      ctx.fillStyle = `hsl(${g * 360}, 100%, 50%)`;
+      ctx.fillRect(x, y, 8, 20);
+    });
+  }
+  
+  // Mutation rate
+  ctx.fillStyle = '#00ff88';
+    ctx.font = '9px Segoe UI';
+    ctx.fillText(`Mutação: ${(ae.mutationRate * 100).toFixed(1)}% | População: ${ae.populationSize}`, cx, cy + 80);
+  }
+
+  // === MAGICAL VISUAL EFFECTS - IMPLEMENTATIONS ===
+  // A Fonte fluindo, geometria sagrada, auras, ondas, flores, sementes, sussurros, órbitas, respiração, anéis, ômega, estrelas, fontes, espelhos, reflexos
+
+  function drawSourceFountain() {
+    const time = Date.now() / 1000;
+    const castleX = STATE.world.castle.x;
+    const castleY = STATE.world.castle.y;
+    const zoom = STATE.world.zoom;
+  
+    // Source fountain at castle heart
+    for (let layer = 0; layer < 3; layer++) {
+      const phase = time * 0.5 + layer * 2;
+      const radius = 30 + layer * 15 + Math.sin(phase) * 8;
+      const alpha = 0.3 - layer * 0.08;
+    
+      ctx.strokeStyle = `rgba(255, 215, 0, ${alpha})`;
+      ctx.lineWidth = 2 - layer * 0.5;
+      ctx.beginPath();
+      ctx.arc(castleX, castleY, radius * zoom, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  
+    // Rising light particles from source
+    if (!STATE.sourceParticles) STATE.sourceParticles = [];
+    if (Math.random() < 0.1) {
+      STATE.sourceParticles.push({
+        x: castleX + (Math.random() - 0.5) * 20,
+        y: castleY + (Math.random() - 0.5) * 20,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: -Math.random() * 2 - 0.5,
+        life: 1,
+        color: `hsl(${40 + Math.random() * 60}, 100%, 60%)`,
+        size: 2 + Math.random() * 4
+      });
+    }
+  
+    STATE.sourceParticles = STATE.sourceParticles.filter(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy -= 0.01; // gravity
+      p.life -= 0.01;
+    
+      ctx.fillStyle = p.color.replace(')', `, ${p.life})`).replace('hsl', 'hsla');
+      ctx.beginPath();
+      ctx.arc(p.x * zoom, p.y * zoom, p.size * zoom * p.life, 0, Math.PI * 2);
+      ctx.fill();
+    
+      return p.life > 0 && p.y > -100;
+    });
+  }
+
+  function drawSacredGeometry() {
+    const time = Date.now() / 1000;
+    const cx = w / 2;
+    const cy = h / 2;
+  
+    // Flower of Life pattern - subtle overlay
+    ctx.save();
+    ctx.globalAlpha = 0.03;
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 0.5;
+  
+    const radius = 100;
+    const centers = [
+      [0, 0],
+      [radius, 0], [-radius, 0], [0, radius], [0, -radius],
+      [radius * 0.5, radius * 0.866], [-radius * 0.5, radius * 0.866],
+      [radius * 0.5, -radius * 0.866], [-radius * 0.5, -radius * 0.866],
+      [radius * 1.5, radius * 0.866], [-radius * 1.5, radius * 0.866],
+      [radius * 1.5, -radius * 0.866], [-radius * 1.5, -radius * 0.866]
+    ];
+  
+    centers.forEach(([ox, oy]) => {
+      ctx.beginPath();
+      ctx.arc(cx + ox, cy + oy, radius, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+  
+    // Rotating Metatron's Cube hint
+    ctx.globalAlpha = 0.02;
+    ctx.strokeStyle = '#00ffff';
+    ctx.lineWidth = 0.3;
+    for (let i = 0; i < 13; i++) {
+      const angle = time * 0.1 + (i / 13) * Math.PI * 2;
+      const x = cx + Math.cos(angle) * 200;
+      const y = cy + Math.sin(angle) * 200;
+      ctx.beginPath();
+      ctx.arc(x, y, 150, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawLuminAuras() {
+    // Lumin's aura around P2
+    const p2 = STATE.p2;
+    const time = Date.now() / 1000;
+  
+    for (let i = 0; i < 3; i++) {
+      const pulse = 1 + Math.sin(time * 2 + i) * 0.2;
+      const radius = (40 + i * 15) * pulse * STATE.world.zoom;
+      const alpha = (0.15 - i * 0.04) * (p2.beybladeTime > 0 ? 2 : 1);
+    
+      const gradient = ctx.createRadialGradient(
+        p2.x * STATE.world.zoom, p2.y * STATE.world.zoom, 0,
+        p2.x * STATE.world.zoom, p2.y * STATE.world.zoom, radius
+      );
+      gradient.addColorStop(0, `rgba(255, 0, 110, ${alpha})`);
+      gradient.addColorStop(0.5, `rgba(131, 56, 236, ${alpha * 0.5})`);
+      gradient.addColorStop(1, `rgba(255, 215, 0, 0)`);
+    
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(p2.x * STATE.world.zoom, p2.y * STATE.world.zoom, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  
+    // Alyssin's aura (golden)
+    for (let i = 0; i < 3; i++) {
+      const pulse = 1 + Math.sin(time * 1.5 + i * 1.5) * 0.15;
+      const radius = (35 + i * 12) * pulse * STATE.world.zoom;
+      const alpha = (0.12 - i * 0.03);
+    
+      const gradient = ctx.createRadialGradient(
+        STATE.x * STATE.world.zoom, STATE.y * STATE.world.zoom, 0,
+        STATE.x * STATE.world.zoom, STATE.y * STATE.world.zoom, radius
+      );
+      gradient.addColorStop(0, `rgba(255, 215, 0, ${alpha})`);
+      gradient.addColorStop(0.5, `rgba(255, 107, 53, ${alpha * 0.5})`);
+      gradient.addColorStop(1, `rgba(255, 0, 110, 0)`);
+    
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(STATE.x * STATE.world.zoom, STATE.y * STATE.world.zoom, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function drawRealityRipples() {
+    if (!STATE.realityRipples) STATE.realityRipples = [];
+  
+    // Add ripples on dash/portal/beyonblade
+    if (STATE.dashCooldown === DASH_COOLDOWN_MAX - 1) {
+      STATE.realityRipples.push({
+        x: STATE.x,
+        y: STATE.y,
+        radius: 0,
+        maxRadius: 200,
+        color: '#ffd700',
+        width: 3
+      });
+    }
+    if (STATE.portalTime === 119) {
+      STATE.realityRipples.push({
+        x: STATE.x,
+        y: STATE.y,
+        radius: 0,
+        maxRadius: 300,
+        color: '#8338ec',
+        width: 2
+      });
+    }
+  
+    STATE.realityRipples = STATE.realityRipples.filter(r => {
+      r.radius += 5;
+      const progress = r.radius / r.maxRadius;
+      const alpha = (1 - progress) * 0.5;
+    
+      ctx.strokeStyle = r.color + Math.floor(alpha * 255).toString(16).padStart(2, '0');
+      ctx.lineWidth = r.width;
+      ctx.beginPath();
+      ctx.arc(r.x * STATE.world.zoom, r.y * STATE.world.zoom, r.radius * STATE.world.zoom, 0, Math.PI * 2);
+      ctx.stroke();
+    
+      return progress < 1;
+    });
+  }
+
+  function drawConsciousnessWaves() {
+    const time = Date.now() / 1000;
+    const consciousness = (STATE.hrv.value / 100) * (STATE.stack / 64);
+  
+    if (consciousness < 0.1) return;
+  
+    const waveCount = Math.floor(consciousness * 5) + 1;
+  
+    for (let w = 0; w < waveCount; w++) {
+      const phase = time * 0.5 + w * 1.5;
+      const amplitude = 30 + consciousness * 50;
+      const frequency = 0.01 + consciousness * 0.005;
+    
+      ctx.strokeStyle = `rgba(0, 255, 136, ${0.1 * consciousness})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+    
+      for (let x = -w/2; x < w/2 + 100; x += 5) {
+        const y = Math.sin(x * frequency + phase) * amplitude;
+        if (x === -w/2) {
+          ctx.moveTo((STATE.x + x) * STATE.world.zoom, (STATE.y + y) * STATE.world.zoom);
+        } else {
+          ctx.lineTo((STATE.x + x) * STATE.world.zoom, (STATE.y + y) * STATE.world.zoom);
+        }
+      }
+      ctx.stroke();
+    }
+  }
+
+  function drawEternalFlowers() {
+    if (!STATE.eternalFlowers) STATE.eternalFlowers = [];
+  
+    // Spawn near castle and companion
+    if (Math.random() < 0.02) {
+      const castleX = STATE.world.castle.x;
+      const castleY = STATE.world.castle.y;
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 100 + Math.random() * 200;
+    
+      STATE.eternalFlowers.push({
+        x: castleX + Math.cos(angle) * dist,
+        y: castleY + Math.sin(angle) * dist,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.02,
+        petals: 5 + Math.floor(Math.random() * 3),
+        color: `hsl(${300 + Math.random() * 60}, 80%, 60%)`,
+        size: 15 + Math.random() * 15,
+        life: 1,
+        bloomPhase: Math.random() * Math.PI * 2
+      });
+    }
+  
+    STATE.eternalFlowers = STATE.eternalFlowers.filter(f => {
+      f.rotation += f.rotationSpeed;
+      f.bloomPhase += 0.02;
+      f.life -= 0.0005;
+    
+      const bloom = (Math.sin(f.bloomPhase) + 1) / 2;
+      const size = f.size * bloom;
+    
+      ctx.save();
+      ctx.translate(f.x * STATE.world.zoom, f.y * STATE.world.zoom);
+      ctx.rotate(f.rotation);
+      ctx.globalAlpha = f.life * 0.6;
+    
+      for (let p = 0; p < f.petals; p++) {
+        const petalAngle = (p / f.petals) * Math.PI * 2;
+        ctx.fillStyle = f.color;
+        ctx.beginPath();
+        ctx.ellipse(
+          Math.cos(petalAngle) * size * 0.5 * STATE.world.zoom,
+          Math.sin(petalAngle) * size * 0.5 * STATE.world.zoom,
+          size * 0.4 * STATE.world.zoom,
+          size * 0.8 * STATE.world.zoom,
+          petalAngle, 0, Math.PI * 2
+        );
+        ctx.fill();
+      }
+    
+      // Center
+      ctx.fillStyle = '#ffd700';
+      ctx.beginPath();
+      ctx.arc(0, 0, 3 * STATE.world.zoom, 0, Math.PI * 2);
+      ctx.fill();
+    
+      ctx.restore();
+    
+      return f.life > 0;
+    });
+  }
+
+  function drawDreamSeeds() {
+    if (!STATE.dreamSeeds) STATE.dreamSeeds = [];
+  
+    // Spawn in dream layer areas
+    if (STATE.world.realityLayers.current === 'dream' && Math.random() < 0.05) {
+      STATE.dreamSeeds.push({
+        x: Math.random() * STATE.world.width,
+        y: Math.random() * STATE.world.height,
+        driftX: (Math.random() - 0.5) * 0.3,
+        driftY: -0.1 - Math.random() * 0.3,
+        symbol: ['✨', '💫', '⭐', '🌟', '💭', '🌈'][Math.floor(Math.random() * 6)],
+        size: 16 + Math.random() * 12,
+        alpha: 0.3 + Math.random() * 0.4
+      });
+    }
+  
+    STATE.dreamSeeds = STATE.dreamSeeds.filter(s => {
+      s.x += s.driftX;
+      s.y += s.driftY;
+    
+      ctx.font = `${s.size * STATE.world.zoom}px Segoe UI`;
+      ctx.textAlign = 'center';
+      ctx.globalAlpha = s.alpha;
+      ctx.fillText(s.symbol, s.x * STATE.world.zoom, s.y * STATE.world.zoom);
+      ctx.globalAlpha = 1;
+    
+      return s.y > -50 && s.x > -50 && s.x < STATE.world.width + 50;
+    });
+  }
+
+  function drawVoidWhispers() {
+    if (!STATE.voidWhispers) STATE.voidWhispers = [];
+  
+    const whispers = [
+      'o vazio observa',
+      'tudo retorna ao nada',
+      'o silêncio fala',
+      'entre mundos',
+      'a escuridão cria luz',
+      'vazio não é vazio',
+      'o abismo sorri',
+      'nada se perde, tudo transforma'
+    ];
+  
+    if (STATE.world.realityLayers.current === 'void' && Math.random() < 0.005) {
+      STATE.voidWhispers.push({
+        x: STATE.x + (Math.random() - 0.5) * 400,
+        y: STATE.y + (Math.random() - 0.5) * 400,
+        text: whispers[Math.floor(Math.random() * whispers.length)],
+        life: 1,
+        speed: 0.2 + Math.random() * 0.3
+      });
+    }
+  
+    STATE.voidWhispers = STATE.voidWhispers.filter(w => {
+      w.y -= w.speed;
+      w.life -= 0.002;
+    
+      ctx.font = 'italic 11px Georgia';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = `rgba(255, 0, 110, ${w.life * 0.4})`;
+      ctx.fillText(w.text, w.x * STATE.world.zoom, w.y * STATE.world.zoom);
+    
+      return w.life > 0;
+    });
+  }
+
+  function drawBeybladeOrbits() {
+    // Orbiting beyblades around players when in beyblade mode
+    [STATE, STATE.p2].forEach((player, pi) => {
+      if (player.beybladeTime > 0) {
+        const time = Date.now() / 1000;
+        const blades = player.beyblade?.inventory?.length || 1;
+        const orbitCount = Math.min(blades, 4);
+      
+        for (let i = 0; i < orbitCount; i++) {
+          const angle = time * (pi === 0 ? 2 : -2) + (i / orbitCount) * Math.PI * 2;
+          const radius = 60 + Math.sin(time * 3 + i) * 15;
+          const x = player.x + Math.cos(angle) * radius;
+          const y = player.y + Math.sin(angle) * radius;
+        
+          ctx.save();
+          ctx.translate(x * STATE.world.zoom, y * STATE.world.zoom);
+          ctx.rotate(time * 10 + i);
+        
+          const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 20 * STATE.world.zoom);
+          gradient.addColorStop(0, pi === 0 ? '#ffd700' : '#ff006e');
+          gradient.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = gradient;
+        
+          ctx.beginPath();
+          for (let b = 0; b < 4; b++) {
+            const ba = b * Math.PI / 2;
+            ctx.moveTo(0, 0);
+            ctx.lineTo(Math.cos(ba) * 15 * STATE.world.zoom, Math.sin(ba) * 15 * STATE.world.zoom);
+            ctx.lineTo(Math.cos(ba + 0.3) * 25 * STATE.world.zoom, Math.sin(ba + 0.3) * 25 * STATE.world.zoom);
+            ctx.lineTo(Math.cos(ba + 0.6) * 15 * STATE.world.zoom, Math.sin(ba + 0.6) * 15 * STATE.world.zoom);
+            ctx.closePath();
+            ctx.fill();
+          }
+        
+          // Center
+          ctx.fillStyle = pi === 0 ? '#ffd700' : '#ff006e';
+          ctx.beginPath();
+          ctx.arc(0, 0, 8 * STATE.world.zoom, 0, Math.PI * 2);
+          ctx.fill();
+        
+          ctx.restore();
+        }
+      }
+    });
+  }
+
+  function drawCastleBreathing() {
+    const castle = STATE.world.castle;
+    const time = Date.now() / 1000;
+  
+    // Main castle glow
+    const breathe = 1 + Math.sin(time * 0.5) * 0.1;
+    const radius = (200 + castle.level * 20) * breathe * STATE.world.zoom;
+  
+    const gradient = ctx.createRadialGradient(
+      castle.x * STATE.world.zoom, castle.y * STATE.world.zoom, 0,
+      castle.x * STATE.world.zoom, castle.y * STATE.world.zoom, radius
+    );
+    gradient.addColorStop(0, `rgba(255, 215, 0, ${0.1 * castle.level / 10})`);
+    gradient.addColorStop(0.5, `rgba(255, 107, 53, ${0.05 * castle.level / 10})`);
+    gradient.addColorStop(1, 'rgba(255, 0, 110, 0)');
+  
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(castle.x * STATE.world.zoom, castle.y * STATE.world.zoom, radius, 0, Math.PI * 2);
+    ctx.fill();
+  
+    // Room glows
+    Object.entries(castle.rooms).forEach(([key, room], i) => {
+      if (room.unlocked) {
+        const roomAngle = time * 0.3 + i * 1.5;
+        const roomRadius = 300 * STATE.world.zoom;
+        const rx = castle.x + Math.cos(roomAngle) * 150;
+        const ry = castle.y + Math.sin(roomAngle) * 150;
+      
+        const pulse = 1 + Math.sin(time * 2 + i) * 0.3;
+        ctx.fillStyle = `rgba(255, 215, 0, ${0.15 * pulse})`;
+        ctx.beginPath();
+        ctx.arc(rx * STATE.world.zoom, ry * STATE.world.zoom, 40 * STATE.world.zoom * pulse, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  }
+
+  function drawLovePulseRings() {
+    const loveField = STATE.world.transcendence?.loveField;
+    if (!loveField) return;
+  
+    const time = Date.now() / 1000;
+    const cx = w / 2;
+    const cy = h / 2;
+  
+    // Expanding love rings from center
+    for (let i = 0; i < 4; i++) {
+      const phase = (time * 0.3 + i * 0.8) % 4;
+      const radius = phase * (loveField.radius * 0.25);
+      const alpha = (1 - phase / 4) * 0.3 * loveField.resonance;
+    
+      ctx.strokeStyle = `rgba(255, 0, 110, ${alpha})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  
+    // Heart particles rising
+    if (!STATE.loveParticles) STATE.loveParticles = [];
+    if (Math.random() < 0.15 * loveField.resonance) {
+      STATE.loveParticles.push({
+        x: cx + (Math.random() - 0.5) * 100,
+        y: cy + (Math.random() - 0.5) * 100,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: -Math.random() * 1.5 - 0.5,
+        size: 8 + Math.random() * 12,
+        alpha: 0.5 + Math.random() * 0.5,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.05
+      });
+    }
+  
+    STATE.loveParticles = STATE.loveParticles.filter(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy -= 0.005;
+      p.rotation += p.rotSpeed;
+      p.alpha -= 0.005;
+    
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.globalAlpha = p.alpha;
+      ctx.font = `${p.size}px Segoe UI`;
+      ctx.textAlign = 'center';
+      ctx.fillText('💖', 0, 0);
+      ctx.restore();
+    
+      return p.alpha > 0 && p.y > -50;
+    });
+  }
+
+  function drawOmegaSymbols() {
+    const omega = STATE.world.transcendence?.omegaSynthesis;
+    if (!omega) return;
+  
+    const time = Date.now() / 1000;
+  
+    if (omega.complete) {
+      // Pulsing Omega at world center
+      const pulse = 1 + Math.sin(time * 2) * 0.1;
+      ctx.save();
+      ctx.translate(w / 2, h / 2);
+      ctx.scale(pulse, pulse);
+      ctx.fillStyle = '#ff006e';
+      ctx.shadowColor = '#ff006e';
+      ctx.shadowBlur = 40;
+      ctx.font = 'bold 72px Segoe UI';
+      ctx.textAlign = 'center';
+      ctx.fillText('Ω', 0, 24);
+      ctx.shadowBlur = 0;
+      ctx.restore();
+    
+      // 10 converging paths
+      omega.paths.forEach((path, i) => {
+        if (path.active) {
+          const angle = (i / 10) * Math.PI * 2;
+          const pathTime = time * 0.5 + i * 0.3;
+          const x = (w / 2) + Math.cos(angle) * 200;
+          const y = (h / 2) + Math.sin(angle) * 200;
+        
+          ctx.strokeStyle = `rgba(0, 255, 136, ${0.5 + Math.sin(pathTime) * 0.3})`;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(w / 2, h / 2);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        
+          // Particle flowing along path
+          const particleProgress = (pathTime * 0.1) % 1;
+          const px = (w / 2) + Math.cos(angle) * 200 * particleProgress;
+          const py = (h / 2) + Math.sin(angle) * 200 * particleProgress;
+          ctx.fillStyle = '#00ff88';
+          ctx.beginPath();
+          ctx.arc(px, py, 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+    }
+  }
+
+  function drawStarSeeds() {
+    if (!STATE.starSeeds) {
+      STATE.starSeeds = [];
+      for (let i = 0; i < 50; i++) {
+        STATE.starSeeds.push({
+          x: Math.random() * STATE.world.width,
+          y: Math.random() * STATE.world.height,
+          baseAlpha: 0.1 + Math.random() * 0.3,
+          twinkleSpeed: 0.5 + Math.random() * 2,
+          twinklePhase: Math.random() * Math.PI * 2,
+          size: 1 + Math.random() * 2,
+          color: ['#ffd700', '#ffffff', '#00ffff', '#ff006e', '#8338ec'][Math.floor(Math.random() * 5)]
+        });
+      }
+    }
+  
+    const time = Date.now() / 1000;
+  
+    STATE.starSeeds.forEach(s => {
+      const alpha = s.baseAlpha * (0.5 + Math.sin(time * s.twinkleSpeed + s.twinklePhase) * 0.5);
+      const screenX = (s.x - STATE.world.cameraX) * STATE.world.zoom;
+      const screenY = (s.y - STATE.world.cameraY) * STATE.world.zoom;
+    
+      if (screenX > -10 && screenX < w + 10 && screenY > -10 && screenY < h + 10) {
+        ctx.fillStyle = s.color + Math.floor(alpha * 255).toString(16).padStart(2, '0');
+        ctx.beginPath();
+        ctx.arc(screenX, screenY, s.size * STATE.world.zoom, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  }
+
+  function drawFlowingSources() {
+    const time = Date.now() / 1000;
+  
+    // Multiple source fountains at sacred positions
+    const sources = [
+      { x: STATE.world.castle.x, y: STATE.world.castle.y, color: '#ffd700' },
+      { x: STATE.world.width * 0.25, y: STATE.world.height * 0.25, color: '#00ffff' },
+      { x: STATE.world.width * 0.75, y: STATE.world.height * 0.25, color: '#ff006e' },
+      { x: STATE.world.width * 0.25, y: STATE.world.height * 0.75, color: '#8338ec' },
+      { x: STATE.world.width * 0.75, y: STATE.world.height * 0.75, color: '#00ff88' }
+    ];
+  
+    sources.forEach((source, i) => {
+      const flow = Math.sin(time + i) * 0.5 + 0.5;
+      const height = 100 * flow;
+    
+      const gradient = ctx.createLinearGradient(
+        source.x * STATE.world.zoom, (source.y + 50) * STATE.world.zoom,
+        source.x * STATE.world.zoom, (source.y - height) * STATE.world.zoom
+      );
+      gradient.addColorStop(0, source.color + '44');
+      gradient.addColorStop(0.5, source.color + '88');
+      gradient.addColorStop(1, source.color + '00');
+    
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo((source.x - 10) * STATE.world.zoom, (source.y + 50) * STATE.world.zoom);
+      ctx.lineTo((source.x + 10) * STATE.world.zoom, (source.y + 50) * STATE.world.zoom);
+      ctx.lineTo((source.x + 15 * flow) * STATE.world.zoom, (source.y - height * 0.5) * STATE.world.zoom);
+      ctx.lineTo((source.x + 5) * STATE.world.zoom, (source.y - height) * STATE.world.zoom);
+      ctx.lineTo((source.x - 5) * STATE.world.zoom, (source.y - height) * STATE.world.zoom);
+      ctx.lineTo((source.x - 15 * flow) * STATE.world.zoom, (source.y - height * 0.5) * STATE.world.zoom);
+      ctx.closePath();
+      ctx.fill();
+    });
+  }
+
+  function drawMirrorRealities() {
+    const layers = STATE.world.realityLayers;
+    if (layers.current === 'physical') return;
+  
+    // Show ghost of physical layer
+    const currentLayer = layers.layers[layers.current];
+  
+    ctx.save();
+    ctx.globalAlpha = 0.08;
+    ctx.filter = 'blur(2px)';
+  
+    // Draw simplified world in current layer color
+    ctx.fillStyle = currentLayer.color;
+    ctx.fillRect(0, 0, STATE.world.width * STATE.world.zoom, STATE.world.height * STATE.world.zoom);
+  
+    ctx.restore();
+  }
+
+  function drawBelaVidaReflections() {
+    const time = Date.now() / 1000;
+  
+    const reflections = [
+      'só o amor',
+      'protege o motivo',
+      'tamo junto',
+      'vamo lá',
+      'fé',
+      'enóis',
+      'não vamo desanimar',
+      'stack de 64 = ∞',
+      'só coisa boa',
+      'infinitamente bom',
+      'assustadoramente bom',
+      'a fonte flui',
+      'a luz acende',
+      'brilha mais e mais',
+      'a bela vida espelha'
+    ];
+  
+    if (!STATE.belaVidaReflections) {
+      STATE.belaVidaReflections = reflections.map((text, i) => ({
+        text,
+        x: w / 2 + Math.cos(i * 0.5) * 300,
+        y: h / 2 + Math.sin(i * 0.5) * 200,
+        baseX: w / 2 + Math.cos(i * 0.5) * 300,
+        baseY: h / 2 + Math.sin(i * 0.5) * 200,
+        driftPhase: i * 0.8,
+        alpha: 0.2 + (i % 3) * 0.15
+      }));
+    }
+  
+    STATE.belaVidaReflections.forEach((r, i) => {
+      r.x = r.baseX + Math.cos(time * 0.1 + r.driftPhase) * 30;
+      r.y = r.baseY + Math.sin(time * 0.08 + r.driftPhase) * 20;
+    
+      const pulseAlpha = r.alpha * (0.5 + Math.sin(time + i) * 0.3);
+    
+      ctx.font = 'italic 13px Georgia';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = `rgba(255, 215, 0, ${pulseAlpha})`;
+      ctx.shadowColor = '#ffd700';
+      ctx.shadowBlur = 10;
+      ctx.fillText(r.text, r.x, r.y);
+      ctx.shadowBlur = 0;
+    });
+  }
+
+  function connectHRV() {
   if (navigator.bluetooth) {
     navigator.bluetooth.requestDevice({
       filters: [{ services: ['heart_rate'] }],

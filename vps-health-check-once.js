@@ -1,28 +1,37 @@
 #!/usr/bin/env node
 /**
- * VPS Health Check - One-time check for 144.33.18.6:9877
- * Sends Telegram alert if unhealthy and attempts SSH restart
+ * VPS Health Check - One-time check for cron job execution
+ * Checks HTTP endpoint, sends Telegram alert if unhealthy, attempts SSH restart
+ * 
+ * Usage: node vps-health-check-once.js
+ * Reads config from project .env file
  */
 
 require('dotenv').config();
 const { exec } = require('child_process');
 const http = require('http');
 const https = require('https');
+const path = require('path');
 
-const VPS_HOST = '144.33.18.6';
-const VPS_PORT = '9877';
-const HEALTH_ENDPOINT = '/api/eternal-resonance/status';
+// Configuration - reads from .env or uses defaults
+const VPS_HOST = process.env.VPS_HOST || '144.33.18.6';
+const VPS_PORT = process.env.VPS_PORT || '9877';
+const HEALTH_ENDPOINT = process.env.HEALTH_ENDPOINT || '/api/resumo';
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || process.env.TELEGRAM_HOME_CHANNEL;
+const SSH_USER = process.env.SSH_USER || 'ubuntu';
+
+function log(message) {
+    console.log(`[${new Date().toISOString()}] ${message}`);
+}
 
 function sendTelegram(message) {
     return new Promise((resolve) => {
         if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-            console.log('⚠️ Telegram credentials not configured');
+            log('⚠️ Telegram credentials not configured');
             resolve(false);
             return;
         }
-        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
         const data = JSON.stringify({
             chat_id: TELEGRAM_CHAT_ID,
             text: message,
@@ -40,12 +49,12 @@ function sendTelegram(message) {
         const req = https.request(options, (res) => {
             res.on('data', () => {});
             res.on('end', () => {
-                console.log('📱 Telegram alert sent successfully');
+                log('📱 Telegram alert sent successfully');
                 resolve(true);
             });
         });
         req.on('error', (e) => {
-            console.error('❌ Failed to send Telegram alert:', e.message);
+            log(`❌ Failed to send Telegram alert: ${e.message}`);
             resolve(false);
         });
         req.write(data);
@@ -55,7 +64,7 @@ function sendTelegram(message) {
 
 function checkHealth() {
     return new Promise((resolve) => {
-        console.log(`[${new Date().toISOString()}] 🏥 Checking VPS health at ${VPS_HOST}:${VPS_PORT}${HEALTH_ENDPOINT}...`);
+        log(`🏥 Checking VPS health at ${VPS_HOST}:${VPS_PORT}${HEALTH_ENDPOINT}...`);
         
         const client = VPS_PORT === '443' ? https : http;
         const options = {
@@ -72,23 +81,23 @@ function checkHealth() {
                 try {
                     const parsed = JSON.parse(data);
                     const healthy = res.statusCode === 200 && parsed.success;
-                    console.log(`Status Code: ${res.statusCode}`);
-                    console.log(`Response:`, JSON.stringify(parsed, null, 2));
+                    log(`Status Code: ${res.statusCode}`);
+                    log(`Response: ${JSON.stringify(parsed)}`);
                     resolve({ healthy, statusCode: res.statusCode, data: parsed });
                 } catch {
-                    console.log(`Status Code: ${res.statusCode}`);
-                    console.log(`Raw Response: ${data.substring(0, 500)}`);
+                    log(`Status Code: ${res.statusCode}`);
+                    log(`Raw Response: ${data.substring(0, 500)}`);
                     resolve({ healthy: false, statusCode: res.statusCode, error: 'Invalid JSON' });
                 }
             });
         });
         req.on('error', (e) => {
-            console.log(`❌ Error: ${e.code || e.message}`);
+            log(`❌ Error: ${e.code || e.message}`);
             resolve({ healthy: false, error: e.code || e.message });
         });
         req.on('timeout', () => {
             req.destroy();
-            console.log('❌ Timeout after 15s');
+            log('❌ Timeout after 15s');
             resolve({ healthy: false, error: 'Timeout' });
         });
         req.end();
@@ -96,17 +105,17 @@ function checkHealth() {
 }
 
 async function attemptSSHRestart() {
-    console.log(`[${new Date().toISOString()}] Attempting SSH restart...`);
+    log('Attempting SSH restart...');
     
     const commands = [
-        `ssh -o ConnectTimeout=15 -o BatchMode=yes root@${VPS_HOST} "pm2 restart all"`,
-        `ssh -o ConnectTimeout=15 -o BatchMode=yes root@${VPS_HOST} "systemctl restart consortho 2>/dev/null || pm2 restart all"`,
-        `ssh -o ConnectTimeout=15 -o BatchMode=yes root@${VPS_HOST} "cd /opt/consortho && docker compose restart consortho 2>/dev/null || pm2 restart all"`
+        `ssh -o ConnectTimeout=15 -o BatchMode=yes ${SSH_USER}@${VPS_HOST} "pm2 restart all"`,
+        `ssh -o ConnectTimeout=15 -o BatchMode=yes ${SSH_USER}@${VPS_HOST} "systemctl restart consortho 2>/dev/null || pm2 restart all"`,
+        `ssh -o ConnectTimeout=15 -o BatchMode=yes ${SSH_USER}@${VPS_HOST} "cd /opt/consortho && docker compose restart consortho 2>/dev/null || pm2 restart all"`
     ];
     
     for (const cmd of commands) {
         try {
-            console.log(`Executing: ${cmd}`);
+            log(`Executing: ${cmd}`);
             const result = await new Promise((resolve, reject) => {
                 exec(cmd, { timeout: 60000 }, (err, stdout, stderr) => {
                     if (err) {
@@ -116,14 +125,14 @@ async function attemptSSHRestart() {
                     }
                 });
             });
-            console.log('✅ SSH command executed successfully');
-            console.log('stdout:', result.stdout);
-            console.log('stderr:', result.stderr);
+            log('✅ SSH command executed successfully');
+            log(`stdout: ${result.stdout}`);
+            log(`stderr: ${result.stderr}`);
             return true;
         } catch (error) {
-            console.log(`❌ SSH failed: ${error.error || error.message}`);
-            console.log('stdout:', error.stdout);
-            console.log('stderr:', error.stderr);
+            log(`❌ SSH failed: ${error.error || error.message}`);
+            log(`stdout: ${error.stdout}`);
+            log(`stderr: ${error.stderr}`);
         }
     }
     
@@ -131,16 +140,16 @@ async function attemptSSHRestart() {
 }
 
 async function main() {
-    console.log('🔍 VPS HEALTH CHECK STARTED');
-    console.log('==============================');
-    console.log(`Target: ${VPS_HOST}:${VPS_PORT}${HEALTH_ENDPOINT}`);
-    console.log(`Telegram: ${TELEGRAM_BOT_TOKEN ? 'Configured' : 'NOT CONFIGURED'}`);
-    console.log('==============================\n');
+    log('🔍 VPS HEALTH CHECK STARTED');
+    log('==============================');
+    log(`Target: ${VPS_HOST}:${VPS_PORT}${HEALTH_ENDPOINT}`);
+    log(`Telegram: ${TELEGRAM_BOT_TOKEN ? 'Configured' : 'NOT CONFIGURED'}`);
+    log('==============================\n');
     
     const health = await checkHealth();
     
     if (!health.healthy) {
-        console.log('\n🚨 VPS IS UNHEALTHY - Sending alert and attempting recovery');
+        log('\n🚨 VPS IS UNHEALTHY - Sending alert and attempting recovery');
         
         const alertMessage = `
 🚨 <b>VPS HEALTH ALERT</b> 🚨
@@ -174,12 +183,12 @@ async function main() {
 🕐 <b>Time:</b> ${new Date().toISOString()}
 
 <b>Check Oracle Cloud console or network connectivity.</b>
-<b>SSH: root@${VPS_HOST}</b>
+<b>SSH: ${SSH_USER}@${VPS_HOST}</b>
             `.trim();
             await sendTelegram(failureMessage);
         }
     } else {
-        console.log('\n✅ VPS is healthy - no action needed');
+        log('\n✅ VPS is healthy - no action needed');
         
         const okMessage = `
 ✅ <b>VPS HEALTH CHECK OK</b>
@@ -191,11 +200,11 @@ async function main() {
         await sendTelegram(okMessage);
     }
     
-    console.log('\n🔍 VPS HEALTH CHECK COMPLETE');
+    log('\n🔍 VPS HEALTH CHECK COMPLETE');
     process.exit(health.healthy ? 0 : 1);
 }
 
 main().catch(err => {
-    console.error('Fatal error:', err);
+    log(`Fatal error: ${err.message}`);
     process.exit(1);
 });
