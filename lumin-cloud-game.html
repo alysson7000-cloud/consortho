@@ -377,7 +377,11 @@ canvas.addEventListener('contextmenu', e => {
 window.addEventListener('keydown', e => {
   keys[e.key.toLowerCase()] = true;
   ensureAudio();
-  if (e.key === 'Escape') paused = !paused;
+  if (e.key === 'Escape') {
+    paused = !paused;
+    const pauseEl = document.getElementById('pause-overlay');
+    if (pauseEl) pauseEl.style.display = paused ? 'flex' : 'none';
+  }
   if ((e.key === 'r' || e.key === 'Enter') && !player.alive) { resetGame(); }
   if (e.key === 'Shift') player.sprinting = true;
 
