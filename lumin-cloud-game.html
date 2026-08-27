@@ -141,6 +141,7 @@ scoreEl.style.cursor = 'pointer';
 scoreEl.addEventListener('click', () => {
   muted = !muted;
   updateScoreDisplay();
+  updateMuteIcon();
 });
 // Mute indicator click
 const muteIndicator = document.getElementById('mute-indicator');
@@ -149,7 +150,13 @@ if (muteIndicator) {
   muteIndicator.addEventListener('click', () => {
     muted = !muted;
     updateScoreDisplay();
+    updateMuteIcon();
   });
+}
+
+function updateMuteIcon() {
+  const mi = document.getElementById('mute-indicator');
+  if (mi) mi.textContent = muted ? '🔇' : '🔊';
 }
 
 let W, H, DPR;
@@ -386,7 +393,7 @@ window.addEventListener('keydown', e => {
   if (e.key === 'Shift') player.sprinting = true;
 
   // Mute toggle
-  if (e.key === 'm' || e.key === 'M') { muted = !muted; updateScoreDisplay(); }
+  if (e.key === 'm' || e.key === 'M') { muted = !muted; updateScoreDisplay(); updateMuteIcon(); }
 
   // Bomb trigger
   if (e.key === ' ' || e.key === 'Space') {
@@ -501,6 +508,7 @@ function resetGame() {
   particles = []; explosions = []; floatingTexts = [];
   powerups = []; playerPowerType = 'normal'; playerPowerTimer = 0;
   scoreEl.textContent = '⚡ 0';
+  updateMuteIcon();
   gameOverEl.classList.remove('active');
 }
 
