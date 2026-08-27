@@ -631,10 +631,16 @@ canvas { display: block; width: 100%; height: 100%; }
     <div class="wave-timer" id="waveTimer"></div>
   </div>
   <!-- WebXR VR Button -->
-  <button class="vr-btn" id="vrBtn" title="Entrar no VR">🥽 VR</button>
-</div>
+    <button class="vr-btn" id="vrBtn" title="Entrar no VR">🥽 VR</button>
+  </div>
 
-<script>const canvas = document.getElementById('canvas');
+  <!-- Mod Shepherd & Soundscape & Session Memory & Example Mods -->
+  <script src="js/mod-shepherd.js"></script>
+  <script src="js/soundscape.js"></script>
+  <script src="js/session-memory.js"></script>
+  <script src="js/example-mods.js"></script>
+
+  <script>const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let w, h, cx, cy;
 
@@ -3558,7 +3564,7 @@ function updateConsciousnessSystems() {
   updateTimeCrystal();
   updateUniversalLanguage();
   updateDiamondProtocol();
-  // Ultra Generation Systems
+  // === ULTRA GENERATION SYSTEMS ===
     updateTalentTree();
     updateRelics();
     updateCosmicEvents();
@@ -3567,8 +3573,8 @@ function updateConsciousnessSystems() {
     updateConsciousnessPaths();
     updateLivingWorld();
     updatePrestige();
+
     // TRANSCENDENCE SYSTEMS
-    updateTranscendence();
     updateOmegaSynthesis();
     updateEternalRecurrence();
     updateRealityArchitect();
