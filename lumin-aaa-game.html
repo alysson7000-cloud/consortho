@@ -273,7 +273,7 @@ window.addEventListener('keydown', e => {
     resetGame();
   }
   if (e.key === 'Shift') player.sprinting = true;
-  if (e.key === 'm' || e.key === 'M') { muted = !muted; updateHUD(); }
+  if (e.key === 'm' || e.key === 'M') { muted = !muted; updateHUD(); updateMuteIcon(); }
 });
 window.addEventListener('keyup', e => {
   keys[e.key.toLowerCase()] = false;
@@ -347,7 +347,13 @@ if (muteIndicatorAAA) {
   muteIndicatorAAA.addEventListener('click', () => {
     muted = !muted;
     updateHUD();
+    updateMuteIcon();
   });
+}
+
+function updateMuteIcon() {
+  const mi = document.getElementById('mute-indicator');
+  if (mi) mi.textContent = muted ? '🔇' : '🔊';
 }
 
 let pauseScreen = document.getElementById('pause-screen');
@@ -753,6 +759,7 @@ function resetGame() {
   deathScreen.classList.remove('active');
   pauseScreen.classList.add('active');
   updateHUD();
+  updateMuteIcon();
 }
 
 // ============================================================
@@ -791,24 +798,6 @@ function updateHUD() {
   document.getElementById('power').textContent = powerLabel;
   document.getElementById('power').style.color = powerColor;
   console.log('[updateHUD] powerLabel:', powerLabel, 'powerType:', player.powerType);
-}
-  // Mute indicator
-  const muteInd = document.getElementById('mute-indicator');
-  if (muteInd) {
-    muteInd.textContent = muted ? '🔇' : '🔊';
-    muteInd.style.opacity = muted ? '1' : '0.4';
-    muteInd.style.cursor = 'pointer';
-  }
-}
-}
-
-// Mute indicator (single handler — no duplicate)
-const muteIndEl = document.getElementById('mute-indicator');
-if (muteIndEl) {
-  muteIndEl.addEventListener('click', () => {
-    muted = !muted;
-    updateHUD();
-  });
 }
 
 // ============================================================
