@@ -797,7 +797,6 @@ function updateHUD() {
 
   document.getElementById('power').textContent = powerLabel;
   document.getElementById('power').style.color = powerColor;
-  console.log('[updateHUD] powerLabel:', powerLabel, 'powerType:', player.powerType);
 }
 
 // ============================================================
@@ -1207,13 +1206,6 @@ function collectPowerup(pu) {
     player.powerTimer = 60; // Brief window, use immediately
     // Show indicator — Spacebar or Right-click to detonate
     powerupIndicator.textContent = '💣 BOMBA! Pressione ESPACO ou CLICK DIREITO!';
-    powerupIndicator.style.opacity = 1;
-    setTimeout(() => {
-      powerupIndicator.style.opacity = 0;
-    }, 3000);
-  } else if (pu.type.id === 'speed') {
-    // Speed indicator (auto-hide after 3s)
-    powerupIndicator.textContent = '🚀 VELOCIDADE! Tecle Shift para acelerar!';
     powerupIndicator.style.opacity = 1;
     setTimeout(() => {
       powerupIndicator.style.opacity = 0;
