@@ -456,6 +456,7 @@ window.addEventListener('keyup', e => {
 // Touch/mobile controls
 let touchPos = { x: W/2, y: H/2, active: false };
 let touchId = null;
+let touchStartPos = { x: 0, y: 0 };
 
 canvas.addEventListener('touchstart', e => {
   e.preventDefault();
@@ -465,18 +466,14 @@ canvas.addEventListener('touchstart', e => {
   touchPos.y = t.clientY;
   touchPos.active = true;
   touchId = t.identifier;
-  // Tap = shoot
-  if (player.alive) {
-    const angle = Math.atan2(touchPos.y - player.y, touchPos.x - player.x);
-    projectiles.push({
-      x: player.x + Math.cos(angle) * player.radius,
-      y: player.y + Math.sin(angle) * player.radius,
-      vx: Math.cos(angle) * 6,
-      vy: Math.sin(angle) * 6,
-      r: 4, hue: player.hue, life: 80, damage: 1
-    });
-    playSound('shoot');
+  touchStartPos.x = t.clientX;
+  touchStartPos.y = t.clientY;
+  // Tap = shoot (only if minimal movement)
+  if (player.alive && e.changedTouches.length === 1) {
+    // Will check movement in touchmove/touchend — for now set a flag
+    touchStartPos._tapShoot = true;
   }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 }, { passive: false });
 
 canvas.addEventListener('touchmove', e => {
@@ -485,6 +482,27 @@ canvas.addEventListener('touchmove', e => {
     if (t.identifier === touchId) {
       touchPos.x = t.clientX;
       touchPos.y = t.clientY;
+      // Detect drag for movement
+      const dx = t.clientX - touchStartPos.x;
+      const dy = t.clientY - touchStartPos.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist > 20) {
+        touchStartPos._tapShoot = false;
+        // Use drag delta for movement
+        const moveDX = dx * 0.3;
+        const moveDY = dy * 0.3;
+        player.vx += moveDX * 0.15;
+        player.vy += moveDY * 0.15;
+        // Clamp
+        const maxSpd = 6;
+        const spd = Math.sqrt(player.vx * player.vx + player.vy * player.vy);
+        if (spd > maxSpd) {
+          player.vx = (player.vx / spd) * maxSpd;
+          player.vy = (player.vy / spd) * maxSpd;
+        }
+        touchStartPos.x = t.clientX;
+        touchStartPos.y = t.clientY;
+      }
     }
   }
 }, { passive: false });
@@ -494,6 +512,19 @@ canvas.addEventListener('touchend', e => {
     if (t.identifier === touchId) {
       touchPos.active = false;
       touchId = null;
+      // If it was a tap (minimal movement), shoot
+      if (touchStartPos._tapShoot && player.alive) {
+        const angle = Math.atan2(touchPos.y - player.y, touchPos.x - player.x);
+        projectiles.push({
+          x: player.x + Math.cos(angle) * player.radius,
+          y: player.y + Math.sin(angle) * player.radius,
+          vx: Math.cos(angle) * 6,
+          vy: Math.sin(angle) * 6,
+          r: 4, hue: player.hue, life: 80, damage: 1
+        });
+        playSound('shoot');
+      }
+      touchStartPos._tapShoot = false;
     }
   }
 });

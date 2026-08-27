@@ -348,7 +348,6 @@ let deathState = false; // No death in exploration game
 
 // World galaxies
 let galaxies = [];
-let generationSeed = 0;
 
 // Current focused system
 let focusedSystem = null;
@@ -757,13 +756,9 @@ function update() {
   
   // Auto-focus on nearby system
   const nearest = getNearestSystem(player.x, player.y);
-  if (nearest && nearest.x === player.x && nearest.y === player.y) {
-    // Player is on a system, focus it
-  }
-  
-  // Update focused system
   if (nearest && distance(player.x, player.y, nearest.x, nearest.y) < 50) {
     if (!focusedSystem || focusedSystem.x !== nearest.x || focusedSystem.y !== nearest.y) {
+      focusedSystem = nearest;
       focusedSystem = nearest;
       if (!focusedSystem.visited) {
         focusedSystem.visited = true;
