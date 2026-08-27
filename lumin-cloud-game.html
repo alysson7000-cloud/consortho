@@ -176,6 +176,7 @@ if (muteIndicator) {
 function updateMuteIcon() {
   const mi = document.getElementById('mute-indicator');
   if (mi) mi.textContent = muted ? '🔇' : '🔊';
+  try { localStorage.setItem('luminCloudMuted', String(muted)); } catch(e) {}
 }
 
 let W, H, DPR;
@@ -296,6 +297,8 @@ const player = {
 };
 
 let muted = false;
+try { muted = localStorage.getItem('luminCloudMuted') === 'true'; } catch(e) {}
+updateMuteIcon();
 
 const keys = {};
 

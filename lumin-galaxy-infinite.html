@@ -343,6 +343,8 @@ let gameTime = 0;
 let bestResonance = 0;
 try { bestResonance = parseInt(localStorage.getItem('luminGalaxyBest') || '0'); } catch(e) {}
 let muted = false;
+try { muted = localStorage.getItem('luminGalaxyMuted') === 'true'; } catch(e) {}
+updateMuteIcon();
 let paused = true; // Start paused so user sees initial state
 let deathState = false; // No death in exploration game
 
@@ -362,6 +364,7 @@ if (muteIndicatorGalaxy) {
   muteIndicatorGalaxy.style.cursor = 'pointer';
   muteIndicatorGalaxy.addEventListener('click', () => {
     muted = !muted;
+    updateMuteIcon();
     updateHUD();
   });
 }
@@ -848,14 +851,7 @@ function updateHUD() {
   document.getElementById('systems').textContent = player.systemsDiscovered;
   document.getElementById('planets').textContent = player.planetsDiscovered;
   document.getElementById('resonance').textContent = player.resonance + ' 🌟 ' + bestResonance;
-  
-  // Mute indicator
-  const muteInd = document.getElementById('mute-indicator');
-  if (muteInd) {
-    muteInd.textContent = muted ? '🔇' : '🔊';
-    muteInd.style.opacity = muted ? '1' : '0.4';
-  }
-
+  updateMuteIcon();
   // Star info
   const starNameEl = document.getElementById('star-name');
   const starTypeEl = document.getElementById('star-type');
@@ -884,7 +880,7 @@ function updateHUD() {
     if (muteEl && !muteEl._listener) {
       muteEl._listener = true;
       muteEl.style.cursor = 'pointer';
-      muteEl.addEventListener('click', () => { muted = !muted; updateHUD(); });
+      muteEl.addEventListener('click', () => { muted = !muted; updateMuteIcon(); updateHUD(); });
     }
   } else {
     starNameEl.textContent = '—';

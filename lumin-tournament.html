@@ -161,6 +161,7 @@ bestScoreEl.textContent = bestScore;
 
 function updateMuteIcon() {
   if (muteIndicator) muteIndicator.textContent = muted ? '🔇' : '🔊';
+  try { localStorage.setItem('luminTournamentMuted', String(muted)); } catch(e) {}
 }
 
 let W, H, DPR;
@@ -181,6 +182,8 @@ resize();
 let audioCtx = null;
 let masterGain = null;
 let muted = false;
+try { muted = localStorage.getItem('luminTournamentMuted') === 'true'; } catch(e) {}
+updateMuteIcon();
 
 function initAudio() {
   if (audioCtx) return;

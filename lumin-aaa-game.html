@@ -163,6 +163,8 @@ resize();
 let audioCtx = null;
 let masterGain = null;
 let muted = false;
+try { muted = localStorage.getItem('luminAAAMuted') === 'true'; } catch(e) {}
+updateMuteIcon();
 
 function initAudio() {
   if (audioCtx) return;
@@ -354,6 +356,7 @@ if (muteIndicatorAAA) {
 function updateMuteIcon() {
   const mi = document.getElementById('mute-indicator');
   if (mi) mi.textContent = muted ? '🔇' : '🔊';
+  try { localStorage.setItem('luminAAAMuted', String(muted)); } catch(e) {}
 }
 
 let pauseScreen = document.getElementById('pause-screen');
