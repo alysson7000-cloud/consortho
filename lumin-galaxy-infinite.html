@@ -123,6 +123,7 @@ canvas { display: block; }
   <h1>⏸ PAUSADO</h1>
   <p>WASD/Setas: navegar · Scroll: zoom · Espaço: harmonizar · ESC: pausa</p>
   <p>Você está no centro da galáxia. O universo é infinito.</p>
+  <p style="color:#0ff; font-size:14px; margin-top:12px; animation:pulse 1.5s ease-in-out infinite;">PRESSIONE QUALQUER TECLA PARA INICIAR</p>
 </div>
 <div id="controls-hint">WASD/Setas · Scroll zoom · Espaço harmonize · ESC pausa · Toque para interagir</div>
 <a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
@@ -234,6 +235,10 @@ window.addEventListener('keydown', e => {
   keys[e.key.toLowerCase()] = true;
   if (!audioCtx) initAudio();
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  // Auto-start: any key unpauses
+  if (paused && e.key !== 'Escape') {
+    togglePause();
+  }
   if (e.key === 'Escape') togglePause();
   if (e.key === 'r' && deathState) resetGame();
   // Warp speed with Shift
@@ -1100,10 +1105,19 @@ function render() {
 
     // Harmonize effect
     if (player.harmonizing) {
+      // Outer harmonize ring
       ctx.strokeStyle = `hsla(190, 100%, 70%, ${0.5 + 0.5 * Math.sin(gameTime * 0.2)})`;
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.arc(0, 0, player.radius * 2.5 / zoomLevel, 0, Math.PI * 2);
+      ctx.stroke();
+      // Harmonize flash ring expanding
+      const flashProgress = 1 - player.harmonizeTimer / 120;
+      const flashRadius = player.radius * 2.5 / zoomLevel + flashProgress * 80 / zoomLevel;
+      ctx.strokeStyle = `hsla(190, 100%, 80%, ${0.6 * (1 - flashProgress)})`;
+      ctx.lineWidth = 3 * (1 - flashProgress) + 1;
+      ctx.beginPath();
+      ctx.arc(0, 0, flashRadius, 0, Math.PI * 2);
       ctx.stroke();
     }
 
