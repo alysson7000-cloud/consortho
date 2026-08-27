@@ -112,6 +112,7 @@ canvas { display: block; }
 </div>
 <div id="scanlines"></div>
 <a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
+<a href="/lumin-portal.html" id="exit-nav" style="position:fixed;bottom:12px;right:16px;color:rgba(255,60,60,0.5);font-size:11px;letter-spacing:1px;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:14px;backdrop-filter:blur(8px);pointer-events:auto;z-index:30;text-decoration:none;border:1px solid rgba(255,60,60,0.15);transition:all 0.2s;font-family:'Orbitron',sans-serif;">⛔ SAIR</a>
 <div id="combo-display"></div>
 <div id="powerup-indicator"></div>
 <div id="pause-screen" class="active">
@@ -469,6 +470,7 @@ const POWER_TYPES = [
   { id: 'laser', label: 'LASER', hue: 0, color: '#ff4444', desc: 'Tiro contínuo' },
   { id: 'shield', label: 'ESCUDO', hue: 120, color: '#00ff64', desc: '1 invencibilidade' },
   { id: 'life', label: 'VIDA', hue: 0, color: '#ff0000', desc: '+1 vida' },
+  { id: 'speed', label: 'VELOCIDADE', hue: 200, color: '#00ffaa', desc: 'Mais rápido' },
   { id: 'bomb', label: 'BOMBA', hue: 50, color: '#ffaa00', desc: 'Destrói tudo' }
 ];
 
@@ -784,10 +786,12 @@ function updateHUD() {
   else if (player.powerType === 'laser') { powerLabel = '🔥LASER'; powerColor = '#ff4444'; }
   else if (player.powerType === 'shield') { powerLabel = '🛡ESCUDO'; powerColor = '#00ff64'; }
   else if (player.powerType === 'bomb') { powerLabel = '💣BOMBA'; powerColor = '#ffaa00'; }
-  
+  else if (player.powerType === 'speed') { powerLabel = '🚀VELOCIDADE'; powerColor = '#00ffaa'; }
+
   document.getElementById('power').textContent = powerLabel;
   document.getElementById('power').style.color = powerColor;
-  
+  console.log('[updateHUD] powerLabel:', powerLabel, 'powerType:', player.powerType);
+}
   // Mute indicator
   const muteInd = document.getElementById('mute-indicator');
   if (muteInd) {
@@ -798,10 +802,13 @@ function updateHUD() {
 }
 }
 
-// Click on mute indicator to toggle
+// Mute indicator (single handler — no duplicate)
 const muteIndEl = document.getElementById('mute-indicator');
 if (muteIndEl) {
-muteIndEl.addEventListener('click', () => { muted = !muted; updateHUD(); });
+  muteIndEl.addEventListener('click', () => {
+    muted = !muted;
+    updateHUD();
+  });
 }
 
 // ============================================================
@@ -809,9 +816,9 @@ muteIndEl.addEventListener('click', () => { muted = !muted; updateHUD(); });
 // ============================================================
 function update() {
   if (paused) return;
-  
+
   gameTime++;
-  
+
   // Level progression
   if (gameTime % 1200 === 0 && gameTime > 0) {
     level++;
@@ -820,7 +827,7 @@ function update() {
     addFloatingText(W/2, H/2, 'LEVEL ' + level, 190, 48, '#0ff');
     playSound('powerup');
   }
-  
+
   // Difficulty scaling - spawn rate
   const spawnRate = Math.max(8, 30 - difficulty * 2.5);
   if (gameTime % Math.floor(spawnRate) === 0 && player.alive) {
@@ -837,7 +844,8 @@ function update() {
     if (player.powerTimer <= 0) {
       player.powerType = 'normal';
       player.powerDuration = 0;
-      // Hide bomb indicator when power expires
+      player.speedBoost = false;
+      // Hide bomb/speed indicator when power expires
       const bombInd = document.getElementById('powerup-indicator');
       if (bombInd) bombInd.style.opacity = 0;
     }
@@ -1194,6 +1202,12 @@ function collectPowerup(pu) {
     player.shield = true;
     player.powerType = 'shield';
     player.powerTimer = 420; // 7 seconds
+  } else if (pu.type.id === 'speed') {
+    player.speedBoost = true;
+    player.powerType = 'speed';
+    player.powerTimer = 500; // ~8 seconds
+    addFloatingText(player.x, player.y - 30, '🚀 VELOCIDADE!', 200, 24, '#00ffaa');
+    playSound('powerup');
   } else if (pu.type.id === 'life') {
     if (player.hp < player.maxHp) {
       player.hp++;
@@ -1202,8 +1216,15 @@ function collectPowerup(pu) {
   } else if (pu.type.id === 'bomb') {
     player.powerType = 'bomb';
     player.powerTimer = 60; // Brief window, use immediately
-    // Show indicator
-    powerupIndicator.textContent = '💣 BOMBA DISPONÍVEL! Pressione ESPACO!';
+    // Show indicator — Spacebar or Right-click to detonate
+    powerupIndicator.textContent = '💣 BOMBA! Pressione ESPACO ou CLICK DIREITO!';
+    powerupIndicator.style.opacity = 1;
+    setTimeout(() => {
+      powerupIndicator.style.opacity = 0;
+    }, 3000);
+  } else if (pu.type.id === 'speed') {
+    // Speed indicator (auto-hide after 3s)
+    powerupIndicator.textContent = '🚀 VELOCIDADE! Tecle Shift para acelerar!';
     powerupIndicator.style.opacity = 1;
     setTimeout(() => {
       powerupIndicator.style.opacity = 0;
