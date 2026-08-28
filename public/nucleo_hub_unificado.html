@@ -114,10 +114,7 @@ body {
 .agent-dot.online { background: #00ff88; }
 .agent-dot.busy { background: #ff006e; }
 .agent-dot.idle { background: #8a8ac0; }
-@keyframes pulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
-}
+@keyframes pulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
 .ai-panel {
   position: absolute;
   bottom: 100px; left: 20px;
@@ -164,15 +161,8 @@ body {
   transition: all 0.15s;
   color: #a0a0c0;
 }
-.exp-item:hover {
-  background: rgba(255,215,0,0.1);
-  color: #ffd700;
-}
-.exp-item .tag {
-  font-size: 0.6rem;
-  color: #6a6a8a;
-  margin-left: 6px;
-}
+.exp-item:hover { background: rgba(255,215,0,0.1); color: #ffd700; }
+.exp-item .tag { font-size: 0.6rem; color: #6a6a8a; margin-left: 6px; }
 .status-bar {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -186,15 +176,8 @@ body {
   color: #6a6a8a;
   pointer-events: auto;
 }
-.status-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.status-item .dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-}
+.status-item { display: flex; align-items: center; gap: 6px; }
+.status-item .dot { width: 6px; height: 6px; border-radius: 50%; }
 .status-item .dot.up { background: #00ff88; }
 .status-item .dot.down { background: #ff006e; }
 .portals-container {
@@ -271,10 +254,10 @@ body {
   </div>
 </div>
 
-<div class="status-bar">
-  <div class="status-item"><span class="dot up" id="dot-8766"></span> Nucleo WebGL <span id="val-8766">—</span></div>
+<div class="status-bar" id="status-bar">
+  <div class="status-item"><span class="dot up" id="dot-8766"></span> WebGL <span id="val-8766">—</span></div>
   <div class="status-item"><span class="dot up" id="dot-9877"></span> Consortho <span id="val-9877">—</span></div>
-  <div class="status-item"><span class="dot up" id="dot-8767"></span> Lumin Cloud <span id="val-8767">—</span></div>
+  <div class="status-item"><span class="dot up" id="dot-8767"></span> Cloud <span id="val-8767">—</span></div>
   <div class="status-item"><span class="dot up" id="dot-9879"></span> Atlas <span id="val-9879">—</span></div>
   <div class="status-item"><span class="dot up" id="dot-9880"></span> Admin <span id="val-9880">—</span></div>
   <div class="status-item"><span class="dot up" id="dot-8081"></span> Lumin AI <span id="val-8081">—</span></div>
@@ -285,8 +268,49 @@ body {
 
 <script src="/three.min.js"></script>
 <script>
-// ==================== CONFIGURAÇÃO ====================
 const canvas = document.getElementById('game-canvas');
+
+// Fallback: Three.js inline se não carregar
+if (typeof THREE === 'undefined') {
+  document.body.innerHTML = `
+    <div id="fallback" style="
+      position:fixed; inset:0;
+      background:radial-gradient(ellipse at center, #0a0518, #05050a);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      color:#ffd700; font-family:system-ui;
+      gap:16px; text-align:center; padding:40px;
+    ">
+      <div style="font-size:2rem;font-weight:700;
+        background:linear-gradient(135deg,#ffd700,#ff6b35,#ff006e,#8338ec,#3a86ff);
+        -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      ">NÚCLEO LUMIN</div>
+      <div style="font-size:0.9rem;color:#a0a0c0;max-width:400px;line-height:1.5">
+        O hub 3D ainda não carregou. Verifique se o Three.js está disponível.
+        Enquanto isso, o sistema está operacional:
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center">
+        <a href="/" style="color:#ffd700;text-decoration:none;border:1px solid rgba(255,215,0,0.3);
+          padding:8px 16px;border-radius:8px;font-size:0.8rem">Consortho</a>
+        <a href="/nucleo_semente_fofa.html" style="color:#ffd700;text-decoration:none;border:1px solid rgba(255,215,0,0.3);
+          padding:8px 16px;border-radius:8px;font-size:0.8rem">Semente Fofa</a>
+        <a href="/nucleo_indice.html" style="color:#ffd700;text-decoration:none;border:1px solid rgba(255,215,0,0.3);
+          padding:8px 16px;border-radius:8px;font-size:0.8rem">Índice WebGL</a>
+      </div>
+      <div style="font-size:0.7rem;color:#6a6a8a;margin-top:20px">
+        Serviços: 
+        <span style="color:#00ff88">WebGL ✓</span> · 
+        <span style="color:#00ff88">Consortho ✓</span> · 
+        <span style="color:#00ff88">Cloud ✓</span> · 
+        <span style="color:#00ff88">Atlas ✓</span>
+      </div>
+    </div>
+  `;
+  document.getElementById('status-bar').style.display = 'none';
+  throw new Error('Three.js não carregou — fallback ativado');
+}
+
+// ==================== CONFIGURAÇÃO ====================
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 canvas.style.width = '100vw';
@@ -348,34 +372,21 @@ const nebulaGeo = new THREE.BufferGeometry();
 const nebulaCount = 300;
 const nebulaPos = new Float32Array(nebulaCount * 3);
 const nebulaColors = new Float32Array(nebulaCount * 3);
-const nebColors = [
-  [1.0, 0.4, 0.1],
-  [0.2, 0.3, 1.0],
-  [1.0, 0.2, 0.4],
-  [0.3, 1.0, 0.3],
-];
+const nebColors = [[1.0,0.4,0.1],[0.2,0.3,1.0],[1.0,0.2,0.4],[0.3,1.0,0.3]];
 for (let i = 0; i < nebulaCount; i++) {
-  const angle = Math.random() * Math.PI * 2;
-  const radius = 3 + Math.random() * 5;
-  nebulaPos[i*3] = Math.cos(angle) * radius;
+  const a = Math.random() * Math.PI * 2;
+  const r = 3 + Math.random() * 5;
+  nebulaPos[i*3] = Math.cos(a) * r;
   nebulaPos[i*3+1] = (Math.random() - 0.5) * 2;
-  nebulaPos[i*3+2] = Math.sin(angle) * radius;
+  nebulaPos[i*3+2] = Math.sin(a) * r;
   const c = nebColors[Math.floor(Math.random() * nebColors.length)];
-  nebulaColors[i*3] = c[0];
-  nebulaColors[i*3+1] = c[1];
-  nebulaColors[i*3+2] = c[2];
+  nebulaColors[i*3]=c[0]; nebulaColors[i*3+1]=c[1]; nebulaColors[i*3+2]=c[2];
 }
 nebulaGeo.setAttribute('position', new THREE.BufferAttribute(nebulaPos, 3));
 nebulaGeo.setAttribute('color', new THREE.BufferAttribute(nebulaColors, 3));
-
 const nebulaMat = new THREE.PointsMaterial({
-  size: 0.8,
-  transparent: true,
-  opacity: 0.3,
-  vertexColors: true,
-  blending: THREE.AdditiveBlending,
-  depthWrite: false,
-  sizeAttenuation: true
+  size: 0.8, transparent: true, opacity: 0.3, vertexColors: true,
+  blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
 });
 const nebula = new THREE.Points(nebulaGeo, nebulaMat);
 scene.add(nebula);
@@ -383,11 +394,8 @@ scene.add(nebula);
 // ==================== ANEL CENTRAL ====================
 const ringGeo = new THREE.TorusGeometry(2.5, 0.03, 32, 100);
 const ringMat = new THREE.MeshStandardMaterial({
-  color: 0xffd700,
-  emissive: 0xff6b35,
-  emissiveIntensity: 0.3,
-  transparent: true,
-  opacity: 0.6,
+  color: 0xffd700, emissive: 0xff6b35, emissiveIntensity: 0.3,
+  transparent: true, opacity: 0.6
 });
 const ring = new THREE.Mesh(ringGeo, ringMat);
 ring.rotation.x = Math.PI / 3;
@@ -396,12 +404,8 @@ scene.add(ring);
 const ring2 = new THREE.Mesh(
   new THREE.TorusGeometry(3.2, 0.02, 16, 200),
   new THREE.MeshStandardMaterial({
-    color: 0x8338ec,
-    emissive: 0x3a86ff,
-    emissiveIntensity: 0.2,
-    transparent: true,
-    opacity: 0.4,
-    wireframe: true
+    color: 0x8338ec, emissive: 0x3a86ff, emissiveIntensity: 0.2,
+    transparent: true, opacity: 0.4, wireframe: true
   })
 );
 ring2.rotation.x = -Math.PI / 4;
@@ -410,18 +414,13 @@ scene.add(ring2);
 // ==================== PRISMA CENTRAL ====================
 const prismGeo = new THREE.OctahedronGeometry(0.5);
 const prismMat = new THREE.MeshStandardMaterial({
-  color: 0xffd700,
-  emissive: 0xff006e,
-  emissiveIntensity: 0.5,
-  metalness: 0.8,
-  roughness: 0.2,
-  transparent: true,
-  opacity: 0.9
+  color: 0xffd700, emissive: 0xff006e, emissiveIntensity: 0.5,
+  metalness: 0.8, roughness: 0.2, transparent: true, opacity: 0.9
 });
 const prism = new THREE.Mesh(prismGeo, prismMat);
 scene.add(prism);
 
-// Luzes
+// ==================== LUZES ====================
 const pointLight = new THREE.PointLight(0xffd700, 2, 10);
 pointLight.position.set(0, 0, 0);
 scene.add(pointLight);
@@ -437,20 +436,15 @@ scene.add(dirLight);
 const particleGeo = new THREE.BufferGeometry();
 const particleCount = 500;
 const particlePos = new Float32Array(particleCount * 3);
-particlePos.forEach((_, i) => {
+for (let i = 0; i < particleCount; i++) {
   particlePos[i*3] = (Math.random() - 0.5) * 15;
   particlePos[i*3+1] = (Math.random() - 0.5) * 8;
   particlePos[i*3+2] = (Math.random() - 0.5) * 15 - 5;
-});
+}
 particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
-
 const particleMat = new THREE.PointsMaterial({
-  color: 0xffd700,
-  size: 0.04,
-  transparent: true,
-  opacity: 0.6,
-  blending: THREE.AdditiveBlending,
-  sizeAttenuation: true
+  color: 0xffd700, size: 0.04, transparent: true, opacity: 0.6,
+  blending: THREE.AdditiveBlending, sizeAttenuation: true
 });
 const particles = new THREE.Points(particleGeo, particleMat);
 scene.add(particles);
@@ -469,15 +463,67 @@ const portals = [];
 const portalGroup = new THREE.Group();
 scene.add(portalGroup);
 
+// ==================== GLOW SPRITES ====================
+const glowCanvas = document.createElement('canvas');
+glowCanvas.width = glowCanvas.height = 64;
+const gCtx = glowCanvas.getContext('2d');
+const gGrad = gCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+gGrad.addColorStop(0, 'rgba(255,215,0,1)');
+gGrad.addColorStop(0.3, 'rgba(255,107,53,0.8)');
+gGrad.addColorStop(0.7, 'rgba(255,0,110,0.3)');
+gGrad.addColorStop(1, 'rgba(0,0,0,0)');
+gCtx.fillStyle = gGrad;
+gCtx.fillRect(0, 0, 64, 64);
+const glowTex = new THREE.CanvasTexture(glowCanvas);
+
+const glowSprites = [];
+const glowColors = [0xffd700, 0xff6b35, 0x8338ec, 0x3a86ff, 0xff006e];
+for (let i = 0; i < 12; i++) {
+  const sprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({
+      map: glowTex,
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      opacity: 0.2 + Math.random() * 0.2,
+      color: glowColors[i % 5]
+    })
+  );
+  sprite.position.set(
+    (Math.random() - 0.5) * 12,
+    (Math.random() - 0.5) * 6,
+    -3 - Math.random() * 5
+  );
+  const s = 0.4 + Math.random() * 1.8;
+  sprite.scale.set(s, s, 1);
+  scene.add(sprite);
+  glowSprites.push({
+    sprite, phase: Math.random() * Math.PI * 2,
+    speed: 0.15 + Math.random() * 0.15,
+    baseScale: s
+  });
+}
+
+// ==================== ORBITS DE LUZ ====================
+const orbitLights = [];
+portalPositions.forEach((p, idx) => {
+  const light = new THREE.PointLight(p.color, 0.6, 3);
+  light.position.set(p.x, p.y, p.z);
+  scene.add(light);
+  orbitLights.push({
+    light, angle: Math.random() * Math.PI * 2,
+    radius: 0.8 + Math.random() * 0.4,
+    speed: 0.4 + Math.random() * 0.3,
+    yOffset: (Math.random() - 0.5) * 0.3,
+    phase: Math.random() * Math.PI * 2,
+    baseY: p.y
+  });
+});
+
 portalPositions.forEach((p, idx) => {
   const sphereGeo = new THREE.SphereGeometry(0.5, 32, 32);
   const sphereMat = new THREE.MeshStandardMaterial({
-    color: p.color,
-    emissive: p.color,
-    emissiveIntensity: 0.4,
-    transparent: true,
-    opacity: 0.7,
-    wireframe: true
+    color: p.color, emissive: p.color, emissiveIntensity: 0.4,
+    transparent: true, opacity: 0.7, wireframe: true
   });
   const sphere = new THREE.Mesh(sphereGeo, sphereMat);
   sphere.position.set(p.x, p.y, p.z);
@@ -485,24 +531,18 @@ portalPositions.forEach((p, idx) => {
 
   const ringGeo2 = new THREE.TorusGeometry(0.7, 0.02, 16, 32);
   const ringMat2 = new THREE.MeshStandardMaterial({
-    color: p.color,
-    emissive: p.color,
-    emissiveIntensity: 0.3,
-    transparent: true,
-    opacity: 0.5
+    color: p.color, emissive: p.color, emissiveIntensity: 0.3,
+    transparent: true, opacity: 0.5
   });
-  const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
-  ring2.position.set(p.x, p.y, p.z);
-  ring2.rotation.x = Math.PI / 2;
-  portalGroup.add(ring2);
+  const ring3 = new THREE.Mesh(ringGeo2, ringMat2);
+  ring3.position.set(p.x, p.y, p.z);
+  ring3.rotation.x = Math.PI / 2;
+  portalGroup.add(ring3);
 
   const coneGeo = new THREE.ConeGeometry(0.3, 0.5, 16);
   const coneMat = new THREE.MeshStandardMaterial({
-    color: p.color,
-    emissive: p.color,
-    emissiveIntensity: 0.2,
-    transparent: true,
-    opacity: 0.3
+    color: p.color, emissive: p.color, emissiveIntensity: 0.2,
+    transparent: true, opacity: 0.3
   });
   const cone = new THREE.Mesh(coneGeo, coneMat);
   cone.position.set(p.x, p.y - 0.8, p.z);
@@ -511,125 +551,32 @@ portalPositions.forEach((p, idx) => {
 
   portals.push({
     pos: new THREE.Vector3(p.x, p.y, p.z),
-    data: p,
-    sphere: sphere,
-    ring: ring2,
-    cone: cone,
-    hover: false
+    data: p, sphere, ring: ring3, cone, hover: false
   });
 
   const label = document.createElement('div');
   label.className = 'portal-label';
-  label.style.left = ((p.x * 80) + window.innerWidth / 2 - 100) + 'px';
-  label.style.top = ((-p.y * 80) + window.innerHeight / 2 - 20) + 'px';
+  const lx = p.x * 80 + window.innerWidth / 2 - 100;
+  const ly = -p.y * 80 + window.innerHeight / 2 - 20;
+  label.style.left = lx + 'px';
+  label.style.top = ly + 'px';
   label.innerHTML = `<strong>${p.label}</strong><span class="sub">${p.sub}</span>`;
-  label.onclick = (e) => {
-    e.stopPropagation();
-    window.open(`http://localhost:${p.port}/`, '_blank');
-  };
-  label.onmouseenter = () => {
-    label.style.transform = 'scale(1.08)';
-    portals[idx].hover = true;
-  };
-  label.onmouseleave = () => {
-    label.style.transform = 'scale(1)';
-    portals[idx].hover = false;
-  };
+  label.onclick = (e) => { e.stopPropagation(); window.open(`http://localhost:${p.port}/`, '_blank'); };
+  label.onmouseenter = () => { label.style.transform = 'scale(1.08)'; portals[idx].hover = true; };
+  label.onmouseleave = () => { label.style.transform = 'scale(1)'; portals[idx].hover = false; };
   document.getElementById('portals-container').appendChild(label);
 });
 
-// ==================== EFEITOS AVANÇADOS ====================
-
-// Sistema de partículas interativas (reação ao mouse)
-const mouse = new THREE.Vector2(0, 0);
-
-canvas.addEventListener('mousemove', (e) => {
-  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-});
-
-canvas.addEventListener('touchmove', (e) => {
-  if (e.touches.length > 0) {
-    const touch = e.touches[0];
-    mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
-  }
-}, { passive: true });
-
-canvas.addEventListener('click', (e) => {
-  const rect = canvas.getBoundingClientRect();
-  const x = ((e.clientX - rect.left) / window.innerWidth) * 2 - 1;
-  const y = -((e.clientY - rect.top) / window.innerHeight) * 2 + 1;
-  
-  pointLight.intensity = 5;
-  setTimeout(() => { pointLight.intensity = 2; }, 150);
-  
-  const burstGeo = new THREE.BufferGeometry();
-  const burstCount = 30;
-  const burstPos = new Float32Array(burstCount * 3);
-  const burstVel = [];
-  for (let i = 0; i < burstCount; i++) {
-    burstPos[i*3] = x * 5;
-    burstPos[i*3+1] = y * 3;
-    burstPos[i*3+2] = -1;
-    burstVel.push({
-      x: (Math.random() - 0.5) * 0.5,
-      y: (Math.random() - 0.5) * 0.5,
-      z: -Math.random() * 0.3 - 0.1
-    });
-  }
-  burstGeo.setAttribute('position', new THREE.BufferAttribute(burstPos, 3));
-  const burstMat = new THREE.PointsMaterial({
-    color: 0xffd700,
-    size: 0.1,
-    transparent: true,
-    opacity: 1,
-    blending: THREE.AdditiveBlending,
-    sizeAttenuation: true
-  });
-  const burst = new THREE.Points(burstGeo, burstMat);
-  scene.add(burst);
-  
-  let burstTime = 0;
-  function animateBurst() {
-    burstTime += 0.05;
-    const p = burst.geometry.attributes.position.array;
-    for (let i = 0; i < burstCount; i++) {
-      p[i*3] += burstVel[i].x * 0.3;
-      p[i*3+1] += burstVel[i].y * 0.3;
-      p[i*3+2] += burstVel[i].z * 0.3;
-    }
-    burst.geometry.attributes.position.needsUpdate = true;
-    burst.material.opacity = Math.max(0, 1 - burstTime * 2);
-    if (burstTime < 2) {
-      requestAnimationFrame(animateBurst);
-    } else {
-      scene.remove(burst);
-      burst.geometry.dispose();
-      burst.material.dispose();
-    }
-  }
-  animateBurst();
-}, { passive: true });
-
-// Água viva - sistema de plasma e partículas reativas
+// ==================== ÁGUA VIVA / PLASMA ====================
 const waterCanvas = document.createElement('canvas');
-waterCanvas.width = 256;
-waterCanvas.height = 256;
+waterCanvas.width = waterCanvas.height = 256;
 const wCtx = waterCanvas.getContext('2d');
 const waterTex = new THREE.CanvasTexture(waterCanvas);
 const waterMat = new THREE.MeshBasicMaterial({
-  map: waterTex,
-  transparent: true,
-  opacity: 0.15,
-  blending: THREE.AdditiveBlending,
-  depthWrite: false,
-  side: THREE.DoubleSide
+  map: waterTex, transparent: true, opacity: 0.15,
+  blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide
 });
-const waterPlane = new THREE.Mesh(
-  new THREE.PlaneGeometry(20, 10),
-  waterMat
-);
+const waterPlane = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), waterMat);
 waterPlane.rotation.x = -Math.PI / 2;
 waterPlane.position.y = -0.5;
 scene.add(waterPlane);
@@ -637,31 +584,71 @@ scene.add(waterPlane);
 function renderWater() {
   wCtx.fillStyle = '#0a0a1a';
   wCtx.fillRect(0, 0, 256, 256);
-  
-  const time = Date.now() * 0.001;
-  for (let y = 0; y < 256; y++) {
-    for (let x = 0; x < 256; x++) {
-      const nx = x / 256;
-      const ny = y / 256;
-      
-      const wave1 = Math.sin(nx * 8 + time) * 0.3;
-      const wave2 = Math.sin(ny * 6 + time * 1.3) * 0.2;
-      const wave3 = Math.sin((nx + ny) * 5 + time * 0.7) * 0.15;
-      const val = wave1 + wave2 + wave3;
-      
-      const intensity = (Math.sin(val * Math.PI) * 0.5 + 0.5) * 255;
-      const r = 255;
-      const g = 200 + Math.sin(val * 2 + time) * 55;
-      const b = 255;
-      
-      wCtx.fillStyle = `rgba(${r},${g},${b},${intensity / 255 * 0.4})`;
-      wCtx.fillRect(x, y, 1, 1);
+  const t = Date.now() * 0.001;
+  for (let y = 0; y < 256; y += 2) {
+    for (let x = 0; x < 256; x += 2) {
+      const nx = x / 256, ny = y / 256;
+      const w1 = Math.sin(nx * 8 + t) * 0.3;
+      const w2 = Math.sin(ny * 6 + t * 1.3) * 0.2;
+      const w3 = Math.sin((nx + ny) * 5 + t * 0.7) * 0.15;
+      const v = w1 + w2 + w3;
+      const i = (Math.sin(v * Math.PI) * 0.5 + 0.5);
+      wCtx.fillStyle = `rgba(255,${200+Math.sin(v*2+t)*55},255,${i*0.35})`;
+      wCtx.fillRect(x, y, 2, 2);
     }
   }
   waterTex.needsUpdate = true;
   requestAnimationFrame(renderWater);
 }
 renderWater();
+
+// ==================== MOUSE / TOCA ====================
+const mouse = new THREE.Vector2(0, 0);
+canvas.addEventListener('mousemove', (e) => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+});
+canvas.addEventListener('touchmove', (e) => {
+  if (e.touches.length > 0) {
+    const t = e.touches[0];
+    mouse.x = (t.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(t.clientY / window.innerHeight) * 2 + 1;
+  }
+}, { passive: true });
+
+// ==================== CLICK → EXPLOSÃO DE LUZ ====================
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / window.innerWidth) * 2 - 1;
+  const y = -((e.clientY - rect.top) / window.innerHeight) * 2 + 1;
+  pointLight.intensity = 5;
+  setTimeout(() => { pointLight.intensity = 2; }, 150);
+  const bg = new THREE.BufferGeometry();
+  const bc = 30;
+  const bp = new Float32Array(bc * 3);
+  const bv = [];
+  for (let i = 0; i < bc; i++) {
+    bp[i*3] = x * 5; bp[i*3+1] = y * 3; bp[i*3+2] = -1;
+    bv.push({ x: (Math.random()-0.5)*0.5, y: (Math.random()-0.5)*0.5, z: -Math.random()*0.3-0.1 });
+  }
+  bg.setAttribute('position', new THREE.BufferAttribute(bp, 3));
+  const bm = new THREE.PointsMaterial({
+    color: 0xffd700, size: 0.1, transparent: true, opacity: 1,
+    blending: THREE.AdditiveBlending, sizeAttenuation: true
+  });
+  const burst = new THREE.Points(bg, bm);
+  scene.add(burst);
+  let bt = 0;
+  function ab() {
+    bt += 0.05;
+    const p = burst.geometry.attributes.position.array;
+    for (let i = 0; i < bc; i++) { p[i*3]+=bv[i].x*0.3; p[i*3+1]+=bv[i].y*0.3; p[i*3+2]+=bv[i].z*0.3; }
+    burst.geometry.attributes.position.needsUpdate = true;
+    burst.material.opacity = Math.max(0, 1 - bt * 2);
+    if (bt < 2) requestAnimationFrame(ab); else { scene.remove(burst); burst.geometry.dispose(); burst.material.dispose(); }
+  }
+  ab();
+}, { passive: true });
 
 // ==================== ANIMAÇÃO ====================
 let time = 0;
@@ -671,24 +658,21 @@ function animate() {
 
   stars.rotation.y += 0.0002;
   stars.rotation.x += 0.0001;
-
   nebula.rotation.y += 0.001;
   nebula.rotation.x += 0.0005;
-
   ring.rotation.y += 0.005;
   ring.rotation.z += 0.003;
   ring2.rotation.y -= 0.008;
   ring2.rotation.x -= 0.002;
-
   prism.rotation.y += 0.01;
   prism.rotation.x += 0.008;
-  const scale = 1 + Math.sin(time * 3) * 0.1;
-  prism.scale.set(scale, scale, scale);
+  const sc = 1 + Math.sin(time * 3) * 0.1;
+  prism.scale.set(sc, sc, sc);
 
-  const positions = particles.geometry.attributes.position.array;
+  const pp = particles.geometry.attributes.position.array;
   for (let i = 0; i < particleCount; i++) {
-    positions[i*3+1] += Math.sin(time * 2 + i) * 0.001;
-    positions[i*3] += Math.cos(time * 1.5 + i * 0.5) * 0.0005;
+    pp[i*3+1] += Math.sin(time * 2 + i) * 0.001;
+    pp[i*3] += Math.cos(time * 1.5 + i * 0.5) * 0.0005;
   }
   particles.geometry.attributes.position.needsUpdate = true;
 
@@ -697,11 +681,25 @@ function animate() {
     p.sphere.scale.set(s, s, s);
     p.ring.scale.set(s, s, s);
     p.cone.scale.set(1 + Math.sin(time * 3 + i) * 0.2, 1, 1 + Math.sin(time * 3 + i) * 0.2);
-    const intensity = 0.3 + Math.sin(time * 4 + i * 2) * 0.2;
-    p.sphere.material.emissiveIntensity = intensity;
+    p.sphere.material.emissiveIntensity = 0.3 + Math.sin(time * 4 + i * 2) * 0.2;
   });
 
   pointLight.intensity = 1.5 + Math.sin(time * 2) * 0.5;
+
+  // Glow sprites pulsam
+  glowSprites.forEach((g, i) => {
+    const ps = Math.sin(time * g.speed + g.phase) * 0.3 + 1;
+    g.sprite.scale.set(g.baseScale * ps, g.baseScale * ps, 1);
+    g.sprite.material.opacity = 0.15 + Math.sin(time * g.speed + g.phase) * 0.1 + 0.1;
+  });
+
+  // Orbit lights giram ao redor dos portais
+  orbitLights.forEach((o, i) => {
+    o.angle += o.speed * 0.01;
+    o.light.position.x = o.light.position.x + Math.cos(o.angle) * 0.01;
+    o.light.position.z = o.light.position.z + Math.sin(o.angle) * 0.01;
+    o.light.position.y = o.baseY + Math.sin(time * o.speed + o.phase) * o.yOffset;
+  });
 
   camera.position.x = Math.sin(time * 0.3) * 1.5;
   camera.position.z = 6 + Math.sin(time * 0.5) * 1;
@@ -717,16 +715,12 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  canvas.style.width = '100vw';
-  canvas.style.height = '100vh';
-  
-  // Atualiza labels dos portais
   const labels = document.querySelectorAll('.portal-label');
   labels.forEach((label, idx) => {
     const p = portalPositions[idx];
     if (p) {
-      label.style.left = ((p.x * 80) + window.innerWidth / 2 - 100) + 'px';
-      label.style.top = ((-p.y * 80) + window.innerHeight / 2 - 20) + 'px';
+      label.style.left = (p.x * 80 + window.innerWidth / 2 - 100) + 'px';
+      label.style.top = (-p.y * 80 + window.innerHeight / 2 - 20) + 'px';
     }
   });
 });
@@ -734,46 +728,26 @@ window.addEventListener('resize', () => {
 // ==================== STATUS ====================
 async function refreshStatus() {
   const ports = [8766, 9877, 8767, 9879, 9880, 8081];
-  const results = await Promise.all(
-    ports.map(async p => {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 2000);
-        await fetch(`http://localhost:${p}/`, { 
-          mode: 'no-cors',
-          signal: controller.signal 
-        });
-        clearTimeout(timeout);
-        return { port: p, status: 'reachable' };
-      } catch {
-        return { port: p, status: 'down' };
-      }
-    })
-  );
-
+  const results = await Promise.all(ports.map(async p => {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 2000);
+      await fetch(`http://localhost:${p}/`, { mode: 'no-cors', signal: ctrl.signal });
+      clearTimeout(t);
+      return { port: p, ok: true };
+    } catch { return { port: p, ok: false }; }
+  }));
   results.forEach(r => {
     const dot = document.getElementById(`dot-${r.port}`);
     const val = document.getElementById(`val-${r.port}`);
-    if (r.status === 'reachable') {
-      dot.className = 'dot up';
-      val.textContent = '✓';
-    } else {
-      dot.className = 'dot down';
-      val.textContent = '✗';
-    }
+    if (r.ok) { dot.className = 'dot up'; val.textContent = '✓'; }
+    else { dot.className = 'dot down'; val.textContent = '✗'; }
   });
-
   try {
-    const loopRes = await fetch('http://localhost:8766/api/loop/count');
-    if (loopRes.ok) {
-      const data = await loopRes.json();
-      document.getElementById('loop-count').textContent = data.count || '—';
-    }
-  } catch {
-    document.getElementById('loop-count').textContent = '—';
-  }
+    const r = await fetch('http://localhost:8766/api/loop/count');
+    if (r.ok) { const d = await r.json(); document.getElementById('loop-count').textContent = d.count || '—'; }
+  } catch { document.getElementById('loop-count').textContent = '—'; }
 }
-
 refreshStatus();
 setInterval(refreshStatus, 15000);
 
@@ -786,11 +760,7 @@ function toggleAgents() {
 function toggleExpList() {
   const list = document.getElementById('exp-list');
   const items = document.getElementById('exp-items');
-  if (list.classList.contains('open')) {
-    list.classList.remove('open');
-    return;
-  }
-
+  if (list.classList.contains('open')) { list.classList.remove('open'); return; }
   list.classList.add('open');
   if (items.children.length === 0) {
     fetch('http://localhost:8766/api/experiences')
@@ -805,10 +775,7 @@ function toggleExpList() {
           tag.className = 'tag';
           tag.textContent = `port:${exp.port || '—'}`;
           div.appendChild(tag);
-          div.onclick = () => {
-            const url = exp.url || `http://localhost:${exp.port || 8766}/${exp.name || ''}`;
-            window.open(url, '_blank');
-          };
+          div.onclick = () => { window.open(exp.url || `http://localhost:${exp.port || 8766}/${exp.name || ''}`, '_blank'); };
           items.appendChild(div);
         });
         if (exps.length > 50) {
@@ -819,20 +786,17 @@ function toggleExpList() {
           items.appendChild(more);
         }
       })
-      .catch(() => {
-        items.innerHTML = '<div style="color:#6a6a8a;font-size:0.65rem;">Não foi possível carregar.</div>';
-      });
+      .catch(() => { items.innerHTML = '<div style="color:#6a6a8a;font-size:0.65rem;">Não foi possível carregar.</div>'; });
   }
 }
 
 let portalLabelsVisible = true;
 function togglePortalLabels() {
   portalLabelsVisible = !portalLabelsVisible;
-  const labels = document.querySelectorAll('.portal-label');
-  labels.forEach(l => l.style.display = portalLabelsVisible ? 'block' : 'none');
+  document.querySelectorAll('.portal-label').forEach(l => l.style.display = portalLabelsVisible ? 'block' : 'none');
 }
 
-// Mensagens IA simuladas
+// Mensagens IA
 const aiMessages = [
   "O sistema está estável. Ciclo eterno rodando, agentes operando.",
   "157 experiências no nucleo. O universo se expande.",
@@ -846,14 +810,21 @@ setInterval(() => {
   msgIdx = (msgIdx + 1) % aiMessages.length;
   const el = document.getElementById('ai-message');
   el.style.opacity = '0';
-  setTimeout(() => {
-    el.textContent = aiMessages[msgIdx];
-    el.style.opacity = '1';
-  }, 200);
+  setTimeout(() => { el.textContent = aiMessages[msgIdx]; el.style.opacity = '1'; }, 200);
 }, 8000);
 
-// Iniciar animação
+// Iniciar
 animate();
+
+// Debug: se Three.js carregou
+console.log('Núcleo Lumin Hub:', {
+  three: typeof THREE !== 'undefined' ? 'OK' : 'FALHOU',
+  scene: scene ? 'OK' : 'FALHOU',
+  portals: portals.length,
+  particles: particleCount,
+  stars: starsCount,
+  nebula: nebulaCount
+});
 </script>
 </body>
 </html>
