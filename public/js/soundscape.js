@@ -367,7 +367,7 @@ const Soundscape = (function() {
         playChord([220, 330, 440, 554, 660], 3, 0.1);
         break;
       case 'stack_up':
-        playTone(440 + stack * 10, 'sine', 0.5, 0.08);
+        playTone(440, 'sine', 0.5, 0.08);
         break;
       case 'combo':
         playChord([523, 659, 784], 1, 0.1);
@@ -409,8 +409,14 @@ const Soundscape = (function() {
   }
 
   // Auto-expose
-  if (typeof window !== 'undefined') {
-    window.Soundscape = { init, update, start, stop, playTone, playChord, playOmChord, playOmPulse, stopOmTone, trigger, setVolume, getState, audioContext: () => audioContext };
+  try {
+    if (typeof window !== 'undefined') {
+      window.Soundscape = { 
+        init, update, start, stop, playTone, playChord, playOmChord, playOmPulse, stopOmTone, trigger, setVolume, getState, audioContext: () => audioContext 
+      };
+    }
+  } catch(e) {
+    console.warn('[Soundscape] Error exposing:', e);
   }
 
   return { init, update, start, stop, playTone, playChord, playOmChord, playOmPulse, stopOmTone, trigger, setVolume, getState };

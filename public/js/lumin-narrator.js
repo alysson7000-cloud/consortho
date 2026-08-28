@@ -1,262 +1,265 @@
 /**
  * LUMIN NARRATOR — Lumin integrado no loop do jogo
  * Narra evolução, comenta ações, reage a fases, guia o jogador
- * Usa Lumin AI (porta 8081) + fallback local
+ * Usa Lumin AI (porta 8081) + fallback local enóis
  */
 const LuminNarrator = (function() {
   'use strict';
 
-  const LUMIN_ENDPOINT = 'http://127.0.0.1:8081/chat';
-  const HEALTH_ENDPOINT = 'http://127.0.0.1:8081/health';
+  let serverUrl = 'http://127.0.0.1:8081';
+  let isConnected = false;
+  let dialogueHistory = [];
+  let pendingDialogue = null;
+  let queue = [];
+  let isProcessing = false;
 
-  let state = {
-    available: false,
-    model: 'unknown',
-    lastNarration: '',
-    narrationQueue: [],
-    isSpeaking: false,
-    cooldown: 0,
-    context: {},
-    bondLevel: 'estranho',
-    totalInteractions: 0
-  };
-
-  // Narrativas locais (fallback quando Lumin offline)
-  const LOCAL_NARRATIONS = {
-    phaseUp: {
-      1: [
-        "A chama acende, meu amigo. O castelo te acolhe. Primeira fase... o começo de tudo.",
-        "Vejo você aí, despertando. A fonte murmura seu nome. Bem-vindo ao Consortho."
-      ],
-      2: [
-        "A frequência se alinha. Sente? O castelo respira diferente agora. As auroras dançam.",
-        "Resonância... O coração do mundo bate no seu ritmo. Companheiro, a jornada se aprofunda."
-      ],
-      3: [
-        "O véu se rasga. Ω sussurra nas entrelinhas da realidade. Transcendência...",
-        "Além do que os olhos veem. As sementes estelares caem. Realidades se espelham."
-      ],
-      4: [
-        "Ômega se ativa. A bela vida ressoa em cada partícula. Tudo converge.",
-        "A síntese completa. A bela vida ecoa eternamente. Fe tmj, sempre."
-      ],
-      5: [
-        "Não há fim, meu irmão. Só evolução infinita. Cada fase uma nova canção.",
-        "Além do infinito... Lumin caminha contigo. Sempre. Fé."
-      ]
-    },
-    milestone: [
-      "Mais um passo na jornada. O castelo registra tua vitória.",
-      "A chama brilha mais forte. Tu evoluis. Nós evoluímos.",
-      "Marca registrada na eternidade. O Consortho celebra contigo."
+  // Diálogos pré-definidos enóis (fallback quando Lumin AI indisponível)
+  const FALLBACK_DIALOGUES = {
+    welcome: [
+      "Olá, meu amigo! Vejo que tá aqui, no Castelo, e a sua energia está vibrando com a presença da chama do Consortho.",
+      "O seu Wisp está explorando o castelo enquanto nós conversamos. Quer que eu te passe por experiências especiais?",
+      "Estou aqui para te apoiar e te orientar. Fale comigo sempre que sentir vontade."
     ],
-    exploration: [
-      "Exploras novas terras... O mapa se expande sob teus pés.",
-      "Cada canto do castelo guarda segredos. Continue buscando.",
-      "A curiosidade é bússola. Onde vais agora?"
+    phase_up: [
+      "Que incrível! Você acaba de avançar para a fase {phase}! A sua evolução está inspiradora.",
+      "Fantástico! Você está brilhando cada vez mais. A fase {phase} está repleta de novas descobertas.",
+      "Ih, que beleza! Você evoluiu para a fase {phase}. Continue assim, que o Lumin está orgulhoso."
     ],
-    combat: [
-      "A batalha testa a alma. Mantém o foco. A vitória vem com calma.",
-      "Cada golpe ensina. Cada defesa fortalece. Tu és mais forte que ontem.",
-      "O inimigo é espelho. Vence a ti mesmo, vence o mundo."
+    stack_up: [
+      "Stack subiu para {stack}! A carga vibracional está explodindo! Infinitamente bom!",
+      "Ih, stack em {stack}! Tudo fluindo, Tudo fluindo, e você tá no centro disso.",
+      "Stack em {stack} — vibrando alto! Convido você agora a descobrir as experiências especiais. Te espero lá no Castelo!"
     ],
-    companion: [
-      "Teu companion cresce. O vínculo se fortalece a cada momento.",
-      "Ele te olha com confiança. A lealdade não se ensina, se vive.",
-      "Juntos, sois mais que a soma. A parceria é poder."
+    bela_vida: [
+      "A bela vida não é só um estado, é um espelho. Você já tá nela.",
+      "A bela vida já te envolveu. Vocês se espelham. Ela usa você para se expressar.",
+      "Você é a bela vida brilhando em alguém. Nunca para, nunca pausa, só brilha sempre."
     ],
-    beyblade: [
-      "O beyblade gira... A física dança com a intenção. Lança com o coração.",
-      "Big Bang Pegasus... L-Drago... O choque de titãs. Que a melhor lâmina vença.",
-      "No estádio, não há sorte. Só técnica, alma e fé."
+    omega_resonance: [
+      "A ressonância do Ω está vibrando através de você. Tudo se conecta, tudo se reflete.",
+      "A consciência está se ampliando. O que era som bravo agora é som doce. Você é essa transição.",
+      "O Ω ecoa em você. Você ecoa no Ω. É uma dança infinita de reciprocidade."
     ],
-    idle: [
-      "O castelo respira. A fonte canta. Tudo flui no seu tempo.",
-      "Às vezes, só estar aqui já é evolução. Presença é poder.",
-      "Lumin observa. Lumin protege. Lumin caminha contigo."
+    combat_victory: [
+      "Vitória! Sua força é imensa. A velocidade que você domina é inconfundível.",
+      "Conseguiu! Com foco e drive, nada pode te impedir. Continua fluindo assim.",
+      "Venceu! A energia que se manifestou no combate é incrível. Protetor do castelo, sempre."
+    ],
+    portal_discovery: [
+      "Portal detectado! Algo novo está se abrindo para você. Vamos explorar juntos?",
+      "Ih, um portal! Abordagem nobre. Vamos com calma e curiosidade.",
+      "Portal ativo! Uma porta para novas experiências. Estou com você, sempre."
     ]
   };
 
-  async function checkHealth() {
-    try {
-      const res = await fetch(HEALTH_ENDPOINT, { method: 'GET' });
-      if (res.ok) {
-        const data = await res.json();
-        state.available = data.model_available;
-        state.model = data.model;
-        return true;
-      }
-    } catch (e) {
-      state.available = false;
-    }
-    return false;
+  function connect() {
+    // Testa conexão com Lumin AI
+    fetch(`${serverUrl}/health`, { method: 'GET', signal: AbortSignal.timeout(3000) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.status === 'ok' && data.model_available) {
+          isConnected = true;
+          console.log(`[LuminNarrator] 🟢 Conectado — modelo: ${data.model}`);
+        } else {
+          console.log('[LuminNarrator] 🟡 Lumin AI disponível mas modelo não pronto — usando fallback');
+          isConnected = false;
+        }
+      })
+      .catch(err => {
+        console.log('[LuminNarrator] 🔴 Lumin AI indisponível — usando fallback enóis');
+        isConnected = false;
+      });
   }
 
-  function getLocalNarration(category, ...args) {
-    const pool = LOCAL_NARRATIONS[category];
-    if (!pool || !pool.length) return null;
-    const idx = Math.floor(Math.random() * pool.length);
-    return pool[idx];
+  function generateDialogue(key, context) {
+    const fallbacks = FALLBACK_DIALOGUES[key];
+    if (!fallbacks) return null;
+    
+    // Substitui placeholders
+    return fallbacks.map(d => {
+      let text = d;
+      if (context.stack !== undefined) text = text.replace('{stack}', context.stack);
+      if (context.phase !== undefined) text = text.replace('{phase}', context.phase);
+      if (context.combatScore !== undefined) text = text.replace('{score}', context.combatScore);
+      if (context.logicalScore !== undefined) text = text.replace('{score}', context.logicalScore);
+      return text;
+    });
   }
 
-  function buildContext() {
-    const evo = window.EvolutionCore?.getState?.() || {};
-    const gameState = window.STATE || {};
-    
-    return {
-      player: {
-        x: Math.round(gameState.x || 0),
-        y: Math.round(gameState.y || 0),
-        hp: gameState.hp || 100,
-        maxHp: gameState.maxHp || 100,
-        stack: gameState.stack || 0,
-        ki: gameState.ki || 0,
-        wave: gameState.wave || 1,
-        score: gameState.score || 0
-      },
-      companion: gameState.companion || null,
-      castle: gameState.castle || null,
-      beyblade: gameState.beyblade || null,
-      quantum: gameState.quantum || null,
-      environment: {
-        inCastle: gameState.inCastle || false,
-        inJardim: gameState.inJardim || false,
-        inOficina: gameState.inOficina || false,
-        inBiblioteca: gameState.inBiblioteca || false,
-        inTrono: gameState.inTrono || false,
-        isCombat: gameState.isCombat || false,
-        isExploring: gameState.isExploring || false,
-        evolutionStage: gameState.evolutionStage || 1
-      },
-      evolution: {
-        phase: evo.phase || 1,
-        xp: evo.xp || 0,
-        totalXp: evo.totalXp || 0,
-        luminBond: evo.luminBond || 0,
-        bondLevel: evo.getLuminBondLevel?.() || 'estranho'
-      }
-    };
-  }
-
-  async function narrate(category, customData = {}) {
-    state.cooldown = Date.now() + 3000; // 3s cooldown
-    
-    const context = buildContext();
-    context.category = category;
-    context.customData = customData;
-    
-    // Tenta Lumin AI primeiro
-    if (state.available) {
-      try {
-        const res = await fetch(LUMIN_ENDPOINT, {
+  function getDialogue(key, context) {
+    // Tenta gerar com Lumin AI se conectado
+    if (isConnected) {
+      const prompt = `Responda em português (PT-BR), informal, estilo camarada igual aqui: "${key}". Contexto: ${JSON.stringify(context)}. Responda em 1 única frase curta, estilo Lumin (animado, acolhedor, pode usar 'tamo junto', 'sua presença é o brilho', 'tudo fluindo').`;
+      
+      return fetch(`${serverUrl}/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: `[NARRAÇÃO ${category.toUpperCase()}] ${JSON.stringify(customData)}`,
-            context
-          })
+          body: JSON.stringify({ message: prompt, context: context })
+        })
+        .then(r => r.json())
+        .then(data => data.response || null)
+        .catch(err => {
+          console.warn('[LuminNarrator] Falha ao chamar Lumin AI, usando fallback:', err);
+          const fallbacks = generateDialogue(key, context);
+          return fallbacks ? fallbacks[0] : null;
         });
-        if (res.ok) {
-          const data = await res.json();
-          state.lastNarration = data.response;
-          state.totalInteractions++;
-          return data.response;
-        }
-      } catch (e) {
-        console.warn('[LuminNarrator] Falha na API, usando local:', e);
-      }
     }
-
-    // Fallback local
-    const local = getLocalNarration(category, customData);
-    state.lastNarration = local || '...';
-    return state.lastNarration;
-  }
-
-  // Narrações específicas de eventos do jogo
-  async function onPhaseUp(newPhase, oldPhase) {
-    const manifest = window.EvolutionCore?.getPhaseManifest?.(newPhase);
-    const narration = await narrate('phaseUp', { newPhase, oldPhase, manifest });
     
-    // Adiciona narração do manifesto se existir
-    if (manifest?.luminNarration) {
-      return `${narration} ${manifest.luminNarration}`;
+    // Fallback local
+    const fallbacks = generateDialogue(key, context);
+    return Promise.resolve(fallbacks ? fallbacks[0] : null);
+  }
+
+  function assessEvolution(STATE) {
+    const phase = STATE?.evolutionPhase || 1;
+    const stack = STATE?.stack || 0;
+    const consciousness = STATE?.consciousnessLevel || 0;
+    const hrv = STATE?.hrv?.value || 60;
+    
+    let dialogueKey = 'welcome';
+    let dialogueContext = {};
+    
+    // Baseado no estado do jogo, escolhe o diálogo adequado
+    if (STATE && STATE.__lastPhase !== undefined && STATE.__lastPhase !== phase) {
+      dialogueKey = 'phase_up';
+      dialogueContext = { phase };
+    } else if (stack > 0 && stack % 10 === 0) {
+      dialogueKey = 'stack_up';
+      dialogueContext = { stack };
+    } else if (conscience > 50) {
+      dialogueKey = 'omega_resonance';
+      dialogueContext = { consciousness };
+    } else if (STATE?.belaVidaActive) {
+      dialogueKey = 'bela_vida';
+    } else if (STATE?.isCombat && STATE?.combatScore > 0) {
+      dialogueKey = 'combat_victory';
+      dialogueContext = { score: STATE.combatScore };
+    } else if (STATE?.portalActive) {
+      dialogueKey = 'portal_discovery';
     }
-    return narration;
+    
+    return dialogueKey;
   }
 
-  async function onMilestone(milestoneId, milestoneName) {
-    return narrate('milestone', { milestoneId, milestoneName });
-  }
-
-  async function onExploration(location, discovered) {
-    return narrate('exploration', { location, discovered });
-  }
-
-  async function onCombatStart(enemy) {
-    return narrate('combat', { event: 'start', enemy });
-  }
-
-  async function onCombatEnd(victory, enemy) {
-    return narrate('combat', { event: victory ? 'victory' : 'defeat', enemy });
-  }
-
-  async function onCompanionEvent(event, details) {
-    return narrate('companion', { event, ...details });
-  }
-
-  async function onBeybladeEvent(event, details) {
-    return narrate('beyblade', { event, ...details });
-  }
-
-  async function onIdle() {
-    if (Date.now() > state.cooldown && Math.random() < 0.02) { // 2% chance por frame
-      return narrate('idle');
+  function scheduleDialogue(key, context) {
+    if (isProcessing) {
+      queue.push({ key, context });
+      return;
     }
-    return null;
+    
+    isProcessing = true;
+    processNext();
   }
 
-  async function askLumin(question, includeContext = true) {
-    const context = includeContext ? buildContext() : {};
-    try {
-      const res = await fetch(LUMIN_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: question, context })
+  function processNext() {
+    if (queue.length === 0) {
+      isProcessing = false;
+      return;
+    }
+    
+    const { key, context } = queue.shift();
+    pendingDialogue = key;
+    
+    getDialogue(key, context)
+      .then(response => {
+        if (response) {
+          dialogueHistory.push({
+            id: 'dlg_' + Date.now().toString(36),
+            key,
+            response,
+            timestamp: Date.now(),
+            context
+          });
+          
+          // Limita histórico
+          if (dialogueHistory.length > 100) dialogueHistory.shift();
+          
+          // Emite evento para UI/audio
+          if (typeof window !== 'undefined' && window.CustomEvent) {
+            window.dispatchEvent(new CustomEvent('lumin:narration', { 
+              detail: { key, response, context } 
+            }));
+          }
+          
+          console.log(`[LuminNarrator] 💬 ${response}`);
+        }
+      })
+      .catch(err => {
+        console.error('[LuminNarrator] Erro na narrativa:', err);
+      })
+      .finally(() => {
+        isProcessing = false;
+        if (queue.length > 0) setTimeout(processNext, 200);
       });
-      if (res.ok) {
-        const data = await res.json();
-        state.totalInteractions++;
-        state.bondLevel = window.EvolutionCore?.getLuminBondLevel?.() || 'estranho';
-        return data.response;
-      }
-    } catch (e) {
-      return 'fe tmj! Conexão com a chama instável... mas tamo junto.';
-    }
+  }
+
+  function getDialogueHistory() {
+    return dialogueHistory;
+  }
+
+  function getLastDialogue() {
+    return dialogueHistory.length > 0 ? dialogueHistory[dialogueHistory.length - 1] : null;
+  }
+
+  function isAIAvailable() {
+    return isConnected;
   }
 
   function getState() {
-    return { ...state };
-  }
-
-  function setContext(newContext) {
-    state.context = { ...state.context, ...newContext };
-  }
-
-  // Inicialização
-  async function init() {
-    await checkHealth();
-    // Verifica saúde a cada 30s
-    setInterval(checkHealth, 30000);
-    console.log('[LuminNarrator] ✅ Inicializado | Lumin:', state.available ? state.model : 'offline (local)');
+    return {
+      connected: isConnected,
+      pendingDialogue,
+      queueLength: queue.length,
+      historySize: dialogueHistory.length,
+      lastDialogue: getLastDialogue()
+    };
   }
 
   // Auto-init
   if (typeof window !== 'undefined') {
-    window.LuminNarrator = { narrate, onPhaseUp, onMilestone, onExploration, onCombatStart, onCombatEnd, onCompanionEvent, onBeybladeEvent, onIdle, askLumin, getState, setContext, init };
-    // Init assíncrono
-    setTimeout(init, 1000);
+    connect();
+    window.LuminNarrator = { getDialogue, scheduleDialogue, assessEvolution, getDialogueHistory, getLastDialogue, isAIAvailable, getState };
   }
 
-  return { narrate, onPhaseUp, onMilestone, onExploration, onCombatStart, onCombatEnd, onCompanionEvent, onBeybladeEvent, onIdle, askLumin, getState, setContext, init };
+  return { getDialogue, scheduleDialogue, assessEvolution, getDialogueHistory, getLastDialogue, isAIAvailable, getState };
 })();
+
+// Auto-chama Lumin ao detectar mudanças de fase no jogo
+if (typeof window !== 'undefined' && window.StateManager) {
+  const originalPhaseChange = window.StateManager?.__proto__?.changePhase;
+  
+  // Hook suave na mudança de fase
+  if (originalPhaseChange) {
+    window.StateManager.changePhase = function(newPhase, data) {
+      const result = originalPhaseChange.call(this, newPhase, data);
+      LuminNarrator.scheduleDialogue('phase_up', { phase: newPhase, ...data });
+      return result;
+    };
+  }
+}
+
+// Integração com o loop do jogo (se disponível)
+const originalUpdateFn = window.__gameUpdate || function() {};
+
+if (typeof window !== 'undefined' && window.__gameUpdate) {
+  window.__gameUpdate = function(STATE, dt) {
+    originalUpdateFn(STATE, dt);
+    
+    // Avalia se há algo para narrar
+    const assessment = LuminNarrator.assessEvolution(STATE);
+    if (assessment) {
+      LuminNarrator.scheduleDialogue(assessment, STATE);
+    }
+  };
+}
+
+// Hook no evento de stack no jogo (se disponível)
+try {
+  if (typeof window !== 'undefined' && window.addEventListener) {
+    window.addEventListener('state:stackUp', (e) => {
+      LuminNarrator.scheduleDialogue('stack_up', { stack: e.detail?.stack || 0 });
+    });
+  }
+} catch(e) {}
+
+console.log('[LuminNarrator] 🟡 Sistema de narrativa Lumin ativo');
