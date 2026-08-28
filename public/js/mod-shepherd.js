@@ -29,7 +29,7 @@ const ModShepherd = (function() {
       audio: () => window.Soundscape
     };
     const mod = modFn(api);
-    mods.set(id, { id, mod, api, enabled: true });
+    mods.set(id, { id, mod, api, enabled: false });
     console.log(`[ModShepherd] ✅ Mod registrado: "${id}"`);
   }
 

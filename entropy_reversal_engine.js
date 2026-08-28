@@ -1117,7 +1117,9 @@ class EntropyReversalEngine extends EventEmitter {
     
     // Simple correlation-based laws
     for (let i = 0; i < signals.length; i++) {
+      if (!signals[i] || !signals[i].pattern) continue;
       for (let j = i + 1; j < signals.length; j++) {
+        if (!signals[j] || !signals[j].pattern) continue;
         const a = signals[i].pattern.split('->');
         const b = signals[j].pattern.split('->');
         
