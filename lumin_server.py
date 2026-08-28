@@ -21,6 +21,126 @@ else:
     print("⚠️  Modelo não encontrado")
     llm = None
 
+async def root(request):
+    return web.Response(
+        text="""<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumin AI — Guardião do Consortho</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #0a0a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            max-width: 500px;
+        }
+        .glow {
+            width: 60px; height: 60px;
+            margin: 0 auto 20px;
+            background: radial-gradient(circle, #00ff88, #00ccff);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(0,255,136,0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        h1 {
+            font-size: 28px;
+            color: #00ff88;
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(0,255,136,0.3);
+        }
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .endpoints {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .endpoint {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(30,30,50,0.6);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #ccc;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.2s;
+        }
+        .endpoint:hover {
+            background: rgba(0,255,136,0.1);
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.2);
+        }
+        .endpoint-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+            box-shadow: 0 0 8px rgba(0,255,136,0.5);
+            flex-shrink: 0;
+        }
+        .endpoint-label { font-size: 13px; font-weight: 600; }
+        .endpoint-desc { font-size: 11px; color: #888; }
+        .footer {
+            margin-top: 30px;
+            color: #666;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glow"></div>
+        <h1>✨ Lumin AI</h1>
+        <div class="subtitle">Guardião do Consortho · Mock Mode</div>
+        <div class="endpoints">
+            <a href="/chat" class="endpoint">
+                <div class="endpoint-dot"></div>
+                <div>
+                    <div class="endpoint-label">/chat</div>
+                    <div class="endpoint-desc">POST — conversar com a IA</div>
+                </div>
+            </a>
+            <a href="/health" class="endpoint">
+                <div class="endpoint-dot"></div>
+                <div>
+                    <div class="endpoint-label">/health</div>
+                    <div class="endpoint-desc">GET — status de saúde</div>
+                </div>
+            </a>
+            <a href="/status" class="endpoint">
+                <div class="endpoint-dot"></div>
+                <div>
+                    <div class="endpoint-label">/status</div>
+                    <div class="endpoint-desc">GET — status do modelo</div>
+                </div>
+            </a>
+        </div>
+        <div class="footer">Lumin AI · porta 8081 · Hermes + Nucleo</div>
+    </div>
+</body>
+</html>""",
+        content_type="text/html"
+    )
+
 async def chat(request):
     try:
         data = await request.json()
@@ -128,6 +248,7 @@ async def status(request):
     })
 
 app = web.Application()
+app.router.add_get('/', root)
 app.router.add_post('/chat', chat)
 app.router.add_get('/health', health)
 app.router.add_get('/status', status)
