@@ -327,6 +327,7 @@ let floatingTexts = [];
 const POWERUP_TYPES = [
   { id: 'rapid', label: 'RAPIDEZ', hue: 190, color: '#00ffff', symbol: '⚡' },
   { id: 'shield', label: 'ESCUDO', hue: 120, color: '#00ff64', symbol: '🛡' },
+  { id: 'laser', label: 'LASER', hue: 0, color: '#ff4444', symbol: '🔥' },
   { id: 'bomb', label: 'BOMBA', hue: 50, color: '#ffaa00', symbol: '💣' },
   { id: 'life', label: 'VIDA EXTRA', hue: 0, color: '#ff4444', symbol: '❤' }
 ];
@@ -361,6 +362,15 @@ function collectPowerup(pu) {
     player.invincible = 300;
     playerPowerType = 'shield';
     playerPowerTimer = 300;
+  } else if (pu.type === 'laser') {
+    playerPowerType = 'laser';
+    playerPowerTimer = 500;
+    const bombInd = document.getElementById('powerup-indicator');
+    if (bombInd) {
+      bombInd.textContent = '🔥 LASER — TIRO CONTÍNUO!';
+      bombInd.style.opacity = 1;
+    }
+    addFloatingText(pu.x, pu.y - 30, '🔥 LASER! Tiro contínuo', 0, 18, '#ff4444');
   } else if (pu.type === 'bomb' && playerPowerTimer === 0) {
     playerPowerType = 'bomb';
     playerPowerTimer = 90;
@@ -808,6 +818,21 @@ function update() {
           r: 3, hue: player.hue + 30, life: 60, damage: 1
         });
         player.shootCooldown = 6;
+      }
+      // Laser continuous fire
+      if (playerPowerType === 'laser' && playerPowerTimer > 0) {
+        player.shootCooldown = 4;
+        // Laser fires a red beam projectile
+        const laserAngle = aimAngle;
+        projectiles.push({
+          x: player.x + Math.cos(laserAngle) * player.radius,
+          y: player.y + Math.sin(laserAngle) * player.radius,
+          vx: Math.cos(laserAngle) * 7,
+          vy: Math.sin(laserAngle) * 7,
+          r: 5, hue: 0, life: 120, damage: 1,
+          laser: true
+        });
+        playSound('shoot');
       }
     }
   }

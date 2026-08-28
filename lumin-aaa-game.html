@@ -41,6 +41,14 @@ canvas { display: block; }
     transparent 3px
   );
 }
+#minimap {
+  position: fixed; top: 12px; right: 16px;
+  width: 100px; height: 100px;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(0,255,255,0.2);
+  border-radius: 4px;
+  pointer-events: none; z-index: 10;
+}
 #cloud-nav {
   position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
   color: rgba(255,255,255,0.25); font-size: 11px; letter-spacing: 1px;
@@ -111,6 +119,7 @@ canvas { display: block; }
   </div>
 </div>
 <div id="scanlines"></div>
+<div id="minimap"></div>
 <a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
 <a href="/lumin-portal.html" id="exit-nav" style="position:fixed;bottom:12px;right:16px;color:rgba(255,60,60,0.5);font-size:11px;letter-spacing:1px;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:14px;backdrop-filter:blur(8px);pointer-events:auto;z-index:30;text-decoration:none;border:1px solid rgba(255,60,60,0.15);transition:all 0.2s;font-family:'Orbitron',sans-serif;">⛔ SAIR</a>
 <div id="combo-display"></div>
@@ -1679,6 +1688,57 @@ function render() {
     ctx.restore();
   });
   
+  // Minimap
+  const mmSize = 100;
+  const mmX = W - mmSize - 16;
+  const mmY = 12;
+  const mmScale = mmSize / (Math.max(W, H) * 1.2);
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.strokeStyle = 'rgba(0,255,255,0.2)';
+  ctx.lineWidth = 1;
+  ctx.fillRect(mmX, mmY, mmSize, mmSize);
+  ctx.strokeRect(mmX, mmY, mmSize, mmSize);
+  // Enemies on minimap
+  enemies.forEach(e => {
+    const mx = mmX + (e.x - player.x) * mmScale + mmSize / 2;
+    const my = mmY + (e.y - player.y) * mmScale + mmSize / 2;
+    if (mx < mmX || mx > mmX + mmSize || my < mmY || my > mmY + mmSize) return;
+    ctx.fillStyle = `hsla(${e.hue}, 100%, 55%, 0.8)`;
+    ctx.beginPath();
+    ctx.arc(mx, my, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  // Obstacles on minimap
+  obstacles.forEach(o => {
+    const mx = mmX + (o.x - player.x) * mmScale + mmSize / 2;
+    const my = mmY + (o.y - player.y) * mmScale + mmSize / 2;
+    if (mx < mmX || mx > mmX + mmSize || my < mmY || my > mmY + mmSize) return;
+    ctx.fillStyle = `hsla(${o.hue}, 80%, 50%, 0.6)`;
+    ctx.beginPath();
+    ctx.arc(mx, my, 2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  // Powerups on minimap
+  powerups.forEach(pu => {
+    const mx = mmX + (pu.x - player.x) * mmScale + mmSize / 2;
+    const my = mmY + (pu.y - player.y) * mmScale + mmSize / 2;
+    if (mx < mmX || mx > mmX + mmSize || my < mmY || my > mmY + mmSize) return;
+    ctx.fillStyle = `hsla(${pu.type.hue}, 100%, 70%, 0.9)`;
+    ctx.beginPath();
+    ctx.arc(mx, my, 2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  // Player dot on minimap
+  const px = mmX + mmSize / 2;
+  const py = mmY + mmSize / 2;
+  ctx.fillStyle = `hsl(${player.hue}, 100%, 70%)`;
+  ctx.shadowColor = `hsl(${player.hue}, 100%, 60%)`;
+  ctx.shadowBlur = 6;
+  ctx.beginPath();
+  ctx.arc(px, py, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+
   // Vignette
   const vignette = ctx.createRadialGradient(W/2, H/2, Math.min(W, H) * 0.25, W/2, H/2, Math.max(W, H) * 0.7);
   vignette.addColorStop(0, 'rgba(0,0,0,0)');

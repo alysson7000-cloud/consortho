@@ -1,200 +1,186 @@
 #!/usr/bin/env python3
-"""Núcleo Hub Lumin — Instalador e launcher."""
-import os
+"""Nucleo Hub — Launcher inteligente que resolve conflitos de porta automaticamente."""
 import subprocess
 import time
-import signal
-import sys
+import socket
+import os
 
-BASE = '/c/Users/Alyssin/estudio_criacao/consortho'
-NUCLEO = '/c/Users/Alyssin/nucleo'
+def log(msg):
+    print(f"[hub] {msg}")
 
-def log(msg, color='white'):
-    colors = {
-        'green': '\033[92m',
-        'red': '\033[91m',
-        'yellow': '\033[93m',
-        'blue': '\033[94m',
-        'white': '\033[0m',
-        'bold': '\033[1m'
-    }
-    print(f"{colors.get(color, '')}{msg}{colors['white']}")
+def is_port_free(port):
+    try:
+        with socket.create_connection(('localhost', port), timeout=1):
+            return False
+    except (ConnectionRefusedError, OSError):
+        return True
 
-def start_server(name, cmd, logfile):
-    """Start a server process and return PID."""
-    log(f"Starting {name}...")
-    proc = subprocess.Popen(
-        cmd, shell=True, cwd=BASE,
-        stdout=open(logfile, 'w'),
-        stderr=subprocess.STDOUT,
-        preexec_fn=os.setsid
+def kill_port(port):
+    """Find and kill process using port."""
+    result = subprocess.run(
+        ['cmd', '/c', 'netstat', '-ano', '|', 'findstr', f':{port} ', '|', 'findstr', 'LISTENING'],
+        capture_output=True, text=True, timeout=5
     )
-    log(f"  PID: {proc.pid}", 'green')
-    return proc
+    pids = []
+    for line in result.stdout.strip().split('\n'):
+        parts = line.split()
+        if len(parts) >= 5:
+            try:
+                pids.append(int(parts[-1]))
+            except:
+                pass
+    for pid in pids:
+        subprocess.run(['taskkill', '/F', '/PID', str(pid)], capture_output=True, timeout=3)
+        log(f"  Matou PID {pid} na porta {port}")
+    return len(pids) > 0
 
-def wait_for_port(port, timeout=15):
-    """Wait until a port is listening."""
-    import socket
+def start(cmd, cwd=None):
+    """Start process and return PID."""
+    if cwd:
+        full_cmd = f'cd /d "{cwd}" && {cmd}'
+    else:
+        full_cmd = cmd
+    proc = subprocess.Popen(
+        full_cmd, shell=True, 
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
+    return proc.pid
+
+def wait_port(port, timeout=10):
+    """Wait until port is listening."""
     start = time.time()
     while time.time() - start < timeout:
-        try:
-            sock = socket.create_connection(('localhost', port), timeout=1)
-            sock.close()
-            return True
-        except:
+        if is_port_free(port):
             time.sleep(0.5)
-    return False
+        else:
+            return True
+    return not is_port_free(port)
 
-def check_port(port):
-    import socket
-    try:
-        sock = socket.create_connection(('localhost', port), timeout=2)
-        sock.close()
-        return True
-    except:
-        return False
+BASE = '/c/Users/Alyssin/estudio_criacao/consortho'
+NUC = '/c/Users/Alyssin/nucleo'
+
+SERVERS = [
+    {
+        'name': 'Consortho',
+        'port': 9877,
+        'cmd': 'node server.js > server.log 2>&1',
+        'cwd': BASE,
+        'log': f'{BASE}/server.log'
+    },
+    {
+        'name': 'Nucleo HTTP',
+        'port': 8766,
+        'cmd': f'python3 nucleo_http_server.py > nucleo.log 2>&1',
+        'cwd': NUC,
+        'log': f'{NUC}/nucleo.log'
+    },
+    {
+        'name': 'Lumin Cloud',
+        'port': 8767,
+        'cmd': f'python3 lumin_cloud_server.py > lumin_cloud.log 2>&1',
+        'cwd': NUC,
+        'log': f'{NUC}/lumin_cloud.log'
+    },
+    {
+        'name': 'Atlas',
+        'port': 9879,
+        'cmd': f'python3 nucleo_atlas_server.py > atlas.log 2>&1',
+        'cwd': NUC,
+        'log': f'{NUC}/atlas.log'
+    },
+    {
+        'name': 'Admin',
+        'port': 9880,
+        'cmd': f'python3 nucleo_dashboard_admin.py --port 9880 > dash.log 2>&1',
+        'cwd': NUC,
+        'log': f'{NUC}/dash.log'
+    },
+    {
+        'name': 'Lumin AI',
+        'port': 8081,
+        'cmd': f'python3 lumin_server.py > lumin.log 2>&1',
+        'cwd': BASE,
+        'log': f'{BASE}/lumin.log'
+    },
+]
 
 def main():
-    log("╔══════════════════════════════════════════════╗", 'bold')
-    log("║     NÚCLEO LUMIN — Hub Jogo Unificado        ║", 'yellow')
-    log("║       Launcher — 2026-08-28                  ║", 'bold')
-    log("╚══════════════════════════════════════════════╝")
+    print("╔══════════════════════════════════════════╗")
+    print("║    NÚCLEO LUMIN — Hub Launcher           ║")
+    print("║    2026-08-28                            ║")
+    print("╚══════════════════════════════════════════╝")
     print()
-
-    # Start all servers
-    servers = []
     
-    # 1. Consortho (9877) — serves nucleo_hub_unificado.html
-    log("[1/6] Consortho (9877) — hub principal...", 'blue')
-    servers.append(('consortho', start_server(
-        'Consortho', 
-        'node server.js > server.log 2>&1',
-        f'{BASE}/server.log'
-    )))
+    pids = []
     
-    if wait_for_port(9877):
-        log("  ✓ Consortho online", 'green')
-    else:
-        log("  ✗ Consortho falhou — check server.log", 'red')
-    
-    # 2. Nucleo HTTP (8766) — WebGL experiences
-    log("[2/6] Nucleo HTTP (8766) — WebGL...", 'blue')
-    servers.append(('nucleo', start_server(
-        'Nucleo HTTP',
-        f'cd {NUCLEO} && python3 nucleo_http_server.py > nucleo.log 2>&1',
-        f'{NUCLEO}/nucleo.log'
-    )))
-    
-    if wait_for_port(8766):
-        log("  ✓ Nucleo HTTP online", 'green')
-    else:
-        log("  ✗ Tentando levantar...", 'yellow')
-        if check_port(8766):
-            log("  ✓ Nucleo HTTP online (já estava rodando)", 'green')
-    
-    # 3. Lumin Cloud (8767)
-    log("[3/6] Lumin Cloud (8767) — jogos...", 'blue')
-    servers.append(('lumin-cloud', start_server(
-        'Lumin Cloud',
-        f'cd {NUCLEO} && python3 lumin_cloud_server.py > lumin_cloud.log 2>&1',
-        f'{NUCLEO}/lumin_cloud.log'
-    )))
-    
-    if wait_for_port(8767):
-        log("  ✓ Lumin Cloud online", 'green')
-    
-    # 4. Atlas (9879)
-    log("[4/6] Nucleo Atlas (9879) — mapa...", 'blue')
-    servers.append(('atlas', start_server(
-        'Atlas',
-        f'cd {NUCLEO} && python3 nucleo_atlas_server.py > atlas.log 2>&1',
-        f'{NUCLEO}/atlas.log'
-    )))
-    
-    if wait_for_port(9879):
-        log("  ✓ Atlas online", 'green')
-    
-    # 5. Dashboard Admin (9880)
-    log("[5/6] Dashboard Admin (9880) — controle...", 'blue')
-    servers.append(('admin', start_server(
-        'Admin',
-        f'cd {NUCLEO} && python3 nucleo_dashboard_admin.py --port 9880 > dash.log 2>&1',
-        f'{NUCLEO}/dash.log'
-    )))
-    
-    if wait_for_port(9880):
-        log("  ✓ Admin online", 'green')
-    
-    # 6. Lumin AI (8081)
-    log("[6/6] Lumin AI (8081) — guardião...", 'blue')
-    servers.append(('lumin-ai', start_server(
-        'Lumin AI',
-        f'cd {BASE} && python3 lumin_server.py > lumin.log 2>&1',
-        f'{BASE}/lumin.log'
-    )))
-    
-    if wait_for_port(8081):
-        log("  ✓ Lumin AI online", 'green')
-    else:
-        log("  ⚠ Lumin AI não subiu (mock fallback)", 'yellow')
+    for srv in SERVERS:
+        name = srv['name']
+        port = srv['port']
+        log(f"--- {name} (port {port}) ---")
+        
+        # Kill existing on port
+        if not is_port_free(port):
+            log(f"  Porta {port} ocupada — matando processo...")
+            kill_port(port)
+            time.sleep(1)
+        
+        # Start server
+        pid = start(srv['cmd'], srv['cwd'])
+        pids.append((name, pid))
+        log(f"  Iniciado PID={pid}")
+        
+        # Esperar porta
+        if wait_port(port):
+            log(f"  ✓ Online em http://localhost:{port}/")
+        else:
+            log(f"  ✗ Falha — ver log: {srv['log']}")
     
     print()
-    log("╔══════════════════════════════════════════════╗", 'bold')
-    log("║     STATUS FINAL                              ║", 'yellow')
-    log("╚══════════════════════════════════════════════╝")
+    print("╔══════════════════════════════════════════╗")
+    print("║    STATUS FINAL                           ║")
+    print("╚══════════════════════════════════════════╝")
     
     all_ok = True
-    for port, name in [(9877, 'Consortho'), (8766, 'Nucleo WebGL'), 
-                        (8767, 'Lumin Cloud'), (9879, 'Atlas'),
-                        (9880, 'Admin'), (8081, 'Lumin AI')]:
-        if check_port(port):
-            log(f"  ✓ {name} ({port})", 'green')
-        else:
-            log(f"  ✗ {name} ({port})", 'red')
+    for srv in SERVERS:
+        port = srv['port']
+        name = srv['name']
+        if is_port_free(port):
+            log(f"  ✗ {name} — port {port} offline", "red")
             all_ok = False
+        else:
+            log(f"  ✓ {name} — port {port} online")
     
     print()
-    log("═" * 55)
-    
     if all_ok:
-        log("  TODOS OS SERVIÇOS ONLINE ✦", 'green')
-        log("  Hub: http://localhost:9877/nucleo_hub_unificado.html", 'yellow')
-        log("  Nucleo WebGL: http://localhost:8766/", 'yellow')
-        log("  Consortho: http://localhost:9877/", 'yellow')
+        log("═" * 50)
+        log("  TODOS ONLINE ✦")
+        log("  Hub: http://localhost:9877/nucleo_hub_unificado.html")
+        log("  WebGL: http://localhost:8766/")
+        log("  Consortho: http://localhost:9877/")
+        log("═" * 50)
     else:
-        log("  ALGUNS SERVIÇOS FORA — ver logs acima", 'red')
+        log("  ALGUNS FORA — ver logs")
     
-    log("═" * 55)
-    log("  Para parar: killall python node", 'blue')
-    log("  Ou: Ctrl+C no terminal", 'blue')
-    
-    # Keep running and monitor
     log("")
-    log("Monitorando serviços (Ctrl+C para parar)...", 'blue')
-    log("")
+    log("Para parar todos: taskkill /F /IM python.exe /IM node.exe")
+    log("Ou: Ctrl+C")
     
+    # Monitor
+    log("")
+    log("Monitorando (Ctrl+C para parar)...")
     try:
         while True:
             time.sleep(30)
-            all_ok = True
-            for port, name in [(9877, 'Consortho'), (8766, 'Nucleo WebGL'),
-                                (8767, 'Lumin Cloud'), (9879, 'Atlas'),
-                                (9880, 'Admin'), (8081, 'Lumin AI')]:
-                if not check_port(port):
-                    log(f"  ⚠ {name} ({port}) caiu!", 'red')
-                    all_ok = False
-            
-            if all_ok:
-                print(f"  [{time.strftime('%H:%M:%S')}] Todos online ✓", end='\r')
-            
+            for srv in SERVERS:
+                if is_port_free(srv['port']):
+                    log(f"  ⚠ {srv['name']} caiu!")
     except KeyboardInterrupt:
-        log("\nParando servidores...", 'yellow')
-        for name, proc in servers:
+        log("\nParando...")
+        for name, pid in pids:
             try:
-                os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+                os.kill(pid, 9)
             except:
                 pass
-        log("Servidores parados.", 'blue')
 
 if __name__ == '__main__':
     main()
