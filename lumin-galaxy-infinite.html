@@ -139,6 +139,7 @@ const canvas = document.getElementById('gc');
 const ctx = canvas.getContext('2d', { alpha: false });
 let W, H, DPR;
 
+let resizeTimeout = null;
 function resize() {
   DPR = window.devicePixelRatio || 1;
   W = window.innerWidth;
@@ -149,7 +150,10 @@ function resize() {
   canvas.style.height = H + 'px';
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 }
-window.addEventListener('resize', resize);
+window.addEventListener('resize', () => {
+  if (resizeTimeout) clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(resize, 100);
+});
 resize();
 
 // ============================================================
@@ -761,7 +765,6 @@ function update() {
   const nearest = getNearestSystem(player.x, player.y);
   if (nearest && distance(player.x, player.y, nearest.x, nearest.y) < 50) {
     if (!focusedSystem || focusedSystem.x !== nearest.x || focusedSystem.y !== nearest.y) {
-      focusedSystem = nearest;
       focusedSystem = nearest;
       if (!focusedSystem.visited) {
         focusedSystem.visited = true;
