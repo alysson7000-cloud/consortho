@@ -13,5 +13,8 @@ window.ModShepherd = {
   },
   getStatus() {
     return { active: [] };
+  },
+  renderAll(ctx, w, h, STATE, dt) {
+    // Stub: no-op until mods are implemented
   }
 };
