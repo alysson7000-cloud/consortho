@@ -1698,7 +1698,7 @@ cron.schedule('* * * * *', async () => {
   
   // Diamond protocol layer sync
   if (typeof diamondProtocol !== 'undefined') {
-    diamondProtocol.syncLayers();
+    diamondProtocol.deepSync();
   }
   
   // Consciousness substrate growth
