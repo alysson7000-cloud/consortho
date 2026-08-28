@@ -130,6 +130,9 @@ const ModShepherd = (function() {
     return Array.from(mods.keys());
   }
 
+  function startMods() { return startAll(); }
+  function stopMods() { return stopAll(); }
+
   // Auto-start mods registrados após carregamento
   setTimeout(() => {
     if (mods.size > 0 && !isRunning) {
