@@ -31,20 +31,17 @@ canvas { display: block; }
 .hud-value { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
 .hud-value.gold { color: #ffd700; }
 .hud-value.cyan { color: #00ffff; }
-#info-panel {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  background: rgba(0,0,0,0.7); backdrop-filter: blur(10px);
-  border: 1px solid rgba(0,255,255,0.2);
-  border-radius: 12px; padding: 12px 20px;
-  display: flex; gap: 24px; align-items: center;
-  pointer-events: none; z-index: 10;
-  color: rgba(255,255,255,0.7); font-size: 13px;
+#scanlines {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 50;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.03) 0px,
+    rgba(0,0,0,0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
 }
-#info-panel .item { display: flex; flex-direction: column; gap: 2px; text-align: center; }
-#info-panel .item .label { font-size: 9px; opacity: 0.4; letter-spacing: 1.5px; }
-#info-panel .item .value { font-size: 16px; font-weight: 700; }
-#info-panel .item .value.cyan { color: #00ffff; }
-#info-panel .item .value.gold { color: #ffd700; }
 #cloud-nav {
   position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
   color: rgba(255,255,255,0.25); font-size: 11px; letter-spacing: 1px;
@@ -64,6 +61,11 @@ canvas { display: block; }
 }
 #discovery-toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 #discovery-toast .sub { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+#info-panel .item { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+#info-panel .item .label { font-size: 9px; opacity: 0.4; letter-spacing: 1.5px; }
+#info-panel .item .value { font-size: 16px; font-weight: 700; }
+#info-panel .item .value.cyan { color: #00ffff; }
+#info-panel .item .value.gold { color: #ffd700; }
 #pause-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.85); display: none;
@@ -82,6 +84,7 @@ canvas { display: block; }
 </head>
 <body>
 <canvas id="gc"></canvas>
+<div id="scanlines"></div>
 <div id="hud">
   <div class="hud-left">
     <div><span class="hud-label">POSIÇÃO</span><br><span class="hud-value" id="pos">0, 0</span></div>
@@ -95,7 +98,6 @@ canvas { display: block; }
     <div><span class="hud-label">DESCOBRIZENS</span><br><span class="hud-value" id="discoveries" style="font-size:14px;">0</span></div>
     <div><span class="hud-label">SOM</span><br><span class="hud-value" id="mute-indicator" style="font-size:14px;">🔊</span></div>
   </div>
-</div>
 <div id="info-panel">
   <div class="item">
     <span class="label">NOME DA ESTRELA</span>
