@@ -1,490 +1,573 @@
 /**
- * EXAMPLE MODS — 7 mods leves e bonitos para Consortho
- * Registra automaticamente no ModShepherd se disponível
- * 
- * Mods:
- * 1. rainbow-orb     — orb que dança pelo castelo pintando o ar
- * 2. stardust-rain   — chuva de estrelas que batem e somem
- * 3. aurora-veil     — cortina de luz que varre o céu
- * 4. heartbeat-echo  — som de batida que ecoa no chão
- * 5. whisper-garden  — cada clique planta uma semente que floresce com som
- * 6. cosmic-drift    — ruído sutil de estrelas que flutuam
- * 7. bela-vida-resonance — a cada 15 min, a frase da bela vida ecoa em som
+ * EXEMPLE MODS — 7 mods visuais e sonoros para Consortho
+ * Auto-registram no ModShepherd ao carregar
  */
 const ExampleMods = (function() {
   'use strict';
 
-  const mods = {};
+  function registerExamples() {
+    // 1. RAINBOW ORB — orb que dança pelo castelo pintando o ar
+    registerMod('rainbow-orb', (api) => {
+      let hue = 0;
+      let t = 0;
+      let posX = 0.5;
+      let posY = 0.5;
 
-  // Helper para registrar no ModShepherd
-  function register(id, modFn) {
-    if (window.ModShepherd) {
-      window.ModShepherd.registerMod(id, modFn);
-    }
-    mods[id] = modFn;
-  }
-
-  // ===== 1. RAINBOW ORB =====
-  register('rainbow-orb', (api) => {
-    const orbs = [];
-    let time = 0;
-
-    function createOrb() {
       return {
-        x: Math.random() * 800 + 400,
-        y: Math.random() * 600 + 200,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        hue: Math.random() * 360,
-        size: 8 + Math.random() * 12,
-        life: 1,
-        trail: []
-      };
-    }
+        name: 'Rainbow Orb',
+        description: 'Orb que dança pelo castelo pintando o ar',
 
-    // Inicia com 3 orbs
-    for (let i = 0; i < 3; i++) orbs.push(createOrb());
+        onEnable() {
+          console.log('[Rainbow Orb] 🌈 Orb ativada!');
+          posX = 0.5;
+          posY = 0.5;
+        },
 
-    return {
-      update(dt) {
-        time += dt;
-        
-        orbs.forEach(orb => {
-          // Movimento orgânico
-          orb.x += Math.sin(time * 0.3 + orb.hue * 0.01) * 0.8;
-          orb.y += Math.cos(time * 0.25 + orb.hue * 0.01) * 0.6;
-          
-          // Trails
-          orb.trail.unshift({ x: orb.x, y: orb.y, hue: orb.hue, alpha: 1 });
-          if (orb.trail.length > 20) orb.trail.pop();
-          
-          orb.hue = (orb.hue + dt * 30) % 360;
-          
-          // Renasce se sair da tela
-          if (orb.x < 0 || orb.x > 1600 || orb.y < 0 || orb.y > 1000) {
-            Object.assign(orb, createOrb());
+        onDisable() {
+          api.audio().playChord([523, 659, 784], 1, 0.05);
+        },
+
+        update(dt) {
+          if (!api.getState()) return;
+          t += dt * 0.01;
+          const STATE = api.getState();
+          const cx = STATE.x || 800;
+          const cy = STATE.y || 500;
+          posX = 0.4 + Math.sin(t * 0.7) * 0.25;
+          posY = 0.4 + Math.cos(t * 0.5) * 0.25;
+          hue = (hue + dt * 2) % 360;
+
+          // Reage ao stack
+          if (STATE && STATE.stack && STATE.stack > 30) {
+            api.audio().playTone(523, 'sine', 0.05, dt);
           }
-        });
+        },
 
-        // Spawn ocasional
-        if (Math.random() < 0.002 && orbs.length < 8) {
-          orbs.push(createOrb());
-        }
-      },
+        draw(ctx, w, h, STATE, dt) {
+          if (!STATE) return;
+          const cx = (posX) * w;
+          const cy = (posY) * h;
+          const radius = 20 + Math.sin(t * 2) * 5;
 
-      draw(ctx, w, h, STATE, dt) {
-        orbs.forEach(orb => {
-          // Trail
-          orb.trail.forEach((pt, i) => {
-            const alpha = pt.alpha * (1 - i / orb.trail.length) * 0.3;
-            ctx.fillStyle = `hsla(${pt.hue}, 100%, 70%, ${alpha})`;
-            ctx.beginPath();
-            ctx.arc(pt.x, pt.y, orb.size * (1 - i / orb.trail.length), 0, Math.PI * 2);
-            ctx.fill();
-          });
-
-          // Orb principal
-          const glow = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.size * 2);
-          glow.addColorStop(0, `hsla(${orb.hue}, 100%, 70%, 0.8)`);
-          glow.addColorStop(1, `hsla(${orb.hue}, 100%, 50%, 0)`);
+          // Glow
+          const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 3);
+          glow.addColorStop(0, `hsla(${hue}, 100%, 70%, 0.4)`);
+          glow.addColorStop(0.3, `hsla(${(hue + 60) % 360}, 100%, 60%, 0.2)`);
+          glow.addColorStop(1, `hsla(${(hue + 120) % 360}, 100%, 50%, 0)`);
           ctx.fillStyle = glow;
           ctx.beginPath();
-          ctx.arc(orb.x, orb.y, orb.size * 2, 0, Math.PI * 2);
+          ctx.arc(cx, cy, radius * 3, 0, Math.PI * 2);
           ctx.fill();
 
-          ctx.fillStyle = `hsl(${orb.hue}, 100%, 65%)`;
+          // Orb
+          const grad = ctx.createRadialGradient(cx - radius/2, cy - radius/2, 0, cx, cy, radius);
+          grad.addColorStop(0, `hsla(${hue}, 100%, 90%, 1)`);
+          grad.addColorStop(0.5, `hsla(${(hue + 60) % 360}, 100%, 60%, 0.8)`);
+          grad.addColorStop(1, `hsla(${(hue + 120) % 360}, 80%, 40%, 0.4)`);
+          ctx.fillStyle = grad;
           ctx.beginPath();
-          ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
+          ctx.arc(cx, cy, radius, 0, Math.PI * 2);
           ctx.fill();
-        });
-      },
-
-      onClick(x, y) {
-        // Cria orb no clique
-        orbs.push({
-          x, y,
-          vx: 0, vy: 0,
-          hue: Math.random() * 360,
-          size: 15,
-          life: 1,
-          trail: []
-        });
-        if (api.audio) api.audio().trigger('combo');
-      }
-    };
-  });
-
-  // ===== 2. STARDUST RAIN =====
-  register('stardust-rain', (api) => {
-    const stars = [];
-    const maxStars = 100;
-
-    function createStar() {
-      return {
-        x: Math.random() * 1600,
-        y: -20,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: 1 + Math.random() * 2,
-        size: 1 + Math.random() * 2,
-        hue: 40 + Math.random() * 60,
-        alpha: 0.5 + Math.random() * 0.5,
-        twinkle: Math.random() * Math.PI * 2
-      };
-    }
-
-    return {
-      update(dt) {
-        // Spawn
-        if (stars.length < maxStars && Math.random() < 0.3) {
-          stars.push(createStar());
         }
+      };
+    });
 
-        stars.forEach((star, i) => {
-          star.y += star.vy * dt * 60;
-          star.x += star.vx * dt * 60;
-          star.twinkle += dt * 5;
-          star.alpha = 0.3 + Math.sin(star.twinkle) * 0.3;
-
-          // Remove se saiu
-          if (star.y > 1000 || star.x < -50 || star.x > 1650) {
-            stars.splice(i, 1);
-          }
-        });
-      },
-
-      draw(ctx, w, h, STATE, dt) {
-        stars.forEach(star => {
-          ctx.fillStyle = `hsla(${star.hue}, 100%, 80%, ${star.alpha})`;
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Brilho
-          if (star.alpha > 0.6) {
-            ctx.fillStyle = `hsla(${star.hue}, 100%, 90%, ${star.alpha * 0.5})`;
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        });
-      }
-    };
-  });
-
-  // ===== 3. AURORA VEIL =====
-  register('aurora-veil', (api) => {
-    const waves = [];
-    let time = 0;
-
-    for (let i = 0; i < 5; i++) {
-      waves.push({
-        y: 100 + i * 150,
-        speed: 0.02 + i * 0.005,
-        amplitude: 30 + i * 10,
-        hue: 120 + i * 40,
-        phase: i * Math.PI / 3
+    // 2. STARDUST RAIN — chuva de estrelas
+    const stardust = [];
+    for (let i = 0; i < 50; i++) {
+      stardust.push({
+        x: Math.random(),
+        y: Math.random(),
+        size: Math.random() * 3 + 1,
+        speed: Math.random() * 0.5 + 0.2,
+        twinkle: Math.random() * Math.PI * 2,
+        twinkleSpeed: Math.random() * 3 + 1
       });
     }
 
-    return {
-      update(dt) {
-        time += dt;
-        waves.forEach(w => {
-          w.phase += dt * w.speed;
-        });
-      },
+    registerMod('stardust-rain', (api) => {
+      let particles = stardust.slice();
 
-      draw(ctx, w, h, STATE, dt) {
-        waves.forEach(w => {
-          const gradient = ctx.createLinearGradient(0, w.y - 100, 0, w.y + 100);
-          gradient.addColorStop(0, `hsla(${w.hue}, 80%, 60%, 0)`);
-          gradient.addColorStop(0.5, `hsla(${w.hue}, 80%, 50%, 0.15)`);
-          gradient.addColorStop(1, `hsla(${w.hue}, 80%, 60%, 0)`);
+      return {
+        name: 'Stardust Rain',
+        description: 'Chuva de estrelas que batem e somem',
 
-          ctx.fillStyle = gradient;
-          ctx.beginPath();
-          ctx.moveTo(0, w.y + 100);
-          
-          for (let x = 0; x <= w; x += 10) {
-            const y = w.y + Math.sin(x * 0.01 + w.phase) * w.amplitude;
-            ctx.lineTo(x, y);
+        onEnable() {
+          console.log('[Stardust Rain] 🌠 Chuva de estrelas!');
+          if (api.audio().playTone) {
+            api.audio().playTone(1000, 'sine', 0.05, 0.01);
           }
-          
-          ctx.lineTo(w, w.y + 100);
-          ctx.closePath();
-          ctx.fill();
-        });
-      }
-    };
-  });
+        },
 
-  // ===== 4. HEARTBEAT ECHO =====
-  register('heartbeat-echo', (api) => {
-    const rings = [];
-    let lastBeat = 0;
+        onDisable() {
+          if (api.audio().playTone) {
+            api.audio().playTone(200, 'sine', 0.1, 0.2);
+          }
+        },
 
-    return {
-      update(dt, STATE) {
-        const hrv = STATE?.hrv?.value || 60;
-        const beatInterval = 60000 / hrv; // ms por batida
-        const now = Date.now();
-
-        if (now - lastBeat > beatInterval) {
-          lastBeat = now;
-          rings.push({
-            x: STATE?.x || 800,
-            y: STATE?.y || 500,
-            radius: 0,
-            maxRadius: 300,
-            alpha: 0.6,
-            hue: hrv > 80 ? 120 : hrv > 60 ? 50 : 0
+        update(dt) {
+          particles.forEach(p => {
+            p.y += p.speed * dt * 0.5;
+            p.twinkle += p.twinkleSpeed * dt;
+            if (p.y > 1.2) {
+              p.y = -0.1;
+              p.x = Math.random();
+            }
           });
-          
-          if (api.audio) {
-            api.audio().playTone(hrv > 80 ? 220 : 180, 'sine', 0.3, 0.1);
-          }
+        },
+
+        draw(ctx, w, h, STATE, dt) {
+          particles.forEach(p => {
+            const alpha = (Math.sin(p.twinkle) + 1) / 2 * 0.8;
+            const x = p.x * w;
+            const y = p.y * h;
+            const size = p.size * (0.8 + Math.sin(p.twinkle) * 0.3);
+
+            ctx.fillStyle = `rgba(255, 255, 200, ${alpha})`;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Trail
+            ctx.strokeStyle = `rgba(200, 220, 255, ${alpha * 0.3})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y + size * 3);
+            ctx.stroke();
+          });
         }
+      };
+    });
 
-        rings.forEach((ring, i) => {
-          ring.radius += dt * 100;
-          ring.alpha = 0.6 * (1 - ring.radius / ring.maxRadius);
-          if (ring.alpha <= 0) rings.splice(i, 1);
-        });
-      },
-
-      draw(ctx, w, h, STATE, dt) {
-        rings.forEach(ring => {
-          ctx.strokeStyle = `hsla(${ring.hue}, 100%, 60%, ${ring.alpha})`;
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.arc(ring.x, ring.y, ring.radius, 0, Math.PI * 2);
-          ctx.stroke();
+    // 3. AURORA VEIL — cortina de luz
+    registerMod('aurora-veil', (api) => {
+      let bands = [];
+      const NUM_BANDS = 15;
+      for (let i = 0; i < NUM_BANDS; i++) {
+        bands.push({
+          offset: i / NUM_BANDS,
+          speed: Math.random() * 0.3 + 0.1,
+          amplitude: Math.random() * 0.3 + 0.1,
+          hue: Math.random() * 60 + 200
         });
       }
-    };
-  });
 
-  // ===== 5. WHISPER GARDEN =====
-  register('whisper-garden', (api) => {
-    const seeds = [];
-    const maxSeeds = 30;
+      return {
+        name: 'Aurora Veil',
+        description: 'Cortina de luz que varre o céu',
 
-    return {
-      update(dt) {
-        seeds.forEach((seed, i) => {
-          seed.growth = Math.min(1, seed.growth + dt * 0.1);
-          seed.sway += dt * 2;
-          
-          if (seed.growth >= 1 && !seed.bloomed) {
-            seed.bloomed = true;
-            seed.bloomTime = Date.now();
-            if (api.audio) {
-              api.audio().playTone(440 + seed.hue * 2, 'sine', 1, 0.08);
+        onEnable() {
+          console.log('[Aurora Veil] 🌌 Veil ativada!');
+          if (api.audio().playChord) {
+            api.audio().playChord([392, 523, 659], 2, 0.08);
+          }
+        },
+
+        onDisable() {
+          if (api.audio().playTone) {
+            api.audio().playTone(220, 'sine', 0.3, 0.5);
+          }
+        },
+
+        update(dt) {
+          bands.forEach(b => {
+            b.offset += b.speed * dt * 0.02;
+            b.hue = (b.hue + dt * 1) % 360;
+          });
+        },
+
+        draw(ctx, w, h, STATE, dt) {
+          const time = Date.now() / 1000;
+
+          bands.forEach(band => {
+            const y = band.offset * h;
+            const alpha_base = 0.15;
+
+            for (let x = 0; x < w; x += 5) {
+              const wave = Math.sin(x * 0.01 + time * band.speed + band.offset * 10) * band.amplitude * h * 0.2;
+              const y_pos = y + wave;
+
+              const hue = band.hue + Math.sin(x * 0.02 + time) * 20;
+              const alpha = alpha_base * (1 - Math.abs(y_pos - y) / (h * 0.3)) * (0.5 + Math.sin(time + band.offset) * 0.5);
+
+              if (alpha > 0.02) {
+                ctx.fillStyle = `hsla(${hue}, 100%, 70%, ${alpha})`;
+                ctx.fillRect(x, y_pos - 5, 5, 10);
+              }
+            }
+          });
+        }
+      };
+    });
+
+    // 4. HEARTBEAT ECHO — som de batida que ecoa
+    registerMod('heartbeat-echo', (api) => {
+      let lastBeat = 0;
+      let beatInterval = 60; // fps beats
+      let beatCount = 0;
+
+      return {
+        name: 'Heartbeat Echo',
+        description: 'Som de batida que ecoa no chão',
+
+        onEnable() {
+          console.log('[Heartbeat Echo] 💓 Batida ativada!');
+          if (api.audio().playTone) {
+            api.audio().playTone(60, 'sine', 0.3, 0.3);
+          }
+        },
+
+        onDisable() {
+          if (api.audio().stopOmTone) {
+            api.audio().stopOmTone();
+          }
+        },
+
+        update(dt) {
+          if (!api.getState()) return;
+          const STATE = api.getState();
+          beatInterval = Math.max(20, 80 - STATE.stack * 0.5);
+          beatCount = Math.floor(Date.now() / (beatInterval * 50)) % 20;
+
+          // Quando bate, toca som
+          if (beatCount % 2 === 0 && Date.now() % (beatInterval * 50) < 50) {
+            if (api.audio().playTone) {
+              api.audio().playTone(40 + STATE.stack * 2, 'sine', 0.2, 0.1);
             }
           }
-          
-          // Remove flores velhas
-          if (seed.bloomed && Date.now() - seed.bloomTime > 30000) {
-            seeds.splice(i, 1);
+        },
+
+        draw(ctx, w, h, STATE, dt) {
+          if (!STATE) return;
+          const beat = Math.sin(Date.now() / (beatInterval * 50) * Math.PI * 2) * 0.5 + 0.5;
+          const radius = 20 + beat * 80 * (STATE.stack / 100);
+
+          // Raios de batida
+          for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2 + Date.now() / 1000;
+            const r = radius + beat * 40;
+            ctx.strokeStyle = `rgba(255, 50, 50, ${beat * 0.3})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(w/2 + Math.cos(angle) * radius, h/2 + Math.sin(angle) * radius);
+            ctx.lineTo(w/2 + Math.cos(angle) * (radius + 40 * beat), h/2 + Math.sin(angle) * (radius + 40 * beat));
+            ctx.stroke();
           }
-        });
-      },
 
-      draw(ctx, w, h, STATE, dt) {
-        seeds.forEach(seed => {
-          const x = seed.x + Math.sin(seed.sway) * 5 * seed.growth;
-          const y = seed.y;
-          const h = seed.growth * 40;
-          
-          // Caule
-          ctx.strokeStyle = `rgba(100, 200, 100, ${0.5 * seed.growth})`;
-          ctx.lineWidth = 2;
+          // Centro pulsante
+          const grad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, radius + 40);
+          grad.addColorStop(0, `rgba(255, 80, 80, ${beat * 0.5})`);
+          grad.addColorStop(0.5, `rgba(200, 30, 30, ${beat * 0.3})`);
+          grad.addColorStop(1, 'rgba(100, 0, 0, 0)');
+          ctx.fillStyle = grad;
           ctx.beginPath();
-          ctx.moveTo(x, y);
-          ctx.quadraticCurveTo(x, y - h/2, x, y - h);
-          ctx.stroke();
+          ctx.arc(w/2, h/2, radius + 40, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      };
+    });
 
-          // Flor
-          if (seed.bloomed) {
-            const bloomAlpha = Math.max(0, 1 - (Date.now() - seed.bloomTime) / 30000);
-            ctx.fillStyle = `hsla(${seed.hue}, 80%, 60%, ${0.8 * bloomAlpha})`;
-            for (let p = 0; p < 5; p++) {
-              const angle = (p / 5) * Math.PI * 2 + seed.sway * 0.5;
-              const px = x + Math.cos(angle) * 12;
-              const py = y - h + Math.sin(angle) * 12;
+    // 5. WHISPER GARDEN — cada clique planta uma semente
+    const plants = [];
+
+    registerMod('whisper-garden', (api) => {
+      let plantList = [];
+
+      return {
+        name: 'Whisper Garden',
+        description: 'Cada clique planta uma semente que floresce',
+
+        onEnable() {
+          console.log('[Whisper Garden] 🌱 Jardim sussurrante!');
+          plantList = plants.slice();
+        },
+
+        onDisable() {
+          if (api.audio().playChord) {
+            api.audio().playChord([440, 554, 659], 1, 0.05);
+          }
+        },
+
+        update(dt) {
+          plantList.forEach(p => {
+            p.age += dt * 0.1;
+            p.phase += dt * 0.05;
+            if (p.age > 10) {
+              p.bloom = Math.min(1, p.bloom + dt * 0.02);
+            }
+          });
+        },
+
+        draw(ctx, w, h, STATE, dt) {
+          plantList.forEach(p => {
+            const cx = p.x * w;
+            const cy = p.y * h;
+            const bloom = p.bloom;
+
+            // Stem
+            ctx.strokeStyle = `rgba(50, 200, 50, ${0.5 + bloom * 0.3})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy + 20);
+            ctx.quadraticCurveTo(cx + Math.sin(p.phase) * 10, cy + 5, cx, cy - 20);
+            ctx.stroke();
+
+            // Flower
+            if (bloom > 0.1) {
+              const flowerSize = 8 * bloom;
+              const hue = p.hue || 120;
+              for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2 + p.phase;
+                const fx = cx + Math.cos(angle) * flowerSize;
+                const fy = cy - 20 + Math.sin(angle) * flowerSize;
+                ctx.fillStyle = `hsla(${hue + i * 20}, 100%, 70%, ${bloom})`;
+                ctx.beginPath();
+                ctx.arc(fx, fy, flowerSize * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+              }
+              // Center
+              ctx.fillStyle = `hsla(40, 100%, 80%, ${bloom})`;
               ctx.beginPath();
-              ctx.arc(px, py, 8, 0, Math.PI * 2);
+              ctx.arc(cx, cy - 20, flowerSize * 0.4, 0, Math.PI * 2);
+              ctx.fill();
+            } else {
+              // Seed stage
+              ctx.fillStyle = `rgba(100, 80, 40, 0.5)`;
+              ctx.beginPath();
+              ctx.arc(cx, cy, 3, 0, Math.PI * 2);
               ctx.fill();
             }
-            // Centro
-            ctx.fillStyle = `hsla(${seed.hue}, 100%, 80%, ${bloomAlpha})`;
-            ctx.beginPath();
-            ctx.arc(x, y - h, 5, 0, Math.PI * 2);
-            ctx.fill();
-          } else {
-            // Broto
-            ctx.fillStyle = `rgba(150, 220, 150, ${0.7 * seed.growth})`;
-            ctx.beginPath();
-            ctx.arc(x, y - h, 4 * seed.growth, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        });
-      },
-
-      onClick(x, y) {
-        if (seeds.length < maxSeeds) {
-          seeds.push({
-            x, y,
-            growth: 0,
-            sway: Math.random() * Math.PI * 2,
-            hue: Math.random() * 60 + 300,
-            bloomed: false
           });
+        },
+
+        onClick(x, y) {
+          const plant = {
+            x: x / (api.getState()?.canvasWidth || 1600),
+            y: y / (api.getState()?.canvasHeight || 900),
+            age: 0,
+            bloom: 0,
+            phase: Math.random() * Math.PI * 2,
+            hue: Math.random() * 120 + 80
+          };
+          plantList.push(plant);
+
+          // Toca som de plantação
+          if (api.audio().playTone) {
+            api.audio().playTone(600 + Math.random() * 400, 'sine', 0.1, 0.1);
+          }
+          console.log(`[Whisper Garden] 🌱 Semente plantada em (${x}, ${y})`);
         }
-      }
-    };
-  });
+      };
+    });
 
-  // ===== 6. COSMIC DRIFT =====
-  register('cosmic-drift', (api) => {
-    const particles = [];
-    const numParticles = 50;
-
-    for (let i = 0; i < numParticles; i++) {
-      particles.push({
-        x: Math.random() * 1600,
-        y: Math.random() * 1000,
-        vx: (Math.random() - 0.5) * 0.1,
-        vy: (Math.random() - 0.5) * 0.1,
-        size: 0.5 + Math.random() * 1.5,
-        hue: 200 + Math.random() * 100,
-        alpha: 0.1 + Math.random() * 0.3,
-        phase: Math.random() * Math.PI * 2
+    // 6. COSMIC DRIFT — estrelas flutuantes
+    const stars = [];
+    for (let i = 0; i < 80; i++) {
+      stars.push({
+        x: Math.random(),
+        y: Math.random(),
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random() * 0.6 + 0.2,
+        twinkle: Math.random() * Math.PI * 2,
+        drift: {
+          x: (Math.random() - 0.5) * 0.002,
+          y: (Math.random() - 0.5) * 0.002
+        }
       });
     }
 
-    return {
-      update(dt) {
-        particles.forEach(p => {
-          p.x += p.vx * dt * 60;
-          p.y += p.vy * dt * 60;
-          p.phase += dt;
-          p.alpha = 0.1 + Math.sin(p.phase) * 0.2;
+    registerMod('cosmic-drift', (api) => {
+      let starField = stars.slice();
 
-          // Wrap around
-          if (p.x < 0) p.x = 1600;
-          if (p.x > 1600) p.x = 0;
-          if (p.y < 0) p.y = 1000;
-          if (p.y > 1000) p.y = 0;
-        });
-      },
+      return {
+        name: 'Cosmic Drift',
+        description: 'Ruído sutil de estrelas que flutuam',
 
-      draw(ctx, w, h, STATE, dt) {
-        particles.forEach(p => {
-          ctx.fillStyle = `hsla(${p.hue}, 60%, 70%, ${p.alpha})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fill();
-        });
-      }
-    };
-  });
+        onEnable() {
+          console.log('[Cosmic Drift] ✨ Campo estelar!');
+          if (api.audio().playChord) {
+            api.audio().playChord([523, 784], 3, 0.03);
+          }
+        },
 
-  // ===== 7. BELA VIDA RESONANCE =====
-  register('bela-vida-resonance', (api) => {
-    const phrases = [
-      'só o amor',
-      'protege o motivo',
-      'tamo junto',
-      'vamo lá',
-      'fé',
-      'enóis',
-      'não vamo desanimar',
-      'stack de 64 = ∞',
-      'só coisa boa',
-      'infinitamente bom',
-      'assustadoramente bom',
-      'a fonte flui',
-      'a luz acende',
-      'brilha mais e mais',
-      'a bela vida espelha'
-    ];
+        onDisable() {
+          if (api.audio().playTone) {
+            api.audio().playTone(300, 'sine', 0.05, 0.2);
+          }
+        },
 
-    let lastPhrase = 0;
-    let currentPhrase = '';
-    let phraseAlpha = 0;
-    let phraseScale = 1;
+        update(dt) {
+          starField.forEach(s => {
+            s.x += s.drift.x * dt * 5;
+            s.y += s.drift.y * dt * 5;
+            s.twinkle += dt * (Math.random() > 0.99 ? Math.random() * 5 : 2);
 
-    return {
-      update(dt, STATE) {
-        const now = Date.now();
-        
-        // Nova frase a cada ~15 min (900000ms) ou se stack alto
-        const interval = STATE?.stack > 50 ? 60000 : 900000;
-        
-        if (now - lastPhrase > interval) {
-          lastPhrase = now;
-          currentPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-          phraseAlpha = 0;
-          phraseScale = 0.5;
-          
-          if (api.audio) {
-            api.audio().trigger('phase_up');
+            // Wrap around
+            if (s.x < -0.05) s.x = 1.05;
+            if (s.x > 1.05) s.x = -0.05;
+            if (s.y < -0.05) s.y = 1.05;
+            if (s.y > 1.05) s.y = -0.05;
+          });
+        },
+
+        draw(ctx, w, h, STATE, dt) {
+          const time = Date.now() / 1000;
+
+          // Deep space background
+          if (!STATE || STATE.backgroundColor !== 'transparent') {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillRect(0, 0, w, h);
+          }
+
+          starField.forEach(s => {
+            const alpha = s.alpha * (0.5 + Math.sin(s.twinkle) * 0.5);
+            const x = s.x * w;
+            const y = s.y * h;
+            const size = s.size * (0.8 + Math.sin(s.twinkle) * 0.4);
+
+            // Glow
+            if (size > 1.5) {
+              const glow = ctx.createRadialGradient(x, y, 0, x, y, size * 3);
+              glow.addColorStop(0, `rgba(255, 255, 255, ${alpha * 0.3})`);
+              glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+              ctx.fillStyle = glow;
+              ctx.beginPath();
+              ctx.arc(x, y, size * 3, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+          });
+        }
+      };
+    });
+
+    // 7. BELA VIDA RESONANCE — frase ecoa em som a cada 15 min
+    registerMod('bela-vida-resonance', (api) => {
+      let lastEcho = 0;
+      let echoActive = false;
+      let echoTime = 0;
+
+      const phrases = [
+        'só o amor',
+        'protege o motivo',
+        'tamo junto',
+        'vamo lá',
+        'fé',
+        'enóis',
+        'não vamo desanimar',
+        'stack de 64 = ∞',
+        'só coisa boa',
+        'infinitamente bom',
+        'assustadoramente bom',
+        'matrix em estado de fluxo'
+      ];
+
+      return {
+        name: 'Bela Vida Resonance',
+        description: 'A cada 15 minutos, a frase da bela vida ecoa em som',
+
+        onEnable() {
+          console.log('[Bela Vida Resonance] 💬 Eco de bela vida ativado!');
+          lastEcho = Date.now();
+        },
+
+        onDisable() {
+          if (api.audio().playChord) {
+            api.audio().playChord([440, 554, 659, 880], 2, 0.05);
+          }
+        },
+
+        update(dt) {
+          const now = Date.now();
+          const elapsed = now - lastEcho;
+
+          if (elapsed > 15 * 60 * 1000 && !echoActive) {
+            echoActive = true;
+            echoTime = now;
+            const idx = Math.floor(Math.random() * phrases.length);
+            const phrase = phrases[idx];
+
+            console.log(`[Bela Vida Resonance] 💬 "${phrase}"`);
+
+            // Tocar acorde
+            if (api.audio().playChord) {
+              api.audio().playChord([262, 330, 392, 523], 3, 0.15);
+            }
+
+            // Som de eco
+            if (api.audio().playTone) {
+              for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                  api.audio().playTone(
+                    400 + Math.random() * 600,
+                    'sine',
+                    0.1,
+                    0.05
+                  );
+                }, i * 100);
+              }
+            }
+
+            // Reavaliar após eco
+            setTimeout(() => {
+              echoActive = false;
+              lastEcho = now;
+            }, 5000);
+          }
+
+          if (echoActive) {
+            echoTime += dt;
+            // Pulsar visual
+            if (echoTime % 500 < 50 && api.audio().playTone) {
+              api.audio().playTone(500 + Math.random() * 300, 'sine', 0.05, 0.03);
+            }
+          }
+        },
+
+        draw(ctx, w, h, STATE, dt) {
+          if (echoActive) {
+            const alpha = 0.2 + Math.sin(echoTime / 200) * 0.1;
+            ctx.fillStyle = `rgba(255, 215, 0, ${alpha})`;
+            ctx.font = '18px Georgia';
+            ctx.textAlign = 'center';
+            ctx.fillText('✦ bela vida resonance ✦', w/2, h - 60);
+
+            // Partículas
+            const count = Math.floor(Math.sin(echoTime / 100) * 5 + 5);
+            for (let i = 0; i < count; i++) {
+              const angle = (i / count) * Math.PI * 2 + echoTime / 500;
+              const radius = 40 + Math.sin(echoTime / 200) * 20;
+              const x = w/2 + Math.cos(angle) * radius;
+              const y = h/2 + Math.sin(angle) * radius;
+              ctx.fillStyle = `rgba(255, 215, 0, ${alpha * 0.5})`;
+              ctx.beginPath();
+              ctx.arc(x, y, 2, 0, Math.PI * 2);
+              ctx.fill();
+            }
           }
         }
+      };
+    });
+  }
 
-        // Animação de entrada/saída
-        if (currentPhrase) {
-          if (phraseAlpha < 1) {
-            phraseAlpha = Math.min(1, phraseAlpha + dt * 2);
-            phraseScale = 0.5 + phraseAlpha * 0.5;
-          } else if (now - lastPhrase > 5000) {
-            phraseAlpha = Math.max(0, phraseAlpha - dt * 0.5);
-            phraseScale = 1 + (1 - phraseAlpha) * 0.5;
-            if (phraseAlpha <= 0) currentPhrase = '';
-          }
-        }
-      },
-
-      draw(ctx, w, h, STATE, dt) {
-        if (!currentPhrase || phraseAlpha <= 0) return;
-
-        ctx.save();
-        ctx.translate(w / 2, h / 2 - 100);
-        ctx.scale(phraseScale, phraseScale);
-
-        // Glow
-        ctx.shadowColor = `rgba(255, 215, 0, ${phraseAlpha})`;
-        ctx.shadowBlur = 30;
-        
-        ctx.fillStyle = `rgba(255, 215, 0, ${phraseAlpha * 0.9})`;
-        ctx.font = 'bold 28px Georgia';
-        ctx.textAlign = 'center';
-        ctx.fillText(`♪ ${currentPhrase} ♪`, 0, 0);
-
-        ctx.shadowBlur = 0;
-        ctx.restore();
+  // Auto-registrar quando o módulo é carregado
+  if (typeof window !== 'undefined' && window.ModShepherd) {
+    registerExamples();
+    console.log('[ExampleMods] ✅ 7 mods registrados');
+  } else {
+    // Espera o ModShepherd carregar
+    window.addEventListener('load', () => {
+      if (window.ModShepherd) {
+        registerExamples();
+        console.log('[ExampleMods] ✅ 7 mods registrados');
       }
-    };
-  });
-
-  // API pública
-  function registerExamples() {
-    console.log('[ExampleMods] 🌈 7 mods registrados');
-    return Object.keys(mods);
+    });
   }
 
-  function getMod(id) {
-    return mods[id];
-  }
-
-  function getAllMods() {
-    return Object.keys(mods);
-  }
-
-  if (typeof window !== 'undefined') {
-    window.ExampleMods = { registerExamples, getMod, getAllMods };
-  }
-
-  return { registerExamples, getMod, getAllMods };
+  return { registerExamples };
 })();
