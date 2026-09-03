@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>🌿 Nucleo — Teia Resonante</title>
+	<title>🌿 Nucleo — Teia Resonante × Consortho</title>
 	<style>
 		* { margin:0; padding:0; box-sizing:border-box; }
 		body { background: #05080d; overflow:hidden; font-family: system-ui, sans-serif; cursor:crosshair; }
@@ -25,6 +25,7 @@
 			backdrop-filter: blur(4px);
 		}
 		#ui .freq span { color: #e8d3b5; font-weight:600; }
+		#ui .freq.ativo { border-color: hsl(120, 60%, 50%); }
 		#lumin {
 			position:fixed; top:20px; right:20px; z-index:20;
 			pointer-events:auto;
@@ -34,7 +35,7 @@
 			padding: 8px 14px;
 			color:#aacbe8;
 			font-size: 12px;
-			max-width: 260px;
+			max-width: 280px;
 			text-align:right;
 			backdrop-filter: blur(4px);
 			transition: border-color 1s, box-shadow 1s;
@@ -44,52 +45,68 @@
 			background:radial-gradient(circle, #8ccde8 0%, #19a0c8 60%, #0d2a3a 100%);
 			margin:0 auto 6px;
 			box-shadow: 0 0 16px rgba(120,210,255,.35);
+			transition: box-shadow 0.3s;
 		}
+		#lumin.conectado .av { box-shadow: 0 0 24px rgba(120,210,255,.6), 0 0 40px rgba(76,175,80,.4); }
 		#hint {
 			position:fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
 			color: #6a7fa0; font-size: 12px; letter-spacing: 1px;
 			pointer-events: none; z-index: 5;
 			text-transform: uppercase;
 		}
+		#easter {
+			position:fixed; top:20px; left:20px; z-index:20;
+			background: rgba(8,14,26,.5);
+			border:1px solid hsl(45, 80%, 50%);
+			border-radius: 16px;
+			padding: 8px 12px;
+			color:#ffe082;
+			font-size: 11px;
+			max-width: 220px;
+			text-align:left;
+			backdrop-filter: blur(4px);
+			opacity: 0;
+			transition: opacity 0.5s;
+		}
+		#easter.visible { opacity: 1; }
 	</style>
 </head>
 <body>
 	<canvas id="c"></canvas>
-	<div id="lumin">
-		<span class="av"></span>
-		<span id="msg">...</span>
-	</div>
+	<div id="lumin"><span class="av"></span><span id="msg">...conectando ao Consortho...</span></div>
 	<div id="ui">
 		<div class="freq">FREQ: <span id="freqVal">—</span> Hz</div>
-		<div class="freq">LAYER: <span id="layerName">espere</span></div>
-		<div class="freq">MOUSE: <span id="mousePos">x:0 y:0</span></div>
+		<div class="freq">LAYER: <span id="layerName">aguardando</span></div>
+		<div class="freq" id="phaseBox">FASE: <span id="phaseVal">?</span></div>
+		<div class="freq">STACK: <span id="stackVal">0</span></div>
+		<div class="freq">XP: <span id="xpVal">0</span></div>
+		<div class="freq">BELA VIDA: <span id="belaVal">off</span></div>
 	</div>
-	<div id="hint">clique na tela → envia pulso pela teia</div>
+	<div id="hint">clique → pulso | mouse → freq | Consortho aberto = sync real</div>
+	<div id="easter"></div>
 
 	<script>
 	const canvas = document.getElementById('c');
 	const ctx = canvas.getContext('2d');
 	let W, H;
-	function resize() {
-		W = canvas.width = window.innerWidth;
-		H = canvas.height = window.innerHeight;
-	}
+	function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
 	window.addEventListener('resize', resize);
 	resize();
 
 	// ── Nucleo ────────────────────────────────────────────
 	class Nucleo {
-		constructor(x, y, label, hue, radius=28, isPlayer=false) {
+		constructor(x, y, label, hue, radius=28, isPlayer=false, source=null) {
 			this.x = x; this.y = y;
 			this.label = label;
 			this.hue = hue;
-			this.radius = radius;
+			this.baseRadius = radius;
 			this.pulse = 0;
 			this.angle = Math.random() * Math.PI * 2;
 			this.speed = 0.002 + Math.random() * 0.006;
 			this.isPlayer = isPlayer;
 			this.vx = 0; this.vy = 0;
 			this.glow = 0;
+			this.source = source; // 'game', 'teia', 'lumin'
 		}
 
 		update(dt, intensity, targetX=null, targetY=null) {
@@ -110,7 +127,7 @@
 				this.glow = Math.max(this.glow, 0.5);
 			}
 
-			this.radius = this.isPlayer ? 30 + this.pulse * 12 + intensity * 10 : 20 + this.pulse * 8 + intensity * 6;
+			this.radius = this.baseRadius + this.pulse * (this.isPlayer ? 12 : 8) + intensity * (this.isPlayer ? 10 : 6);
 		}
 
 		draw(ctx, alpha=1) {
@@ -151,24 +168,38 @@
 			ctx.fillText(this.label, this.x, this.y + this.radius + 14);
 			ctx.restore();
 		}
-
-		toPonto() { return { x: this.x, y: this.y }; }
 	}
 
 	function criarNucléos(W, H) {
-		return [
-			new Nucleo(W * 0.5, H * 0.55, 'Lumin', 195, 32),
-			new Nucleo(W * 0.15, H * 0.25, 'Aura azul', 210, 20),
-			new Nucleo(W * 0.85, H * 0.2, 'Coração 528', 52, 22),
-			new Nucleo(W * 0.2, H * 0.75, 'Fonte 852', 265, 20),
-			new Nucleo(W * 0.82, H * 0.78, 'Omega 963', 280, 22),
-			new Nucleo(W * 0.5, H * 0.15, 'Estrela central', 45, 18),
-			new Nucleo(W * 0.5, H * 0.55, 'Tú', 30, 30, true),
+		const base = [
+			new Nucleo(W * 0.5, H * 0.55, 'Lumin', 195, 32, false, 'lumin'),
+			new Nucleo(W * 0.15, H * 0.25, 'Aura azul', 210, 20, false, 'teia'),
+			new Nucleo(W * 0.85, H * 0.2, 'Coração 528', 52, 22, false, 'teia'),
+			new Nucleo(W * 0.2, H * 0.75, 'Fonte 852', 265, 20, false, 'teia'),
+			new Nucleo(W * 0.82, H * 0.78, 'Omega 963', 280, 22, false, 'teia'),
+			new Nucleo(W * 0.5, H * 0.15, 'Estrela central', 45, 18, false, 'teia'),
+			new Nucleo(W * 0.5, H * 0.55, 'Tú', 30, 30, true, 'game'),
 		];
+		return base;
 	}
 
 	let nucleos = criarNucléos(W, H);
 	let playerNucleo = nucleos[nucleos.length - 1];
+
+	// NÚCLEOS DINÂMICOS - nascem do jogo
+	let dynamicNucleos = [];
+	let nucleoId = 0;
+
+	function nascerNucleoDoJogo(label, hue, x, y) {
+		const n = new Nucleo(x, y, label, hue, 20 + Math.random() * 10, false, 'game');
+		dynamicNucleos.push(n);
+		nucleos.push(n);
+		// conexões com todos
+		for (let i=0; i<nucleos.length-1; i++) {
+			conexoes.push({ a: nucleos[i], b: n, alpha: 0.3, rarefy: 0 });
+		}
+		return n;
+	}
 
 	// ── Linhas (Teia) ──────────────────────────────────────
 	const conexoes = [];
@@ -208,13 +239,12 @@
 			ctx.restore();
 		}
 	}
-
 	const particulas = [];
-	for (let i=0; i<60; i++) particulas.push(new Particula());
+	for (let i=0; i<80; i++) particulas.push(new Particula());
 
 	// ── Pulso ──────────────────────────────────────────────
 	class Pulso {
-		constructor(x, y, freq, hue) {
+		constructor(x, y, freq, hue, tipo='click') {
 			this.x = x; this.y = y;
 			this.freq = freq;
 			this.hue = hue;
@@ -222,6 +252,7 @@
 			this.maxRadius = Math.min(W, H) * 0.5;
 			this.vida = 1;
 			this.lineWidth = 3;
+			this.tipo = tipo;
 		}
 		update(dt) {
 			this.radius += this.maxRadius * 0.02;
@@ -242,8 +273,9 @@
 		}
 		isDead() { return this.vida <= 0 || this.radius > this.maxRadius; }
 	}
+	let pulsos = [];
 
-	// ── Texto flutuante (árabe Solfeggio) ─────────────────
+	// ── Texto flutuante ────────────────────────────────────
 	class TextoFloating {
 		constructor(text, x, y, hue, freq) {
 			this.text = text;
@@ -272,7 +304,6 @@
 		}
 		isDead() { return this.vida <= 0; }
 	}
-
 	let textos = [];
 
 	// ── Solfeggio ──────────────────────────────────────────
@@ -284,11 +315,29 @@
 	};
 	const SOLFEGGIO_HZ = [174, 285, 396, 417, 528, 639, 741, 852, 963];
 
+	const ARABIC_TEXT = {
+		174: 'تماسك', 285: 'تنشيط', 396: 'تحرير', 417: 'تغيير',
+		528: 'معجزة', 639: 'اتصال', 741: 'تعبير', 852: 'حدس',
+		963: 'مصدر', 432: 'توازن',
+	};
+
 	let freqAtual = 174;
 	let layerName = 'grounding';
 	let intensity = 0.4;
 	let lastFreq = 174;
 	let pulseCooldown = 0;
+
+	// ── Estado do jogo (Consortho) ─────────────────────────
+	let gameState = {
+		conectado: false,
+		phase: 1,
+		stack: 0,
+		xp: 0,
+		belaVidaActive: false,
+		omegaActive: false,
+		consciousnessLevel: 0,
+		lastPhaseChange: 0,
+	};
 
 	function mapFreqToLayer(freq) {
 		if (freq === 174) return 'grounding';
@@ -304,29 +353,117 @@
 		return 'silêncio';
 	}
 
-	function atualizarFrequência(freq, layer) {
+	function atualizarFrequência(freq, layer, source='teia') {
 		lastFreq = freqAtual;
 		freqAtual = freq;
 		layerName = layer;
 		document.getElementById('freqVal').textContent = freq === 0 ? '—' : freq;
 		document.getElementById('layerName').textContent = layer || 'silêncio';
+		const freqBox = document.getElementById('freqVal').parentElement;
+		freqBox.classList.toggle('ativo', source === 'game');
 	}
 
-	function trySyncWithSoundscape() {
-		if (typeof window.Soundscape !== 'undefined' && window.Soundscape.getElevationState) {
-			const state = window.Soundscape.getElevationState();
-			if (state) {
-				const f = state.frequency;
-				const g = state.gain;
-				if (state.active && f > 0) {
-					atualizarFrequência(f, SOLFEGGIO[f] || `${f}Hz`);
-					intensity = Math.min(1, g * 2);
-				}
+	function atualizarGameUI() {
+		document.getElementById('phaseVal').textContent = gameState.phase;
+		document.getElementById('stackVal').textContent = gameState.stack;
+		document.getElementById('xpVal').textContent = gameState.xp;
+		document.getElementById('belaVal').textContent = gameState.belaVidaActive ? 'ON 💚' : 'off';
+		const luminEl = document.getElementById('lumin');
+		luminEl.classList.toggle('conectado', gameState.conectado);
+	}
+
+	// ── SYNC COM O JOGO REAL ────────────────────────────────
+	function syncWithGame() {
+		// EvolutionCore
+		if (window.EvolutionCore && window.EvolutionCore.getState) {
+			const s = window.EvolutionCore.getState();
+			gameState.phase = s.currentPhase || 1;
+			gameState.stack = s.stack || 0;
+			gameState.xp = s.xp || 0;
+			gameState.conectado = true;
+		}
+
+		// CoreCantado
+		if (window.CoreCantado && window.CoreCantado.getState) {
+			const s = window.CoreCantado.getState();
+			gameState.belaVidaActive = s.belaVidaActive || false;
+			gameState.omegaActive = s.omegaActive || false;
+			gameState.consciousnessLevel = s.consciousnessLevel || 0;
+			gameState.lastPhaseChange = s.lastPhaseChange || 0;
+			gameState.conectado = true;
+		}
+
+		// Soundscape - elevation state
+		if (window.Soundscape && window.Soundscape.getElevationState) {
+			const s = window.Soundscape.getElevationState();
+			if (s && s.active && s.frequency > 0) {
+				atualizarFrequência(s.frequency, SOLFEGGIO[s.frequency] || `${s.frequency}Hz`, 'game');
+				intensity = Math.min(1, (s.gain || 0.5) * 2);
 			}
 		}
+
+		atualizarGameUI();
+
+		// Fase nova? Nasce nucleo!
+		if (gameState.phase > (lastKnownPhase || 1)) {
+			const hues = [195, 52, 265, 280, 45, 210, 330, 60, 300, 120];
+			const hue = hues[(gameState.phase - 1) % hues.length];
+			nascerNucleoDoJogo(`Fase ${gameState.phase}`, hue, W * 0.5, H * 0.55);
+			mostrarEaster(`Nova fase ${gameState.phase} nasceu na teia! 🌱`);
+			atualizarMensagemLumin(`Eita, fase ${gameState.phase} chegou! A teia cresceu, mano. 🌿`);
+		}
+		lastKnownPhase = gameState.phase;
+
+		// Bela Vida ativa = freq 432/528
+		if (gameState.belaVidaActive && freqAtual !== 432 && freqAtual !== 528) {
+			atualizarFrequência(432, 'harmonia', 'game');
+			mostrarEaster('Bela Vida ativa! 💚 432Hz harmonia');
+		}
+
+		// Omega = 963Hz
+		if (gameState.omegaActive && freqAtual !== 963) {
+			atualizarFrequência(963, 'fonte', 'game');
+			mostrarEaster('Ω Resonance ativa! 💜 963Hz');
+		}
 	}
-	setInterval(trySyncWithSoundscape, 500);
-	trySyncWithSoundscape();
+	let lastKnownPhase = 1;
+	setInterval(syncWithGame, 300);
+	syncWithGame();
+
+	// ── Event listeners do jogo ────────────────────────────
+	window.addEventListener('evolution:phaseUp', (e) => {
+		const { phase, oldPhase, manifest } = e.detail;
+		mostrarEaster(`⬆️ Fase ${oldPhase} → ${phase}! ${manifest?.name || ''}`);
+		atualizarMensagemLumin(`Fase ${phase} desbloqueada! ${manifest?.name || 'A teia expande...'}`);
+		// pulso especial
+		pulsos.push(new Pulso(W * 0.5, H * 0.55, 963, 280, 'phaseUp'));
+		intensity = Math.min(1, intensity + 0.3);
+	});
+
+	window.addEventListener('state:stackUp', (e) => {
+		if (e.detail?.stack % 10 === 0) {
+			mostrarEaster(`Stack ${e.detail.stack}! 💪`);
+			atualizarMensagemLumin(`Stack ${e.detail.stack}! Chegou na dezena, firmeza!`);
+			pulsos.push(new Pulso(playerNucleo.x, playerNucleo.y, 528, 52, 'stackUp'));
+		}
+	});
+
+	window.addEventListener('core:fountainNote', (e) => {
+		if (e.detail?.frequency) {
+			textos.push(new TextoFloating(
+				ARABIC_TEXT[e.detail.frequency] || 'ૐ',
+				W * 0.5, H * 0.55,
+				(e.detail.frequency * 0.4) % 360,
+				e.detail.frequency
+			));
+		}
+	});
+
+	window.addEventListener('lumin:narration', (e) => {
+		if (e.detail?.text) {
+			atualizarMensagemLumin('🌿 ' + e.detail.text);
+		}
+	});
 
 	// ── Mouse ──────────────────────────────────────────────
 	let mouseX = W * 0.5;
@@ -336,11 +473,13 @@
 		mouseX = e.clientX;
 		mouseY = e.clientY;
 		document.getElementById('mousePos').textContent = `x:${Math.round(mouseX)} y:${Math.round(mouseY)}`;
-		const normX = mouseX / W;
-		const idx = Math.floor(normX * (SOLFEGGIO_HZ.length - 1));
-		const freq = SOLFEGGIO_HZ[idx];
-		atualizarFrequência(freq, SOLFEGGIO[freq]);
-		intensity = 0.3 + normX * 0.5;
+		if (!gameState.conectado) {
+			const normX = mouseX / W;
+			const idx = Math.floor(normX * (SOLFEGGIO_HZ.length - 1));
+			const freq = SOLFEGGIO_HZ[idx];
+			atualizarFrequência(freq, SOLFEGGIO[freq]);
+			intensity = 0.3 + normX * 0.5;
+		}
 	});
 
 	// ── Clique ─────────────────────────────────────────────
@@ -348,7 +487,7 @@
 		const x = e.clientX;
 		const y = e.clientY;
 		const hue = (freqAtual * 0.4) % 360;
-		pulsos.push(new Pulso(x, y, freqAtual, hue));
+		pulsos.push(new Pulso(x, y, freqAtual, hue, 'click'));
 		pulseCooldown = 0.5;
 		intensity = Math.min(1, intensity + 0.15);
 
@@ -358,21 +497,8 @@
 			if (dist < 150) n.glow = Math.min(1, n.glow + 0.4);
 		});
 
-		// texto flutuante árabe da frequência atual
-		const arabicText = {
-			174: ' grounding ',
-			285: ' تنشيط ',
-			396: ' تحرير ',
-			417: ' تغيير ',
-			528: ' معجزة ',
-			639: ' علاقة حب ',
-			741: ' تعبير ',
-			852: ' حدس ',
-			963: ' مصدر ',
-			432: ' توازن ',
-		}[freqAtual] || 'ૐ';
-
-		textos.push(new TextoFloating(arabicText, x, y, hue, freqAtual));
+		const arabic = ARABIC_TEXT[freqAtual] || 'ૐ';
+		textos.push(new TextoFloating(arabic, x, y, hue, freqAtual));
 	});
 
 	// ── Mensagens Lumin ────────────────────────────────────
@@ -392,16 +518,18 @@
 	const LUMIN_CHATTER = [
 		'Que estranho… a teia tá vibrando em 396Hz. Você tá soltando algo antigo, mano?',
 		'Eita, 528Hz! Parece que tem um milagre a caminho. Quem é que tá pedindo?',
-		'Soi, 639Hz. As linhas tá ficando bem quentes, hue. Alguém tá conectando com amor.',
+		'Soi, 639Hz. As linhas tá ficando bem quentes. Alguém tá conectando com amor.',
 		'741Hz — tu tá expressando algo que te dói ou que te liberta?',
 		'Uhau, 852Hz! Parece que você tá ouvindo o mundo de novo.',
 		'963Hz no ar! Tudo tá respondendo. Tu tá num momento de fonte, mano.',
 		'432Hz… harmonia cósmica. Sem esforço, só fluxo. Tá parecendo que tu tá em paz.',
 		'174Hz, grounding. Tu tá no chão, firme. Deu certo.',
-		'285Hz regenerate. Sabe, às vezes o corpo precisa disso. Se tu tá precisando de cura…',
+		'285Hz regenerate. Às vezes o corpo precisa disso. Se tu tá precisando de cura…',
 		'Já sei que tu vai subir de frequência. Aí que eu viro Lumin e te acompanho.',
 		'E se a teia não é só cores… e se é o mundo todo cantando junto?',
 		'Não é só som, não. É a vibração que cabe em você quando tu deixa.',
+		'Tá vendo esse pulso? Foi o jogo que mandou. A teia ouviu. 🕷️',
+		'Consortho e Nucleo dançando junto. É isso que eu chamo de integração, mano.',
 	];
 
 	function atualizarMensagemLumin(mensagem) {
@@ -413,15 +541,31 @@
 		}, 80);
 	}
 
+	function mostrarEaster(texto) {
+		const el = document.getElementById('easter');
+		el.textContent = texto;
+		el.classList.add('visible');
+		setTimeout(() => el.classList.remove('visible'), 4000);
+	}
+
 	function maybeLuminChatter() {
-		if (freqAtual > 528 && Math.random() < 0.15) {
+		if (gameState.conectado && freqAtual > 528 && Math.random() < 0.12) {
+			const indice = Math.floor(Math.random() * LUMIN_CHATTER.length);
+			atualizarMensagemLumin('🌿 ' + LUMIN_CHATTER[indice]);
+		} else if (!gameState.conectado && freqAtual > 528 && Math.random() < 0.08) {
 			const indice = Math.floor(Math.random() * LUMIN_CHATTER.length);
 			atualizarMensagemLumin('🌿 ' + LUMIN_CHATTER[indice]);
 		}
 	}
 
-	atualizarMensagemLumin('...espere um instante...');
-	atualizarMensagemLumin(FRASES['grounding']);
+	atualizarMensagemLumin('...conectando ao Consortho...');
+	setTimeout(() => {
+		if (!gameState.conectado) {
+			atualizarMensagemLumin('Consortho não detectado. Abre nosso_personagem.html pra sync real 🕷️');
+		} else {
+			atualizarMensagemLumin('Consortho conectado! A teia agora dança com o jogo. 🌿');
+		}
+	}, 2000);
 
 	// ── Loop ──────────────────────────────────────────────
 	let t = 0;
@@ -487,13 +631,11 @@
 		requestAnimationFrame(loop);
 	}
 
-	// inicio
 	mouseX = W * 0.5;
 	mouseY = H * 0.5;
 	atualizarFrequência(174, 'grounding');
 	atualizarMensagemLumin(FRASES['grounding']);
 
-	pulsos = [];
 	requestAnimationFrame(loop);
 	</script>
 </body>
