@@ -732,6 +732,20 @@ function update() {
   
   gameTime++;
   
+  // Generate new galaxy when player travels far from origin
+  if (Math.abs(player.x) > 3000 || Math.abs(player.y) > 3000) {
+    if (galaxies.length === 0 || distance(player.x, player.y, 0, 0) > 4000) {
+      galaxies.push(generateGalaxy(Math.floor(Math.random() * 1000000)));
+      addFloatingText(W/2, H/2 - 60, '✨ NOVA GALAXIA!', 280, 32, '#a0f0ff');
+      playDiscoverySound(200);
+      // Reset player position relative to new galaxy center
+      player.x = 0; player.y = 0;
+      player.vx = 0; player.vy = 0;
+      focusedSystem = null;
+      hideDiscoveryToast();
+    }
+  }
+
   // Warp speed boost
   const currentSpeed = player.warpSpeed ? player.speed * 2.5 : player.speed;
   const accel = currentSpeed * 0.15;
@@ -1383,7 +1397,7 @@ function gameLoop() {
 // HARMONIZE KEY
 // ============================================================
 window.addEventListener('keydown', e => {
-  if (e.key === ' ' || e.key === 'Space') {
+  if (e.key === ' ' || e.key === 'Space' || e.code === 'Space') {
     e.preventDefault();
     if (!paused) triggerHarmonize();
   }
