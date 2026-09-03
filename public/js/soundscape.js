@@ -373,8 +373,6 @@ const Soundscape = (function() {
         elevationActive = true;
         console.log(`[Soundscape] 🎵 Elevation: ${SOLFEGGIO[targetFreq] || targetFreq}Hz active, gain=${targetGain}`);
       }
-      // DEBUG: log current values
-      console.log(`[Soundscape] DEBUG: osc.freq=${elevationOsc.frequency.value}, gain=${elevationGain.gain.value}, targetFreq=${targetFreq}, targetGain=${targetGain}`);
     } else if (elevationActive) {
       // Fade out
       elevationGain.gain.linearRampToValueAtTime(0, now + 3);
