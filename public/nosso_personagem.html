@@ -1608,43 +1608,48 @@ function update() {
 
   // === WORLD CAMERA & ENVIRONMENT ===\n  updateWorldCamera();\n  updateCompanion();\n  updateVoidFarm(); // Void Walker Farm - autonomous resource generation\n  updateCastle();\n  updateEnvironment();\n  updateChat();\n  updateDreamIncubator(); // Dream Incubator - autonomous 2-6AM generation\n  // Ultra Generation Systems\n  updateTalentTree();\n  updateRelics();\n  updateCosmicEvents();\n  updateRealityLayers();\n  updateAIDirector();\n  updateConsciousnessPaths();\n  updateLivingWorld();\n  updatePrestige();
 
-  // === MOD SHEPHERD & SOUNDSCAPE & SESSION MEMORY ===
-      if (window.ModShepherd && !window.ModShepherd.isRunning()) {
-        window.ModShepherd.startMods();
-      }
-      if (window.Soundscape) {
-        window.Soundscape.update(STATE, dt);
-      }
-      if (window.SessionMemory) {
-        if (Math.floor(STATE.save.playTime * 10) % 100 === 0) {
-          window.SessionMemory.logStackChange(STATE.stack, STATE.hrv.value);
-        }
-      }
+  // === EVOLUTION CORE + LUMIN NARRATOR + ATLAS + CORE CANTADO ===
+        // Core Cantado - atualiza 5 camadas vivas (PRIMEIRO, para injetar estado no STATE)
+        if (window.CoreCantado && window.Soundscape?.audioContext) {
+                if (!window.CoreCantado.initialized) {
+                  window.CoreCantado.init(window.Soundscape.audioContext);
+                }
+                window.CoreCantado.updateAll(STATE, dt);
+              }
 
-    // === EVOLUTION CORE + LUMIN NARRATOR + ATLAS + CORE CANTADO ===
-      // Evolution Core - XP ganho passivo por tempo jogado
-      if (window.EvolutionCore) {
-        const xpGain = dt * 0.5; // 0.5 XP por segundo
-        window.EvolutionCore.addXP(xpGain, 'time');
-      
-        // XP extra por ações
-        if (STATE.isCombat) window.EvolutionCore.addXP(dt * 2, 'combat');
-        if (STATE.isExploring) window.EvolutionCore.addXP(dt * 1.5, 'exploration');
-        if (STATE.hrv?.value > 80) window.EvolutionCore.addXP(dt * 1, 'coherence');
-      }
-    
-      // Lumin Narrator - narra eventos, idle
-      if (window.LuminNarrator) {
-        window.LuminNarrator.onIdle();
-      }
-    
-      // Core Cantado - atualiza 5 camadas vivas
-      if (window.CoreCantado && window.Soundscape?.audioContext) {
-        if (!window.CoreCantado.initialized) {
-          window.CoreCantado.init(window.Soundscape.audioContext);
+        // Evolution Core - XP ganho passivo por tempo jogado
+        if (window.EvolutionCore) {
+          const xpGain = dt * 0.5; // 0.5 XP por segundo
+          window.EvolutionCore.addXP(xpGain, 'time');
+     
+          // XP extra por ações
+          if (STATE.isCombat) window.EvolutionCore.addXP(dt * 2, 'combat');
+          if (STATE.isExploring) window.EvolutionCore.addXP(dt * 1.5, 'exploration');
+          if (STATE.hrv?.value > 80) window.EvolutionCore.addXP(dt * 1, 'coherence');
         }
-        window.CoreCantado.update(dt, STATE);
-      }
+   
+        // Lumin Narrator - narra eventos, idle
+        if (window.LuminNarrator) {
+          window.LuminNarrator.onIdle();
+        }
+
+      // === CORE CANTADO — toda vez injeta belaVida no STATE ===
+        if (window.CoreCantado) {
+          window.CoreCantado.updateAll(STATE, dt);
+        }
+
+      // === MOD SHEPHERD & SOUNDSCAPE & SESSION MEMORY ===
+        if (window.ModShepherd && !window.ModShepherd.isRunning()) {
+          window.ModShepherd.startMods();
+        }
+        if (window.Soundscape) {
+          window.Soundscape.update(STATE, dt);
+        }
+        if (window.SessionMemory) {
+          if (Math.floor(STATE.save.playTime * 10) % 100 === 0) {
+            window.SessionMemory.logStackChange(STATE.stack, STATE.hrv.value);
+          }
+        }
 
       // === PLAYER 1 (Alyssin - WASD + Touch) ===
   let ax = 0, ay = 0;
@@ -3388,11 +3393,9 @@ function render() {
     }
 
     // === CORE CANTADO RENDERS (world coordinates, camera transform active) ===
-    if (window.CoreCantado) {
-      window.CoreCantado.renderAuras(ctx, STATE);
-      window.CoreCantado.renderCastleBreath(ctx, STATE);
-      window.CoreCantado.renderOmegaResonance(ctx, STATE);
-    }
+        if (window.CoreCantado) {
+          window.CoreCantado.renderAll(ctx, STATE, STATE.world.width, STATE.world.height);
+        }
 
     // Restore camera for HUD
     ctx.restore();

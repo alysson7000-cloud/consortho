@@ -6,8 +6,8 @@ const AtlasContent = (function() {
   'use strict';
 
   const ATLAS_BASE = 'http://127.0.0.1:9879';
-  const EXPERIENCES_ENDPOINT = `${ATLAS_BASE}/api/experiences`;
-  const CATALOG_ENDPOINT = `${ATLAS_BASE}/api/catalog`;
+  const EXPERIENCES_ENDPOINT = `${ATLAS_BASE}/api/catalogo`;
+  const CATALOG_ENDPOINT = `${ATLAS_BASE}/api/catalogo`;
 
   let state = {
     catalog: [],
@@ -55,7 +55,14 @@ const AtlasContent = (function() {
       const res = await fetch(CATALOG_ENDPOINT);
       if (res.ok) {
         const data = await res.json();
-        state.catalog = data.experiences || data || [];
+        // Atlas returns object {filename: title}, convert to array
+        if (Array.isArray(data)) {
+          state.catalog = data;
+        } else if (data && typeof data === 'object') {
+          state.catalog = Object.entries(data).map(([file, title]) => ({ file, title, id: file.replace('.html', '') }));
+        } else {
+          state.catalog = [];
+        }
         state.loaded = true;
         state.lastFetch = Date.now();
         buildExperienceMap();

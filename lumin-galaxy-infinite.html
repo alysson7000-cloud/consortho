@@ -143,7 +143,7 @@ canvas { display: block; }
   <p>Você está no centro da galáxia. O universo é infinito.</p>
   <p style="color:#0ff; font-size:14px; margin-top:12px; animation:pulse 1.5s ease-in-out infinite;">PRESSIONE QUALQUER TECLA PARA INICIAR</p>
 </div>
-<div id="controls-hint">WASD/Setas · Scroll zoom · Espaço harmonize · ESC pausa · Toque para interagir</div>
+<div id="controls-hint">WASD/Setas · Scroll zoom · Espaço harmonize · ESC pausa · Toque joystick no canvas para mover</div>
 <a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
 <a href="/lumin-portal.html" id="exit-nav" style="position:fixed;bottom:12px;right:16px;color:rgba(255,60,60,0.5);font-size:11px;letter-spacing:1px;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:14px;backdrop-filter:blur(8px);pointer-events:auto;z-index:30;text-decoration:none;border:1px solid rgba(255,60,60,0.15);transition:all 0.2s;font-family:'Orbitron',sans-serif;">⛔ SAIR</a>
 <script>
@@ -276,22 +276,40 @@ window.addEventListener('keyup', e => {
   }
 });
 
-// Touch/mobile support
+// Touch/mobile support — joystick-based movement
+let touchDir = { x: 0, y: 0 };
 canvas.addEventListener('touchstart', e => {
   e.preventDefault();
   if (!audioCtx) initAudio();
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-  const t = e.changedTouches[0];
-  mouse.x = t.clientX;
-  mouse.y = t.clientY;
+  updateTouchDir(e);
 }, { passive: false });
 
 canvas.addEventListener('touchmove', e => {
   e.preventDefault();
-  const t = e.changedTouches[0];
-  mouse.x = t.clientX;
-  mouse.y = t.clientY;
+  updateTouchDir(e);
 }, { passive: false });
+
+canvas.addEventListener('touchend', () => {
+  touchDir.x = 0;
+  touchDir.y = 0;
+}, { passive: false });
+
+function updateTouchDir(e) {
+  if (e.touches.length === 0) return;
+  const t = e.touches[0];
+  const cx = W / 2, cy = H / 2;
+  const dx = t.clientX - cx;
+  const dy = t.clientY - cy;
+  const len = Math.sqrt(dx * dx + dy * dy);
+  if (len > 20) {
+    touchDir.x = dx / len;
+    touchDir.y = dy / len;
+  } else {
+    touchDir.x = 0;
+    touchDir.y = 0;
+  }
+};
 
 // Mouse wheel zoom (modern 'wheel' event, replaces deprecated mousewheel/DOMMouseScroll)
 window.addEventListener('wheel', e => {
@@ -722,6 +740,11 @@ function update() {
   if (keys['arrowright'] || keys['d']) dx += 1;
   if (keys['arrowup'] || keys['w']) dy -= 1;
   if (keys['arrowdown'] || keys['s']) dy += 1;
+  // Touch joystick
+  if (touchDir.x !== 0 || touchDir.y !== 0) {
+    dx += touchDir.x;
+    dy += touchDir.y;
+  }
   
   if (dx !== 0 || dy !== 0) {
     const len = Math.sqrt(dx * dx + dy * dy);

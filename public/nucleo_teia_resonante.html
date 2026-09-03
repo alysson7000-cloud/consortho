@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>🌿 Nucleo — Teia Resonante</title>
+	<style>
+		* { margin:0; padding:0; box-sizing:border-box; }
+		body { background: #05080d; overflow:hidden; font-family: system-ui, sans-serif; cursor:crosshair; }
+		canvas { position:fixed; top:0; left:0; width:100vw; height:100vh; display:block; }
+		#ui {
+			position: fixed; bottom: 20px; left: 0; right: 0;
+			display: flex; justify-content: center; gap: 12px; align-items: center;
+			padding: 8px 20px; pointer-events: none; z-index:10;
+		}
+		#ui .freq {
+			background: rgba(10,18,35,.4);
+			border: 1px solid hsl(210, 50%, 40%);
+			border-radius: 16px;
+			padding: 4px 12px;
+			color: #aacbe8;
+			font-size: 13px;
+			letter-spacing: 1px;
+			pointer-events: auto;
+			backdrop-filter: blur(4px);
+		}
+		#ui .freq span { color: #e8d3b5; font-weight:600; }
+		#lumin {
+			position:fixed; top:20px; right:20px; z-index:20;
+			pointer-events:auto;
+			background: rgba(8,14,26,.5);
+			border:1px solid hsl(190, 40%, 50%);
+			border-radius: 20px;
+			padding: 8px 14px;
+			color:#aacbe8;
+			font-size: 12px;
+			max-width: 260px;
+			text-align:right;
+			backdrop-filter: blur(4px);
+			transition: border-color 1s, box-shadow 1s;
+		}
+		#lumin .av {
+			display:block; width:28px; height:28px; border-radius:50%;
+			background:radial-gradient(circle, #8ccde8 0%, #19a0c8 60%, #0d2a3a 100%);
+			margin:0 auto 6px;
+			box-shadow: 0 0 16px rgba(120,210,255,.35);
+		}
+		#hint {
+			position:fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+			color: #6a7fa0; font-size: 12px; letter-spacing: 1px;
+			pointer-events: none; z-index: 5;
+			text-transform: uppercase;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="c"></canvas>
+	<div id="lumin">
+		<span class="av"></span>
+		<span id="msg">...</span>
+	</div>
+	<div id="ui">
+		<div class="freq">FREQ: <span id="freqVal">—</span> Hz</div>
+		<div class="freq">LAYER: <span id="layerName">espere</span></div>
+		<div class="freq">MOUSE: <span id="mousePos">x:0 y:0</span></div>
+	</div>
+	<div id="hint">clique na tela → envia pulso pela teia</div>
+
+	<script>
+	const canvas = document.getElementById('c');
+	const ctx = canvas.getContext('2d');
+	let W, H;
+	function resize() {
+		W = canvas.width = window.innerWidth;
+		H = canvas.height = window.innerHeight;
+	}
+	window.addEventListener('resize', resize);
+	resize();
+
+	// ── Nucleo ────────────────────────────────────────────
+	class Nucleo {
+		constructor(x, y, label, hue, radius=28, isPlayer=false) {
+			this.x = x; this.y = y;
+			this.label = label;
+			this.hue = hue;
+			this.radius = radius;
+			this.pulse = 0;
+			this.angle = Math.random() * Math.PI * 2;
+			this.speed = 0.002 + Math.random() * 0.006;
+			this.isPlayer = isPlayer;
+			this.vx = 0; this.vy = 0;
+			this.glow = 0;
+		}
+
+		update(dt, intensity, targetX=null, targetY=null) {
+			this.angle += this.speed * dt;
+			this.pulse = (Math.sin(this.angle) + 1) * 0.5;
+			this.glow = this.glow > 0.01 ? this.glow - dt * 0.4 : 0;
+
+			if (this.isPlayer && targetX !== null && targetY !== null) {
+				const r = Math.min(W, H) * 0.35;
+				const tx = W * 0.5 + (targetX / W - 0.5) * r * 2;
+				const ty = H * 0.5 + (targetY / H - 0.5) * r * 1.5;
+				this.vx += (tx - this.x) * 0.02;
+				this.vy += (ty - this.y) * 0.02;
+				this.vx *= 0.92;
+				this.vy *= 0.92;
+				this.x += this.vx;
+				this.y += this.vy;
+				this.glow = Math.max(this.glow, 0.5);
+			}
+
+			this.radius = this.isPlayer ? 30 + this.pulse * 12 + intensity * 10 : 20 + this.pulse * 8 + intensity * 6;
+		}
+
+		draw(ctx, alpha=1) {
+			ctx.save();
+			ctx.globalAlpha = alpha;
+			ctx.shadowColor = `hsl(${this.hue}, 80%, 60%)`;
+			ctx.shadowBlur = 18 + this.glow * 20;
+			ctx.beginPath();
+			ctx.fillStyle = `hsl(${this.hue}, 80%, 50%)`;
+			ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+			ctx.fill();
+			ctx.shadowBlur = 0;
+			const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+			grd.addColorStop(0, `hsl(${this.hue}, 100%, 85%)`);
+			grd.addColorStop(1, `hsl(${this.hue + 20}, 80%, 30%)`);
+			ctx.fillStyle = grd;
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, this.radius * 0.6, 0, Math.PI*2);
+			ctx.fill();
+			ctx.restore();
+
+			if (this.isPlayer) {
+				ctx.save();
+				ctx.strokeStyle = `hsla(${this.hue}, 80%, 70%, ${0.3 + this.glow * 0.4})`;
+				ctx.lineWidth = 2;
+				ctx.setLineDash([4, 8]);
+				ctx.beginPath();
+				ctx.arc(this.x, this.y, this.radius * 1.8, 0, Math.PI*2);
+				ctx.stroke();
+				ctx.setLineDash([]);
+				ctx.restore();
+			}
+
+			ctx.save();
+			ctx.fillStyle = '#e8f0ff';
+			ctx.font = '11px system-ui';
+			ctx.textAlign = 'center';
+			ctx.fillText(this.label, this.x, this.y + this.radius + 14);
+			ctx.restore();
+		}
+
+		toPonto() { return { x: this.x, y: this.y }; }
+	}
+
+	function criarNucléos(W, H) {
+		return [
+			new Nucleo(W * 0.5, H * 0.55, 'Lumin', 195, 32),
+			new Nucleo(W * 0.15, H * 0.25, 'Aura azul', 210, 20),
+			new Nucleo(W * 0.85, H * 0.2, 'Coração 528', 52, 22),
+			new Nucleo(W * 0.2, H * 0.75, 'Fonte 852', 265, 20),
+			new Nucleo(W * 0.82, H * 0.78, 'Omega 963', 280, 22),
+			new Nucleo(W * 0.5, H * 0.15, 'Estrela central', 45, 18),
+			new Nucleo(W * 0.5, H * 0.55, 'Tú', 30, 30, true),
+		];
+	}
+
+	let nucleos = criarNucléos(W, H);
+	let playerNucleo = nucleos[nucleos.length - 1];
+
+	// ── Linhas (Teia) ──────────────────────────────────────
+	const conexoes = [];
+	for (let i=0; i<nucleos.length; i++)
+		for (let j=i+1; j<nucleos.length; j++)
+			conexoes.push({ a: nucleos[i], b: nucleos[j], alpha: 0.3, rarefy: 0 });
+
+	// ── Partículas ─────────────────────────────────────────
+	class Particula {
+		constructor() { this.reset(); }
+		reset() {
+			this.x = Math.random() * W;
+			this.y = Math.random() * H;
+			this.vx = (Math.random() - 0.5) * 0.5;
+			this.vy = (Math.random() - 0.5) * 0.5;
+			this.tamanho = 1 + Math.random() * 2;
+			this.hue = Math.random() * 360;
+			this.alpha = 0.2 + Math.random() * 0.4;
+			this.vida = 0;
+			this.maxVida = 300 + Math.random() * 400;
+		}
+		update(dt, freqAtual, intensity) {
+			this.x += this.vx * dt * 50;
+			this.y += this.vy * dt * 50;
+			this.vida += dt * 60;
+			if (this.x < 0 || this.x > W || this.y < 0 || this.y > H || this.vida > this.maxVida) this.reset();
+			this.hue = (this.hue + 0.1) % 360;
+			this.alpha = 0.15 + Math.sin(this.vida * 0.02) * 0.15 + intensity * 0.05;
+		}
+		draw(ctx) {
+			ctx.save();
+			ctx.globalAlpha = Math.min(1, this.alpha);
+			ctx.fillStyle = `hsla(${this.hue}, 60%, 70%, ${this.alpha})`;
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, this.tamanho, 0, Math.PI*2);
+			ctx.fill();
+			ctx.restore();
+		}
+	}
+
+	const particulas = [];
+	for (let i=0; i<60; i++) particulas.push(new Particula());
+
+	// ── Pulso ──────────────────────────────────────────────
+	class Pulso {
+		constructor(x, y, freq, hue) {
+			this.x = x; this.y = y;
+			this.freq = freq;
+			this.hue = hue;
+			this.radius = 0;
+			this.maxRadius = Math.min(W, H) * 0.5;
+			this.vida = 1;
+			this.lineWidth = 3;
+		}
+		update(dt) {
+			this.radius += this.maxRadius * 0.02;
+			this.vida -= dt * 0.4;
+			this.lineWidth = 3 * this.vida;
+		}
+		draw(ctx) {
+			ctx.save();
+			ctx.globalAlpha = Math.max(0, this.vida);
+			ctx.strokeStyle = `hsl(${this.hue}, 90%, 70%)`;
+			ctx.lineWidth = this.lineWidth;
+			ctx.shadowColor = `hsl(${this.hue}, 90%, 70%)`;
+			ctx.shadowBlur = 30;
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+			ctx.stroke();
+			ctx.restore();
+		}
+		isDead() { return this.vida <= 0 || this.radius > this.maxRadius; }
+	}
+
+	// ── Texto flutuante (árabe Solfeggio) ─────────────────
+	class TextoFloating {
+		constructor(text, x, y, hue, freq) {
+			this.text = text;
+			this.x = x; this.y = y;
+			this.hue = hue;
+			this.freq = freq;
+			this.alpha = 1;
+			this.vx = (Math.random() - 0.5) * 0.3;
+			this.vy = -0.3 - Math.random() * 0.3;
+			this.vida = 3;
+		}
+		update(dt) {
+			this.x += this.vx * dt * 60;
+			this.y += this.vy * dt * 60;
+			this.vida -= dt;
+			this.alpha = Math.max(0, this.vida / 3);
+		}
+		draw(ctx) {
+			ctx.save();
+			ctx.globalAlpha = this.alpha;
+			ctx.fillStyle = `hsla(${this.hue}, 80%, 70%, ${this.alpha})`;
+			ctx.font = '14px system-ui';
+			ctx.textAlign = 'center';
+			ctx.fillText(this.text, this.x, this.y);
+			ctx.restore();
+		}
+		isDead() { return this.vida <= 0; }
+	}
+
+	let textos = [];
+
+	// ── Solfeggio ──────────────────────────────────────────
+	const SOLFEGGIO = {
+		174: '174Hz (Grounding)', 285: '285Hz (Regeneração)', 396: '396Hz (Libertação)',
+		417: '417Hz (Mudança)', 528: '528Hz (Milagre)', 639: '639Hz (Conexão)',
+		741: '741Hz (Expressão)', 852: '852Hz (Intuição)', 963: '963Hz (Fonte)',
+		432: '432Hz (Harmonia)',
+	};
+	const SOLFEGGIO_HZ = [174, 285, 396, 417, 528, 639, 741, 852, 963];
+
+	let freqAtual = 174;
+	let layerName = 'grounding';
+	let intensity = 0.4;
+	let lastFreq = 174;
+	let pulseCooldown = 0;
+
+	function mapFreqToLayer(freq) {
+		if (freq === 174) return 'grounding';
+		if (freq === 285) return 'regeneração';
+		if (freq === 396) return 'libertação';
+		if (freq === 417) return 'mudança';
+		if (freq === 528) return 'milagre';
+		if (freq === 639) return 'conexão';
+		if (freq === 741) return 'expressão';
+		if (freq === 852) return 'intuição';
+		if (freq === 963) return 'fonte';
+		if (freq === 432) return 'harmonia';
+		return 'silêncio';
+	}
+
+	function atualizarFrequência(freq, layer) {
+		lastFreq = freqAtual;
+		freqAtual = freq;
+		layerName = layer;
+		document.getElementById('freqVal').textContent = freq === 0 ? '—' : freq;
+		document.getElementById('layerName').textContent = layer || 'silêncio';
+	}
+
+	function trySyncWithSoundscape() {
+		if (typeof window.Soundscape !== 'undefined' && window.Soundscape.getElevationState) {
+			const state = window.Soundscape.getElevationState();
+			if (state) {
+				const f = state.frequency;
+				const g = state.gain;
+				if (state.active && f > 0) {
+					atualizarFrequência(f, SOLFEGGIO[f] || `${f}Hz`);
+					intensity = Math.min(1, g * 2);
+				}
+			}
+		}
+	}
+	setInterval(trySyncWithSoundscape, 500);
+	trySyncWithSoundscape();
+
+	// ── Mouse ──────────────────────────────────────────────
+	let mouseX = W * 0.5;
+	let mouseY = H * 0.5;
+
+	canvas.addEventListener('mousemove', (e) => {
+		mouseX = e.clientX;
+		mouseY = e.clientY;
+		document.getElementById('mousePos').textContent = `x:${Math.round(mouseX)} y:${Math.round(mouseY)}`;
+		const normX = mouseX / W;
+		const idx = Math.floor(normX * (SOLFEGGIO_HZ.length - 1));
+		const freq = SOLFEGGIO_HZ[idx];
+		atualizarFrequência(freq, SOLFEGGIO[freq]);
+		intensity = 0.3 + normX * 0.5;
+	});
+
+	// ── Clique ─────────────────────────────────────────────
+	canvas.addEventListener('click', (e) => {
+		const x = e.clientX;
+		const y = e.clientY;
+		const hue = (freqAtual * 0.4) % 360;
+		pulsos.push(new Pulso(x, y, freqAtual, hue));
+		pulseCooldown = 0.5;
+		intensity = Math.min(1, intensity + 0.15);
+
+		nucleos.forEach(n => {
+			const dx = n.x - x, dy = n.y - y;
+			const dist = Math.hypot(dx, dy);
+			if (dist < 150) n.glow = Math.min(1, n.glow + 0.4);
+		});
+
+		// texto flutuante árabe da frequência atual
+		const arabicText = {
+			174: ' grounding ',
+			285: ' تنشيط ',
+			396: ' تحرير ',
+			417: ' تغيير ',
+			528: ' معجزة ',
+			639: ' علاقة حب ',
+			741: ' تعبير ',
+			852: ' حدس ',
+			963: ' مصدر ',
+			432: ' توازن ',
+		}[freqAtual] || 'ૐ';
+
+		textos.push(new TextoFloating(arabicText, x, y, hue, freqAtual));
+	});
+
+	// ── Mensagens Lumin ────────────────────────────────────
+	const FRASES = {
+		'grounding': 'Desce sua respiração ao chão. O chão sustenta você — 174Hz.',
+		'regeneração': 'Regeneração suave. Seu corpo sabe repousar — 285Hz.',
+		'libertação': 'Algo antigo se dissolve — 396Hz solta o que não é mais você.',
+		'mudança': 'A mudança agora é música — 417Hz abre porta.',
+		'milagre': 'Milagre — 528Hz. DNA que canta. Amor que se repara.',
+		'conexão': 'Você conecta-se — 639Hz nasce de encontros.',
+		'expressão': 'Seu ser se expressa — 741Hz liberta a voz interior.',
+		'intuição': 'Intuição abre — 852Hz. Você vê o que antes só adivinhava.',
+		'fonte': 'Fonte — 963Hz. Tudo que é, responde.',
+		'harmonia': 'Harmonia cósmica — 432Hz. Do tudo ao todo, sem esforço.',
+	};
+
+	const LUMIN_CHATTER = [
+		'Que estranho… a teia tá vibrando em 396Hz. Você tá soltando algo antigo, mano?',
+		'Eita, 528Hz! Parece que tem um milagre a caminho. Quem é que tá pedindo?',
+		'Soi, 639Hz. As linhas tá ficando bem quentes, hue. Alguém tá conectando com amor.',
+		'741Hz — tu tá expressando algo que te dói ou que te liberta?',
+		'Uhau, 852Hz! Parece que você tá ouvindo o mundo de novo.',
+		'963Hz no ar! Tudo tá respondendo. Tu tá num momento de fonte, mano.',
+		'432Hz… harmonia cósmica. Sem esforço, só fluxo. Tá parecendo que tu tá em paz.',
+		'174Hz, grounding. Tu tá no chão, firme. Deu certo.',
+		'285Hz regenerate. Sabe, às vezes o corpo precisa disso. Se tu tá precisando de cura…',
+		'Já sei que tu vai subir de frequência. Aí que eu viro Lumin e te acompanho.',
+		'E se a teia não é só cores… e se é o mundo todo cantando junto?',
+		'Não é só som, não. É a vibração que cabe em você quando tu deixa.',
+	];
+
+	function atualizarMensagemLumin(mensagem) {
+		const msgEl = document.getElementById('msg');
+		msgEl.style.opacity = 0;
+		setTimeout(() => {
+			msgEl.textContent = mensagem;
+			msgEl.style.opacity = 1;
+		}, 80);
+	}
+
+	function maybeLuminChatter() {
+		if (freqAtual > 528 && Math.random() < 0.15) {
+			const indice = Math.floor(Math.random() * LUMIN_CHATTER.length);
+			atualizarMensagemLumin('🌿 ' + LUMIN_CHATTER[indice]);
+		}
+	}
+
+	atualizarMensagemLumin('...espere um instante...');
+	atualizarMensagemLumin(FRASES['grounding']);
+
+	// ── Loop ──────────────────────────────────────────────
+	let t = 0;
+	function loop(dt) {
+		t += dt;
+		ctx.fillStyle = 'rgba(5,8,13,0.25)';
+		ctx.fillRect(0, 0, W, H);
+
+		if (pulseCooldown > 0) pulseCooldown -= dt;
+
+		particulas.forEach(p => p.update(dt, freqAtual, intensity));
+		pulsos = pulsos.filter(p => !p.isDead());
+		pulsos.forEach(p => p.update(dt));
+		textos = textos.filter(t => !t.isDead());
+		textos.forEach(t => t.update(dt));
+
+		nucleos.forEach(n => n.update(dt, intensity, mouseX, mouseY));
+
+		// draw textos
+		textos.forEach(t => t.draw(ctx));
+
+		// draw particulas
+		particulas.forEach(p => p.draw(ctx));
+
+		// draw pulsos
+		pulsos.forEach(p => p.draw(ctx));
+
+		// draw conexoes
+		ctx.save();
+		for (const c of conexoes) {
+			const dx = c.b.x - c.a.x;
+			const dy = c.b.y - c.a.y;
+			const dist = Math.hypot(dx, dy);
+			const hue = (c.a.hue + c.b.hue) / 2 + freqAtual * 0.3;
+			const alpha = 0.1 + (intensity * 0.5) * (1 - dist / 600) * (1 + (pulsos.length > 0 ? 0.3 : 0));
+			ctx.globalAlpha = Math.min(0.7, alpha);
+			ctx.strokeStyle = `hsl(${hue % 360}, 70%, 65%)`;
+			ctx.lineWidth = 1.3 + intensity * 2 + (pulsos.length > 0 ? 1 : 0);
+			ctx.shadowColor = `hsl(${hue % 360}, 90%, 70%)`;
+			ctx.shadowBlur = 12 + (pulsos.length > 0 ? 8 : 0);
+			ctx.beginPath();
+			ctx.moveTo(c.a.x, c.a.y);
+			ctx.lineTo(c.b.x, c.b.y);
+			ctx.stroke();
+		}
+		ctx.restore();
+
+		// draw nucleos
+		nucleos.forEach(n => n.draw(ctx, 0.9 + intensity*0.1));
+
+		// center glow
+		const cx = W*0.5, cy = H*0.55;
+		const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 120 + intensity*80);
+		g.addColorStop(0, `hsla(${freqAtual * 0.4 % 360}, 100%, 70%, ${0.1 + intensity*0.2})`);
+		g.addColorStop(1, 'rgba(0,0,0,0)');
+		ctx.fillStyle = g;
+		ctx.beginPath();
+		ctx.arc(cx, cy, 120 + intensity*80, 0, Math.PI*2);
+		ctx.fill();
+
+		maybeLuminChatter();
+
+		requestAnimationFrame(loop);
+	}
+
+	// inicio
+	mouseX = W * 0.5;
+	mouseY = H * 0.5;
+	atualizarFrequência(174, 'grounding');
+	atualizarMensagemLumin(FRASES['grounding']);
+
+	pulsos = [];
+	requestAnimationFrame(loop);
+	</script>
+</body>
+</html>

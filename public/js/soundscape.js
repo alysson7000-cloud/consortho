@@ -19,17 +19,41 @@ const Soundscape = (function() {
   let scheduledEvents = [];
 
   // Configuração das camadas sonoras
-  const LAYERS = {
-    ambient_wind: { type: 'noise', freq: [100, 500], gain: 0.08, attack: 5, release: 5 },
-    ambient_water: { type: 'noise', freq: [200, 800], gain: 0.06, attack: 3, release: 3 },
-    ethereal_tones: { type: 'sine', baseFreq: 110, harmonics: [2, 3, 5, 8], gain: 0.04, interval: 8 },
-    heartbeat_rhythm: { type: 'pulse', freq: 60, gain: 0.05, interval: 1 },
-    cosmic_drift: { type: 'noise', freq: [50, 2000], gain: 0.03, attack: 10, release: 10 },
-    whisper_harmonics: { type: 'sine', baseFreq: 220, harmonics: [1.5, 2, 2.5, 3], gain: 0.03, interval: 6 },
-    bela_vida_chords: { type: 'chord', notes: [220, 277, 330], gain: 0.08, interval: 120 },
-    omega_resonance: { type: 'om', baseFreq: 136.1, harmonics: [2, 3, 4, 5, 8], gain: 0.06 },
-    infinite_harmony: { type: 'pad', baseFreq: 55, gain: 0.02 }
+    const LAYERS = {
+      ambient_wind: { type: 'noise', freq: [100, 500], gain: 0.008, attack: 5, release: 5 },
+      ambient_water: { type: 'noise', freq: [200, 800], gain: 0.006, attack: 3, release: 3 },
+      ethereal_tones: { type: 'sine', baseFreq: 110, harmonics: [2, 3, 5, 8], gain: 0.02, interval: 8 },
+      heartbeat_rhythm: { type: 'pulse', freq: 60, gain: 0.03, interval: 1 },
+      cosmic_drift: { type: 'noise', freq: [50, 2000], gain: 0.003, attack: 10, release: 10 },
+      whisper_harmonics: { type: 'sine', baseFreq: 220, harmonics: [1.5, 2, 2.5, 3], gain: 0.015, interval: 6 },
+      bela_vida_chords: { type: 'chord', notes: [220, 277, 330], gain: 0.05, interval: 120 },
+      omega_resonance: { type: 'om', baseFreq: 136.1, harmonics: [2, 3, 4, 5, 8], gain: 0.04 },
+      infinite_harmony: { type: 'pad', baseFreq: 55, gain: 0.01 },
+      elevation: { type: 'elevation', baseFreq: 174, gain: 0.15, harmonics: [1.25, 1.5] }
+    };
+
+  // Solfeggio frequencies mapping
+  const SOLFEGGIO = {
+    174: 'root_grounding',
+    285: 'tissue_regen', 
+    396: 'liberation',
+    417: 'change',
+    432: 'cosmic_harmony',
+    528: 'miracle_dna',
+    639: 'connection',
+    741: 'expression',
+    852: 'intuition',
+    963: 'source_unity'
   };
+
+  // Elevation layer state
+  let elevationOsc = null;
+  let elevationGain = null;
+  let elevationHarmonics = [];
+  let elevationHarmonicGains = [];
+  let elevationActive = false;
+  let belaVidaFadeTimer = null;
+  let lastElevationFreq = 174;
 
   function init() {
     if (isInitialized) return;
@@ -67,31 +91,33 @@ const Soundscape = (function() {
     const isCombat = currentState.isCombat || false;
     const portalActive = currentState.portalActive || false;
     const beybladeActive = currentState.mode === 'BEYBLADE';
+    const belaVidaActive = currentState.belaVidaActive || false;
+    const lastPhaseChange = currentState.lastPhaseChange || 0;
 
-    // Vento - sempre presente, intensidade com HRV
-    setLayerGain('ambient_wind', 0.05 + (hrv / 120) * 0.05);
+    // Vento - sempre presente, intensidade MÍNIMA com HRV
+    setLayerGain('ambient_wind', 0.005 + (hrv / 120) * 0.005);
 
-    // Água - presente perto de fonte/calmo
+    // Água - presente perto de fonte/calmo - MÍNIMA
     const nearWater = !isCombat && hrv > 65;
-    setLayerGain('ambient_water', nearWater ? 0.06 : 0.01);
+    setLayerGain('ambient_water', nearWater ? 0.006 : 0.001);
 
     // Tons etéreos - fase 2+
     if (phase >= 2) {
-      setLayerGain('ethereal_tones', 0.03 + (consciousness / 100) * 0.03);
+      setLayerGain('ethereal_tones', 0.015 + (consciousness / 100) * 0.015);
     }
 
     // Batida cardíaca - reage a HRV
     setLayerRate('heartbeat_rhythm', Math.max(0.5, 60 / hrv));
-    setLayerGain('heartbeat_rhythm', 0.04 * (1 + stack / 50));
+    setLayerGain('heartbeat_rhythm', 0.025 * (1 + stack / 50));
 
-    // Drift cósmico - fase 3+
+    // Drift cósmico - fase 3+ - MÍNIMO
     if (phase >= 3) {
-      setLayerGain('cosmic_drift', 0.02 + (quantum / 100) * 0.03);
+      setLayerGain('cosmic_drift', 0.001 + (quantum / 100) * 0.003);
     }
 
     // Harmônicos sussurrados - fase 3+
     if (phase >= 3) {
-      setLayerGain('whisper_harmonics', 0.02 + (consciousness / 100) * 0.02);
+      setLayerGain('whisper_harmonics', 0.01 + (consciousness / 100) * 0.01);
     }
 
     // Portal - whoosh
@@ -106,13 +132,16 @@ const Soundscape = (function() {
 
     // Ω resonance - fase 4+
     if (phase >= 4 || consciousness > 80) {
-      setLayerGain('omega_resonance', 0.04 + (consciousness / 100) * 0.04);
+      setLayerGain('omega_resonance', 0.03 + (consciousness / 100) * 0.03);
     }
 
     // Harmonia infinita - fase 5+
     if (phase >= 5) {
-      setLayerGain('infinite_harmony', 0.01 + (consciousness / 100) * 0.02);
+      setLayerGain('infinite_harmony', 0.005 + (consciousness / 100) * 0.01);
     }
+
+    // === ELEVATION LAYER - Solfeggio frequencies based on STATE ===
+    updateElevation(consciousness, belaVidaActive, phase, lastPhaseChange, stack);
   }
 
   function setLayerGain(layerId, gain) {
@@ -141,12 +170,14 @@ const Soundscape = (function() {
       source.gainNode.gain.value = config.gain || 0.05;
 
       if (config.type === 'noise') {
-        source.buffer = createNoiseBuffer(config.freq[0], config.freq[1], 2);
-        source.source = audioContext.createBufferSource();
-        source.source.buffer = source.buffer;
-        source.source.loop = true;
-        source.source.connect(source.gainNode);
-        source.source.start();
+        createNoiseBuffer(config.freq[0], config.freq[1], 2).then(buffer => {
+          source.buffer = buffer;
+          source.source = audioContext.createBufferSource();
+          source.source.buffer = source.buffer;
+          source.source.loop = true;
+          source.source.connect(source.gainNode);
+          source.source.start();
+        });
       } else if (config.type === 'sine') {
         source.oscillator = audioContext.createOscillator();
         source.oscillator.type = 'sine';
@@ -215,6 +246,37 @@ const Soundscape = (function() {
         source.oscillator.frequency.value = config.baseFreq;
         source.oscillator.connect(source.gainNode);
         source.oscillator.start();
+      } else if (config.type === 'elevation') {
+        // Solfeggio elevation layer - pure sine with harmonics
+        elevationOsc = audioContext.createOscillator();
+        elevationOsc.type = 'sine';
+        elevationOsc.frequency.value = config.baseFreq || 174;
+        
+        elevationGain = audioContext.createGain();
+        elevationGain.gain.value = 0; // start silent
+        
+        elevationOsc.connect(elevationGain);
+        elevationGain.connect(masterGain);
+        elevationOsc.start();
+        
+        // Harmonics (just intonation: 5/4 = 1.25, 3/2 = 1.5)
+        if (config.harmonics) {
+          config.harmonics.forEach(ratio => {
+            const osc = audioContext.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.value = (config.baseFreq || 174) * ratio;
+            const gain = audioContext.createGain();
+            gain.gain.value = config.gain * 0.15 / ratio;
+            osc.connect(gain);
+            gain.connect(masterGain);
+            osc.start();
+            elevationHarmonics.push(osc);
+            elevationHarmonicGains.push(gain);
+          });
+        }
+        
+        ambientSources[layerId] = { elevationOsc, elevationGain, elevationHarmonics, elevationHarmonicGains };
+        return;
       }
 
       ambientSources[layerId] = source;
@@ -236,6 +298,92 @@ const Soundscape = (function() {
       delete ambientSources[layerId];
     } catch (e) {
       console.error(`[Soundscape] Erro ao parar layer ${layerId}:`, e);
+    }
+  }
+
+  function updateElevation(consciousness, belaVidaActive, phase, lastPhaseChange, stack) {
+    if (!elevationOsc || !elevationGain) return;
+    
+    const now = audioContext.currentTime;
+    let targetFreq = 174;
+    let targetGain = 0;
+    let isActive = false;
+    
+    // Bela Vida = coherent field - 432 + 528 + 963 triad
+    if (belaVidaActive) {
+      targetFreq = 432;
+      targetGain = 0.15;
+      isActive = true;
+      
+      // Fade out after 5s if still active
+      if (belaVidaFadeTimer) clearTimeout(belaVidaFadeTimer);
+      belaVidaFadeTimer = setTimeout(() => {
+        elevationGain.gain.linearRampToValueAtTime(0, now + 3);
+        elevationOsc.frequency.linearRampToValueAtTime(174, now + 3);
+        elevationHarmonics.forEach((osc, i) => {
+          osc.frequency.linearRampToValueAtTime(174 * (i === 0 ? 1.25 : 1.5), now + 3);
+          elevationHarmonicGains[i].gain.linearRampToValueAtTime(0, now + 3);
+        });
+      }, 5000);
+    }
+    // Phase up sweep (10s window)
+    else if (lastPhaseChange && Date.now() - lastPhaseChange < 10000) {
+      const progress = Math.min((Date.now() - lastPhaseChange) / 10000, 1);
+      targetFreq = 174 + (963 - 174) * progress;
+      targetGain = 0.12 + 0.08 * progress;
+      isActive = true;
+    }
+    // Consciousness levels -> Solfeggio
+    else if (consciousness >= 85) {
+      targetFreq = 963;  // Source unity
+      targetGain = 0.18;
+      isActive = true;
+    } else if (consciousness >= 70) {
+      targetFreq = 639;  // Connection
+      targetGain = 0.14;
+      isActive = true;
+    } else if (consciousness >= 50) {
+      targetFreq = 528;  // Miracle / DNA repair
+      targetGain = 0.12;
+      isActive = true;
+    } else if (consciousness >= 30) {
+      targetFreq = 396;  // Liberation
+      targetGain = 0.10;
+      isActive = true;
+    } else if (consciousness > 0) {
+      targetFreq = 174;  // Root grounding
+      targetGain = 0.08;
+      isActive = true;
+    }
+    
+    // Apply with smooth envelope (2s ramp)
+    if (isActive) {
+      elevationGain.gain.linearRampToValueAtTime(targetGain, now + 2);
+      elevationOsc.frequency.linearRampToValueAtTime(targetFreq, now + 2);
+      lastElevationFreq = targetFreq;
+      
+      // Harmonics follow
+      elevationHarmonics.forEach((osc, i) => {
+        const ratio = i === 0 ? 1.25 : 1.5;
+        osc.frequency.linearRampToValueAtTime(targetFreq * ratio, now + 2);
+        elevationHarmonicGains[i].gain.linearRampToValueAtTime(targetGain * 0.15, now + 2);
+      });
+      
+      if (!elevationActive) {
+        elevationActive = true;
+        console.log(`[Soundscape] 🎵 Elevation: ${SOLFEGGIO[targetFreq] || targetFreq}Hz active, gain=${targetGain}`);
+      }
+      // DEBUG: log current values
+      console.log(`[Soundscape] DEBUG: osc.freq=${elevationOsc.frequency.value}, gain=${elevationGain.gain.value}, targetFreq=${targetFreq}, targetGain=${targetGain}`);
+    } else if (elevationActive) {
+      // Fade out
+      elevationGain.gain.linearRampToValueAtTime(0, now + 3);
+      elevationOsc.frequency.linearRampToValueAtTime(174, now + 3);
+      elevationHarmonics.forEach((osc, i) => {
+        osc.frequency.linearRampToValueAtTime(174 * (i === 0 ? 1.25 : 1.5), now + 3);
+        elevationHarmonicGains[i].gain.linearRampToValueAtTime(0, now + 3);
+      });
+      elevationActive = false;
     }
   }
 
@@ -263,8 +411,24 @@ const Soundscape = (function() {
       data[i] = (Math.random() * 2 - 1) * 0.3;
     }
     
-    // Filtro simples passa-banda
-    return buffer;
+    // Apply offline bandpass filter for smoother noise
+    const offlineCtx = new OfflineAudioContext(1, length, sampleRate);
+    const offlineBuffer = offlineCtx.createBuffer(1, length, sampleRate);
+    offlineBuffer.getChannelData(0).set(data);
+    
+    const source = offlineCtx.createBufferSource();
+    source.buffer = offlineBuffer;
+    
+    const filter = offlineCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = (lowFreq + highFreq) / 2;
+    filter.Q.value = 2;
+    
+    source.connect(filter);
+    filter.connect(offlineCtx.destination);
+    source.start();
+    
+    return offlineCtx.startRendering().then(renderedBuffer => renderedBuffer);
   }
 
   function playTone(frequency, type = 'sine', duration = 1, gain = 0.1) {
@@ -383,6 +547,7 @@ const Soundscape = (function() {
     // Inicia layers base
     startLayer('ambient_wind');
     startLayer('ambient_water');
+    startLayer('elevation');
     
     console.log('[Soundscape] ▶️ Tocando');
   }
@@ -399,6 +564,35 @@ const Soundscape = (function() {
     }
   }
 
+  function getElevationState() {
+    if (!elevationOsc || !elevationGain) return null;
+    return {
+      frequency: elevationOsc.frequency.value,
+      gain: elevationGain.gain.value,
+      active: elevationActive,
+      targetFreq: lastElevationFreq,
+      // DEBUG: expose internal objects
+      _debug: {
+        oscFreqValue: elevationOsc.frequency.value,
+        gainValue: elevationGain.gain.value,
+        elevationActive,
+        lastElevationFreq
+      }
+    };
+  }
+
+  function setElevationFrequency(freq) {
+    if (!elevationOsc || !elevationGain) return;
+    const now = audioContext.currentTime;
+    elevationGain.gain.linearRampToValueAtTime(0.15, now + 1);
+    elevationOsc.frequency.linearRampToValueAtTime(freq, now + 1);
+    elevationHarmonics.forEach((osc, i) => {
+      const ratio = i === 0 ? 1.25 : 1.5;
+      osc.frequency.linearRampToValueAtTime(freq * ratio, now + 1);
+    });
+    lastElevationFreq = freq;
+  }
+
   function getState() {
     return {
       initialized: isInitialized,
@@ -412,7 +606,7 @@ const Soundscape = (function() {
   try {
     if (typeof window !== 'undefined') {
       window.Soundscape = { 
-        init, update, start, stop, playTone, playChord, playOmChord, playOmPulse, stopOmTone, trigger, setVolume, getState, audioContext: () => audioContext 
+        init, update, start, stop, playTone, playChord, playOmChord, playOmPulse, stopOmTone, trigger, setVolume, getState, getElevationState, setElevationFrequency, audioContext: () => audioContext 
       };
     }
   } catch(e) {

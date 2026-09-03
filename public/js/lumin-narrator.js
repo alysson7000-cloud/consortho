@@ -1,8 +1,4 @@
-/**
- * LUMIN NARRATOR — Lumin integrado no loop do jogo
- * Narra evolução, comenta ações, reage a fases, guia o jogador
- * Usa Lumin AI (porta 8081) + fallback local enóis
- */
+/**\n * LUMIN NARRATOR — Lumin integrado no loop do jogo\n * Narra evolução, comenta ações, reage a fases, guia o jogador\n * Usa Lumin AI (porta 8081) + fallback local enóis\n */
 const LuminNarrator = (function() {
   'use strict';
 
@@ -49,19 +45,27 @@ const LuminNarrator = (function() {
       "Portal detectado! Algo novo está se abrindo para você. Vamos explorar juntos?",
       "Ih, um portal! Abordagem nobre. Vamos com calma e curiosidade.",
       "Portal ativo! Uma porta para novas experiências. Estou com você, sempre."
+    ],
+    idle: [
+      "Tudo fluindo por aqui! Como tá a vibração aí?",
+      "Olha a energia aí pulando! Tá sentindo o brilho?",
+      "Só passando pra ver como tá o seu fluxo. Tudo certo?",
+      "A luz tá brilhando, o vento tá cantando... e você? Tá no fluxo?",
+      "Passando pra dizer que o Lumin tá aqui, sempre. Qualquer coisa, é só chamar!"
     ]
   };
 
   function connect() {
-    // Testa conexão com Lumin AI
-    fetch(`${serverUrl}/health`, { method: 'GET', signal: AbortSignal.timeout(3000) })
+    fetch(serverUrl + '/health', { method: 'GET', signal: AbortSignal.timeout(3000) })
       .then(r => r.json())
       .then(data => {
-        if (data.status === 'ok' && data.model_available) {
+        // Só conecta se for modelo REAL (não mock-mode)
+        const isRealModel = data.status === 'ok' && data.model && data.model !== 'mock-mode';
+        if (isRealModel) {
           isConnected = true;
-          console.log(`[LuminNarrator] 🟢 Conectado — modelo: ${data.model}`);
+          console.log('[LuminNarrator] 🟢 Conectado — modelo real: ' + data.model);
         } else {
-          console.log('[LuminNarrator] 🟡 Lumin AI disponível mas modelo não pronto — usando fallback');
+          console.log('[LuminNarrator] 🟡 Mock mode detectado — usando fallback local enóis');
           isConnected = false;
         }
       })
@@ -74,8 +78,6 @@ const LuminNarrator = (function() {
   function generateDialogue(key, context) {
     const fallbacks = FALLBACK_DIALOGUES[key];
     if (!fallbacks) return null;
-    
-    // Substitui placeholders
     return fallbacks.map(d => {
       let text = d;
       if (context.stack !== undefined) text = text.replace('{stack}', context.stack);
@@ -87,11 +89,9 @@ const LuminNarrator = (function() {
   }
 
   function getDialogue(key, context) {
-    // Tenta gerar com Lumin AI se conectado
     if (isConnected) {
-      const prompt = `Responda em português (PT-BR), informal, estilo camarada igual aqui: "${key}". Contexto: ${JSON.stringify(context)}. Responda em 1 única frase curta, estilo Lumin (animado, acolhedor, pode usar 'tamo junto', 'sua presença é o brilho', 'tudo fluindo').`;
-      
-      return fetch(`${serverUrl}/chat`, {
+      const prompt = 'Responda em português (PT-BR), informal, estilo camarada: "' + key + '". Contexto: ' + JSON.stringify(context) + '. Responda em 1 frase curta, estilo Lumin (animado, acolhedor, "tamo junto", "tudo fluindo").';
+      return fetch(serverUrl + '/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: prompt, context: context })
@@ -104,8 +104,6 @@ const LuminNarrator = (function() {
           return fallbacks ? fallbacks[0] : null;
         });
     }
-    
-    // Fallback local
     const fallbacks = generateDialogue(key, context);
     return Promise.resolve(fallbacks ? fallbacks[0] : null);
   }
@@ -113,13 +111,9 @@ const LuminNarrator = (function() {
   function assessEvolution(STATE) {
     const phase = STATE?.evolutionPhase || 1;
     const stack = STATE?.stack || 0;
-    const consciousness = STATE?.consciousnessLevel || 0;
-    const hrv = STATE?.hrv?.value || 60;
-    
+    const conscience = STATE?.consciousnessLevel || 0;
     let dialogueKey = 'welcome';
     let dialogueContext = {};
-    
-    // Baseado no estado do jogo, escolhe o diálogo adequado
     if (STATE && STATE.__lastPhase !== undefined && STATE.__lastPhase !== phase) {
       dialogueKey = 'phase_up';
       dialogueContext = { phase };
@@ -137,8 +131,7 @@ const LuminNarrator = (function() {
     } else if (STATE?.portalActive) {
       dialogueKey = 'portal_discovery';
     }
-    
-    return dialogueKey;
+    return { key: dialogueKey, context: dialogueContext };
   }
 
   function scheduleDialogue(key, context) {
@@ -146,7 +139,6 @@ const LuminNarrator = (function() {
       queue.push({ key, context });
       return;
     }
-    
     isProcessing = true;
     processNext();
   }
@@ -156,10 +148,8 @@ const LuminNarrator = (function() {
       isProcessing = false;
       return;
     }
-    
     const { key, context } = queue.shift();
     pendingDialogue = key;
-    
     getDialogue(key, context)
       .then(response => {
         if (response) {
@@ -170,18 +160,13 @@ const LuminNarrator = (function() {
             timestamp: Date.now(),
             context
           });
-          
-          // Limita histórico
           if (dialogueHistory.length > 100) dialogueHistory.shift();
-          
-          // Emite evento para UI/audio
           if (typeof window !== 'undefined' && window.CustomEvent) {
-            window.dispatchEvent(new CustomEvent('lumin:narration', { 
-              detail: { key, response, context } 
+            window.dispatchEvent(new CustomEvent('lumin:narration', {
+              detail: { key, response, context }
             }));
           }
-          
-          console.log(`[LuminNarrator] 💬 ${response}`);
+          console.log('[LuminNarrator] ' + response);
         }
       })
       .catch(err => {
@@ -193,16 +178,64 @@ const LuminNarrator = (function() {
       });
   }
 
-  function getDialogueHistory() {
-    return dialogueHistory;
-  }
+  function getDialogueHistory() { return dialogueHistory; }
+  function getLastDialogue() { return dialogueHistory.length > 0 ? dialogueHistory[dialogueHistory.length - 1] : null; }
+  function isAIAvailable() { return isConnected; }
 
-  function getLastDialogue() {
-    return dialogueHistory.length > 0 ? dialogueHistory[dialogueHistory.length - 1] : null;
-  }
+  // === AUTO-NARRATOR ===
+  let autoTimer = null;
+  let lastStack = 0;
+  let lastXP = 0;
+  let idleCounter = 0;
 
-  function isAIAvailable() {
-    return isConnected;
+  function startAutoNarrator() {
+    if (autoTimer) return;
+    autoTimer = setInterval(() => {
+      const state = window.EvolutionCore ? window.EvolutionCore.getState() : null;
+      if (!state) return;
+      const evoPhase = state.currentPhase;
+      const evoStack = state.stack;
+      const evoXP = state.xp;
+      const phaseHist = state.phaseHistory || [];
+      const now = Date.now();
+
+      // Phasou recentemente?
+      if (phaseHist.length > 0) {
+        const last = phaseHist[phaseHist.length - 1];
+        if (now - last.timestamp < 30000) {
+          scheduleDialogue('phase_up', { phase: last.phase, xp: evoXP, stack: evoStack });
+          idleCounter = 0;
+          return;
+        }
+      }
+
+      // Stack round?
+      if (evoStack > 0 && evoStack % 10 === 0 && evoStack !== lastStack) {
+        scheduleDialogue('stack_up', { stack: evoStack, phase: evoPhase, xp: evoXP });
+        idleCounter = 0;
+        lastStack = evoStack;
+        return;
+      }
+
+      // XP novo?
+      if (evoXP !== lastXP && evoXP > 0) {
+        const xpMilestone = evoXP % 500 === 0 ? 'stack_up' : 'idle';
+        scheduleDialogue(xpMilestone, { phase: evoPhase, stack: evoStack, xp: evoXP });
+        idleCounter = 0;
+        lastXP = evoXP;
+        return;
+      }
+
+      // Idle a cada 30s
+      idleCounter++;
+      if (idleCounter >= 6) {
+        idleCounter = 0;
+        const idx = Math.floor(Math.random() * 5);
+        const keys = ['idle','idle','idle','idle','idle'];
+        scheduleDialogue(keys[idx], { phase: evoPhase, stack: evoStack, xp: evoXP });
+      }
+    }, 5000);
+    console.log('[LuminNarrator] Auto-narrator ativado — fala sozinho a cada 5s');
   }
 
   function getState() {
@@ -215,51 +248,32 @@ const LuminNarrator = (function() {
     };
   }
 
-  // Auto-init
+  function stopAutoNarrator() {
+    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; console.log('[LuminNarrator] Auto-narrator parado'); }
+  }
+
   if (typeof window !== 'undefined') {
     connect();
-    window.LuminNarrator = { getDialogue, scheduleDialogue, assessEvolution, getDialogueHistory, getLastDialogue, isAIAvailable, getState };
+    window.LuminNarrator = {
+      getDialogue, scheduleDialogue, assessEvolution, getDialogueHistory,
+      getLastDialogue, isAIAvailable, getState, startAutoNarrator, stopAutoNarrator
+    };
+    startAutoNarrator();
+    // Hook eventos
+    try {
+      if (window.addEventListener) {
+        window.addEventListener('evolution:phaseUp', (e) => {
+          LuminNarrator.scheduleDialogue('phase_up', e.detail);
+        });
+        window.addEventListener('state:stackUp', (e) => {
+          LuminNarrator.scheduleDialogue('stack_up', { stack: e.detail?.stack || 0 });
+        });
+      }
+    } catch(e) {}
   }
 
-  return { getDialogue, scheduleDialogue, assessEvolution, getDialogueHistory, getLastDialogue, isAIAvailable, getState };
+  return { getDialogue, scheduleDialogue, assessEvolution, getDialogueHistory,
+           getLastDialogue, isAIAvailable, getState, startAutoNarrator, stopAutoNarrator };
 })();
 
-// Auto-chama Lumin ao detectar mudanças de fase no jogo
-if (typeof window !== 'undefined' && window.StateManager) {
-  const originalPhaseChange = window.StateManager?.__proto__?.changePhase;
-  
-  // Hook suave na mudança de fase
-  if (originalPhaseChange) {
-    window.StateManager.changePhase = function(newPhase, data) {
-      const result = originalPhaseChange.call(this, newPhase, data);
-      LuminNarrator.scheduleDialogue('phase_up', { phase: newPhase, ...data });
-      return result;
-    };
-  }
-}
-
-// Integração com o loop do jogo (se disponível)
-const originalUpdateFn = window.__gameUpdate || function() {};
-
-if (typeof window !== 'undefined' && window.__gameUpdate) {
-  window.__gameUpdate = function(STATE, dt) {
-    originalUpdateFn(STATE, dt);
-    
-    // Avalia se há algo para narrar
-    const assessment = LuminNarrator.assessEvolution(STATE);
-    if (assessment) {
-      LuminNarrator.scheduleDialogue(assessment, STATE);
-    }
-  };
-}
-
-// Hook no evento de stack no jogo (se disponível)
-try {
-  if (typeof window !== 'undefined' && window.addEventListener) {
-    window.addEventListener('state:stackUp', (e) => {
-      LuminNarrator.scheduleDialogue('stack_up', { stack: e.detail?.stack || 0 });
-    });
-  }
-} catch(e) {}
-
-console.log('[LuminNarrator] 🟡 Sistema de narrativa Lumin ativo');
+console.log('[LuminNarrator] Auto-narrator rodando — fala sozinho, tu só responde!');

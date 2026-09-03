@@ -502,6 +502,53 @@ const CoreCantado = (function() {
     return state;
   }
 
+  // ===== GET FULL STATE FOR SOUNDSCAPE =====
+  function getState() {
+    return {
+      belaVidaActive: LAYERS.belaVida.active && LAYERS.belaVida.phraseAlpha > 0,
+      belaVidaPhrase: LAYERS.belaVida.currentPhrase,
+      belaVidaAlpha: LAYERS.belaVida.phraseAlpha,
+      fountainFlow,
+      omegaActive,
+      omegaResonanceIntensity: LAYERS.omega.resonanceIntensity,
+      omegaFreq: LAYERS.omega.baseFreq
+    };
+  }
+
+  // ===== UPDATE ALL (chamado pelo loop principal) =====
+  let lastPhase = 1;
+  function updateAll(STATE, dt) {
+    updateAura(STATE, dt);
+    updateCastle(STATE, dt);
+    updateFountain(STATE, dt);
+    updateOmega(STATE, dt);
+    updateBelaVida(STATE, dt);
+    
+    // Detectar phase up
+    if (STATE?.evolutionPhase && STATE.evolutionPhase > lastPhase) {
+      if (typeof window !== 'undefined' && window.CustomEvent) {
+        window.dispatchEvent(new CustomEvent('core:phaseUp', { 
+          detail: { newPhase: STATE.evolutionPhase, oldPhase: lastPhase } 
+        }));
+      }
+      lastPhase = STATE.evolutionPhase;
+    }
+    
+    // Atualizar lastPhaseChange no STATE para Soundscape
+    if (STATE) {
+      STATE.lastPhaseChange = STATE.lastPhaseChange || 0;
+      if (STATE.evolutionPhase && STATE.evolutionPhase > 1) {
+        STATE.lastPhaseChange = STATE.lastPhaseChange || Date.now();
+      }
+    }
+    
+    // Injetar campos do CoreCantado no STATE para Soundscape ler
+    const coreState = getState();
+    if (STATE) {
+      Object.assign(STATE, coreState);
+    }
+  }
+
   // ===== RENDER PRINCIPAL (todas as camadas) =====
   function renderAll(ctx, STATE, w, h) {
     // Verificar estado antes de renderizar
@@ -548,6 +595,7 @@ const CoreCantado = (function() {
       updateFountain,
       updateOmega,
       updateBelaVida,
+      updateAll,
       triggerOmegaResonance,
       triggerFountainSong,
       playBelaVidaChord,
@@ -557,6 +605,7 @@ const CoreCantado = (function() {
       getFountainState,
       getOmegaState,
       getBelaVidaState,
+      getState,
       isOmegaActive: () => omegaActive,
       isFountainFlow: () => fountainFlow
     };
