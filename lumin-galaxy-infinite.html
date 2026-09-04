@@ -777,6 +777,13 @@ function update() {
   
   player.x += player.vx;
   player.y += player.vy;
+
+  // Clamp to screen edges
+  const margin = player.radius + 20;
+  if (player.x < -W * 0.5 + margin) player.x = -W * 0.5 + margin;
+  if (player.x > W * 0.5 - margin) player.x = W * 0.5 - margin;
+  if (player.y < -H * 0.5 + margin) player.y = -H * 0.5 + margin;
+  if (player.y > H * 0.5 - margin) player.y = H * 0.5 - margin;
   
   // Trail
   if (Math.abs(player.vx) > 0.2 || Math.abs(player.vy) > 0.2) {
