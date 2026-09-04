@@ -3472,7 +3472,8 @@ function render() {
   // Powerups
     drawPowerups();
   
-    // Wave Enemies
+    // Wave Enemies - update movement first, then draw
+    updateWaveEnemies();
     drawWaveEnemies();
 
     // Boss
@@ -5107,6 +5108,55 @@ function nextWave() {
   if (STATE.wave.number % 5 === 0) {
     STATE.wave.survivalMode = true;
   }
+}
+
+// Update wave enemies - movement and behavior
+function updateWaveEnemies() {
+  STATE.powerups.forEach((p, i) => {
+    if (p.type !== 'enemy') return;
+    
+    // Move towards player
+    const dx = STATE.x - p.x;
+    const dy = STATE.y - p.y;
+    const dist = Math.hypot(dx, dy);
+    
+    if (dist > 0) {
+      // Apply acceleration towards player
+      p.vx += (dx / dist) * 0.05;
+      p.vy += (dy / dist) * 0.05;
+      
+      // Limit speed
+      const speed = Math.hypot(p.vx, p.vy);
+      const maxSpeed = 3;
+      if (speed > maxSpeed) {
+        p.vx = (p.vx / speed) * maxSpeed;
+        p.vy = (p.vy / speed) * maxSpeed;
+      }
+    }
+    
+    // Update position
+    p.x += p.vx;
+    p.y += p.vy;
+    
+    // Rotate
+    p.angle += p.spin;
+    
+    // Collision with player
+    const playerDist = Math.hypot(STATE.x - p.x, STATE.y - p.y);
+    if (playerDist < p.size + 20) {
+      STATE.screenShake = Math.max(STATE.screenShake, 10);
+      STATE.vx -= (dx / dist) * 15;
+      STATE.vy -= (dy / dist) * 15;
+    }
+    
+    // Collision with P2
+    const p2Dist = Math.hypot(STATE.p2.x - p.x, STATE.p2.y - p.y);
+    if (p2Dist < p.size + 20) {
+      STATE.p2.screenShake = Math.max(STATE.p2.screenShake, 10);
+      STATE.p2.vx -= (dx / dist) * 15;
+      STATE.p2.vy -= (dy / dist) * 15;
+    }
+  });
 }
 
 function startSurvivalMode() {
