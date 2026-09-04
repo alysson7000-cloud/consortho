@@ -75,11 +75,6 @@ canvas { display: block; }
 }
 #discovery-toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 #discovery-toast .sub { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
-#info-panel .item { display: flex; flex-direction: column; gap: 2px; text-align: center; }
-#info-panel .item .label { font-size: 9px; opacity: 0.4; letter-spacing: 1.5px; }
-#info-panel .item .value { font-size: 16px; font-weight: 700; }
-#info-panel .item .value.cyan { color: #00ffff; }
-#info-panel .item .value.gold { color: #ffd700; }
 #pause-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.85); display: none;
@@ -144,8 +139,8 @@ canvas { display: block; }
   <p style="color:#0ff; font-size:14px; margin-top:12px; animation:pulse 1.5s ease-in-out infinite;">PRESSIONE QUALQUER TECLA PARA INICIAR</p>
 </div>
 <div id="controls-hint">WASD/Setas · Scroll zoom · Espaço harmonize · ESC pausa · Toque joystick no canvas para mover</div>
-<a href="/lumin-portal.html" id="cloud-nav">▲ LUMIN CLOUD</a>
-<a href="/lumin-portal.html" id="exit-nav" style="position:fixed;bottom:12px;right:16px;color:rgba(255,60,60,0.5);font-size:11px;letter-spacing:1px;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:14px;backdrop-filter:blur(8px);pointer-events:auto;z-index:30;text-decoration:none;border:1px solid rgba(255,60,60,0.15);transition:all 0.2s;font-family:'Orbitron',sans-serif;">⛔ SAIR</a>
+<a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
+<a href="/" id="exit-nav" style="position:fixed;bottom:12px;right:16px;color:rgba(255,60,60,0.5);font-size:11px;letter-spacing:1px;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:14px;backdrop-filter:blur(8px);pointer-events:auto;z-index:30;text-decoration:none;border:1px solid rgba(255,60,60,0.15);transition:all 0.2s;font-family:'Orbitron',sans-serif;">⛔ SAIR</a>
 <script>
 'use strict';
 

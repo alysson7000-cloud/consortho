@@ -1858,18 +1858,45 @@ function update() {
       }
     }
     // Dash sound
-    if (audioCtx && beatGain) {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain); gain.connect(beatGain);
-      osc.frequency.setValueAtTime(220 + STATE.combo * 110, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(440 + STATE.combo * 220, audioCtx.currentTime + 0.1);
-      osc.type = 'sine';
-      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-      osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.1);
-    }
-    // Multi-dash powerup
+        if (audioCtx && beatGain) {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain); gain.connect(beatGain);
+          osc.frequency.setValueAtTime(220 + STATE.combo * 110, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(440 + STATE.combo * 220, audioCtx.currentTime + 0.1);
+          osc.type = 'sine';
+          gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+          osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.1);
+        }
+        // Dash damages enemies
+        STATE.powerups.forEach((p, i) => {
+          if (p.type !== 'enemy') return;
+          const dx = p.x - STATE.x;
+          const dy = p.y - STATE.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 60) {
+            p.hp -= 30 * (1 + STATE.combo * 0.5);
+            if (p.hp <= 0) {
+              score += p.reward;
+              STATE.wave.enemiesKilled++;
+              STATE.ultCharge = Math.min(100, STATE.ultCharge + 5);
+              STATE.powerups.splice(i, 1);
+              if (audioCtx && beatGain) {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(beatGain);
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
+                osc.type = 'square';
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.2);
+              }
+            }
+          }
+        });
+        // Multi-dash powerup
     if (STATE.activePowerup === 'multidash') {
       STATE.vx += ax * DASH_SPEED * 0.5;
       STATE.vy += ay * DASH_SPEED * 0.5;
@@ -2505,13 +2532,54 @@ function update() {
   }
 
   if (STATE.p2.activePowerup) {
-    STATE.p2.powerupTimer--;
-    if (STATE.p2.powerupTimer <= 0) {
-      STATE.p2.activePowerup = null;
+      STATE.p2.powerupTimer--;
+      if (STATE.p2.powerupTimer <= 0) {
+        STATE.p2.activePowerup = null;
+      }
     }
-  }
 
-  // ULT system P1
+    // Update wave enemies movement and behavior
+    STATE.powerups.forEach(p => {
+      if (p.type !== 'enemy') return;
+    
+      // Move towards player
+      p.x += p.vx;
+      p.y += p.vy;
+      p.angle += p.spin;
+    
+      // Update velocity towards player
+      const dx = STATE.x - p.x;
+      const dy = STATE.y - p.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist > 0) {
+        p.vx += (dx / dist) * 0.05;
+        p.vy += (dy / dist) * 0.05;
+      }
+    
+      // Limit velocity
+      const maxSpeed = 3;
+      const speed = Math.hypot(p.vx, p.vy);
+      if (speed > maxSpeed) {
+        p.vx = (p.vx / speed) * maxSpeed;
+        p.vy = (p.vy / speed) * maxSpeed;
+      }
+    
+      // Check collision with player
+      if (dist < p.size + 20) {
+        // Player takes damage
+        STATE.screenShake = Math.max(STATE.screenShake, 5);
+        // Knockback
+        if (dist > 0) {
+          STATE.vx -= (dx / dist) * 10;
+          STATE.vy -= (dy / dist) * 10;
+        }
+      }
+    
+      // Check collision with player projectiles/dash
+      // (handled in player update)
+    });
+
+    // ULT system P1
   if (STATE.ultActive) {
     STATE.ultTime--;
     // Ult effect: massive damage to boss, slow motion, screen shake
@@ -3160,7 +3228,7 @@ function drawPowerups() {
     ctx.translate(p.x, p.y);
     ctx.rotate(p.angle);
     const pulse = 1 + Math.sin(p.pulse) * 0.15;
-    
+
     // Glow
     const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, 30 * pulse);
     glow.addColorStop(0, p.glow + '60');
@@ -3169,18 +3237,52 @@ function drawPowerups() {
     ctx.beginPath();
     ctx.arc(0, 0, 30 * pulse, 0, Math.PI * 2);
     ctx.fill();
-    
+
     // Orb
     ctx.fillStyle = p.color;
     ctx.beginPath();
     ctx.arc(0, 0, 18 * pulse, 0, Math.PI * 2);
     ctx.fill();
-    
+
     // Emoji
     ctx.font = '24px Segoe UI Emoji';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(p.emoji, 0, 2);
+
+    ctx.restore();
+  });
+}
+
+function drawWaveEnemies() {
+  STATE.powerups.forEach(p => {
+    if (p.type !== 'enemy') return;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.angle);
+    
+    // Body
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Glow
+    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size * 2);
+    glow.addColorStop(0, p.color + '80');
+    glow.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(0, 0, p.size * 2, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // HP bar
+    if (p.hp < p.maxHp) {
+      ctx.fillStyle = '#333';
+      ctx.fillRect(-p.size, -p.size - 10, p.size * 2, 4);
+      ctx.fillStyle = '#00ff88';
+      ctx.fillRect(-p.size, -p.size - 10, p.size * 2 * (p.hp / p.maxHp), 4);
+    }
     
     ctx.restore();
   });
@@ -3368,9 +3470,12 @@ function render() {
   drawGhosts();
   
   // Powerups
-  drawPowerups();
+    drawPowerups();
   
-  // Boss
+    // Wave Enemies
+    drawWaveEnemies();
+
+    // Boss
   drawBoss();
   drawBossParticles();
   
@@ -7415,6 +7520,16 @@ if (!STATE.wave.active && !STATE.wave.survivalMode && STATE.wave.enemiesToSpawn 
   STATE.wave.timer = 0;
   console.log('[Wave] Auto-started Wave 1');
 }
+
+// Ensure render loop runs
+function ensureLoop() {
+  if (!window._gameLoopRunning) {
+    window._gameLoopRunning = true;
+    render();
+    console.log('[Game] Loop iniciado');
+  }
+}
+ensureLoop();
 
 render();
 
