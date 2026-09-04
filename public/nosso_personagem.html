@@ -5063,19 +5063,19 @@ function spawnWaveEnemy() {
   const type = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
   
   STATE.powerups.push({
-    x, y,
-    vx: (STATE.x - x) * 0.02,
-    vy: (STATE.y - y) * 0.02,
-    type: 'enemy',
-    enemyType: type,
-    hp: type === 'mini_void' ? 50 : type === 'mini_chaos' ? 30 : 15,
-    maxHp: type === 'mini_void' ? 50 : type === 'mini_chaos' ? 30 : 15,
-    size: type === 'mini_void' ? 40 : type === 'mini_chaos' ? 30 : 20,
-    color: type === 'mini_void' ? '#ff006e' : type === 'mini_chaos' ? '#ff6b35' : '#8338ec',
-    angle: 0,
-    spin: (Math.random() - 0.5) * 0.1,
-    reward: type === 'mini_void' ? 100 : type === 'mini_chaos' ? 50 : 20
-  });
+      x, y,
+      vx: 0,
+      vy: 0,
+      type: 'enemy',
+      enemyType: type,
+      hp: type === 'mini_void' ? 50 : type === 'mini_chaos' ? 30 : 15,
+      maxHp: type === 'mini_void' ? 50 : type === 'mini_chaos' ? 30 : 15,
+      size: type === 'mini_void' ? 40 : type === 'mini_chaos' ? 30 : 20,
+      color: type === 'mini_void' ? '#ff006e' : type === 'mini_chaos' ? '#ff6b35' : '#8338ec',
+      angle: 0,
+      spin: (Math.random() - 0.5) * 0.1,
+      reward: type === 'mini_void' ? 100 : type === 'mini_chaos' ? 50 : 20
+    });
 }
 
 function nextWave() {
@@ -5112,7 +5112,7 @@ function nextWave() {
 
 // Update wave enemies - movement and behavior
 function updateWaveEnemies() {
-  STATE.powerups.forEach((p, i) => {
+  STATE.powerups.forEach((p) => {
     if (p.type !== 'enemy') return;
     
     // Move towards player
@@ -5140,23 +5140,15 @@ function updateWaveEnemies() {
     
     // Rotate
     p.angle += p.spin;
-    
-    // Collision with player
-    const playerDist = Math.hypot(STATE.x - p.x, STATE.y - p.y);
-    if (playerDist < p.size + 20) {
-      STATE.screenShake = Math.max(STATE.screenShake, 10);
-      STATE.vx -= (dx / dist) * 15;
-      STATE.vy -= (dy / dist) * 15;
-    }
-    
-    // Collision with P2
-    const p2Dist = Math.hypot(STATE.p2.x - p.x, STATE.p2.y - p.y);
-    if (p2Dist < p.size + 20) {
-      STATE.p2.screenShake = Math.max(STATE.p2.screenShake, 10);
-      STATE.p2.vx -= (dx / dist) * 15;
-      STATE.p2.vy -= (dy / dist) * 15;
+
+    // Remove if too far off screen (world bounds)
+    if (p.x < -500 || p.x > STATE.world.width + 500 || p.y < -500 || p.y > STATE.world.height + 500) {
+      p._dead = true;
     }
   });
+  
+  // Clean up dead enemies
+  STATE.powerups = STATE.powerups.filter(p => !p._dead);
 }
 
 function startSurvivalMode() {
@@ -7568,7 +7560,9 @@ if (!STATE.wave.active && !STATE.wave.survivalMode && STATE.wave.enemiesToSpawn 
   STATE.wave.enemiesKilled = 0;
   STATE.wave.enemiesToSpawn = 5; // Wave 1: 5 enemies
   STATE.wave.timer = 0;
-  console.log('[Wave] Auto-started Wave 1');
+  // Spawn first enemy IMMEDIATELY for instant feedback
+  spawnWaveEnemy();
+  console.log('[Wave] Auto-started Wave 1 — primeiro inimigo spawnado!');
 }
 
 // Ensure render loop runs
