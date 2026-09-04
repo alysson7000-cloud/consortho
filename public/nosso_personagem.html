@@ -7406,6 +7406,16 @@ if (saved) {
   STATE.wave.maxWave = saved.maxWaveReached || 1;
 }
 
+// Auto-start Wave 1 if not in survival and not already active
+if (!STATE.wave.active && !STATE.wave.survivalMode && STATE.wave.enemiesToSpawn === 0) {
+  STATE.wave.active = true;
+  STATE.wave.number = 1;
+  STATE.wave.enemiesKilled = 0;
+  STATE.wave.enemiesToSpawn = 5; // Wave 1: 5 enemies
+  STATE.wave.timer = 0;
+  console.log('[Wave] Auto-started Wave 1');
+}
+
 render();
 
 setInterval(() => {
