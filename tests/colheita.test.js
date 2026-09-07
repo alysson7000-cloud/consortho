@@ -1,5 +1,5 @@
 /**
- * Tests for colheita.js - Harvest System
+ * Tests for colheita.js - Harvest system
  * Verifies seed detection, maturity logic, and deduplication
  */
 
@@ -184,9 +184,10 @@ describe('Colheita - Harvest System', () => {
 
       const elementoId = 'biblioteca'; // não existe
       const sementeExistente = sementesExistentes.find(s => s.elemento === elementoId);
-      const statusAtivoAtual = sementeExistente && ['pronta_para_construcao', 'em_construcao', 'construida'].includes(sementeExistente.status);
+      const statusAtivo = ['pronta_para_construcao', 'em_construcao', 'construida'];
+      const statusAtivoAtual = !!(sementeExistente && ['pronta_para_construcao', 'em_construcao', 'construida'].includes(sementeExistente.status));
 
-      expect(statusAtivoAtual).toBeFalsy();
+      expect(statusAtivoAtual).toBe(false);
     });
   });
 
