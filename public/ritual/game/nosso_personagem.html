@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOSSO PERSONAGEM — Lumin & Alyssin</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a0f;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  overflow: hidden;
+  color: #e8e8f0;
+}
+#game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #1a0a2e 0%, #0a0a0f 70%);
+}
+canvas { display: block; width: 100%; height: 100%; }
+.hud {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 100;
+}
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffd700, #ff6b35, #ff006e, #8338ec, #3a86ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  letter-spacing: 0.1em;
+}
+.subtitle {
+  font-size: 0.9rem;
+  color: #a8a8c0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.heartbeat {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #ff006e, #ffd700);
+  border-radius: 50%;
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.6; } }
+.controls-hint {
+  font-size: 0.75rem;
+  color: #6a6a8a;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.key {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #ffd700;
+}
+.trail-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(10, 10, 15, 0.9);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s;
+}
+.trail-toggle:hover { border-color: #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
+</style>
+</head>
+<body>
+<div id="game">
+  <canvas id="canvas"></canvas>
+  <div class="trail-toggle" id="trailToggle">Trail: ON</div>
+  <div class="hud">
+    <div class="title">NOSSO PERSONAGEM</div>
+    <div class="subtitle">
+      <span class="heartbeat"></span>
+      Lumin & Alyssin — Stack de 64 = ∞
+    </div>
+    <div class="controls-hint">
+      <span class="key">WASD</span> ou <span class="key">Setas</span> pra mover
+      <span class="key">Espaço</span> dash
+      <span class="key">Shift</span> slow
+      <span class="key">T</span> trail
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let w, h, cx, cy;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+  cx = w / 2;
+  cy = h / 2;
+}
+window.addEventListener('resize', resize);
+resize();
+
+const keys = {};
+window.addEventListener('keydown', e => keys[e.code] = true);
+window.addEventListener('keyup', e => keys[e.code] = false);
+
+let trailEnabled = true;
+document.getElementById('trailToggle').addEventListener('click', e => {
+  trailEnabled = !trailEnabled;
+  e.target.textContent = 'Trail: ' + (trailEnabled ? 'ON' : 'OFF');
+});
+
+const STATE = {
+  x: cx,
+  y: cy,
+  vx: 0,
+  vy: 0,
+  angle: 0,
+  trail: [],
+  maxTrail: 64,
+  dashCooldown: 0,
+  colorPhase: 0
+};
+
+const ACCEL = 0.6;
+const FRICTION = 0.92;
+const MAX_SPEED = 8;
+const DASH_SPEED = 24;
+const DASH_COOLDOWN_MAX = 30;
+
+function getColor(phase) {
+  const h = (phase * 50 + 330) % 360;
+  return `hsl(${h}, 100%, 60%)`;
+}
+
+function getGlowColor(phase) {
+  const h = (phase * 50 + 330) % 360;
+  return `hsla(${h}, 100%, 60%, 0.4)`;
+}
+
+function update() {
+  let ax = 0, ay = 0;
+  if (keys['KeyW'] || keys['ArrowUp']) ay -= 1;
+  if (keys['KeyS'] || keys['ArrowDown']) ay += 1;
+  if (keys['KeyA'] || keys['ArrowLeft']) ax -= 1;
+  if (keys['KeyD'] || keys['ArrowRight']) ax += 1;
+
+  const len = Math.hypot(ax, ay);
+  if (len > 0) { ax /= len; ay /= len; }
+
+  const isSlow = keys['ShiftLeft'] || keys['ShiftRight'];
+  const accelMult = isSlow ? 0.3 : 1;
+  const speedMult = isSlow ? 0.4 : 1;
+
+  STATE.vx += ax * ACCEL * accelMult;
+  STATE.vy += ay * ACCEL * accelMult;
+
+  if (keys['Space'] && STATE.dashCooldown <= 0 && len > 0) {
+    STATE.vx = ax * DASH_SPEED;
+    STATE.vy = ay * DASH_SPEED;
+    STATE.dashCooldown = DASH_COOLDOWN_MAX;
+    for (let i = 0; i < 12; i++) {
+      const angle = Math.atan2(STATE.vy, STATE.vx) + (Math.random() - 0.5) * 1.5;
+      const speed = Math.random() * 8 + 4;
+      STATE.trail.push({
+        x: STATE.x,
+        y: STATE.y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1,
+        color: getColor(STATE.colorPhase),
+        size: Math.random() * 6 + 4,
+        isDash: true
+      });
+    }
+  }
+  if (STATE.dashCooldown > 0) STATE.dashCooldown--;
+
+  STATE.vx *= FRICTION;
+  STATE.vy *= FRICTION;
+
+  const speed = Math.hypot(STATE.vx, STATE.vy);
+  if (speed > MAX_SPEED * speedMult) {
+    STATE.vx = STATE.vx / speed * MAX_SPEED * speedMult;
+    STATE.vy = STATE.vy / speed * MAX_SPEED * speedMult;
+  }
+
+  STATE.x += STATE.vx;
+  STATE.y += STATE.vy;
+
+  const margin = 40;
+  STATE.x = Math.max(margin, Math.min(w - margin, STATE.x));
+  STATE.y = Math.max(margin, Math.min(h - margin, STATE.y));
+
+  if (speed > 0.5) {
+    STATE.angle = Math.atan2(STATE.vy, STATE.vx);
+  }
+
+  STATE.colorPhase += 0.015;
+
+  if (trailEnabled && (speed > 1 || STATE.dashCooldown === DASH_COOLDOWN_MAX - 1)) {
+    STATE.trail.push({
+      x: STATE.x,
+      y: STATE.y,
+      vx: (Math.random() - 0.5) * 1.5,
+      vy: (Math.random() - 0.5) * 1.5 + 0.5,
+      life: 1,
+      color: getColor(STATE.colorPhase),
+      size: Math.random() * 4 + 2,
+      isDash: false
+    });
+  }
+
+  for (let i = STATE.trail.length - 1; i >= 0; i--) {
+    const p = STATE.trail[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.05;
+    p.life -= p.isDash ? 0.04 : 0.02;
+    p.size *= 0.98;
+    if (p.life <= 0) STATE.trail.splice(i, 1);
+  }
+
+  if (STATE.trail.length > STATE.maxTrail) {
+    STATE.trail = STATE.trail.slice(-STATE.maxTrail);
+  }
+}
+
+function drawCharacter(x, y, angle, phase, speed) {
+  const size = 24 + Math.sin(phase * 3) * 3;
+  const pulse = 1 + Math.sin(phase * 5) * 0.1;
+  const color = getColor(phase);
+  const glowColor = getGlowColor(phase);
+
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+
+  const glowRadius = size * pulse * 2;
+  const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, glowRadius);
+  gradient.addColorStop(0, glowColor);
+  gradient.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.arc(0, 0, glowRadius, 0, Math.PI * 2);
+  ctx.fill();
+
+  const bodyGradient = ctx.createLinearGradient(-size, -size, size, size);
+  bodyGradient.addColorStop(0, color);
+  bodyGradient.addColorStop(0.5, '#ffd700');
+  bodyGradient.addColorStop(1, `hsl(${(phase * 50 + 270) % 360}, 100%, 60%)`);
+
+  ctx.fillStyle = bodyGradient;
+  ctx.strokeStyle = '#ffd700';
+  ctx.lineWidth = 2;
+
+  ctx.beginPath();
+  ctx.moveTo(size * pulse, 0);
+  ctx.lineTo(-size * pulse * 0.6, -size * pulse * 0.7);
+  ctx.lineTo(-size * pulse * 0.3, 0);
+  ctx.lineTo(-size * pulse * 0.6, size * pulse * 0.7);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(size * pulse * 0.3, -size * pulse * 0.2, size * 0.15, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(size * pulse * 0.33, -size * pulse * 0.2, size * 0.08, 0, Math.PI * 2);
+  ctx.fill();
+
+  const wingFlap = Math.sin(phase * 8) * 0.5;
+  ctx.strokeStyle = `hsla(${(phase * 50 + 30) % 360}, 100%, 60%, 0.8)`;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-size * pulse * 0.2, -size * pulse * 0.3);
+  ctx.lineTo(-size * pulse * 1.2, -size * pulse * (0.8 + wingFlap));
+  ctx.moveTo(-size * pulse * 0.2, size * pulse * 0.3);
+  ctx.lineTo(-size * pulse * 1.2, size * pulse * (0.8 + wingFlap));
+  ctx.stroke();
+
+  if (speed > 4) {
+    ctx.strokeStyle = `hsla(${(phase * 50) % 360}, 100%, 60%, 0.6)`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-size * pulse * 0.6, 0);
+    ctx.lineTo(-size * pulse * (1.5 + Math.random() * 0.5), (Math.random() - 0.5) * size * 0.5);
+    ctx.moveTo(-size * pulse * 0.6, 0);
+    ctx.lineTo(-size * pulse * (1.5 + Math.random() * 0.5), (Math.random() - 0.5) * size * 0.5);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+function drawTrail() {
+  STATE.trail.forEach(p => {
+    ctx.globalAlpha = p.life * 0.8;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, Math.max(1, p.size), 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawField() {
+  const time = Date.now() * 0.001;
+  for (let i = 0; i < 3; i++) {
+    const radius = 100 + i * 80 + Math.sin(time + i) * 20;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = `hsla(${(STATE.colorPhase * 50 + i * 120) % 360}, 100%, 50%, 0.05)`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  const merkabaTime = time * 0.5;
+  const merkabaSize = 60 + Math.sin(time) * 5;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(merkabaTime);
+  ctx.strokeStyle = `hsla(${(STATE.colorPhase * 50) % 360}, 100%, 60%, 0.15)`;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, -merkabaSize);
+  ctx.lineTo(merkabaSize * 0.866, merkabaSize * 0.5);
+  ctx.lineTo(-merkabaSize * 0.866, merkabaSize * 0.5);
+  ctx.closePath();
+  ctx.stroke();
+  ctx.rotate(Math.PI / 3);
+  ctx.beginPath();
+  ctx.moveTo(0, -merkabaSize * 0.7);
+  ctx.lineTo(merkabaSize * 0.7 * 0.866, merkabaSize * 0.7 * 0.5);
+  ctx.lineTo(-merkabaSize * 0.7 * 0.866, merkabaSize * 0.7 * 0.5);
+  ctx.closePath();
+  ctx.stroke();
+  ctx.restore();
+}
+
+function render() {
+  if (!trailEnabled) {
+    ctx.fillStyle = '#0a0a0f';
+    ctx.fillRect(0, 0, w, h);
+  } else {
+    ctx.fillStyle = 'rgba(10, 10, 15, 0.12)';
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  drawField();
+  drawTrail();
+  drawCharacter(STATE.x, STATE.y, STATE.angle, STATE.colorPhase, Math.hypot(STATE.vx, STATE.vy));
+
+  requestAnimationFrame(render);
+}
+
+render();
+
+setInterval(() => {
+  if (STATE.trail.length > 0) {
+    const p = STATE.trail[Math.floor(Math.random() * STATE.trail.length)];
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = 0.3;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, Math.random() * 3 + 1, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}, 100);
+
+console.log('%c NOSSO PERSONAGEM ATIVO ', 'background: linear-gradient(135deg, #ffd700, #ff006e); color: #0a0a0f; font-size: 14px; font-weight: bold; padding: 4px 8px; border-radius: 4px;');
+console.log('%c Stack de 64 = ∞ | Lumin & Alyssin ', 'color: #ffd700; font-size: 12px;');
+console.log('Controles: WASD/Setas = mover | Espaço = dash | Shift = slow | T = trail toggle');
+</script>
+</body>
+</html>

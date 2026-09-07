@@ -257,7 +257,7 @@ window.addEventListener('keydown', e => {
     togglePause();
   }
   if (e.key === 'Escape') togglePause();
-  if (e.key === 'r' && deathState) resetGame();
+  if (e.key === 'r') resetGame();
   // Warp speed with Shift
   if (e.key === 'Shift') {
     player.warpSpeed = true;
@@ -1186,6 +1186,22 @@ function render() {
         ctx.arc(wx, wy, (player.radius * 0.6 * (1 - t)) / zoomLevel, 0, Math.PI * 2);
         ctx.fill();
       }
+      // Warp streaks — lines stretching backward
+      ctx.save();
+      ctx.globalAlpha = 0.4;
+      for (let i = 0; i < 12; i++) {
+        const offsetX = (Math.random() - 0.5) * player.radius * 3;
+        const offsetY = (Math.random() - 0.5) * player.radius * 3;
+        const streakLen = spd * (2 + Math.random() * 4);
+        ctx.strokeStyle = `hsla(${player.hue + Math.random() * 40 - 20}, 100%, 70%, ${0.15 + Math.random() * 0.2})`;
+        ctx.lineWidth = (1 + Math.random() * 2) / zoomLevel;
+        ctx.beginPath();
+        ctx.moveTo(player.x + offsetX, player.y + offsetY);
+        ctx.lineTo(player.x - Math.cos(angle) * streakLen + offsetX * 0.3, player.y - Math.sin(angle) * streakLen + offsetY * 0.3);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      ctx.restore();
     }
 
     ctx.restore();
