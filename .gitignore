@@ -29,3 +29,38 @@ Thumbs.db
 # Temp
 *.tmp
 *.temp
+
+# Radio transmissoes (large generated data)
+prototipos/radio/transmissoes/
+
+# Generated memory/state
+memoria/
+models/
+
+# Coverage reports
+coverage/
+
+# Scratch/debug scripts
+NUL
+add_base_memories.py
+check_env.js
+debug_chars.py
+fix_canvas.py
+fix_estado.py
+fix_jardim.py
+patch_update3.py
+plantar_semente.py
+registrar_construcao.py
+reset_seeds.py
+server_broken.js
+server_corrupted.js
+server_patch_part.js
+telegram_bot_pm2.js
+telegram_bot_stable.js
+telegram_bot_v2.js
+test_bot.js
+test_bot_clean.js
+vps-health-monitor.js
+
+# Backup files
+*.bak
