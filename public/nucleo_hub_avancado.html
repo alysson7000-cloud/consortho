@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Núcleo Lumin — Hub Avançado</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; color: #e0e0f0; cursor: default; }
+#game-canvas { display: block; width: 100vw; height: 100vh; }
+
+/* HUD moderno com glassmorphism */
+.hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+.hud-top {
+  position: absolute;
+  top: 20px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 24px; align-items: center;
+  background: rgba(10, 5, 20, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,215,0,0.2);
+  border-radius: 20px;
+  padding: 12px 28px;
+  pointer-events: auto;
+  box-shadow: 0 0 40px rgba(255,215,0,0.05);
+}
+.hud-title {
+  font-size: 1.3rem; font-weight: 800;
+  background: linear-gradient(135deg, #ffd700, #ff6b35, #ff006e, #8338ec, #3a86ff, #00ff88);
+  background-size: 300% 300%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 4s ease infinite;
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.hud-status {
+  font-size: 0.85rem; color: #00ff88; font-family: monospace;
+  display: flex; align-items: center; gap: 6px;
+}
+.hud-status .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 10px #00ff88;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+
+.hud-bottom {
+  position: absolute;
+  bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 12px; align-items: center;
+  background: rgba(10, 5, 20, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,215,0,0.15);
+  border-radius: 16px;
+  padding: 10px 18px;
+  pointer-events: auto;
+}
+.hud-btn {
+  background: transparent;
+  border: 1px solid rgba(255,215,0,0.25);
+  color: #ffd700;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.8rem; font-weight: 600;
+  transition: all 0.25s;
+  letter-spacing: 0.5px;
+}
+.hud-btn:hover {
+  background: rgba(255,215,0,0.12);
+  border-color: rgba(255,215,0,0.5);
+  box-shadow: 0 0 25px rgba(255,215,0,0.15);
+  transform: translateY(-1px);
+}
+.hud-btn:active { transform: scale(0.97); }
+
+/* Painel lateral direito — agentes */
+.agents-panel {
+  position: absolute;
+  top: 90px; right: 20px;
+  background: rgba(10, 5, 20, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,215,0,0.15);
+  border-radius: 16px;
+  padding: 16px;
+  min-width: 220px;
+  pointer-events: auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+.agents-title {
+  font-size: 0.7rem; color: #6a6a9a;
+  text-transform: uppercase; letter-spacing: 3px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,215,0,0.1);
+}
+.agent-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+}
+.agent-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.agent-dot.online { background: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.5); }
+.agent-dot.busy { background: #ff006e; box-shadow: 0 0 10px rgba(255,0,110,0.5); }
+.agent-name { color: #c0c0e0; font-weight: 500; }
+
+/* Painel IA — canto inferior esquerdo */
+.ai-panel {
+  position: absolute;
+  bottom: 100px; left: 20px;
+  background: rgba(10, 5, 20, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,215,0,0.2);
+  border-radius: 16px;
+  padding: 18px;
+  width: 300px;
+  pointer-events: auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+.ai-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.ai-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #ffd700, #ff006e);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 0 20px rgba(255,0,110,0.3);
+}
+.ai-title {
+  font-size: 0.8rem; font-weight: 700; color: #ffd700;
+  letter-spacing: 0.5px;
+}
+.ai-subtitle {
+  font-size: 0.65rem; color: #6a6a9a;
+  margin-top: 2px;
+}
+.ai-message {
+  font-size: 0.85rem; color: #b0b0d0;
+  line-height: 1.5;
+  min-height: 80px;
+  transition: opacity 0.3s ease;
+}
+
+/* Lista de experiências */
+.exp-list {
+  position: absolute;
+  left: 20px; top: 50%;
+  transform: translateY(-50%);
+  background: rgba(10, 5, 20, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,215,0,0.15);
+  border-radius: 16px;
+  padding: 16px;
+  max-height: 350px;
+  overflow-y: auto;
+  pointer-events: auto;
+  display: none;
+  min-width: 200px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+.exp-list.open { display: block; }
+.exp-list-title {
+  font-size: 0.7rem; color: #6a6a9a;
+  text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,215,0,0.1);
+}
+.exp-item {
+  padding: 8px 10px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.15s;
+  color: #a0a0c0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.exp-item:hover {
+  background: rgba(255,215,0,0.1);
+  color: #ffd700;
+  padding-left: 12px;
+}
+.exp-item .tag {
+  font-size: 0.6rem; color: #4a4a6a;
+  background: rgba(255,255,255,0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Status bar */
+.status-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10, 5, 20, 0.95);
+  border-top: 1px solid rgba(255,215,0,0.1);
+  padding: 6px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 0.7rem;
+  color: #5a5a7a;
+  pointer-events: auto;
+  z-index: 20;
+}
+.status-item { display: flex; align-items: center; gap: 6px; }
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  transition: all 0.3s;
+}
+.status-dot.up { background: #00ff88; box-shadow: 0 0 6px rgba(0,255,136,0.5); }
+.status-dot.down { background: #ff006e; box-shadow: 0 0 6px rgba(255,0,110,0.5); }
+.status-label { font-size: 0.65rem; }
+.status-value { font-family: monospace; font-size: 0.65rem; color: #00ff88; }
+.status-value.down { color: #ff006e; }
+
+/* Loading screen */
+#loading {
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, #0a0518, #000);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 100;
+  transition: opacity 0.8s ease;
+}
+#loading.hidden { opacity: 0; pointer-events: none; }
+.loading-title {
+  font-size: 2rem; font-weight: 800;
+  background: linear-gradient(135deg, #ffd700, #ff6b35, #ff006e, #8338ec, #3a86ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease infinite;
+  margin-bottom: 20px;
+}
+.loading-bar {
+  width: 200px; height: 3px;
+  background: rgba(255,215,0,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.loading-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #ffd700, #ff006e);
+  animation: loadFill 2s ease-in-out;
+  border-radius: 3px;
+}
+@keyframes loadFill {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+.loading-status {
+  margin-top: 12px; font-size: 0.8rem; color: #6a6a9a;
+}
+</style>
+</head>
+<body>
+<div id="loading">
+  <div class="loading-title">NÚCLEO LUMIN</div>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+  <div class="loading-status" id="loading-status">Inicializando sistema...</div>
+</div>
+
+<canvas id="game-canvas"></canvas>
+
+<!-- HUD Overlay -->
+<div class="hud">
+  <div class="hud-top">
+    <span class="hud-title">NÚCLEO LUMIN</span>
+    <span class="hud-status"><span class="dot"></span> online</span>
+  </div>
+
+  <div class="agents-panel">
+    <div class="agents-title">Agentes Ativos</div>
+    <div id="agents-list">
+      <div class="agent-row"><span class="agent-dot online"></span><span class="agent-name">Nucleo Loop Eterno</span></div>
+      <div class="agent-row"><span class="agent-dot online"></span><span class="agent-name">ARCC — Árvore do Conhecimento</span></div>
+      <div class="agent-row"><span class="agent-dot online"></span><span class="agent-name">Atlas — Mapa do Sistema</span></div>
+      <div class="agent-row"><span class="agent-dot online"></span><span class="agent-name">Lumin AI (mock)</span></div>
+    </div>
+  </div>
+
+  <div class="ai-panel">
+    <div class="ai-header">
+      <div class="ai-icon">✦</div>
+      <div>
+        <div class="ai-title">LUMIN — Guia</div>
+        <div class="ai-subtitle">Integrado ao sistema</div>
+      </div>
+    </div>
+    <div class="ai-message" id="ai-message">
+      Bem-vindo ao Núcleo Lumin. Este é o hub central onde todos os sistemas se conectam. Navegue pelos portais para explorar cada experiência.
+    </div>
+  </div>
+
+  <div class="exp-list" id="exp-list">
+    <div class="exp-list-title">Experiências (156)</div>
+    <div id="exp-items"></div>
+  </div>
+
+  <div class="hud-bottom">
+    <button class="hud-btn" id="btn-agentes" onclick="togglePanel('agents-panel')">Agentes</button>
+    <button class="hud-btn" id="btn-exp" onclick="toggleExpList()">Experiências</button>
+    <button class="hud-btn" id="btn-status" onclick="refreshStatus()">Status</button>
+    <button class="hud-btn" id="btn-portals" onclick="togglePortalLabels()">Portais</button>
+    <button class="hud-btn" onclick="openNucleo()">Nucleo</button>
+  </div>
+</div>
+
+<div class="status-bar" id="status-bar">
+  <div class="status-item"><span class="status-dot up" id="dot-8766"></span><span class="status-label">WebGL</span><span class="status-value" id="val-8766">—</span></div>
+  <div class="status-item"><span class="status-dot up" id="dot-9877"></span><span class="status-label">Consortho</span><span class="status-value" id="val-9877">—</span></div>
+  <div class="status-item"><span class="status-dot up" id="dot-8767"></span><span class="status-label">Cloud</span><span class="status-value" id="val-8767">—</span></div>
+  <div class="status-item"><span class="status-dot up" id="dot-9879"></span><span class="status-label">Atlas</span><span class="status-value" id="val-9879">—</span></div>
+  <div class="status-item"><span class="status-dot up" id="dot-9880"></span><span class="status-label">Admin</span><span class="status-value" id="val-9880">—</span></div>
+  <div class="status-item"><span class="status-dot up" id="dot-8081"></span><span class="status-label">Lumin AI</span><span class="status-value" id="val-8081">—</span></div>
+  <div class="status-item" style="color:#5a5a7a;">loop: <span id="loop-count" class="status-value">—</span></div>
+</div>
+
+<div id="portals-container" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+
+<script src="/three.min.js"></script>
+<script>
+// ==================== LOAD SCREEN ====================
+const loadingStatus = document.getElementById('loading-status');
+const statusMessages = [
+  'Carregando motor Three.js...',
+  'Construindo cena 3D...',
+  'Renderizando estrelas e nebulosas...',
+  'Configurando portais...',
+  'Sincronizando agentes...',
+  'Pronto. Bem-vindo ao Núcleo Lumin.'
+];
+let loadIdx = 0;
+const loadInterval = setInterval(() => {
+  if (loadIdx < statusMessages.length) {
+    loadingStatus.textContent = statusMessages[loadIdx];
+    loadIdx++;
+  } else {
+    clearInterval(loadInterval);
+    document.getElementById('loading').classList.add('hidden');
+    setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 800);
+  }
+}, 300);
+
+// ==================== CHECK THREE.JS ====================
+if (typeof THREE === 'undefined') {
+  document.getElementById('loading').innerHTML = `
+    <div style="text-align:center;padding:40px;color:#ffd700;">
+      <div style="font-size:3rem;margin-bottom:20px;">⚠</div>
+      <div style="font-size:1.3rem;font-weight:700;margin-bottom:10px;">Three.js não carregou</div>
+      <div style="color:#6a6a9a;margin-bottom:20px;">O hub 3D precisa do Three.js para funcionar.</div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <a href="/" style="color:#ffd700;text-decoration:none;padding:8px 16px;border:1px solid rgba(255,215,0,0.3);border-radius:8px;">Consortho</a>
+        <a href="/nucleo_indice.html" style="color:#ffd700;text-decoration:none;padding:8px 16px;border:1px solid rgba(255,215,0,0.3);border-radius:8px;">Índice</a>
+      </div>
+    </div>
+  `;
+  document.getElementById('status-bar').style.display = 'none';
+}
+
+// ==================== SCENE SETUP ====================
+const canvas = document.getElementById('game-canvas');
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = false;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+// Fundo com gradiente via shader
+const bgUniforms = { uTime: { value: 0 } };
+const bgMat = new THREE.ShaderMaterial({
+  uniforms: bgUniforms,
+  vertexShader: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    varying vec2 vUv;
+    void main() {
+      vec3 col1 = vec3(0.02, 0.01, 0.05);
+      vec3 col2 = vec3(0.05, 0.02, 0.09);
+      vec3 col3 = vec3(0.02, 0.01, 0.04);
+      float t = vUv.y;
+      vec3 col = mix(col1, col2, smoothstep(0.0, 0.5, t));
+      col = mix(col, col3, smoothstep(0.5, 1.0, t));
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `
+});
+const bgQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), bgMat);
+bgQuad.frustumCulled = false;
+scene.add(bgQuad);
+
+// ==================== ESTRELAS COM SHADER ====================
+const starVert = `
+  attribute float size;
+  attribute vec3 customColor;
+  varying vec3 vColor;
+  void main() {
+    vColor = customColor;
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+    gl_PointSize = size * (300.0 / -mvPosition.z);
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`;
+const starFrag = `
+  varying vec3 vColor;
+  void main() {
+    float d = distance(gl_PointCoord, vec2(0.5));
+    if (d > 0.5) discard;
+    float alpha = 1.0 - smoothstep(0.0, 0.5, d);
+    gl_FragColor = vec4(vColor, alpha);
+  }
+`;
+
+const starsCount = 3000;
+const starPos = new Float32Array(starsCount * 3);
+const starColors = new Float32Array(starsCount * 3);
+const starSizes = new Float32Array(starsCount);
+
+for (let i = 0; i < starsCount; i++) {
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(2 * Math.random() - 1);
+  const r = 50 + Math.random() * 100;
+  starPos[i*3] = r * Math.sin(phi) * Math.cos(theta);
+  starPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+  starPos[i*3+2] = r * Math.cos(phi);
+  
+  const c = new THREE.Color().setHSL(0.6 + Math.random() * 0.2, 0.5, 0.5 + Math.random() * 0.4);
+  starColors[i*3] = c.r; starColors[i*3+1] = c.g; starColors[i*3+2] = c.b;
+  starSizes[i] = 0.5 + Math.random() * 2;
+}
+
+const starGeo = new THREE.BufferGeometry();
+starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+starGeo.setAttribute('customColor', new THREE.BufferAttribute(starColors, 3));
+starGeo.setAttribute('size', new THREE.BufferAttribute(starSizes, 1));
+
+const starMat2 = new THREE.ShaderMaterial({
+  vertexShader: starVert,
+  fragmentShader: starFrag,
+  transparent: true,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending
+});
+const stars2 = new THREE.Points(starGeo, starMat2);
+scene.add(stars2);
+
+// ==================== NEBULOSA SHADER ====================
+const nebulaVert = `
+  attribute vec3 color;
+  varying vec3 vColor;
+  void main() {
+    vColor = color;
+    vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+    gl_PointSize = 8.0 * (200.0 / -mvPos.z);
+    gl_Position = projectionMatrix * mvPos;
+  }
+`;
+const nebulaFrag = `
+  varying vec3 vColor;
+  void main() {
+    float d = distance(gl_PointCoord, vec2(0.5));
+    if (d > 0.5) discard;
+    float alpha = pow(1.0 - smoothstep(0.0, 0.5, d), 2.0);
+    gl_FragColor = vec4(vColor, alpha * 0.4);
+  }
+`;
+
+const nebCount = 500;
+const nebPos = new Float32Array(nebCount * 3);
+const nebCol = new Float32Array(nebCount * 3);
+for (let i = 0; i < nebCount; i++) {
+  const a = Math.random() * Math.PI * 2;
+  const r = 5 + Math.random() * 8;
+  const y = (Math.random() - 0.5) * 3;
+  nebPos[i*3] = Math.cos(a) * r;
+  nebPos[i*3+1] = y;
+  nebPos[i*3+2] = Math.sin(a) * r;
+  const hues = [0.05, 0.6, 0.75, 0.85];
+  const c = new THREE.Color().setHSL(hues[Math.floor(Math.random()*hues.length)], 0.8, 0.3 + Math.random()*0.3);
+  nebCol[i*3]=c.r; nebCol[i*3+1]=c.g; nebCol[i*3+2]=c.b;
+}
+const nebGeo = new THREE.BufferGeometry();
+nebGeo.setAttribute('position', new THREE.BufferAttribute(nebPos, 3));
+nebGeo.setAttribute('color', new THREE.BufferAttribute(nebCol, 3));
+const nebMat = new THREE.ShaderMaterial({
+  vertexShader: nebulaVert,
+  fragmentShader: nebulaFrag,
+  transparent: true, depthWrite: false,
+  blending: THREE.AdditiveBlending
+});
+const nebula2 = new THREE.Points(nebGeo, nebMat);
+scene.add(nebula2);
+
+// ==================== ANEL CENTRAL COM SHADER ====================
+const ringUniforms = { uTime: { value: 0 } };
+const ringMat3 = new THREE.ShaderMaterial({
+  uniforms: ringUniforms,
+  vertexShader: `
+    varying vec2 vUv;
+    varying float vAlpha;
+    void main() {
+      vUv = uv;
+      vec3 pos = position;
+      float angle = atan(pos.z, pos.x);
+      float wave = sin(angle * 8.0 + uTime * 2.0) * 0.02;
+      pos.y += wave;
+      vAlpha = 0.5 + 0.3 * sin(angle * 4.0 + uTime);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    varying vec2 vUv;
+    varying float vAlpha;
+    void main() {
+      vec3 color1 = vec3(1.0, 0.84, 0.0); // dourado
+      vec3 color2 = vec3(1.0, 0.42, 0.21); // laranja
+      vec3 color3 = vec3(0.51, 0.22, 0.93); // roxo
+      float t = vUv.x;
+      vec3 col = mix(color1, color2, sin(t * 3.14159 + uTime * 0.5) * 0.5 + 0.5);
+      col = mix(col, color3, sin(t * 6.283 + uTime) * 0.3 + 0.3);
+      float alpha = vAlpha * 0.7;
+      gl_FragColor = vec4(col, alpha);
+    }
+  `,
+  transparent: true, side: THREE.DoubleSide
+});
+const ring3 = new THREE.Mesh(new THREE.RingGeometry(2.0, 2.6, 128), ringMat3);
+ring3.rotation.x = Math.PI / 3;
+scene.add(ring3);
+
+// Segundo anel
+const ringUniforms2 = { uTime: { value: 0 } };
+const ringMat4 = new THREE.ShaderMaterial({
+  uniforms: ringUniforms2,
+  vertexShader: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      vec3 pos = position;
+      float angle = atan(pos.z, pos.x);
+      pos.y += sin(angle * 12.0 + uTime * 3.0) * 0.01;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    varying vec2 vUv;
+    void main() {
+      vec3 col = vec3(0.51, 0.22, 0.93);
+      float alpha = 0.3 + 0.2 * sin(vUv.x * 20.0 + uTime * 2.0);
+      gl_FragColor = vec4(col, alpha);
+    }
+  `,
+  transparent: true, wireframe: true, side: THREE.DoubleSide
+});
+const ring4 = new THREE.Mesh(new THREE.RingGeometry(2.8, 3.5, 128), ringMat4);
+ring4.rotation.x = -Math.PI / 4;
+scene.add(ring4);
+
+// ==================== PRISMA CENTRAL COM SHADER ====================
+const prismUniforms = { uTime: { value: 0 } };
+const prismMat2 = new THREE.ShaderMaterial({
+  uniforms: prismUniforms,
+  vertexShader: `
+    varying vec3 vNormal;
+    varying vec3 vViewDir;
+    void main() {
+      vNormal = normalize(normalMatrix * normal);
+      vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+      vViewDir = normalize(-mvPos.xyz);
+      gl_Position = projectionMatrix * mvPos;
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    varying vec3 vNormal;
+    varying vec3 vViewDir;
+    void main() {
+      vec3 lightDir = normalize(vec3(1.0, 2.0, 1.0));
+      float diff = max(dot(vNormal, lightDir), 0.0);
+      float spec = pow(max(dot(reflect(-lightDir, vNormal), vViewDir), 0.0), 32.0);
+      float pulse = 0.5 + 0.5 * sin(uTime * 3.0);
+      vec3 col1 = vec3(1.0, 0.84, 0.0);
+      vec3 col2 = vec3(1.0, 0.0, 0.43);
+      vec3 col = mix(col1, col2, pulse);
+      col += vec3(1.0, 0.42, 0.21) * diff * 0.5;
+      col += vec3(1.0) * spec * 0.8;
+      gl_FragColor = vec4(col, 0.9);
+    }
+  `,
+  metalness: 0.8, roughness: 0.2, transparent: true
+});
+const prism2 = new THREE.Mesh(new THREE.OctahedronGeometry(0.5, 0), prismMat2);
+scene.add(prism2);
+
+// ==================== LUZES ====================
+const pointLight = new THREE.PointLight(0xffd700, 2, 10);
+pointLight.position.set(0, 0, 0);
+scene.add(pointLight);
+
+const ambientLight = new THREE.AmbientLight(0x222244, 0.3);
+scene.add(ambientLight);
+
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+dirLight.position.set(5, 10, 5);
+scene.add(dirLight);
+
+// Luz de cor pulsante
+const pulseLight = new THREE.PointLight(0xff006e, 1, 8);
+pulseLight.position.set(0, 2, 0);
+scene.add(pulseLight);
+
+// ==================== PARTÍCULAS FLUTUANTES ====================
+const particleCount = 800;
+const particleGeo2 = new THREE.BufferGeometry();
+const pPos = new Float32Array(particleCount * 3);
+for (let i = 0; i < particleCount; i++) {
+  pPos[i*3] = (Math.random() - 0.5) * 20;
+  pPos[i*3+1] = (Math.random() - 0.5) * 10;
+  pPos[i*3+2] = (Math.random() - 0.5) * 20 - 5;
+}
+particleGeo2.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+
+const particleMat2 = new THREE.PointsMaterial({
+  color: 0xffd700,
+  size: 0.05,
+  transparent: true,
+  opacity: 0.5,
+  blending: THREE.AdditiveBlending,
+  sizeAttenuation: true
+});
+const particles2 = new THREE.Points(particleGeo2, particleMat2);
+scene.add(particles2);
+
+// ==================== PORTALS ====================
+const portalPositions = [
+  { x: -4, y: 0, z: -2, label: 'Consortho', sub: 'Jogo Principal', port: 9877, color: 0xff006e, glow: '#ff006e' },
+  { x: 4, y: 0, z: -2, label: 'Lumin Cloud', sub: 'Jogos Cloud', port: 8767, color: 0x3a86ff, glow: '#3a86ff' },
+  { x: 0, y: 1.8, z: -3.5, label: 'Nucleo WebGL', sub: '156 Experiências', port: 8766, color: 0x8338ec, glow: '#8338ec' },
+  { x: -3.5, y: -1.2, z: 1.5, label: 'Atlas', sub: 'Mapa do Sistema', port: 9879, color: 0x00ff88, glow: '#00ff88' },
+  { x: 3.5, y: -1.2, z: 1.5, label: 'Admin', sub: 'Painel de Controle', port: 9880, color: 0xffd700, glow: '#ffd700' },
+  { x: 0, y: 0.8, z: 3.5, label: 'Lumin AI', sub: 'Guardião IA', port: 8081, color: 0xff6b35, glow: '#ff6b35' },
+];
+
+const portals = [];
+
+// Glow sprites
+const glowCanvas = document.createElement('canvas');
+glowCanvas.width = glowCanvas.height = 128;
+const gCtx = glowCanvas.getContext('2d');
+const gGrad = gCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+gGrad.addColorStop(0, 'rgba(255,255,255,1)');
+gGrad.addColorStop(0.1, 'rgba(255,215,0,0.8)');
+gGrad.addColorStop(0.3, 'rgba(255,107,53,0.4)');
+gGrad.addColorStop(0.6, 'rgba(255,0,110,0.1)');
+gGrad.addColorStop(1, 'rgba(0,0,0,0)');
+gCtx.fillStyle = gGrad;
+gCtx.fillRect(0, 0, 128, 128);
+const glowTex = new THREE.CanvasTexture(glowCanvas);
+
+portalPositions.forEach((p, idx) => {
+  // Glow grande ao redor
+  const glowSprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({
+      map: glowTex,
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      opacity: 0.4,
+      color: p.color
+    })
+  );
+  glowSprite.position.set(p.x, p.y, p.z);
+  const gs = 2.5 + Math.random() * 1.0;
+  glowSprite.scale.set(gs, gs, 1);
+  scene.add(glowSprite);
+
+  // Esfera portal com shader
+  const portalMat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(p.color) } },
+    vertexShader: `
+      varying vec3 vNormal;
+      varying vec3 vViewDir;
+      void main() {
+        vNormal = normalize(normalMatrix * normal);
+        vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+        vViewDir = normalize(-mvPos.xyz);
+        gl_Position = projectionMatrix * mvPos;
+      }
+    `,
+    fragmentShader: `
+      uniform float uTime;
+      uniform vec3 uColor;
+      varying vec3 vNormal;
+      varying vec3 vViewDir;
+      void main() {
+        float fresnel = 1.0 - max(dot(vNormal, vViewDir), 0.0);
+        fresnel = pow(fresnel, 3.0);
+        vec3 col = uColor * (0.4 + 0.6 * fresnel);
+        col += vec3(1.0, 1.0, 1.0) * fresnel * 0.5;
+        float pulse = 0.7 + 0.3 * sin(uTime * 3.0 + ${idx});
+        gl_FragColor = vec4(col, fresnel * pulse);
+      }
+    `,
+    transparent: true,
+    side: THREE.DoubleSide,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
+  const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.6, 32, 32), portalMat);
+  sphere.position.set(p.x, p.y, p.z);
+  scene.add(sphere);
+
+  // Anel orbitando
+  const orbitRing = new THREE.Mesh(
+    new THREE.TorusGeometry(0.9, 0.03, 16, 48),
+    new THREE.MeshStandardMaterial({
+      color: p.color,
+      emissive: p.color,
+      emissiveIntensity: 0.5,
+      transparent: true,
+      opacity: 0.6
+    })
+  );
+  orbitRing.position.set(p.x, p.y, p.z);
+  scene.add(orbitRing);
+
+  // Cone de luz
+  const coneMat2 = new THREE.MeshStandardMaterial({
+    color: p.color,
+    emissive: p.color,
+    emissiveIntensity: 0.3,
+    transparent: true,
+    opacity: 0.2
+  });
+  const cone2 = new THREE.Mesh(new THREE.ConeGeometry(0.4, 0.8, 16), coneMat2);
+  cone2.position.set(p.x, p.y - 1.0, p.z);
+  cone2.rotation.x = Math.PI;
+  scene.add(cone2);
+
+  portals.push({
+    data: p,
+    sphere, orbitRing, cone: cone2, glowSprite,
+    angle: Math.random() * Math.PI * 2,
+    hover: false
+  });
+
+  // Rótulo HTML
+  const label = document.createElement('div');
+  label.className = 'portal-label';
+  const lx = p.x * 80 + window.innerWidth / 2 - 120;
+  const ly = -p.y * 80 + window.innerHeight / 2 - 20;
+  label.style.left = lx + 'px';
+  label.style.top = ly + 'px';
+  label.style.background = `rgba(10,5,20,0.85)`;
+  label.style.backdropFilter = 'blur(15px)';
+  label.style.border = `1px solid ${p.glow}44`;
+  label.style.color = p.glow;
+  label.style.boxShadow = `0 0 30px ${p.glow}22`;
+  label.innerHTML = `<strong style="color:${p.glow}">${p.label}</strong><span class="sub">${p.sub}</span>`;
+  label.onclick = (e) => { e.stopPropagation(); window.open(`http://localhost:${p.port}/`, '_blank'); };
+  label.onmouseenter = () => {
+    label.style.transform = 'scale(1.1)';
+    label.style.borderColor = `${p.glow}88`;
+    label.style.boxShadow = `0 0 40px ${p.glow}44`;
+    portals[idx].hover = true;
+  };
+  label.onmouseleave = () => {
+    label.style.transform = 'scale(1)';
+    label.style.borderColor = `${p.glow}44`;
+    label.style.boxShadow = `0 0 30px ${p.glow}22`;
+    portals[idx].hover = false;
+  };
+  document.getElementById('portals-container').appendChild(label);
+});
+
+// ==================== AGENTES SHIMMER ====================
+// Partículas que reagem ao mouse
+const mouse = new THREE.Vector2(0, 0);
+canvas.addEventListener('mousemove', (e) => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+});
+canvas.addEventListener('touchmove', (e) => {
+  if (e.touches.length > 0) {
+    const t = e.touches[0];
+    mouse.x = (t.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(t.clientY / window.innerHeight) * 2 + 1;
+  }
+}, { passive: true });
+
+// ==================== CLICK → EXPLOSÃO ====================
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / window.innerWidth) * 2 - 1;
+  const y = -((e.clientY - rect.top) / window.innerHeight) * 2 + 1;
+  pointLight.intensity = 6;
+  setTimeout(() => { pointLight.intensity = 2; }, 100);
+  pulseLight.intensity = 3;
+  setTimeout(() => { pulseLight.intensity = 1; }, 200);
+
+  const bc = 40;
+  const bg3 = new THREE.BufferGeometry();
+  const bp3 = new Float32Array(bc * 3);
+  const bv = [];
+  for (let i = 0; i < bc; i++) {
+    bp3[i*3] = x * 8; bp3[i*3+1] = y * 5; bp3[i*3+2] = -1;
+    const speed = 0.3 + Math.random() * 0.4;
+    const az = Math.random() * Math.PI * 2;
+    bv.push({ x: Math.cos(az)*speed, y: Math.sin(az)*speed, z: -Math.random()*0.5-0.2 });
+  }
+  bg3.setAttribute('position', new THREE.BufferAttribute(bp3, 3));
+  const bm2 = new THREE.PointsMaterial({
+    color: 0xffd700, size: 0.12, transparent: true, opacity: 1,
+    blending: THREE.AdditiveBlending, sizeAttenuation: true
+  });
+  const burst2 = new THREE.Points(bg3, bm2);
+  scene.add(burst2);
+  let bt2 = 0;
+  function ab2() {
+    bt2 += 0.04;
+    const p3 = burst2.geometry.attributes.position.array;
+    for (let i = 0; i < bc; i++) { p3[i*3]+=bv[i].x; p3[i*3+1]+=bv[i].y; p3[i*3+2]+=bv[i].z; }
+    burst2.geometry.attributes.position.needsUpdate = true;
+    burst2.material.opacity = Math.max(0, 1 - bt2 * 2.5);
+    if (bt2 < 2) requestAnimationFrame(ab2);
+    else { scene.remove(burst2); burst2.geometry.dispose(); burst2.material.dispose(); }
+  }
+  ab2();
+}, { passive: true });
+
+// ==================== ANIMAÇÃO PRINCIPAL ====================
+let time = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  time += 0.008;
+
+  bgUniforms.uTime.value = time;
+  ringUniforms.uTime.value = time;
+  ringUniforms2.uTime.value = time;
+  prismUniforms.uTime.value = time;
+
+  stars2.rotation.y += 0.0001;
+  stars2.rotation.x += 0.00005;
+
+  nebula2.rotation.y += 0.0008;
+  nebula2.rotation.x += 0.0003;
+
+  ring3.rotation.y += 0.004;
+  ring3.rotation.z += 0.002;
+  ring4.rotation.y -= 0.006;
+  ring4.rotation.x -= 0.001;
+
+  prism2.rotation.y += 0.008;
+  prism2.rotation.x += 0.006;
+  const sc2 = 1 + Math.sin(time * 3) * 0.08;
+  prism2.scale.set(sc2, sc2, sc2);
+
+  const pp2 = particles2.geometry.attributes.position.array;
+  for (let i = 0; i < particleCount; i++) {
+    pp2[i*3+1] += Math.sin(time * 1.5 + i * 0.3) * 0.0008;
+    pp2[i*3] += Math.cos(time * 1.2 + i * 0.4) * 0.0004;
+    pp2[i*3+2] += Math.sin(time * 0.8 + i * 0.2) * 0.0003;
+  }
+  particles2.geometry.attributes.position.needsUpdate = true;
+
+  portals.forEach((p, i) => {
+    p.sphere.material.uniforms.uTime.value = time;
+    const sh = p.hover ? 1.35 : 1 + Math.sin(time * 2.5 + i * 1.5) * 0.12;
+    p.sphere.scale.set(sh, sh, sh);
+    p.orbitRing.rotation.x = Math.PI / 2 + Math.sin(time * 1.5 + i) * 0.3;
+    p.orbitRing.rotation.z = time * (0.5 + i * 0.1);
+    const osh = 1 + Math.sin(time * 3 + i * 2) * 0.15;
+    p.orbitRing.scale.set(osh, osh, osh);
+    p.cone.scale.set(1, 1 + Math.sin(time * 2 + i) * 0.2, 1);
+    p.glowSprite.material.opacity = 0.3 + Math.sin(time * 2 + i * 1.5) * 0.15;
+  });
+
+  pointLight.intensity = 1.8 + Math.sin(time * 2.5) * 0.6;
+  pulseLight.intensity = 1.2 + Math.sin(time * 1.5) * 0.8;
+  pulseLight.position.y = 1.5 + Math.sin(time * 2) * 0.8;
+
+  camera.position.x = Math.sin(time * 0.25) * 1.8;
+  camera.position.z = 7 + Math.sin(time * 0.4) * 0.8;
+  camera.position.y = 1.5 + Math.sin(time * 0.6) * 0.3;
+  camera.lookAt(0, 0.2, 0);
+
+  renderer.render(scene, camera);
+}
+
+// ==================== RESIZE ====================
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ==================== STATUS ====================
+async function refreshStatus() {
+  const ports = [8766, 9877, 8767, 9879, 9880, 8081];
+  const results = await Promise.all(ports.map(async p => {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 2000);
+      await (await fetch(`http://localhost:${p}/`, { mode: 'no-cors', signal: ctrl.signal }));
+      clearTimeout(t);
+      return { port: p, ok: true };
+    } catch { return { port: p, ok: false }; }
+  }));
+  results.forEach(r => {
+    const dot = document.getElementById(`dot-${r.port}`);
+    const val = document.getElementById(`val-${r.port}`);
+    if (r.ok) { dot.className = 'status-dot up'; val.textContent = '✓'; val.className = 'status-value'; }
+    else { dot.className = 'status-dot down'; val.textContent = '✗'; val.className = 'status-value down'; }
+  });
+  try {
+    const r = await fetch('http://localhost:8766/api/loop/count');
+    if (r.ok) { const d = await r.json(); document.getElementById('loop-count').textContent = d.count || '—'; }
+  } catch { document.getElementById('loop-count').textContent = '—'; }
+}
+refreshStatus();
+setInterval(refreshStatus, 15000);
+
+// ==================== UI ====================
+function togglePanel(id) {
+  document.getElementById(id).style.display = 
+    document.getElementById(id).style.display === 'none' ? 'block' : 'none';
+}
+
+function toggleExpList() {
+  const list = document.getElementById('exp-list');
+  const items = document.getElementById('exp-items');
+  if (list.classList.contains('open')) { list.classList.remove('open'); return; }
+  list.classList.add('open');
+  if (items.children.length === 0) {
+    fetch('http://localhost:8766/api/experiences')
+      .then(r => r.json())
+      .then(data => {
+        const exps = data.experiences || [];
+        exps.slice(0, 60).forEach(exp => {
+          const div = document.createElement('div');
+          div.className = 'exp-item';
+          div.innerHTML = `<span>${exp.name || exp.title || exp.url || '—'}</span><span class="tag">:${exp.port || '—'}</span>`;
+          div.onclick = () => { window.open(exp.url || `http://localhost:${exp.port || 8766}/`, '_blank'); };
+          items.appendChild(div);
+        });
+        if (exps.length > 60) {
+          const more = document.createElement('div');
+          more.className = 'exp-item';
+          more.innerHTML = `<span>+ mais ${exps.length - 60}</span><span class="tag" style="color:#4a4a6a;">expandir</span>`;
+          more.style.cursor = 'default';
+          items.appendChild(more);
+        }
+      })
+      .catch(() => { items.innerHTML = '<div style="color:#4a4a6a;font-size:0.7rem;padding:10px;">Não foi possível carregar.</div>'; });
+  }
+}
+
+let portalLabelsVisible = true;
+function togglePortalLabels() {
+  portalLabelsVisible = !portalLabelsVisible;
+  document.querySelectorAll('.portal-label').forEach(l => l.style.display = portalLabelsVisible ? 'block' : 'none');
+}
+
+function openNucleo() {
+  window.open('http://localhost:8766/', '_blank');
+}
+
+// Mensagens IA rotativas
+const aiMessages = [
+  "O sistema está estável. Ciclo eterno em execução, todos os agentes operando nominalmente.",
+  "157 experiências registradas no nucleo. A árvore de conhecimento segue em expansão.",
+  "ARCC reporta: 1353 novos nós criados nesta sessão. Conexões sendo estabelecidas.",
+  "Lumin AI está online. Pronto para guiar você pelas dimensões do sistema.",
+  "Você é o elo central. Todos os portais, todos os agentes, tudo conectado através de você.",
+  "O hub está vivo. Cada portal leva a um universo de possibilidades. Explore."
+];
+let msgIdx = 0;
+setInterval(() => {
+  msgIdx = (msgIdx + 1) % aiMessages.length;
+  const el = document.getElementById('ai-message');
+  el.style.opacity = '0';
+  setTimeout(() => { el.textContent = aiMessages[msgIdx]; el.style.opacity = '1'; }, 150);
+}, 10000);
+
+// Iniciar
+animate();
+
+// Console debug
+console.log('✦ Núcleo Lumin Hub Avançado', {
+  three: 'OK',
+  portals: portals.length,
+  particles: particleCount,
+  stars: starsCount,
+  nebula: nebCount
+});
+</script>
+</body>
+</html>
