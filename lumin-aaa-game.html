@@ -122,7 +122,6 @@ canvas { display: block; }
 <div id="minimap"></div>
 <a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
 <a href="/" id="exit-nav" style="position:fixed;bottom:12px;right:16px;color:rgba(255,60,60,0.5);font-size:11px;letter-spacing:1px;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:14px;backdrop-filter:blur(8px);pointer-events:auto;z-index:30;text-decoration:none;border:1px solid rgba(255,60,60,0.15);transition:all 0.2s;font-family:'Orbitron',sans-serif;">⛔ SAIR</a>
-<div id="pause-screen">
 <div id="powerup-indicator"></div>
 <div id="pause-screen" class="active">
   <h1>⏸ AGUARDANDO</h1>
@@ -146,6 +145,21 @@ canvas { display: block; }
 const canvas = document.getElementById('gc');
 const ctx = canvas.getContext('2d', { alpha: false });
 let W, H, DPR;
+
+// Screen shake
+let shakeAmount = 0;
+let shakeDecay = 0.9;
+
+function applyShake() {
+  if (shakeAmount > 0.5) {
+    const sx = (Math.random() - 0.5) * shakeAmount;
+    const sy = (Math.random() - 0.5) * shakeAmount;
+    ctx.translate(sx, sy);
+    shakeAmount *= shakeDecay;
+  } else {
+    shakeAmount = 0;
+  }
+}
 
 // Stars parallax state (declared before resize to avoid TDZ)
 let stars = [];
@@ -458,6 +472,7 @@ function emitExplosion(x, y, hue, count, speed, life) {
   emitParticles(x, y, count, hue, speed, life);
   addShockwave(x, y, 120, hue, 0.8);
   playSound('explosion');
+  shakeAmount = 6;
   // Secondary particles (white core)
   emitParticles(x, y, count * 0.3, 0, speed * 0.8, life * 0.6, [1, 3]);
 }
@@ -1246,6 +1261,9 @@ function triggerBombManually() {
 // RENDER
 // ============================================================
 function render() {
+  // Screen shake
+  applyShake();
+
   // Clear with background gradient
   const bgGrad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.8);
   bgGrad.addColorStop(0, '#0d0020');
