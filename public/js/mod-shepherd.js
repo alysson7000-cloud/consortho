@@ -29,7 +29,7 @@ const ModShepherd = (function() {
       audio: () => window.Soundscape
     };
     const mod = modFn(api);
-    mods.set(id, { id, mod, api, enabled: false });
+    mods.set(id, { id, mod, api, enabled: true });
     console.log(`[ModShepherd] ✅ Mod registrado: "${id}"`);
   }
 
@@ -129,9 +129,6 @@ const ModShepherd = (function() {
   function getAllMods() {
     return Array.from(mods.keys());
   }
-
-  function startMods() { return startAll(); }
-  function stopMods() { return stopAll(); }
 
   // Auto-start mods registrados após carregamento
   setTimeout(() => {

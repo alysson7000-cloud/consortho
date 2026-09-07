@@ -8,9 +8,6 @@ logs/
 # State files (generated)
 estado.json
 memoria/sementes.json
-# Runtime memory snapshots (large, regenerated; keep diamond_protocol.json tracked)
-memoria/*.json
-!memoria/diamond_protocol.json
 
 # PM2
 .pm2/
@@ -32,36 +29,3 @@ Thumbs.db
 # Temp
 *.tmp
 *.temp
-
-# Coverage reports (generated)
-coverage/
-
-# Radio transmissions (too many, regenerated)
-prototipos/radio/transmissoes/
-
-# Models (large binary files)
-models/
-llama-3.2-3b-instruct-q4_k_m.gguf
-
-# Backup server files
-server_broken.js
-server_corrupted.js
-server_patch_part.js
-
-# Test bots
-test_bot.js
-test_bot_clean.js
-telegram_bot_pm2.js
-telegram_bot_stable.js
-
-# Temporary fix scripts
-fix_estado.py
-fix_jardim.py
-
-# Windows null device artifact
-NUL
-
-# Telegram bot versions
-telegram_bot_v2.js
-telegram_bot_pm2.js
-telegram_bot_stable.js

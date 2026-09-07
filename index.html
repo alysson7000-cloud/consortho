@@ -23,12 +23,12 @@
     z-index: 10; text-align: center; pointer-events: none;
   }
   #portal h1 {
-    font-size: 52px; font-weight: 900; color: #0ff;
+    font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #0ff;
     text-shadow: 0 0 30px rgba(0,255,255,0.6), 0 0 60px rgba(0,255,255,0.3);
     letter-spacing: 4px; margin-bottom: 10px;
   }
   #portal .sub {
-    font-size: 14px; color: rgba(255,255,255,0.4); letter-spacing: 3px;
+    font-size: clamp(11px, 2vw, 14px); color: rgba(255,255,255,0.4); letter-spacing: 3px;
     margin-bottom: 40px;
   }
   #portal .games {
@@ -45,9 +45,11 @@
     background: rgba(0,255,255,0.12); border-color: rgba(0,255,255,0.5);
     transform: translateY(-4px); box-shadow: 0 0 30px rgba(0,255,255,0.2);
   }
-  .game-card .icon { font-size: 36px; margin-bottom: 10px; }
-  .game-card .name { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: 2px; }
-  .game-card .desc { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 6px; letter-spacing: 1px; }
+  /* Touch-friendly tap highlight */
+  .game-card:active { transform: scale(0.97); }
+  .game-card .icon { font-size: clamp(28px, 4vw, 36px); margin-bottom: 10px; }
+  .game-card .name { font-size: clamp(14px, 2vw, 16px); font-weight: 700; color: #fff; letter-spacing: 2px; }
+  .game-card .desc { font-size: clamp(10px, 1.5vw, 11px); color: rgba(255,255,255,0.4); margin-top: 6px; letter-spacing: 1px; }
   #cloud-nav {
     position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
     color: rgba(255,255,255,0.25); font-size: 11px; letter-spacing: 1px;
@@ -70,8 +72,8 @@
 <body>
 <canvas id="bg-canvas"></canvas>
 <div id="portal">
-  <h1>⚡ LUMIN CLOUD</h1>
-  <div class="sub">ESCOLHA SUA EXPERIÊNCIA</div>
+  <h1>✦ LUMIN CLOUD ✦</h1>
+  <div class="sub">// JOGOS //</div>
   <div class="games">
     <a href="/lumin-aaa-game.html" class="game-card">
       <div class="icon">⚔️</div>
@@ -87,11 +89,6 @@
       <div class="icon">🌌</div>
       <div class="name">GALÁXIA INFINITA</div>
       <div class="desc">Exploração · Harmonize · Descubra</div>
-    </a>
-    <a href="/lumin-tournament.html" class="game-card">
-      <div class="icon">🔥</div>
-      <div class="name">TOURNAMENT</div>
-      <div class="desc">Arena · Ondas · Dano</div>
     </a>
   </div>
 </div>

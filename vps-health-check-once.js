@@ -16,7 +16,7 @@ const path = require('path');
 // Configuration - reads from .env or uses defaults
 const VPS_HOST = process.env.VPS_HOST || '144.33.18.6';
 const VPS_PORT = process.env.VPS_PORT || '9877';
-const HEALTH_ENDPOINT = process.env.HEALTH_ENDPOINT || '/api/resumo';
+const HEALTH_ENDPOINT = process.env.HEALTH_ENDPOINT || '/api/eternal-resonance/status';
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || process.env.TELEGRAM_HOME_CHANNEL;
 const SSH_USER = process.env.SSH_USER || 'ubuntu';

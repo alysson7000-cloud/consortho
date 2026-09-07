@@ -6,8 +6,8 @@ const os = require('os');
  * Cross-platform atomic write with retry for Windows
  * Windows doesn't allow renameSync on files that are open/locked
  */
-function writeJSONAtomic(filePath, data, options = {}) {
-  const { retries = 20, retryDelay = 200, encoding = 'utf-8' } = options;
+async function writeJSONAtomic(filePath, data, options = {}) {
+  const { retries = 5, retryDelay = 50, encoding = 'utf-8' } = options;
   const tmpPath = filePath + '.tmp';
   const content = JSON.stringify(data, null, 2);
   
@@ -16,27 +16,18 @@ function writeJSONAtomic(filePath, data, options = {}) {
       // Write to temp file
       fs.writeFileSync(tmpPath, content, encoding);
       
-      // On Windows, use copy + unlink instead of rename to avoid EPERM
+      // On Windows, need to handle file locking
       if (os.platform() === 'win32') {
+        // Try to remove destination first if it exists (Windows quirk)
         try {
-          // Copy temp to destination (overwrites)
-          fs.copyFileSync(tmpPath, filePath);
-          // Clean up temp
-          fs.unlinkSync(tmpPath);
+          fs.unlinkSync(filePath);
         } catch (e) {
-          // If copy fails, try to remove destination and rename
-          try {
-            fs.unlinkSync(filePath);
-          } catch {}
-          // Small delay before rename
-          const start = Date.now();
-          while (Date.now() - start < 50) {}
-          fs.renameSync(tmpPath, filePath);
+          // Ignore if doesn't exist
         }
-      } else {
-        // Unix: atomic rename
-        fs.renameSync(tmpPath, filePath);
       }
+      
+      // Atomic rename
+      fs.renameSync(tmpPath, filePath);
       return true;
     } catch (e) {
       // Clean up temp file
@@ -46,9 +37,8 @@ function writeJSONAtomic(filePath, data, options = {}) {
         throw e;
       }
       
-      // Wait before retry with exponential backoff (sync sleep)
-      const start = Date.now();
-      while (Date.now() - start < retryDelay * (attempt + 1)) {}
+      // Wait before retry
+      await new Promise(resolve => setTimeout(resolve, retryDelay * (attempt + 1)));
     }
   }
   
@@ -63,10 +53,6 @@ function readJSONSafe(filePath, fallback = {}) {
     const content = fs.readFileSync(filePath, 'utf-8');
     return JSON.parse(content);
   } catch (e) {
-    // If file doesn't exist, return fallback immediately
-    if (e.code === 'ENOENT') {
-      return fallback;
-    }
     console.log(`⚠️ JSON corrompido em ${path.basename(filePath)}: ${e.message}`);
     return attemptRepair(filePath, fallback);
   }
