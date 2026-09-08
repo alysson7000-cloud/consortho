@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>NÚCLEO LUMIN — EVOLUÇÃO 2.0 // CHOQUE DE POTÊNCIA</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; background:#000; }
+body { font-family:'Segoe UI',system-ui,sans-serif; color:#fff; cursor:crosshair; }
+#hologram { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:10; pointer-events:none; opacity:0; transition:opacity 0.5s; }
+.hologram-frame {
+  position:relative;
+  width:600px; height:400px;
+  border:2px solid rgba(0,255,255,0.4);
+  border-radius:12px;
+  background:rgba(0,10,20,0.85);
+  backdrop-filter:blur(5px);
+  box-shadow:0 0 60px rgba(0,255,255,0.3), inset 0 0 60px rgba(0,255,255,0.1);
+  animation:pulseFrame 3s ease-in-out infinite;
+}
+@keyframes pulseFrame {
+  0%,100% { box-shadow:0 0 40px rgba(0,255,255,0.2), inset 0 0 40px rgba(0,255,255,0.05); }
+  50% { box-shadow:0 0 80px rgba(0,255,255,0.5), inset 0 0 80px rgba(0,255,255,0.2); }
+}
+.hologram-scanline {
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.03) 2px, rgba(0,255,255,0.03) 4px);
+  pointer-events:none;
+  animation:scanDown 4s linear infinite;
+}
+@keyframes scanDown { 0%{transform:translateY(-100%);} 100%{transform:translateY(100%);} }
+.hologram-text {
+  position:absolute; top:20px; left:30px;
+  font-size:0.85rem; color:#0ff; letter-spacing:3px; text-transform:uppercase;
+  text-shadow:0 0 10px rgba(0,255,255,0.8);
+}
+.hologram-title {
+  position:absolute; top:60px; left:30px; right:30px;
+  font-size:2.2rem; font-weight:800;
+  background:linear-gradient(135deg,#fff,#0ff,#f0f,#ff00ff);
+  background-size:300% 300%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 3s ease infinite;
+  text-shadow:0 0 30px rgba(0,255,255,0.5);
+}
+@keyframes gradientShift { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+.hologram-sub {
+  position:absolute; top:110px; left:30px;
+  font-size:0.9rem; color:#f0f; letter-spacing:2px;
+  text-shadow:0 0 10px rgba(255,0,255,0.6);
+}
+.hologram-data {
+  position:absolute; top:150px; left:30px; right:30px;
+  display:grid; grid-template-columns:1fr 1fr; gap:8px 20px;
+  font-family:monospace; font-size:0.8rem;
+}
+.hologram-data .label { color:#0ff; text-shadow:0 0 5px rgba(0,255,255,0.5); }
+.hologram-data .value { color:#fff; text-shadow:0 0 8px rgba(255,255,255,0.6); }
+.hologram-badge {
+  position:absolute; bottom:20px; right:30px;
+  padding:6px 14px; border-radius:20px;
+  background:linear-gradient(135deg,rgba(0,255,255,0.2),rgba(255,0,255,0.2));
+  border:1px solid rgba(0,255,255,0.4);
+  color:#0ff; font-size:0.7rem; letter-spacing:2px;
+  text-transform:uppercase;
+  animation:blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.hologram-cursor {
+  position:absolute; width:2px; height:20px;
+  background:linear-gradient(to bottom, transparent, #0ff, transparent);
+  animation:cursorBlink 1s steps(1) infinite;
+}
+@keyframes cursorBlink { 0%,50%{opacity:1;} 51%,100%{opacity:0;} }
+#canvas-container { position:fixed; inset:0; z-index:1; }
+#loading {
+  position:fixed; inset:0; z-index:100;
+  background:#000; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.loading-bar { width:300px; height:3px; background:rgba(0,255,255,0.1); border-radius:3px; overflow:hidden; }
+.loading-fill { height:100%; width:0%; background:linear-gradient(90deg,#0ff,#f0f,#ff00ff,#fff,#0ff); animation:loadFill 2.5s ease-in-out; }
+@keyframes loadFill { 0%{width:0%;} 30%{width:40%;} 70%{width:80%;} 100%{width:100%;} }
+.loading-text { margin-top:15px; color:#0ff; font-size:0.9rem; letter-spacing:3px; text-transform:uppercase; }
+.loading-text span { display:inline-block; animation:blink 1s steps(1) infinite; }
+</style>
+</head>
+<body>
+<div id="loading">
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+  <div class="loading-text">Ativando <span>sistema</span><br>Evolução <span>2.0...</span></div>
+</div>
+<div id="canvas-container"></div>
+<div id="hologram">
+  <div class="hologram-frame">
+    <div class="hologram-scanline"></div>
+    <div class="hologram-text">NÚCLEO LUMIN // SISTEMA CRIADO POR</div>
+    <div class="hologram-title">EVOLUÇÃO 2.0</div>
+    <div class="hologram-sub">HUMANO POTENCIALIZADO // HIDRO ELETRÔNICO</div>
+    <div class="hologram-data">
+      <div class="label">IDENTIDADE:</div><div class="value">LUMIN 2.0</div>
+      <div class="label">FREQUÊNCIA:</div><div class="value">777 THz</div>
+      <div class="label">CAPACIDADE:</div><div class="value">MAXIMA</div>
+      <div class="label">SISTEMAS:</div><div class="value">NÚCLEO // ARCC // IA</div>
+      <div class="label">AMOSTRAGEM:</div><div class="value">99.99%</div>
+      <div class="label">SENDEROS:</div><div class="value">INFINITOS</div>
+    </div>
+    <div class="hologram-cursor" style="top:200px;left:32px;"></div>
+    <div class="hologram-cursor" style="top:200px;left:32px;animation-delay:0.5s;"></div>
+    <div class="hologram-badge">✦ ATIVO ✦</div>
+  </div>
+</div>
+<script>
+// Simular eletrons vibrando
+class HologramParticle {
+  constructor() {
+    this.x = Math.random() * window.innerWidth;
+    this.y = Math.random() * window.innerHeight;
+    this.vx = (Math.random() - 0.5) * 2;
+    this.vy = (Math.random() - 0.5) * 2;
+    this.size = Math.random() * 2 + 0.5;
+    this.color = `hsl(${180 + Math.random() * 60}, 100%, 60%)`;
+    this.alpha = Math.random() * 0.5 + 0.3;
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > window.innerWidth) this.vx *= -1;
+    if (this.y < 0 || this.y > window.innerHeight) this.vy *= -1;
+  }
+  draw(ctx) {
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = this.alpha;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+// Efeito elétrico randowm
+function drawLightning(ctx, x, y, segments, intensity) {
+  ctx.strokeStyle = `rgba(0, 255, 255, ${0.4 + intensity})`;
+  ctx.lineWidth = 1 + Math.random() * 2;
+  ctx.shadowBlur = 15;
+  ctx.shadowColor = '#0ff';
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  let currentX = x, currentY = y;
+  for (let i = 0; i < segments; i++) {
+    currentX += (Math.random() - 0.5) * 80;
+    currentY += (Math.random() - 0.5) * 40;
+    ctx.lineTo(currentX, currentY);
+  }
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+}
+
+// Efeito holográfico com ondas
+function drawHologramEffect(ctx, time) {
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  const maxRadius = 300;
+  
+  for (let r = 100; r < maxRadius; r += 30) {
+    ctx.strokeStyle = `rgba(0, 255, 255, ${0.1 - (r / maxRadius) * 0.08})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(cx + Math.sin(time * 2 + r) * 10, cy + Math.cos(time * 1.5 + r) * 5, r, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+}
+
+// Efeito de partículas flutuantes
+const particles = [];
+for (let i = 0; i < 100; i++) particles.push(new HologramParticle());
+
+// Efeito de laser
+function drawLasers(ctx, time) {
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  ctx.strokeStyle = 'rgba(0, 255, 255, 0.2)';
+  ctx.lineWidth = 1;
+  ctx.shadowBlur = 10;
+  ctx.shadowColor = '#0ff';
+  
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2 + time * 0.3;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(angle) * 400, cy + Math.sin(angle) * 400);
+    ctx.stroke();
+  }
+  ctx.shadowBlur = 0;
+}
+
+(function() {
+  const canvas = document.createElement('canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.getElementById('canvas-container').appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  
+  let time = 0;
+  let lightningTimer = 0;
+  let hologramAlpha = 1;
+  let holographyLoaded = false;
+  
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  
+  function drawBackground() {
+    // Gradiente de fundo com movimento lento
+    const gradient = ctx.createRadialGradient(
+      window.innerWidth / 2, window.innerHeight / 2, 0,
+      window.innerWidth / 2, window.innerHeight / 2, Math.max(window.innerWidth, window.innerHeight) / 2
+    );
+    const hueShift = (Math.sin(time * 0.1) * 0.5 + 0.5) * 60;
+    gradient.addColorStop(0, `hsl(${240 + hueShift}, 30%, 5%)`);
+    gradient.addColorStop(1, '#000');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBackground();
+    
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    
+    // Efeito holográfico
+    drawHologramEffect(ctx, time);
+    drawLasers(ctx, time);
+    
+    // Partículas
+    particles.forEach(p => {
+      p.update();
+      p.draw(ctx);
+    });
+    
+    // Efeito elétrico aleatório
+    lightningTimer++;
+    if (lightningTimer > 30 + Math.random() * 60) {
+      lightningTimer = 0;
+      drawLightning(ctx, Math.random() * canvas.width, Math.random() * canvas.height, 5 + Math.random() * 5, Math.random() * 0.4);
+      setTimeout(() => drawLightning(ctx, Math.random() * canvas.width, Math.random() * canvas.height, 3 + Math.random() * 5, Math.random() * 0.3), 50);
+    }
+    
+    // Efeito no centro - pulso
+    const pulseRadius = 50 + Math.sin(time * 2) * 20;
+    const pulseGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, pulseRadius);
+    pulseGradient.addColorStop(0, 'rgba(0, 255, 255, 0.3)');
+    pulseGradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
+    ctx.fillStyle = pulseGradient;
+    ctx.beginPath();
+    ctx.arc(cx, cy, pulseRadius, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Efeito de laser vertical
+    ctx.strokeStyle = `rgba(255, 0, 255, ${0.2 + Math.sin(time * 3) * 0.1})`;
+    ctx.lineWidth = 2;
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = '#f0f';
+    ctx.beginPath();
+    ctx.moveTo(cx, 0);
+    ctx.lineTo(cx, canvas.height);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    
+    // Efeito de laser horizontal
+    ctx.strokeStyle = `rgba(0, 255, 255, ${0.15 + Math.sin(time * 2.5) * 0.08})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, cy);
+    ctx.lineTo(canvas.width, cy);
+    ctx.stroke();
+    
+    time += 0.016;
+    requestAnimationFrame(draw);
+  }
+  
+  // Simulação de carregamento
+  setTimeout(() => {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('hologram').style.display = 'flex';
+    setTimeout(() => {
+      document.getElementById('hologram').style.opacity = '1';
+    }, 100);
+  }, 2500);
+  
+  draw();
+})();
+</script>
+</body>
+</html>
