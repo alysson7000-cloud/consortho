@@ -5580,7 +5580,7 @@ function updateTalentTree() {
   // Unlock paths based on progress
   if (STATE.world.voidFarm.walkers.length > 0) tree.paths.voidWalker.unlocked = true;
   if (STATE.world.companion.bondLevel > 50) tree.paths.companion.unlocked = true;
-  if (STATE.beyblade.equipped.base?.rarity === 'mythic') tree.paths.beyblade.unlocked = true;
+  if (STATE.beyblade.equipped?.base?.rarity === 'mythic') tree.paths.beyblade.unlocked = true;
   if (STATE.world.evolution.stage >= 2) tree.paths.consciousness.unlocked = true;
   if (STATE.world.realityLayers.unlocked.length > 1) tree.paths.reality.unlocked = true;
   // Love path always unlocked

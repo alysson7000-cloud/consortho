@@ -452,8 +452,8 @@ Responda em 1-2 frases, como se estivesse do lado dele vendo o jogo. Se ele pedi
 
   // API pública
   static getInstance() {
-    if (!window.LuminChat) window.LuminChat = new LuminChat();
-    return window.LuminChat;
+    if (!window._LuminChatInstance) window._LuminChatInstance = new LuminChat();
+    return window._LuminChatInstance;
   }
 }
 
@@ -466,5 +466,5 @@ if (typeof document !== 'undefined') {
   }
 }
 
-// Expõe globalmente
+// Expõe globalmente (classe para referência)
 window.LuminChat = LuminChat;
