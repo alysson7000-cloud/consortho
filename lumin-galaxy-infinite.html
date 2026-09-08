@@ -378,8 +378,14 @@ let gameTime = 0;
 let bestResonance = 0;
 try { bestResonance = parseInt(localStorage.getItem('luminGalaxyBest') || '0'); } catch(e) {}
 let muted = false;
-try { muted = localStorage.getItem('luminGalaxyMuted') === 'true'; } catch(e) {}
+try { muted = localStorage.getItem('luminCloudMuted') === 'true'; } catch(e) {}
 updateMuteIcon();
+
+function updateMuteIcon() {
+  const mi = document.getElementById('mute-indicator');
+  if (mi) mi.textContent = muted ? '🔇' : '🔊';
+  try { localStorage.setItem('luminCloudMuted', String(muted)); } catch(e) {}
+}
 let paused = true; // Start paused so user sees initial state
 let deathState = false; // No death in exploration game
 

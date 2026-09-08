@@ -94,6 +94,7 @@
 </div>
 <div id="scanlines"></div>
 <a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
+<div id="mute-status" style="position:fixed;top:12px;left:12px;font-size:13px;color:rgba(255,255,255,0.4);cursor:pointer;z-index:30;font-family:'Orbitron',sans-serif;pointer-events:auto;text-shadow:0 0 8px rgba(0,255,255,0.3);transition:color 0.2s;">🔊</div>
 <script>
 'use strict';
 const canvas = document.getElementById('bg-canvas');
@@ -170,6 +171,18 @@ function render() {
 
   requestAnimationFrame(render);
 }
+
+// Mute toggle on portal
+const muteStatusPortal = document.getElementById('mute-status');
+let portalMuted = false;
+try { portalMuted = localStorage.getItem('luminCloudMuted') === 'true'; } catch(e) {}
+if (portalMuted) muteStatusPortal.textContent = '🔇';
+muteStatusPortal.addEventListener('click', () => {
+  portalMuted = !portalMuted;
+  muteStatusPortal.textContent = portalMuted ? '🔇' : '🔊';
+  try { localStorage.setItem('luminCloudMuted', String(portalMuted)); } catch(e) {}
+});
+
 render();
 </script>
 </body>
