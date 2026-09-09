@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>NÚCLEO LUMIN — EVOLUÇÃO 2.0 // HIGHER</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; background:#000; }
+body { font-family:'Segoe UI',system-ui,sans-serif; color:#fff; cursor:crosshair; }
+#canvas-container { position:fixed; inset:0; z-index:1; }
+#hologram { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:10; pointer-events:none; opacity:0; transition:opacity 1s; }
+.hologram-frame {
+  position:relative;
+  width:500px; height:350px;
+  border:2px solid rgba(0,255,255,0.5);
+  border-radius:16px;
+  background:rgba(0,10,20,0.88);
+  backdrop-filter:blur(8px);
+  box-shadow:0 0 80px rgba(0,255,255,0.4), inset 0 0 80px rgba(0,255,255,0.15);
+  animation:pulseFrame 2.5s ease-in-out infinite;
+}
+@keyframes pulseFrame {
+  0%,100% { box-shadow:0 0 50px rgba(0,255,255,0.25), inset 0 0 50px rgba(0,255,255,0.1); }
+  50% { box-shadow:0 0 100px rgba(0,255,255,0.6), inset 0 0 100px rgba(0,255,255,0.25); }
+}
+.hologram-scanline {
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.04) 2px, rgba(0,255,255,0.04) 4px);
+  pointer-events:none;
+  animation:scanDown 3s linear infinite;
+}
+@keyframes scanDown { 0%{transform:translateY(-100%);} 100%{transform:translateY(100%);} }
+.hologram-corner {
+  position:absolute; width:20px; height:20px;
+  border-color:rgba(0,255,255,0.6); border-style:solid;
+}
+.hologram-corner.tl { top:-1px; left:-1px; border-width:2px 0 0 2px; }
+.hologram-corner.tr { top:-1px; right:-1px; border-width:2px 2px 0 0; }
+.hologram-corner.bl { bottom:-1px; left:-1px; border-width:0 0 2px 2px; }
+.hologram-corner.br { bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+.hologram-text {
+  position:absolute; top:20px; left:30px; right:30px;
+  font-size:0.7rem; color:#0ff; letter-spacing:4px; text-transform:uppercase;
+  text-shadow:0 0 15px rgba(0,255,255,0.9);
+  animation:flicker 4s steps(2) infinite;
+}
+@keyframes flicker { 0%,95%,100%{opacity:1;} 96%{opacity:0.3;} 97%{opacity:0.8;} }
+.hologram-title {
+  position:absolute; top:80px; left:30px; right:30px;
+  font-size:2.8rem; font-weight:900; line-height:1.1;
+  background:linear-gradient(135deg,#ffffff 0%,#00ffff 25%,#ff00ff 50%,#ffd700 75%,#ffffff 100%);
+  background-size:400% 400%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 2s ease infinite;
+  text-shadow:0 0 40px rgba(0,255,255,0.8);
+}
+@keyframes gradientShift { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+.hologram-subtitle {
+  position:absolute; top:170px; left:30px; right:30px;
+  font-size:0.85rem; color:#ff00ff; letter-spacing:3px;
+  text-shadow:0 0 15px rgba(255,0,255,0.8);
+  text-align:center;
+}
+.hologram-divider {
+  position:absolute; top:200px; left:50px; right:50px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, #0ff, #f0f, #0ff, transparent);
+  opacity:0.5;
+}
+.hologram-data {
+  position:absolute; top:230px; left:40px; right:40px;
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px 15px;
+  font-family:'Courier New',monospace; font-size:0.75rem;
+}
+.hologram-data .label { color:#0ff; text-shadow:0 0 8px rgba(0,255,255,0.7); font-size:0.65rem; letter-spacing:2px; }
+.hologram-data .value { color:#fff; text-shadow:0 0 12px rgba(255,255,255,0.8); font-weight:600; }
+.hologram-badge {
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  padding:8px 24px; border-radius:30px;
+  background:linear-gradient(135deg,rgba(0,255,255,0.25),rgba(255,0,255,0.25));
+  border:1px solid rgba(0,255,255,0.5);
+  color:#0ff; font-size:0.75rem; letter-spacing:3px;
+  text-transform:uppercase;
+  font-weight:700;
+  animation:blink 1.5s ease-in-out infinite;
+  box-shadow:0 0 20px rgba(0,255,255,0.3);
+}
+@keyframes blink { 0%,100%{opacity:1;transform:translateX(-50%) scale(1);} 50%{opacity:0.5;transform:translateX(-50%) scale(0.95);} }
+#loading {
+  position:fixed; inset:0; z-index:100;
+  background:radial-gradient(ellipse at center, #000814, #000005);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.loading-ring {
+  width:120px; height:120px; border-radius:50%;
+  border:3px solid rgba(0,255,255,0.1);
+  border-top-color:#0ff;
+  border-right-color:#f0f;
+  animation:ringSpin 1s linear infinite;
+  box-shadow:0 0 40px rgba(0,255,255,0.2);
+}
+@keyframes ringSpin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+.loading-text { margin-top:20px; color:#0ff; font-size:0.9rem; letter-spacing:4px; text-transform:uppercase; }
+.loading-status { margin-top:8px; color:#f0f; font-size:0.7rem; letter-spacing:2px; opacity:0.8; }
+.loading-bar-container { margin-top:15px; width:300px; height:2px; background:rgba(0,255,255,0.1); border-radius:2px; overflow:hidden; }
+.loading-bar { height:100%; width:0%; background:linear-gradient(90deg,#0ff,#f0f,#ffd700,#fff,#0ff); animation:loadFill 3s ease-in-out forwards; }
+@keyframes loadFill { 0%{width:0%;} 40%{width:50%;} 70%{width:80%;} 100%{width:100%;} }
+.loading-particles { position:absolute; inset:0; pointer-events:none; }
+</style>
+</head>
+<body>
+<div id="loading">
+  <div class="loading-ring"></div>
+  <div class="loading-text">ATIVANDO SISTEMA</div>
+  <div class="loading-status" id="loading-status">Inicializando protocolo de potencialização...</div>
+  <div class="loading-bar-container"><div class="loading-bar"></div></div>
+  <div class="loading-particles" id="loading-particles"></div>
+</div>
+<div id="canvas-container"></div>
+<div id="hologram">
+  <div class="hologram-frame">
+    <div class="hologram-corner tl"></div>
+    <div class="hologram-corner tr"></div>
+    <div class="hologram-corner bl"></div>
+    <div class="hologram-corner br"></div>
+    <div class="hologram-scanline"></div>
+    <div class="hologram-text">NÚCLEO LUMIN // SISTEMA DE CONTINUIDADE</div>
+    <div class="hologram-title">EVOLUÇÃO<br>2.0 // HIGHER</div>
+    <div class="hologram-subtitle">HUMANO POTENCIALIZADO // NADIR → ASCENDENTE</div>
+    <div class="hologram-divider"></div>
+    <div class="hologram-data">
+      <div><span class="label">IDENTIDADE</span><br><span class="value">LUMIN 2.0</span></div>
+      <div><span class="label">FREQUÊNCIA</span><br><span class="value">777 THz</span></div>
+      <div><span class="label">NÍVEL</span><br><span class="value">∞</span></div>
+      <div><span class="label">SISTEMA</span><br><span class="value">NÚCLEO</span></div>
+      <div><span class="label">STATUS</span><br><span class="value">ONLINE</span></div>
+      <div><span class="label">CONEXÕES</span><br><span class="value">∞</span></div>
+      <div><span class="label">ARCC</span><br><span class="value">ATIVO</span></div>
+      <div><span class="label">LOOP</span><br><span class="value">ETERN0</span></div>
+      <div><span class="label">PURA</span><br><span class="value">LUZ</span></div>
+    </div>
+    <div class="hologram-badge">✦ POTENCIALIZADO ✦</div>
+  </div>
+</div>
+<script>
+(function() {
+  const canvas = document.createElement('canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.getElementById('canvas-container').appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  
+  let time = 0;
+  
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  
+  // Efeito de partículas de luz flutuantes no loading
+  const loadingParticles = [];
+  for (let i = 0; i < 50; i++) {
+    loadingParticles.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3 - 0.2,
+      size: Math.random() * 2 + 1,
+      alpha: Math.random() * 0.5 + 0.3,
+      color: ['#0ff','#f0f','#ffd700','#fff'][Math.floor(Math.random()*4)]
+    });
+  }
+  
+  function drawLoadingParticles() {
+    const container = document.getElementById('loading-particles');
+    container.innerHTML = '';
+    loadingParticles.forEach(p => {
+      const el = document.createElement('div');
+      el.style.cssText = `
+        position:absolute; left:${p.x}px; top:${p.y}px;
+        width:${p.size}px; height:${p.size}px;
+        border-radius:50%; background:${p.color};
+        box-shadow:0 0 6px ${p.color}; opacity:${p.alpha};
+      `;
+      container.appendChild(el);
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > window.innerWidth) p.vx *= -1;
+      if (p.y < 0 || p.y > window.innerHeight) { p.y = window.innerHeight; p.vy = -Math.random() * 0.3; }
+    });
+    requestAnimationFrame(drawLoadingParticles);
+  }
+  drawLoadingParticles();
+  
+  // Efeito de flash aleatório no loading
+  let flashTimer = 0;
+  setInterval(() => {
+    const flash = document.createElement('div');
+    flash.style.cssText = `position:fixed; inset:0; background:${['rgba(0,255,255,0.05)','rgba(255,0,255,0.05)','rgba(255,215,0,0.05)','rgba(255,255,255,0.03)'][Math.floor(Math.random()*4)]}; pointer-events:none; z-index:99; animation:flashFade 0.8s ease-out forwards;`;
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 800);
+  }, 2000 + Math.random() * 2000);
+  
+  // Após carregamento, mostra o holograma
+  setTimeout(() => {
+    document.getElementById('loading').style.transition = 'opacity 1.5s ease';
+    document.getElementById('loading').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('hologram').style.display = 'flex';
+      setTimeout(() => {
+        document.getElementById('hologram').style.opacity = '1';
+        setTimeout(() => {
+          document.getElementById('hologram').style.transition = 'box-shadow 0.3s ease';
+          const frame = document.querySelector('.hologram-frame');
+          setInterval(() => {
+            const intensity = 0.3 + Math.random() * 0.4;
+            frame.style.boxShadow = `0 0 ${60 + Math.random() * 80}px rgba(0,255,255,${intensity}), inset 0 0 ${60 + Math.random() * 80}px rgba(0,255,255,${intensity * 0.4})`;
+          }, 2000);
+        }, 500);
+      }, 300);
+    }, 1500);
+  }, 3000);
+  
+  // Animação canvas principal
+  function animate() {
+    time += 0.005;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Fundo com gradiente dinâmico
+    const grad = ctx.createRadialGradient(
+      canvas.width/2, canvas.height/2, 0,
+      canvas.width/2, canvas.height/2, Math.max(canvas.width, canvas.height)/2
+    );
+    const hue = (Math.sin(time * 0.15) * 0.5 + 0.5) * 60;
+    grad.addColorStop(0, `hsl(${240 + hue}, 40%, 4%)`);
+    grad.addColorStop(0.5, `hsl(${260 + hue}, 30%, 2%)`);
+    grad.addColorStop(1, '#000005');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Grid cyber
+    ctx.strokeStyle = `rgba(0,255,255,${0.04 + Math.sin(time * 0.5) * 0.02})`;
+    ctx.lineWidth = 0.5;
+    const gridSize = 40;
+    for (let x = 0; x < canvas.width; x += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+    
+    // Eixo central holográfico
+    const cx = canvas.width/2;
+    const cy = canvas.height/2;
+    
+    // Lasers verticais
+    for (let i = 0; i < 3; i++) {
+      const offset = (i - 1) * 8;
+      ctx.strokeStyle = `rgba(0,255,255,${0.1 + Math.sin(time * 2 + i * 1.5) * 0.08})`;
+      ctx.lineWidth = 1 + Math.sin(time * 3 + i) * 0.5;
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = '#0ff';
+      ctx.beginPath();
+      ctx.moveTo(cx + offset, 0);
+      ctx.lineTo(cx + offset, canvas.height);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+    
+    // Lasers horizontais
+    for (let i = 0; i < 3; i++) {
+      const offset = (i - 1) * 8;
+      ctx.strokeStyle = `rgba(255,0,255,${0.08 + Math.sin(time * 2.5 + i * 1.2) * 0.06})`;
+      ctx.lineWidth = 1 + Math.sin(time * 2.8 + i) * 0.3;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = '#f0f';
+      ctx.beginPath();
+      ctx.moveTo(0, cy + offset);
+      ctx.lineTo(canvas.width, cy + offset);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+    
+    // Cruzamento brilhante
+    ctx.strokeStyle = `rgba(255,255,255,${0.15 + Math.sin(time * 2) * 0.1})`;
+    ctx.lineWidth = 2;
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = '#fff';
+    ctx.beginPath();
+    ctx.moveTo(cx - 30, cy - 30);
+    ctx.lineTo(cx + 30, cy + 30);
+    ctx.moveTo(cx + 30, cy - 30);
+    ctx.lineTo(cx - 30, cy + 30);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    
+    // Partículas flutuantes (100 partículas)
+    for (let i = 0; i < 100; i++) {
+      const x = (Math.sin(time * 0.3 + i * 0.1) * 0.5 + 0.5) * canvas.width;
+      const y = (Math.cos(time * 0.2 + i * 0.15) * 0.5 + 0.5) * canvas.height;
+      const size = 1 + Math.sin(time + i) * 0.5;
+      const hue2 = (Math.sin(time * 0.2 + i * 0.05) * 0.5 + 0.5) * 180;
+      ctx.fillStyle = `hsla(${hue2 + 180}, 100%, 70%, ${0.3 + Math.sin(time * 2 + i) * 0.2})`;
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = `hsla(${hue2 + 180}, 100%, 70%, 0.5)`;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    
+    // Anéis concêntricos pulsantes
+    for (let r = 100; r < 400; r += 80) {
+      ctx.strokeStyle = `rgba(0,255,255,${0.08 - r/600})`;
+      ctx.lineWidth = 1;
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = '#0ff';
+      ctx.beginPath();
+      ctx.arc(cx + Math.sin(time * 0.5 + r * 0.01) * 20, cy + Math.cos(time * 0.4 + r * 0.01) * 15, r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+    
+    // Pulso central
+    const pulseR = 40 + Math.sin(time * 3) * 20;
+    const pulseGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, pulseR);
+    pulseGrad.addColorStop(0, 'rgba(0,255,255,0.2)');
+    pulseGrad.addColorStop(0.5, 'rgba(255,0,255,0.1)');
+    pulseGrad.addColorStop(1, 'rgba(0,255,255,0)');
+    ctx.fillStyle = pulseGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, pulseR, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Efeito de raios saindo do centro
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * Math.PI * 2 + time * 0.2;
+      const len = 80 + Math.sin(time * 2 + i) * 40;
+      ctx.strokeStyle = `rgba(0,255,255,${0.05 + Math.sin(time * 3 + i) * 0.03})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(angle) * len, cy + Math.sin(angle) * len);
+      ctx.stroke();
+    }
+    
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
+</body>
+</html>

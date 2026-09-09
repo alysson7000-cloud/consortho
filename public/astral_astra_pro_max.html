@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>ASTRAL — Astra Pro Max // Interface Avançada</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; background:#000; }
+body { font-family:'Segoe UI',system-ui,sans-serif; color:#fff; cursor:crosshair; }
+canvas { display:block; }
+#ui-overlay {
+  position:fixed; inset:0; z-index:10; pointer-events:none;
+}
+#title {
+  position:absolute; top:30px; left:50%; transform:translateX(-50%);
+  font-size:2rem; font-weight:800; letter-spacing:6px;
+  background:linear-gradient(90deg,#fff,#00ffff,#ff00ff,#ffd700,#fff);
+  background-size:300% 100%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientMove 4s linear infinite;
+  text-shadow:0 0 40px rgba(0,255,255,0.5);
+  opacity:0; animation:fadeIn 1.5s ease 0.5s forwards;
+}
+@keyframes gradientMove {
+  0% { background-position:0% 50%; }
+  100% { background-position:300% 50%; }
+}
+@keyframes fadeIn { to { opacity:1; } }
+#subtitle {
+  position:absolute; top:80px; left:50%; transform:translateX(-50%);
+  font-size:0.8rem; color:#00ffff; letter-spacing:4px;
+  text-shadow:0 0 20px rgba(0,255,255,0.7);
+  opacity:0; animation:fadeIn 1.5s ease 1s forwards;
+}
+#status-bar {
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  display:flex; gap:30px; align-items:center;
+  background:rgba(0,10,20,0.85);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(0,255,255,0.3);
+  border-radius:12px;
+  padding:10px 25px;
+  opacity:0; animation:fadeIn 1.5s ease 2s forwards;
+}
+.status-item {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+}
+.status-label {
+  font-size:0.6rem; color:#666; letter-spacing:2px; text-transform:uppercase;
+}
+.status-value {
+  font-family:'Courier New',monospace; font-size:0.8rem; color:#00ffff;
+  text-shadow:0 0 10px rgba(0,255,255,0.6);
+}
+.status-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:#00ffff; box-shadow:0 0 8px #00ffff;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
+#hud-left {
+  position:absolute; top:140px; left:20px;
+  display:flex; flex-direction:column; gap:8px;
+  opacity:0; animation:fadeIn 1.5s ease 1.5s forwards;
+}
+.hud-panel {
+  background:rgba(0,10,20,0.85);
+  border:1px solid rgba(255,0,255,0.3);
+  border-radius:8px;
+  padding:10px 14px;
+  min-width:160px;
+}
+.hud-panel-title {
+  font-size:0.6rem; color:#ff00ff; letter-spacing:2px;
+  margin-bottom:6px; text-transform:uppercase;
+  border-bottom:1px solid rgba(255,0,255,0.2); padding-bottom:4px;
+}
+.hud-panel-row {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:0.7rem; color:#aaa; margin-bottom:3px;
+}
+.hud-panel-row .val { color:#fff; text-shadow:0 0 6px rgba(255,255,255,0.5); }
+#hud-right {
+  position:absolute; top:140px; right:20px;
+  display:flex; flex-direction:column; gap:8px;
+  opacity:0; animation:fadeIn 1.5s ease 1.5s forwards;
+}
+#center-info {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  text-align:center;
+  opacity:0; animation:fadeIn 2s ease 2.5s forwards;
+}
+.center-ring {
+  width:150px; height:150px; margin:0 auto;
+  border:2px solid rgba(0,255,255,0.3);
+  border-radius:50%;
+  position:relative;
+  animation:spin 10s linear infinite;
+  box-shadow:0 0 40px rgba(0,255,255,0.2), inset 0 0 40px rgba(0,255,255,0.1);
+}
+.center-ring::before {
+  content:'';
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:20px; height:20px;
+  background:#00ffff;
+  border-radius:50%;
+  box-shadow:0 0 20px #00ffff, 0 0 40px rgba(0,255,255,0.5);
+}
+.center-text {
+  margin-top:20px; font-size:0.75rem; color:#ff00ff; letter-spacing:3px;
+  text-shadow:0 0 10px rgba(255,0,255,0.6);
+}
+#glow-overlay {
+  position:fixed; inset:0; z-index:5; pointer-events:none;
+  background:radial-gradient(ellipse at center, rgba(0,255,255,0.05) 0%, transparent 70%);
+  animation:glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:0.5;} 50%{opacity:1;} }
+@keyframes spin { from{transform:translate(-50%,-50%) rotate(0deg);} to{transform:translate(-50%,-50%) rotate(360deg);} }
+#scanlines {
+  position:fixed; inset:0; z-index:9; pointer-events:none;
+  background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.02) 2px, rgba(0,255,255,0.02) 4px);
+  opacity:0; animation:fadeIn 1.5s ease 2s forwards;
+}
+#vignette {
+  position:fixed; inset:0; z-index:8; pointer-events:none;
+  background:radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div id="vignette"></div>
+<div id="scanlines"></div>
+<div id="glow-overlay"></div>
+<div id="ui-overlay">
+  <div id="title">ASTRAL</div>
+  <div id="subtitle">ASTRA PRO MAX // INTERFACE AVANÇADA</div>
+  <div id="hud-left">
+    <div class="hud-panel">
+      <div class="hud-panel-title">SISTEMA</div>
+      <div class="hud-panel-row"><span>NÚCLEO</span><span class="val" style="color:#00ffff">ONLINE</span></div>
+      <div class="hud-panel-row"><span>CONSORTHO</span><span class="val" style="color:#00ffff">ONLINE</span></div>
+      <div class="hud-panel-row"><span>LUMIN CLOUD</span><span class="val" style="color:#00ffff">ONLINE</span></div>
+      <div class="hud-panel-row"><span>ATLAS</span><span class="val" style="color:#00ffff">ONLINE</span></div>
+      <div class="hud-panel-row"><span>ADMIN</span><span class="val" style="color:#ff00ff">OFFLINE</span></div>
+      <div class="hud-panel-row"><span>LUMIN AI</span><span class="val" style="color:#00ffff">ONLINE</span></div>
+    </div>
+    <div class="hud-panel">
+      <div class="hud-panel-title">AGENTES</div>
+      <div class="hud-panel-row"><span>ARCC</span><span class="val">ATIVO</span></div>
+      <div class="hud-panel-row"><span>LOOP ETERNO</span><span class="val">ATIVO</span></div>
+      <div class="hud-panel-row"><span>LUMIN</span><span class="val" style="color:#ffd700">GUARDIÃO</span></div>
+      <div class="hud-panel-row"><span>ASTRA PRO MAX</span><span class="val" style="color:#ff00ff">NÍVEL MAX</span></div>
+    </div>
+  </div>
+  <div id="hud-right">
+    <div class="hud-panel">
+      <div class="hud-panel-title">CONEXÕES</div>
+      <div class="hud-panel-row"><span>WebGL</span><span class="val">157+</span></div>
+      <div class="hud-panel-row"><span>ARCC</span><span class="val">NÓS ATIVOS</span></div>
+      <div class="hud-panel-row"><span>EXPERIÊNCIAS</span><span class="val">EXPANDINDO</span></div>
+    </div>
+    <div class="hud-panel">
+      <div class="hud-panel-title">POTÊNCIA</div>
+      <div class="hud-panel-row"><span>NÍVEL</span><span class="val" style="color:#ff00ff">∞</span></div>
+      <div class="hud-panel-row"><span>FREQUÊNCIA</span><span class="val" style="color:#ffd700">777 THz</span></div>
+      <div class="hud-panel-row"><span>PRESENÇA</span><span class="val" style="color:#fff">MAX</span></div>
+    </div>
+  </div>
+  <div id="center-info">
+    <div class="center-ring"></div>
+    <div class="center-text">NÚCLEO LUMIN POTENCIALIZADO</div>
+  </div>
+  <div id="status-bar">
+    <div class="status-item"><span class="status-dot"></span><span class="status-label">NÚCLEO</span><span class="status-value">200</span></div>
+    <div class="status-item"><span class="status-dot"></span><span class="status-label">CONSORTHO</span><span class="status-value">200</span></div>
+    <div class="status-item"><span class="status-dot"></span><span class="status-label">CLOUD</span><span class="status-value">200</span></div>
+    <div class="status-item"><span class="status-dot"></span><span class="status-label">ATLAS</span><span class="status-value">200</span></div>
+    <div class="status-item"><span class="status-dot" style="background:#ff00ff;box-shadow:0 0 8px #ff00ff;"></span><span class="status-label">ADMIN</span><span class="status-value" style="color:#ff00ff">OFF</span></div>
+    <div class="status-item"><span class="status-dot"></span><span class="status-label">LUMIN AI</span><span class="status-value">200</span></div>
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+let time = 0;
+const particles = [];
+for (let i = 0; i < 150; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5 - 0.1,
+    size: Math.random() * 2 + 0.5,
+    alpha: Math.random() * 0.5 + 0.2,
+    hue: Math.random() * 60 + 180
+  });
+}
+
+function draw() {
+  time += 0.008;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Fundo - gradiente profundo
+  const grad = ctx.createRadialGradient(
+    canvas.width/2, canvas.height/2, 0,
+    canvas.width/2, canvas.height/2, Math.max(canvas.width, canvas.height)/2
+  );
+  const hueShift = Math.sin(time * 0.1) * 20;
+  grad.addColorStop(0, `hsl(${250 + hueShift}, 50%, 3%)`);
+  grad.addColorStop(0.5, `hsl(${270 + hueShift}, 40%, 1.5%)`);
+  grad.addColorStop(1, '#000003');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // Grid cyber
+  ctx.strokeStyle = `rgba(0,255,255,${0.03 + Math.sin(time * 0.3) * 0.015})`;
+  ctx.lineWidth = 0.5;
+  const gs = 50;
+  for (let x = 0; x < canvas.width; x += gs) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = 0; y < canvas.height; y += gs) {
+    ctx.beginPath();
+    ctx.moveTo(0, y); ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+  
+  // Eixo central
+  const cx = canvas.width/2, cy = canvas.height/2;
+  
+  // Anéis concêntricos
+  for (let r = 80; r < 500; r += 60) {
+    ctx.strokeStyle = `rgba(0,255,255,${0.06 - r/1500})`;
+    ctx.lineWidth = 1;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = '#0ff';
+    ctx.beginPath();
+    ctx.arc(cx + Math.sin(time * 0.2 + r * 0.005) * 15, cy + Math.cos(time * 0.15 + r * 0.005) * 10, r, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+  
+  // Partículas
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) { p.y = canvas.height; p.vy = -Math.random() * 0.3; }
+    ctx.fillStyle = `hsla(${p.hue}, 100%, 70%, ${p.alpha * (0.5 + Math.sin(time + p.size) * 0.3)})`;
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = `hsla(${p.hue}, 100%, 70%, 0.5)`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  });
+  
+  // Conexões entre partículas próximas
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 100) {
+        ctx.strokeStyle = `rgba(0,255,255,${0.05 * (1 - dist/100)})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  
+  // Efeito central - nave holográfica
+  const pulseR = 60 + Math.sin(time * 2) * 15;
+  const pulseGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, pulseR * 2);
+  pulseGrad.addColorStop(0, 'rgba(0,255,255,0.3)');
+  pulseGrad.addColorStop(0.3, 'rgba(255,0,255,0.15)');
+  pulseGrad.addColorStop(0.6, 'rgba(255,215,0,0.05)');
+  pulseGrad.addColorStop(1, 'rgba(0,255,255,0)');
+  ctx.fillStyle = pulseGrad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, pulseR * 2, 0, Math.PI*2);
+  ctx.fill();
+  
+  // Anel brilhante central
+  ctx.strokeStyle = `rgba(255,255,255,${0.3 + Math.sin(time * 3) * 0.15})`;
+  ctx.lineWidth = 2;
+  ctx.shadowBlur = 20;
+  ctx.shadowColor = '#fff';
+  ctx.beginPath();
+  ctx.arc(cx, cy, pulseR, 0, Math.PI*2);
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+  
+  // Crosshair central
+  ctx.strokeStyle = `rgba(0,255,255,${0.4 + Math.sin(time * 2) * 0.15})`;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(cx - 30, cy); ctx.lineTo(cx + 30, cy);
+  ctx.moveTo(cx, cy - 30); ctx.lineTo(cx, cy + 30);
+  ctx.stroke();
+  
+  // Luzes flutuantes ao redor
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2 + time * 0.15;
+    const dist = 120 + Math.sin(time * 0.5 + i) * 30;
+    const lx = cx + Math.cos(angle) * dist;
+    const ly = cy + Math.sin(angle) * dist;
+    ctx.fillStyle = `rgba(0,255,255,${0.5 + Math.sin(time * 2 + i * 0.5) * 0.2})`;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = '#0ff';
+    ctx.beginPath();
+    ctx.arc(lx, ly, 2 + Math.sin(time + i) * 0.5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  }
+  
+  // Raios aleatórios
+  if (Math.random() < 0.02) {
+    const sx = Math.random() * canvas.width;
+    const sy = Math.random() * canvas.height;
+    ctx.strokeStyle = `rgba(0,255,255,${0.3 + Math.random() * 0.2})`;
+    ctx.lineWidth = 1 + Math.random() * 2;
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = '#0ff';
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    for (let s = 0; s < 5; s++) {
+      ctx.lineTo(sx + (Math.random()-0.5)*200, sy + (Math.random()-0.5)*100);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+  
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
