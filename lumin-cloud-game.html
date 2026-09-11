@@ -144,7 +144,8 @@ const scoreEl = document.getElementById('score');
 const gameOverEl = document.getElementById('game-over');
 const finalScoreEl = document.getElementById('final-score');
 const bestScoreEl = document.getElementById('best-score');
-let bestScore = parseInt(localStorage.getItem('luminCloudBest') || '0');
+let bestScore = 0;
+try { bestScore = parseInt(localStorage.getItem('luminCloudBest') || '0'); } catch(e) {}
 bestScoreEl.textContent = bestScore;
 
 function updateScoreDisplay() {
@@ -589,7 +590,7 @@ function showGameOver() {
   if (score > bestScore) {
   bestScore = score;
   bestScoreEl.textContent = bestScore;
-  localStorage.setItem('luminCloudBest', String(bestScore));
+  try { localStorage.setItem('luminCloudBest', String(bestScore)); } catch(e) {}
   // New record celebration
   addFloatingText(W/2, H/2 - 60, '🏆 NOVO RECORDE!', 45, 36, '#ffd700');
   playSound('powerup');
