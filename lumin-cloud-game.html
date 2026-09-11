@@ -1412,11 +1412,14 @@ function loop() {
 }
 
 // Dismiss intro on first interaction
+let introTimeout = null;
 function dismissIntro() {
   const introOverlay = document.getElementById('intro-overlay');
   if (introOverlay) introOverlay.style.display = 'none';
   const pauseEl = document.getElementById('pause-overlay');
   if (pauseEl) pauseEl.style.display = 'none';
+  // Clear the auto-dismiss timeout so it doesn't unpause a manually-paused game
+  if (introTimeout) { clearTimeout(introTimeout); introTimeout = null; }
   // Start the game loop properly
   paused = false;
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
@@ -1432,8 +1435,8 @@ canvas.addEventListener('click', function dismissOnClick() {
 canvas.addEventListener('touchstart', function dismissOnTouch() {
   dismissIntro();
   canvas.removeEventListener('touchstart', dismissOnTouch);
-}, { once: true });
-setTimeout(() => { dismissIntro(); }, 8000);
+});
+introTimeout = setTimeout(() => { dismissIntro(); }, 8000);
 
 loop();
 
