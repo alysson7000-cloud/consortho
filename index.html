@@ -26,6 +26,11 @@
     font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #0ff;
     text-shadow: 0 0 30px rgba(0,255,255,0.6), 0 0 60px rgba(0,255,255,0.3);
     letter-spacing: 4px; margin-bottom: 10px;
+    animation: titlePulse 4s ease-in-out infinite;
+  }
+  @keyframes titlePulse {
+    0%, 100% { text-shadow: 0 0 30px rgba(0,255,255,0.6), 0 0 60px rgba(0,255,255,0.3); }
+    50% { text-shadow: 0 0 40px rgba(0,255,255,0.8), 0 0 80px rgba(0,255,255,0.4); }
   }
   #portal .sub {
     font-size: clamp(11px, 2vw, 14px); color: rgba(255,255,255,0.4); letter-spacing: 3px;
@@ -40,16 +45,32 @@
     border-radius: 12px; padding: 24px 32px; min-width: 180px;
     transition: all 0.3s; cursor: pointer;
     backdrop-filter: blur(8px);
+    position: relative; overflow: hidden;
+  }
+  .game-card::before {
+    content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+    border-radius: 13px; background: linear-gradient(45deg, #0ff, transparent, #0ff);
+    opacity: 0; transition: opacity 0.3s; z-index: -1;
+    background-size: 400% 400%;
+    animation: borderGlow 3s ease-in-out infinite;
+  }
+  @keyframes borderGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
   }
   .game-card:hover {
     background: rgba(0,255,255,0.12); border-color: rgba(0,255,255,0.5);
     transform: translateY(-4px); box-shadow: 0 0 30px rgba(0,255,255,0.2);
   }
-  /* Touch-friendly tap highlight */
+  .game-card:hover::before { opacity: 0.5; }
   .game-card:active { transform: scale(0.97); }
   .game-card .icon { font-size: clamp(28px, 4vw, 36px); margin-bottom: 10px; }
   .game-card .name { font-size: clamp(14px, 2vw, 16px); font-weight: 700; color: #fff; letter-spacing: 2px; }
   .game-card .desc { font-size: clamp(10px, 1.5vw, 11px); color: rgba(255,255,255,0.4); margin-top: 6px; letter-spacing: 1px; }
+  .game-card .last-played {
+    font-size: 9px; color: rgba(0,255,255,0.3); margin-top: 8px;
+    letter-spacing: 1px; font-style: italic;
+  }
   #cloud-nav {
     position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
     color: rgba(255,255,255,0.25); font-size: 11px; letter-spacing: 1px;
@@ -67,6 +88,11 @@
       transparent 1px, transparent 3px
     );
   }
+  #version {
+    position: fixed; bottom: 12px; right: 16px;
+    font-size: 10px; color: rgba(255,255,255,0.15); letter-spacing: 1px;
+    font-family: 'Orbitron', sans-serif; z-index: 30;
+  }
 </style>
 </head>
 <body>
@@ -78,23 +104,27 @@
     <a href="/lumin-aaa-game.html" class="game-card">
       <div class="icon">⚔️</div>
       <div class="name">LUMIN AAA</div>
-      <div class="desc">Ação · Tiros · Combos</div>
+      <div class="desc">Ação · Tiros · Combos · Power-ups</div>
+      <div class="last-played" data-game="aaa"></div>
     </a>
     <a href="/lumin-cloud-game.html" class="game-card">
       <div class="icon">☁️</div>
       <div class="name">LUMIN CLOUD</div>
       <div class="desc">Colete · Evite · Power-ups</div>
+      <div class="last-played" data-game="cloud"></div>
     </a>
     <a href="/lumin-galaxy-infinite.html" class="game-card">
       <div class="icon">🌌</div>
       <div class="name">GALÁXIA INFINITA</div>
       <div class="desc">Exploração · Harmonize · Descubra</div>
+      <div class="last-played" data-game="galaxy"></div>
     </a>
   </div>
 </div>
 <div id="scanlines"></div>
 <a href="/" id="cloud-nav">▲ LUMIN CLOUD</a>
 <div id="mute-status" style="position:fixed;top:12px;left:12px;font-size:13px;color:rgba(255,255,255,0.4);cursor:pointer;z-index:30;font-family:'Orbitron',sans-serif;pointer-events:auto;text-shadow:0 0 8px rgba(0,255,255,0.3);transition:color 0.2s;">🔊</div>
+<div id="version">v0.9.1</div>
 <script>
 'use strict';
 const canvas = document.getElementById('bg-canvas');
@@ -116,7 +146,7 @@ resize();
 
 // Stars
 const stars = [];
-for (let i = 0; i < 200; i++) {
+for (let i = 0; i < 250; i++) {
   stars.push({
     x: Math.random() * W,
     y: Math.random() * H,
@@ -129,15 +159,30 @@ for (let i = 0; i < 200; i++) {
 
 // Nebula blobs
 const blobs = [];
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < 4; i++) {
   blobs.push({
     x: Math.random() * W,
     y: Math.random() * H,
-    r: 100 + Math.random() * 200,
+    r: 80 + Math.random() * 250,
     hue: Math.random() * 360,
-    phase: Math.random() * Math.PI * 2
+    phase: Math.random() * Math.PI * 2,
+    speed: 0.2 + Math.random() * 0.3
   });
 }
+
+// Shooting stars
+const shootingStars = [];
+function spawnShootingStar() {
+  shootingStars.push({
+    x: Math.random() * W,
+    y: Math.random() * H * 0.5,
+    len: 50 + Math.random() * 80,
+    speed: 8 + Math.random() * 6,
+    angle: Math.PI / 4 + Math.random() * 0.5,
+    life: 1
+  });
+}
+setInterval(() => { if (Math.random() > 0.7) spawnShootingStar(); }, 3000);
 
 function render() {
   // Background
@@ -150,8 +195,12 @@ function render() {
 
   // Nebula blobs
   blobs.forEach(b => {
+    b.x += Math.sin(performance.now() * 0.0003 + b.phase) * b.speed;
+    b.y += Math.cos(performance.now() * 0.0004 + b.phase) * b.speed * 0.7;
+    b.x = (b.x + W) % W;
+    b.y = (b.y + H) % H;
     const grd = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
-    grd.addColorStop(0, `hsla(${b.hue}, 60%, 30%, ${0.06 + 0.03 * Math.sin(performance.now() * 0.0005 + b.phase)})`);
+    grd.addColorStop(0, `hsla(${b.hue}, 60%, 30%, ${0.05 + 0.03 * Math.sin(performance.now() * 0.0005 + b.phase)})`);
     grd.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = grd;
     ctx.beginPath();
@@ -169,8 +218,66 @@ function render() {
     ctx.fill();
   });
 
+  // Shooting stars
+  for (let i = shootingStars.length - 1; i >= 0; i--) {
+    const ss = shootingStars[i];
+    ss.x += Math.cos(ss.angle) * ss.speed;
+    ss.y += Math.sin(ss.angle) * ss.speed;
+    ss.life -= 0.015;
+    if (ss.life <= 0 || ss.x > W + 100 || ss.y > H + 100) {
+      shootingStars.splice(i, 1);
+      continue;
+    }
+    ctx.save();
+    ctx.translate(ss.x, ss.y);
+    ctx.rotate(ss.angle);
+    const grad2 = ctx.createLinearGradient(0, 0, ss.len, 0);
+    grad2.addColorStop(0, `rgba(0,255,255,${ss.life * 0.6})`);
+    grad2.addColorStop(1, 'rgba(0,255,255,0)');
+    ctx.fillStyle = grad2;
+    ctx.fillRect(0, -1, ss.len, 2);
+    ctx.restore();
+  }
+
   requestAnimationFrame(render);
 }
+
+// Last played tracking
+function updateLastPlayed() {
+  document.querySelectorAll('.last-played').forEach(el => {
+    const game = el.dataset.game;
+    try {
+      const last = localStorage.getItem('luminLastPlayed_' + game);
+      if (last) {
+        const d = new Date(parseInt(last));
+        const ago = Math.floor((Date.now() - d.getTime()) / 1000);
+        let label = '';
+        if (ago < 60) label = 'há ' + ago + 's';
+        else if (ago < 3600) label = 'há ' + Math.floor(ago/60) + 'min';
+        else if (ago < 86400) label = 'há ' + Math.floor(ago/3600) + 'h';
+        else label = d.toLocaleDateString('pt-BR');
+        el.textContent = 'Último: ' + label;
+        el.style.color = 'rgba(0,255,255,0.4)';
+      } else {
+        el.textContent = '';
+      }
+    } catch(e) {}
+  });
+}
+updateLastPlayed();
+
+// Track which game is being played
+window.addEventListener('storage', (e) => {
+  if (e.key && e.key.startsWith('luminLastPlayed_')) updateLastPlayed();
+});
+
+// Mark game as played when navigating
+document.querySelectorAll('.game-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const game = card.querySelector('.last-played').dataset.game;
+    try { localStorage.setItem('luminLastPlayed_' + game, Date.now().toString()); } catch(e) {}
+  });
+});
 
 // Mute toggle on portal
 const muteStatusPortal = document.getElementById('mute-status');
