@@ -1015,20 +1015,6 @@ function render() {
     return { x: wx, y: wy };
   };
   
-  // Draw stars
-  galaxies.forEach(galaxy => {
-    // Background nebula
-    const nebulaGrad = ctx.createRadialGradient(
-      galaxy.stars[0] ? galaxy.stars[0].x : 0,
-      galaxy.stars[0] ? galaxy.stars[0].y : 0,
-      0,
-      galaxy.stars[0] ? galaxy.stars[0].x : 0,
-      galaxy.stars[0] ? galaxy.stars[0].y : 0,
-      galaxy.galaxyRadius * 0.5
-    );
-    // Just draw the galaxy background once
-  });
-  
   // Draw each galaxy
   galaxies.forEach(galaxy => {
     // Nebula background glow
