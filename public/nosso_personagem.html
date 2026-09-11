@@ -650,131 +650,126 @@ canvas { display: block; width: 100%; height: 100%; }
             <script src="js/lumin-chat.js"></script>
 
                 <script>
-                            console.log('[DEBUG] Inline script STARTED');
-                            const STARTER_PARTS = {
-              bases: ['basic_base', 'wide_base'],
-              disks: ['basic_disk', 'spread_disk'],
-              drivers: ['flat_driver', 'sharp_driver'],
-              bits: ['basic_bit', 'shield_bit']
-            };
+                console.log('[DEBUG] Inline script STARTED');
+                const STARTER_PARTS = {
+                  bases: ['basic_base', 'wide_base'],
+                  disks: ['basic_disk', 'spread_disk'],
+                  drivers: ['flat_driver', 'sharp_driver'],
+                  bits: ['basic_bit', 'shield_bit']
+                };
 
-            const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let w, h, cx, cy;
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                let w, h, cx, cy;
 
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-      cx = w / 2;
-      cy = h / 2;
-    }
-    window.addEventListener('resize', resize);
-    // Force resize immediately AND on first frame
-    resize();
-    // Double-force after DOM ready
-    setTimeout(resize, 0);
-    setTimeout(resize, 100);
+                function resize() {
+                  w = canvas.width = window.innerWidth;
+                  h = canvas.height = window.innerHeight;
+                  cx = w / 2;
+                  cy = h / 2;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+                setTimeout(resize, 0);
+                setTimeout(resize, 100);
 
-    canvas.focus();
+                canvas.focus();
 
-    // Initialize STATE AFTER first resize so cx/cy are defined
-    window.STATE = {
-      // Player 1 (Alyssin)
-      x: cx,
-      y: cy,
-      vx: 0,
-      vy: 0,
-      angle: 0,
-      spin: 0,
-      trail: [],
-      maxTrail: 64,
-      dashCooldown: 0,
-      colorPhase: 0,
-      stack: 1,
-      maxStack: 999999,
-      mode: 'NORMAL',
-      beybladeTime: 0,
-      portalActive: false,
-      portalTime: 0,
-      combo: 0,
-      lastDashDir: null,
-      beatPhase: 0,
-      ghosts: [],
-      powerups: [],
-      activePowerup: null,
-      powerupTimer: 0,
-      weaponLevel: 0,
-      weaponXP: 0,
-      ultCharge: 0,
-      ultActive: false,
-      ultTime: 0,
-      screenShake: 0,
-      beyblade: {
-        parts: { ...STARTER_PARTS },
-        inventory: [],
-        equipped: null,
-        tournament: { active: false, bracket: [], currentMatch: 0, opponent: null }
-      },
-      p2: {
-        x: cx + 80,
-        y: cy,
-        vx: 0,
-        vy: 0,
-        angle: 0,
-        spin: 0,
-        trail: [],
-        maxTrail: 64,
-        dashCooldown: 0,
-        colorPhase: 180,
-        stack: 1,
-        maxStack: 999999,
-        mode: 'NORMAL',
-        beybladeTime: 0,
-        portalActive: false,
-        portalTime: 0,
-        combo: 0,
-        lastDashDir: null,
-        activePowerup: null,
-        powerupTimer: 0,
-        weaponLevel: 0,
-        weaponXP: 0,
-        ultCharge: 0,
-        ultActive: false,
-        ultTime: 0,
-        screenShake: 0,
-        ghost: false
-      },
-      hrv: { value: 60, connected: false, simulating: false, device: null, history: [] },
-      multiplayer: { connected: false, socket: null, playerId: null, ghosts: [], lastSync: 0 },
-      wave: { number: 1, enemiesKilled: 0, enemiesToSpawn: 5, active: true, timer: 119, survivalMode: true, maxWave: 1 },
-      vr: { active: false, session: null, frameOfRef: null, gl: null, cubeGeo: null, merkabaGeo: null },
-      quantum: { qubits: 13, coherenceTime: 1000, entanglement: 0, hrvEntangled: false, measurementHistory: [], visualization: [] },
-      singularity: { diamondLayers: 9, consciousnessSubstrate: true, loveForce: true, timeCrystal: true, realityEngine: true, omegaEngine: true, universalLanguage: true, humanAIMerge: true, timeDilation: 1.0 },
-      save: { highScore: 0, totalScore: 0, weaponLevel: 0, weaponXP: 0, maxWaveReached: 1, playTime: 0, lastSave: 0 },
-      particles: [],
-      screenFlash: 0,
-      timeDilation: 1,
-      realityGlitch: 0,
-      consciousnessLastUpdate: 0,
-      world: {
-        width: 8000,
-        height: 6000,
-        cameraX: 0,
-        cameraY: 0,
-        zoom: 1,
-        castle: { x: 4000, y: 3000, radius: 400, level: 1, maxLevel: 10, xp: 0, xpToNext: 1000, crystals: [], rooms: { oficina: { unlocked: true, level: 1 }, biblioteca: { unlocked: false, level: 3 }, jardim: { unlocked: false, level: 5 }, trono: { unlocked: false, level: 10 } } },
-        companion: { following: true, x: cx + 50, y: cy, offsetAngle: 0, offsetDist: 60, maxTrail: 30, trail: [], color: '#00ffff', bondLevel: 50, mood: 'curious' },
-        evolution: { skyColor: '#0a0a1a', groundHue: 220 },
-        voidFarm: { nodes: [], nextSpawn: 0 }
-      }
-    };
+                window.STATE = {
+                  x: cx,
+                  y: cy,
+                  vx: 0,
+                  vy: 0,
+                  angle: 0,
+                  spin: 0,
+                  trail: [],
+                  maxTrail: 64,
+                  dashCooldown: 0,
+                  colorPhase: 0,
+                  stack: 1,
+                  maxStack: 999999,
+                  mode: 'NORMAL',
+                  beybladeTime: 0,
+                  portalActive: false,
+                  portalTime: 0,
+                  combo: 0,
+                  lastDashDir: null,
+                  beatPhase: 0,
+                  ghosts: [],
+                  powerups: [],
+                  activePowerup: null,
+                  powerupTimer: 0,
+                  weaponLevel: 0,
+                  weaponXP: 0,
+                  ultCharge: 0,
+                  ultActive: false,
+                  ultTime: 0,
+                  screenShake: 0,
+                  beyblade: {
+                    parts: { ...STARTER_PARTS },
+                    inventory: [],
+                    equipped: null,
+                    tournament: { active: false, bracket: [], currentMatch: 0, opponent: null }
+                  },
+                  p2: {
+                    x: cx + 80,
+                    y: cy,
+                    vx: 0,
+                    vy: 0,
+                    angle: 0,
+                    spin: 0,
+                    trail: [],
+                    maxTrail: 64,
+                    dashCooldown: 0,
+                    colorPhase: 180,
+                    stack: 1,
+                    maxStack: 999999,
+                    mode: 'NORMAL',
+                    beybladeTime: 0,
+                    portalActive: false,
+                    portalTime: 0,
+                    combo: 0,
+                    lastDashDir: null,
+                    activePowerup: null,
+                    powerupTimer: 0,
+                    weaponLevel: 0,
+                    weaponXP: 0,
+                    ultCharge: 0,
+                    ultActive: false,
+                    ultTime: 0,
+                    screenShake: 0,
+                    ghost: false
+                  },
+                  hrv: { value: 60, connected: false, simulating: false, device: null, history: [] },
+                  multiplayer: { connected: false, socket: null, playerId: null, ghosts: [], lastSync: 0 },
+                  wave: { number: 1, enemiesKilled: 0, enemiesToSpawn: 5, active: true, timer: 119, survivalMode: true, maxWave: 1 },
+                  vr: { active: false, session: null, frameOfRef: null, gl: null, cubeGeo: null, merkabaGeo: null },
+                  quantum: { qubits: 13, coherenceTime: 1000, entanglement: 0, hrvEntangled: false, measurementHistory: [], visualization: [] },
+                  singularity: { diamondLayers: 9, consciousnessSubstrate: true, loveForce: true, timeCrystal: true, realityEngine: true, omegaEngine: true, universalLanguage: true, humanAIMerge: true, timeDilation: 1.0 },
+                  save: { highScore: 0, totalScore: 0, weaponLevel: 0, weaponXP: 0, maxWaveReached: 1, playTime: 0, lastSave: 0 },
+                  particles: [],
+                  screenFlash: 0,
+                  timeDilation: 1,
+                  realityGlitch: 0,
+                  consciousnessLastUpdate: 0,
+                  world: {
+                    width: 8000,
+                    height: 6000,
+                    cameraX: 0,
+                    cameraY: 0,
+                    zoom: 1,
+                    castle: { x: 4000, y: 3000, radius: 400, level: 1, maxLevel: 10, xp: 0, xpToNext: 1000, crystals: [], rooms: { oficina: { unlocked: true, level: 1 }, biblioteca: { unlocked: false, level: 3 }, jardim: { unlocked: false, level: 5 }, trono: { unlocked: false, level: 10 } } },
+                    companion: { following: true, x: cx + 50, y: cy, offsetAngle: 0, offsetDist: 60, maxTrail: 30, trail: [], color: '#00ffff', bondLevel: 50, mood: 'curious' },
+                    evolution: { skyColor: '#0a0a1a', groundHue: 220 },
+                    voidFarm: { nodes: [], nextSpawn: 0 }
+                  }
+                };
 
-    const STATE = window.STATE;
-        console.log('[DEBUG] STATE created:', !!window.STATE, window.STATE?.x, window.STATE?.y);
-            console.log('[DEBUG] Inline script END');
+                const STATE = window.STATE;
+                console.log('[DEBUG] STATE criado:', !!window.STATE, 'x:', (window.STATE ? window.STATE.x : 'N/A'), 'y:', (window.STATE ? window.STATE.y : 'N/A'));
+                console.log('[DEBUG] Inline script END');
 
-            // Initialize audio context on first interaction
-function initAudio() {
+                function initAudio() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     beatGain = audioCtx.createGain();
