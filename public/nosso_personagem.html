@@ -650,7 +650,8 @@ canvas { display: block; width: 100%; height: 100%; }
             <script src="js/lumin-chat.js"></script>
 
                 <script>
-            const STARTER_PARTS = {
+                            console.log('[DEBUG] Inline script STARTED');
+                            const STARTER_PARTS = {
               bases: ['basic_base', 'wide_base'],
               disks: ['basic_disk', 'spread_disk'],
               drivers: ['flat_driver', 'sharp_driver'],
@@ -769,8 +770,10 @@ canvas { display: block; width: 100%; height: 100%; }
     };
 
     const STATE = window.STATE;
+        console.log('[DEBUG] STATE created:', !!window.STATE, window.STATE?.x, window.STATE?.y);
+            console.log('[DEBUG] Inline script END');
 
-// Initialize audio context on first interaction
+            // Initialize audio context on first interaction
 function initAudio() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
