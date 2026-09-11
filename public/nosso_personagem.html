@@ -1218,13 +1218,14 @@ const LUMIN_BLADE = assembleBeyblade('lumin_base', 'harmony_disk', 'quantum_driv
 const STARTER_PARTS = {
   bases: ['basic_base', 'wide_base'],
   disks: ['basic_disk', 'spread_disk'],
-    drivers: ['flat_driver', 'sharp_driver'],
-    bits: ['basic_bit', 'shield_bit']
-  };
+  drivers: ['flat_driver', 'sharp_driver'],
+  bits: ['basic_bit', 'shield_bit']
+};
 
-  // STATE is now initialized in the first script block after resize()
-  },
-  // VR / WebXR
+// Lumin's signature blade (unlockable in Oficina at castle level 10)
+const LUMIN_BLADE = assembleBeyblade('lumin_base', 'harmony_disk', 'quantum_driver', 'infinity_bit');
+
+// VR / WebXR
   vr: {
     active: false,
     session: null,
